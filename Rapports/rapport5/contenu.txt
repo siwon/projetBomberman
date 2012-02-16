@@ -1,0 +1,6 @@
+Noms :
+
+Document joint (archive zip ou tgz) : programme complet (prêt à installer)
+Document joint (PDF) : résultats des tests de pré-livraison
+
+Date précise pour la livraison (tests/démonstration/exposé) en présence du client : 

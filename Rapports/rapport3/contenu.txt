@@ -1,0 +1,13 @@
+Noms des étudiants du groupe : 
+
+Date effective de la réunion de la conception générale : 
+
+Noms des participants à cette réunion : 
+
+Document à joindre : conception objet
+
+Date prévue de rendu de la fiche 4 (code source des modules) :
+
+Date prévue de livraison des modules pour pouvoir réaliser leur intégration : 
+
+Diagramme prévisionnel de la répartition des tâches (diagramme de Gantt)

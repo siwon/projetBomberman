@@ -1,0 +1,11 @@
+Noms : 
+
+Date de la réunion de livraison et noms des personnes présentes : 
+
+Bilan sur la réunion de livraison :
+
+Liste des problèmes identifiés dans le logiciel livré :
+
+Document joint (PDF) : manuels (utilisateur, installation)
+Document joint (PDF) : diagramme de Gantt effectif avec le nom des personnes ayant réalisé chaque tâche
+Document joint (archive zip ou tgz) : l'ensemble des sources du programme

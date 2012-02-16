@@ -1,0 +1,18 @@
+Noms :
+	- Bisiaux Alexandre
+	- Guihal Maxime
+	- Guillermic Brice
+	- Rousseau Simon
+
+Nom et adresse mail de l'étudiant coordinateur du groupe : 
+	- Rousseau Simon (simon.rousseau1@etu.univ-nantes.fr)
+
+Sujet choisi : 
+	- Bomberman (14)
+
+Date et heure prévue pour la réunion de lancement avec le client : 
+	- Lundi 27 février 8h00
+	- Lundi 27 février 15h30
+
+Date prévue de rendue de la fiche 2 : 
+	- Mercredi 7 mars
