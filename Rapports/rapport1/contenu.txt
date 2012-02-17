@@ -11,7 +11,6 @@ Sujet choisi :
 	- Bomberman (14)
 
 Date et heure prévue pour la réunion de lancement avec le client : 
-	- Lundi 27 février 8h00
 	- Lundi 27 février 15h30
 
 Date prévue de rendu de la fiche 2 : 
