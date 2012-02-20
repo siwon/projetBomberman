@@ -1,0 +1,13 @@
+# OS generated files #
+######################
+*.DS_Store
+*~
+# LaTeX generated files #
+#########################
+rapport.tex
+*.log
+*.aux
+*.log
+*.out
+*.toc
+*.synctex.gz
