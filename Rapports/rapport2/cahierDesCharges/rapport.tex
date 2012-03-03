@@ -1,0 +1,107 @@
+\documentclass{article}[11pt,a4paper]
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[frenchb]{babel}
+
+
+\usepackage{hyperref}
+\usepackage{graphicx} %pour integrer des images
+\usepackage{layout} %pour avoir les informations de mise en page
+\usepackage{soul} %soulignement et texte barrer
+\usepackage{ulem} %soulignement
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{mathrsfs}
+\usepackage{moreverb} %idem
+\usepackage{listings} %citation de code colore (ne pas oublier de le parametrer correctement \lstset
+\usepackage{color} %couleur du texte a utiliser avec prudence et retenue
+\usepackage{eurosym} %permet l'utilisation du symbole euro
+\usepackage{numprint}
+\usepackage{fancyhdr}
+%\usepackage{subscript}
+\makeatletter
+
+
+\def\clap#1{\hbox to 0pt{\hss #1\hss}}%
+\def\ligne#1{%
+\hbox to \hsize{%
+\vbox{\centering #1}}}%
+\def\haut#1#2#3{%
+\hbox to \hsize{%
+\rlap{\vtop{\raggedright #1}}%
+\hss
+\clap{\vtop{\centering #2}}%
+\hss
+\llap{\vtop{\raggedleft #3}}}}%
+\def\bas#1#2#3{%
+\hbox to \hsize{%
+\rlap{\vbox{\raggedright #1}}%
+\hss
+\clap{\vbox{\centering #2}}%
+\hss
+\llap{\vbox{\raggedleft #3}}}}%
+\def\maketitle{%
+\thispagestyle{empty}\vbox to \vsize{%
+\haut{}{\@blurb}{}
+\vfill
+\vspace{1cm}
+\begin{flushleft}
+\usefont{OT1}{ptm}{m}{n}
+\huge \@title
+\end{flushleft}
+\par
+\hrule height 4pt
+\par
+\begin{flushright}
+\usefont{OT1}{phv}{m}{n}
+\large \@author
+\par
+\end{flushright}
+\vspace{0.5cm}
+\vfill
+\begin{center}
+%\includegraphics[scale=3]{images/logo.png}
+\end{center}
+\vfill
+\bas{Info 3}{\@date}{\@location}
+}%
+\cleardoublepage
+}
+\def\date#1{\def\@date{#1}}
+\def\author#1{\def\@author{#1}}
+\def\title#1{\def\@title{#1}}
+\def\location#1{\def\@location{#1}}
+\def\blurb#1{\def\@blurb{#1}}
+\date{Année 2011 - 2012}
+\author{}
+\title{}
+\location{Nantes}\blurb{}
+\makeatother
+\title{Projet Bomberman - \textit{Cahier des charges}}
+\author{\textbf{Bisiaux} Alexandre\\\textbf{Guihal} Maxime\\\textbf{Guillermic} Brice\\\textbf{Rousseau} Simon}
+\location{Nantes}
+\blurb{%
+École polytechnique de l'Université de Nantes\\
+Département informatique
+}% 
+\setlength{\textwidth}{385pt}
+\setlength{\oddsidemargin}{42pt}
+\pagestyle{fancy}
+\fancyhead{}
+\rhead{\textsc{Projet Bomberman}}
+\lhead{\textsc{Bisiaux - Guihal - Guillermic - Rousseau}}
+
+
+
+\begin{document}
+%\renewcommand{\sectionname}{Partie} % changer "chapitre" pour "partie"
+%\layout
+\maketitle
+
+\tableofcontents
+\newpage
+
+\input{cahierDesCharges}
+
+\end{document}
