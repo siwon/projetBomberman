@@ -8,7 +8,7 @@ Chaque manche rapporte des points qui sont comptabilisés par match afin de dét
 
 \subsection{Nombre de joueurs}
 
-Le nombre de joueur doit être d'un minimum de 2 et d'un maximum de 4. Ces joueurs peuvent jouer sur un ou plusieurs ordinateurs via le réseau.
+Le nombre de joueurs doit être d'un minimum de 2 et d'un maximum de 4. Ces joueurs peuvent jouer sur un ou plusieurs ordinateurs via le réseau.
 
 \subsection{Situation initiale}
 
@@ -21,9 +21,11 @@ Les joueurs sont placés selon le nombre de joueurs :
 \item \textbf{2 joueurs} : Un joueur se trouve dans le coin supérieur gauche, le deuxième dans le coin inférieur droit.
 \end{itemize}
 
+Au début, chaque joueur sera dans une zone avec au moins 3 cases consécutives afin de pouvoir faire exploser au moins une bombe. De plus, les joueurs ne peuvent poser qu'une bombe à la fois, se déplacent à vitesse normale et les bombes ont une portée de \porteeParDefaut .
+
 \subsection{Déroulement}
 
-Les joueurs 
+Les joueurs ainsi que des caisses sont réparties sur la carte selon le nombre de joueurs et les paramètres. Ensuite, le jeu démarre. Les joueurs peuvent poser des bombes afin de détruire des caisses. À chaque destruction de caisse, il peut y avoir un bonus qui apparait. Si une bombe élimine un joueur (que se soit son poseur ou un autre joueur), ce joueur est considérer comme mort et disparait de la carte. Tant qu'il reste des caisses, la portée des bombes dépend des bonus pris par le bomberman. Une fois toutes les caisses détruites, la portée des bombes devient "infinie" et les déflagrations traversent toute la carte.
 
 \subsection{Fin de partie}
 
