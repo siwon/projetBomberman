@@ -1,0 +1,11 @@
+Le jeu du bomberman doit permettre aux différents joueurs de se connecter en réseau afin de pouvoir participer à la même partie par l'intermédiaire d'un autre ordinateur. Il faut donc mettre en place un réseau qui donne la possibilité de jouer en réseau. 
+
+\subsubsection{Système centralisé (un serveur)}
+C'est le système centralisé qui a été retenu pour ce jeu, contrairement au réseau décentralisé. L'avantage de ce système est qu'un ordinateur central fera office de réseau et distribuera la même information aux autres postes connectés. Toutes les informations doivent donc être rapatriées vers ce serveur qui calculera les données et les renverra à tous les postes. De cette façon, on peut avoir la certitude qu'à un moment donnée, tous les ordinateurs ont la même information.
+
+\subsubsection{Synchronisation de l'information}
+Un des problèmes des réseaux est le temps d'acheminement de l'information d'un poste à un autre. Ce temps diffère en fonction du trafic mais aussi en fonction de la distance a parcourir. Cela peut provoquer, à l'arriver, un décalage entre les différents postes de jeu. Afin d'y remédier, le jeu devra être synchronisé pour que chaque modification transmise sur le réseau soit prise en compte en même temps et ainsi favoriser la jouabilité en réseau.
+
+\subsubsection{Paquets}
+Afin de permettre la communication entre le serveur et ses clients, les messages transmis devront tous être de même nature.
+Concertation sur la structure du message a envoyer
