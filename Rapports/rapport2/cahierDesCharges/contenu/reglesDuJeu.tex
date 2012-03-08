@@ -10,7 +10,9 @@ Chaque manche rapporte des points qui sont comptabilisés par match afin de dét
 
 Le nombre de joueurs doit être d'un minimum de 2 et d'un maximum de 4. Ces joueurs peuvent jouer sur un ou plusieurs ordinateurs via le réseau.
 
-\subsection{Situation initiale}
+\subsection{Déroulement d'une partie}
+
+\subsubsection{Situation initiale}
 
 La carte est une carte rectangulaire de 19 cases horizontales et 13 cases verticales.
 
@@ -23,15 +25,15 @@ Les joueurs sont placés selon le nombre de joueurs :
 
 Au début, chaque joueur sera dans une zone avec au moins 3 cases consécutives afin de pouvoir faire exploser au moins une bombe. De plus, les joueurs ne peuvent poser qu'une bombe à la fois, se déplacent à vitesse normale et les bombes ont une portée de \porteeParDefaut .
 
-\subsection{Déroulement}
+\subsubsection{Déroulement}
 
 Les joueurs ainsi que des caisses sont réparties sur la carte selon le nombre de joueurs et les paramètres. Ensuite, le jeu démarre. Les joueurs peuvent poser des bombes afin de détruire des caisses. À chaque destruction de caisse, il peut y avoir un bonus qui apparait. Si la déflagration d'une bombe touche un joueur (que se soit son poseur ou un autre joueur), ce joueur est considérer comme mort et disparait de la carte. Tant qu'il reste des caisses, la portée des bombes dépend des bonus pris par le bomberman. Une fois toutes les caisses détruites, la portée des bombes devient "infinie" et les déflagrations traversent toute la carte.
 
-\subsection{Fin de partie}
+\subsubsection{Fin de partie}
 
 La partie est terminée lorsqu'il n'y a plus qu'un survivant sur la carte. Dans le cas où il n'y aurait pas de survivant (les derniers joueurs meurt à la suite de l'explosion des dernières bombes), la partie est considérée comme nulle.
 
-\subsection{Bonus}
+\subsection{Bonus - Malus}
 
 Il existe différents types de bonus, les "bonus de bombe" qui améliorent ou bien dégradent les caractéristiques des bombes des joueurs, les "bonus de bomberman" celle du bomberman, et les "infections" qui sont des malus qui affectent un ou plusieurs joueurs.
 
@@ -41,7 +43,7 @@ Les bonus de bombe disponibles seront :
 \begin{itemize}
 \item \textbf{Bombe Up} : Augmentation du nombre de bombes,
 \item \textbf{Bombe Down} : Diminution du nombre de bombes,
-\item \textbf{Flamme Jaune} : augmentation de la portée d'une bombe,
+\item \textbf{Flamme Jaune} : Augmentation de la portée d'une bombe,
 \item \textbf{Flamme Bleue} : Diminution de la portée d'une bombe,
 \item \textbf{Flamme Rouge} : Portée de la bombe au maximum,
 \item \textbf{Mine} : Une bombe qui explose lorsqu'un joueur est à portée,
