@@ -2,13 +2,13 @@ Les règles du jeu du Bomberman sont simples.
 
 \subsection{But du jeu}
 
-Le but principal du jeu Bomberman est d'être le dernier survivant de la partie. Des joueurs sont réparties sur une carte et doivent déposer des bombes stratégiquement afin d'éliminer les autres joueurs.
+Le but principal du jeu Bomberman est d'être le dernier survivant de la partie. Des joueurs sont répartis sur une carte et doivent déposer des bombes de façon stratégique afin d'éliminer les autres joueurs en les faisant exploser.
 
-Chaque manche rapporte des points qui sont comptabilisés par match afin de déterminer un vainqueur.
+Le jeu se joue sous forme de match composé d'un nombre inconnu de parties. A la fin de chaque partie, l'ordinateur ayant créé la partie choisit de continuer ou de recommencer un match. Chaque partie rapporte un point à son vainqueur (le dernier à rester en vie). Le match est gagné par le joueur qui a accumulé le plus de points au cours des parties.
 
 \subsection{Nombre de joueurs}
 
-Le nombre de joueurs doit être d'un minimum de 2 et d'un maximum de 4. Ces joueurs peuvent jouer sur un ou plusieurs ordinateurs via le réseau.
+Le nombre de joueurs doit être d'un minimum de 2 et d'un maximum de 4. Ces joueurs peuvent jouer sur un ou plusieurs ordinateurs en réseau.
 
 \subsection{Situation initiale}
 
@@ -21,19 +21,19 @@ Les joueurs sont placés selon le nombre de joueurs :
 \item \textbf{2 joueurs} : Un joueur se trouve dans le coin supérieur gauche, le deuxième dans le coin inférieur droit.
 \end{itemize}
 
-Au début, chaque joueur sera dans une zone avec au moins 3 cases consécutives afin de pouvoir faire exploser au moins une bombe. De plus, les joueurs ne peuvent poser qu'une bombe à la fois, se déplacent à vitesse normale et les bombes ont une portée de \porteeParDefaut .
+Au début, chaque joueur sera dans une zone avec au moins 3 cases vides consécutives afin de pouvoir faire exploser au moins une bombe. De plus, les joueurs ne peuvent poser qu'une bombe à la fois, se déplacent à vitesse normale et les bombes ont une portée de \porteeParDefaut .
 
 \subsection{Déroulement}
 
-Les joueurs ainsi que des caisses sont réparties sur la carte selon le nombre de joueurs et les paramètres. Ensuite, le jeu démarre. Les joueurs peuvent poser des bombes afin de détruire des caisses. À chaque destruction de caisse, il peut y avoir un bonus qui apparait. Si la déflagration d'une bombe touche un joueur (que se soit son poseur ou un autre joueur), ce joueur est considérer comme mort et disparait de la carte. Tant qu'il reste des caisses, la portée des bombes dépend des bonus pris par le bomberman. Une fois toutes les caisses détruites, la portée des bombes devient "infinie" et les déflagrations traversent toute la carte.
+Les joueurs ainsi que des caisses sont réparties sur la carte selon le nombre de joueurs et les paramètres. Ensuite, le jeu démarre. Les joueurs peuvent poser des bombes afin de détruire des caisses. À chaque destruction de caisse, il peut y avoir un bonus qui apparaît. Si la déflagration d'une bombe touche un joueur (que se soit son poseur ou un autre joueur), ce joueur est considéré comme mort et disparaît de la carte. Tant qu'il reste des caisses, la portée des bombes dépend des bonus pris par le bomberman. Une fois toutes les caisses détruites, la portée des bombes devient "infinie" et les déflagrations traversent toute la carte.
 
 \subsection{Fin de partie}
 
-La partie est terminée lorsqu'il n'y a plus qu'un survivant sur la carte. Dans le cas où il n'y aurait pas de survivant (les derniers joueurs meurt à la suite de l'explosion des dernières bombes), la partie est considérée comme nulle.
+La partie est terminée lorsqu'il n'y a plus qu'un survivant sur la carte. Dans le cas où il n'y aurait pas de survivant (les derniers joueurs meurent à la suite de l'explosion des dernières bombes), la partie est considérée comme nulle.
 
 \subsection{Bonus}
 
-Il existe différents types de bonus, les "bonus de bombe" qui améliorent ou bien dégradent les caractéristiques des bombes des joueurs, les "bonus de bomberman" celle du bomberman, et les "infections" qui sont des malus qui affectent un ou plusieurs joueurs.
+Il existe différents types de bonus, les "bonus de bombe" qui améliorent ou bien dégradent les caractéristiques des bombes des joueurs, les "bonus de bomberman" celles des personnages, et les "infections" qui sont des malus qui affectent un ou plusieurs joueurs.
 
 \subsubsection{Bonus de bombe}
 
@@ -64,7 +64,6 @@ Les bonus de bomberman disponibles seront :
 Les infections disponibles seront :
 \begin{itemize}
 \item \textbf{Crâne} : Infection aléatoire parmi toutes les infections,
-%\item \textbf{Ebola} : 3 infections aléatoires parmis toutes les infections,
 \item \textbf{Devil} : Tous les bomberman sont touchés par une maladie aléatoire, y compris celui qui a pris le Devil,
 \item \textbf{Confusion} : Inversion des touches du clavier,
 \item \textbf{Spasmes} : Mouvement vers une case tous les \nbSecondes secondes,
