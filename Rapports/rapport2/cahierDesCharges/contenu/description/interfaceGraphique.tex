@@ -10,7 +10,7 @@ Pour chaque menu présenté ci-dessous, les options affichées seront sélection
 
 Le menu principal présentera trois options à l'utilisateur : \emph{Jouer}, \emph{Options}, \emph{Quitter}, permettant respectivement d'aller sur le menu de jeu, de paramétrage, ou de quitter le programme sans confirmation. Le nom du jeu sera également visible au-dessus de ces options. Sur ce menu, la touche \emph{Echap} n'aura pas d'effet.
 
-\subsubsection{Menu de paramétrage}
+\subsubsection{Menus de paramétrage}
 
 Ce menu permettra à l'utilisateur de pouvoir régler les options générales du programme. Il présentera une option \emph{Contrôles} permettant de configurer les contrôleurs et les touches de jeu, comme défini dans le prochain paragraphe. Il affichera en plus une option \emph{Audio} permettant d'aller sur le menu de configuration audio. Enfin, la dernière option \emph{Graphisme} permettra de changer les options graphiques du jeu en allant sur le menu du même nom. Une option \emph{Retour} pour retourner au menu principal sera également affichée.
 
@@ -26,5 +26,25 @@ Ce menu gérera le volume de la musique et des effets sonores du jeu et du menu 
 
 Ce menu permettra de configurer l'aspect graphique du jeu. Il présentera une option permettant de passer du mode fenêtré au mode plein écran. En-dessous se trouvera un widget permettant de choisir le pack de textures à utiliser pour le programme. Celui-ci listera les packs disponibles et l'utilisateur pourra en sélectionner un. Un bouton permettant de revenir au menu de paramétrage sera aussi présent.
 
+\subsubsection{Menus de jeu}
+
+Cet enchaînement de menus va permettre à l'utilisateur de jouer en configurant la partie. Le premier écran sera composé de deux options, \emph{Créer une partie} et \emph{Rejoindre une partie}. Un bouton permettant de revenir au menu principal sera aussi présent, tout comme dans les sous-menus décrits ci-dessous.
+
+\paragraph{Rejoindre une partie}
+
+Ce menu permet de jouer une partie sur un réseau local. Un premier écran permettra à l'utilisateur d'entrer une adresse IP correspondant à l'ordinateur hôte de la partie dans une zone de texte. Lorsque le joueur validera sa saisie, soit un message d'erreur s'affichera si un problème est survenu lors de la connexion (adresse incorrecte, partie non lancée, etc...), soit un nouvel écran permettra de choisir le nombre de joueurs à ajouter à la partie en fonction des places disponibles. Un nom pourra leur être attribué (un nom par défaut sera attribué sinon). Une fois cet écran validé, un second apparaîtra afin d'attendre le début de la partie.
+
+\paragraph{Créer une partie}
+
+Ce menu permet de créer une nouvelle partie, qu'elle soit en réseau ou locale. Une première fenêtre permettra de définir le nombre de joueurs jouant sur l'ordinateur courant ainsi que leur nom. Des boutons permettant de définir si la partie se joue en réseau, et de configurer les options de la partie seront également présents. L'écran suivant permettra de confirmer les personnes présentes dans la partie en indiquant leur personnage, nom et score. Si la partie se joue en réseau, l'adresse IP de l'ordinateur sera visible. Un bouton permettra de lancer la partie.
+
+\paragraph{Options de la partie}
+
+Cet écran listera chaque bonus pouvant être présent dans le jeu, et un widget présent à côté de chacun d'eux permettra de choisir leur nombre pendant la partie, en augmentant ou réduisant le nombre par défaut. Un bouton permettant de choisir un nombre aléatoire sera aussi présent. En dessous de ce tableau se trouvera un bouton permettant de revenir à l'écran de configuration de la partie.
+
 \subsection{Plateau de jeu}
+
+\subsection{Fin de partie}
+
+Comment gérer qu'un joueur quitte une partie ?
 
