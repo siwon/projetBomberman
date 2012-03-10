@@ -1,5 +1,3 @@
-Les règles du jeu du Bomberman sont simples.
-
 \subsection{But du jeu}
 
 Le but principal du jeu Bomberman est d'être le dernier survivant de la partie. Des joueurs sont répartis sur une carte et doivent déposer des bombes de façon stratégique afin d'éliminer les autres joueurs en les faisant exploser.
@@ -14,7 +12,17 @@ Le nombre de joueurs doit être d'un minimum de 2 et d'un maximum de 4. Ces joue
 
 \subsubsection{Situation initiale}
 
-La carte est une carte rectangulaire de 19 cases horizontales et 13 cases verticales.
+La carte est une carte rectangulaire de 19 cases horizontales et 13 cases verticales. Chaque case est remplie par une entité de jeu contenue dans cette liste (lors d'un début de partie, les cases ne peuvent être remplie que par les 4 premières entités) :
+
+\begin{itemize}
+    \item Vide
+    \item Personnage
+    \item Mur indestructible
+    \item Caisse à exploser
+    \item Bombe
+    \item Bonus
+    \item Déflagration de bombe
+\end{itemize}
 
 Les joueurs sont placés selon le nombre de joueurs : 
 \begin{itemize}
@@ -27,7 +35,7 @@ Au début, chaque joueur sera dans une zone avec au moins 3 cases vides consécu
 
 \subsubsection{Déroulement}
 
-Les joueurs ainsi que des caisses sont réparties sur la carte selon le nombre de joueurs et les paramètres. Ensuite, le jeu démarre. Les joueurs peuvent poser des bombes afin de détruire des caisses. À chaque destruction de caisse, il peut y avoir un bonus qui apparaît. Si la déflagration d'une bombe touche un joueur (que se soit son poseur ou un autre joueur), ce joueur est considéré comme mort et disparaît de la carte. Tant qu'il reste des caisses, la portée des bombes dépend des bonus pris par le bomberman. Une fois toutes les caisses détruites, la portée des bombes devient "infinie" et les déflagrations traversent toute la carte.
+Les joueurs ainsi que des caisses sont réparties sur la carte selon le nombre de joueurs et les paramètres. Ensuite, la partie démarre. Les joueurs peuvent poser des bombes afin de détruire des caisses. À chaque destruction de caisse, il peut y avoir un bonus qui apparaît. Si la déflagration d'une bombe touche un joueur (que se soit son poseur ou un autre joueur), ce joueur est considéré comme mort et disparaît de la carte. Tant qu'il reste des caisses, la portée des bombes dépend des bonus pris par le bomberman. Une fois toutes les caisses détruites, la portée des bombes devient maximale et les déflagrations traversent toute la carte.
 
 \subsubsection{Fin de partie}
 
@@ -35,29 +43,29 @@ La partie est terminée lorsqu'il n'y a plus qu'un survivant sur la carte. Dans 
 
 \subsection{Bonus - Malus}
 
-Il existe différents types de bonus, les "bonus de bombe" qui améliorent ou bien dégradent les caractéristiques des bombes des joueurs, les "bonus de bomberman" celles des personnages, et les "infections" qui sont des malus qui affectent un ou plusieurs joueurs.
+Il existe différents types de bonus. Certains améliorent ou bien dégradent les caractéristiques des bombes des joueurs, d'autres celles des personnages. Il existe aussi des "infections" qui sont des malus qui affectent un ou plusieurs joueurs.
 
-\subsubsection{Bonus de bombe}
+\subsubsection{Bonus pour les bombes}
 
-Les bonus de bombe disponibles seront :
+Les bonus et malus disponibles pour les bombes seront :
 \begin{itemize}
-\item \textbf{Bombe Up} : Augmentation du nombre de bombes,
-\item \textbf{Bombe Down} : Diminution du nombre de bombes,
-\item \textbf{Flamme Jaune} : Augmentation de la portée d'une bombe,
-\item \textbf{Flamme Bleue} : Diminution de la portée d'une bombe,
-\item \textbf{Flamme Rouge} : Portée de la bombe au maximum,
-\item \textbf{Mine} : Une bombe qui explose lorsqu'un joueur est à portée,
-\item \textbf{Spike Bomb} : Cette bombe ornée de pointes possède une explosion capable de passer à travers les blocs destructibles, permettant ainsi de détruire plusieurs blocs alignés ou de toucher des adversaires situés derrière des blocs mous,
-\item \textbf{H Bomb} : Explosion circulaire qui explose en 8 connexité d'une portée celle du joueur.
+\item \textbf{Bombe Up} : Augmentation du nombre de bombes pouvant être posées simultanément par un joueur
+\item \textbf{Bombe Down} : Diminution du nombre de bombes pouvant être posées simultanément par un joueur
+\item \textbf{Flamme Jaune} : Augmentation de la portée d'une bombe d'une case
+\item \textbf{Flamme Bleue} : Diminution de la portée d'une bombe d'une case
+\item \textbf{Flamme Rouge} : Augmentation de la portée de la bombe au maximum
+\item \textbf{Mine} : Bombe qui explose lorsqu'un joueur est à portée
+\item \textbf{Bombe à pics} : Bombe dont la déflagration ne s'arrêtent pas lorsqu'elle rencontre une caisse
+\item \textbf{Bombe atomique} : Explosion circulaire qui explose en 8-connexité d'une portée celle du joueur
 \end{itemize}
 
-\subsubsection{Bonus de bomberman}
+\subsubsection{Bonus pour les personnages}
 
-Les bonus de bomberman disponibles seront :
+Les bonus et malus disponibles pour les personnages seront :
 \begin{itemize}
-\item \textbf{Patins} : Augmentation de la vitesse de déplacement du bomberman,
-\item \textbf{Sabots} : Diminution de la vitesse de déplacement du bomberman,
-\item \textbf{Ligne de bombe} : Une option qui permet au bomberman de poser toutes ses bombes d'un seul coup, alignées devant lui,
+\item \textbf{Patins} : Augmentation de la vitesse de déplacement du personnage
+\item \textbf{Sabots} : Diminution de la vitesse de déplacement du personnage
+\item \textbf{Ligne de bombes} : Une option qui permet au personnage de poser toutes ses bombes d'un seul coup, alignées devant lui,
 \item \textbf{Détonateur} : Ce bonus permet de transformer toutes les bombes posées en bombes télécommandées.
 \end{itemize}
 
