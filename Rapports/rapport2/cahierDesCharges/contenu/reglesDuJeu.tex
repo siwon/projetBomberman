@@ -12,7 +12,7 @@ Le nombre de joueurs doit être d'un minimum de 2 et d'un maximum de 4. Ces joue
 
 \subsubsection{Situation initiale}
 
-La carte est une carte rectangulaire de 19 cases horizontales et 13 cases verticales. Chaque case est remplie par une entité de jeu contenue dans cette liste\footnote{Lors d'un début de partie, les cases ne peuvent être remplie que par les 4 premières entités.} :
+La carte est une carte rectangulaire de 19 cases horizontales et 13 cases verticales. Chaque case est remplie par une entité de jeu contenue dans cette liste\footnote{Lors d'un début de partie, les cases ne peuvent être remplies que par les 4 premières entités.} :
 
 \begin{itemize}
     \item Vide
@@ -59,7 +59,7 @@ Les bonus et malus disponibles pour les bombes seront :
 \item \textbf{Bombe atomique} : Explosion circulaire qui explose en 8-connexité d'une portée celle du joueur
 \end{itemize}
 
-Quand un joueur obtient le bonus \emph{Mine}, il peut n'en poser qu'une seule sur la carte avant que le bonus soit annulé.
+Quand un joueur obtient le bonus \emph{Mine}, la prochaine bombe posée est obligatoirement la mine, et la bonus disparaît après la pose de la mine.
 
 \subsubsection{Bonus pour les personnages}
 
@@ -67,9 +67,11 @@ Les bonus et malus disponibles pour les personnages seront :
 \begin{itemize}
 \item \textbf{Patins} : Augmentation de la vitesse de déplacement du personnage
 \item \textbf{Sabots} : Diminution de la vitesse de déplacement du personnage
-\item \textbf{Ligne de bombes} : Une option qui permet au personnage de poser toutes ses bombes d'un seul coup, alignées devant lui,
-\item \textbf{Détonateur} : Ce bonus permet de transformer toutes les bombes posées en bombes télécommandées. - 1 fois, juste nos bombes
+\item \textbf{Ligne de bombes} : Une option qui permet au personnage de poser toutes ses bombes d'un seul coup, alignées devant lui
+\item \textbf{Détonateur} : Ce bonus permet de faire exploser toutes les bombes posées par le personnage en même temps
 \end{itemize}
+
+Pour le bonus \emph{Ligne de bombes}, les bombes ne sont posées que dans la direction du regard du joueur, et si aucun obstacle n'empêche de les poser. Pour le bonus \emph{Détonateur}, une fois acquis il dure jusqu'à la fin de la partie. Le joueur pose ses bombes avec la touche d'action 1, puis les fait exploser en temps voulu en appuyant sur la touche d'action 2.
 
 \subsubsection{Infections}
 
@@ -78,9 +80,9 @@ Les infections disponibles seront :
 \item \textbf{Crâne} : Infection aléatoire parmi les infections ci-dessous
 \item \textbf{Enfer} : Tous les personnages sont touchés par une infection aléatoire
 \item \textbf{Confusion} : Inversion des touches du clavier
-\item \textbf{Spasmes} : Mouvement vers une case tous les \nbSecondes secondes
-\item \textbf{Dilatation} : Lenteur du personnage au maximum
-\item \textbf{Fureur} : Pose une bombe toutes les \nbSecondes secondes
+\item \textbf{Spasmes} : Mouvement vers une case voisine libre tous les \nbSecondes secondes
+\item \textbf{Dilatation} : Vitesse de déplacement du personnage au minimum
+\item \textbf{Fureur} : Le personnage pose une bombe toutes les \nbSecondes secondes
 \end{itemize}
 
 Une infection prend fin quand le personnage attrape un autre bonus.
