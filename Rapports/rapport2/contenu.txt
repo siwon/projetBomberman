@@ -1,4 +1,8 @@
 Noms des étudiants : 
+	- Bisiaux Alexandre
+	- Guihal Maxime
+	- Guillermic Brice
+	- Rousseau Simon
 
 Date de rencontre avec le client :
 
