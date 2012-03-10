@@ -1,12 +1,15 @@
-# Rôles
+# Rédacteurs
 
 * Bisiaux Alexandre : Contrôleurs de jeu
-* Guihal Maxime : Interface graphique
+* Guihal Maxime : Interface graphique, Gestion du jeu
 * Guillermic Brice : Réseau
 * Rousseau Simon : Règles du jeu
 
+# Relecteurs
+
+*
+
 # Restants
 
-* jeu.tex
 * Présentation du projet (introduction.tex)
 * Conclusion
