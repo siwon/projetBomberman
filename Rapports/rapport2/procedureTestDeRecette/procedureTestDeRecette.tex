@@ -1,67 +1,108 @@
-\section*{Introduction}\addcontentsline{toc}{section}{Introduction}
+\documentclass{article}[11pt,a4paper]
 
-Dans ce rapport seront présentés les tests réalisés lors du rendu au client du programme terminé. Ces tests permettront de déterminer si le jeu fonctionne correctement.
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[frenchb]{babel}
 
-\vspace{0.5cm}
 
-Les différentes fonctionnalitées (réseau, graphique, etc ...) seront testées séparément.
+\usepackage{hyperref}
+\usepackage{graphicx} %pour integrer des images
+\usepackage{layout} %pour avoir les informations de mise en page
+\usepackage{soul} %soulignement et texte barrer
+\usepackage{ulem} %soulignement
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{mathrsfs}
+\usepackage{moreverb} %idem
+\usepackage{listings} %citation de code colore (ne pas oublier de le parametrer correctement \lstset
+\usepackage{color} %couleur du texte a utiliser avec prudence et retenue
+\usepackage{eurosym} %permet l'utilisation du symbole euro
+\usepackage{numprint}
+\usepackage{fancyhdr}
+\usepackage[table]{xcolor}
+\usepackage{graphicx}
+%\usepackage{subscript}
+\makeatletter
 
-%\newpage
 
-\section{Les conditions de tests}
+\def\clap#1{\hbox to 0pt{\hss #1\hss}}%
+\def\ligne#1{%
+\hbox to \hsize{%
+\vbox{\centering #1}}}%
+\def\haut#1#2#3{%
+\hbox to \hsize{%
+\rlap{\vtop{\raggedright #1}}%
+\hss
+\clap{\vtop{\centering #2}}%
+\hss
+\llap{\vtop{\raggedleft #3}}}}%
+\def\bas#1#2#3{%
+\hbox to \hsize{%
+\rlap{\vbox{\raggedright #1}}%
+\hss
+\clap{\vbox{\centering #2}}%
+\hss
+\llap{\vbox{\raggedleft #3}}}}%
+\def\maketitle{%
+\thispagestyle{empty}\vbox to \vsize{%
+\haut{}{\@blurb}{}
+\vfill
+\vspace{1cm}
+\begin{flushleft}
+\usefont{OT1}{ptm}{m}{n}
+\huge \@title
+\end{flushleft}
+\par
+\hrule height 4pt
+\par
+\begin{flushright}
+\usefont{OT1}{phv}{m}{n}
+\large \@author
+\par
+\end{flushright}
+\vfill
+\begin{center}
+\includegraphics[scale=0.5]{images/logo.png}
+\end{center}
+\vfill
+\bas{Info 3}{\@date}{\@location}
+}%
+\cleardoublepage
+}
+\def\date#1{\def\@date{#1}}
+\def\author#1{\def\@author{#1}}
+\def\title#1{\def\@title{#1}}
+\def\location#1{\def\@location{#1}}
+\def\blurb#1{\def\@blurb{#1}}
+\date{Année 2011 - 2012}
+\author{}
+\title{}
+\location{Nantes}\blurb{}
+\makeatother
+\title{Projet Bomberman - \textit{Test de recette}}
+\author{\textbf{Bisiaux} Alexandre\\\textbf{Guihal} Maxime\\\textbf{Guillermic} Brice\\\textbf{Rousseau} Simon}
+\location{Nantes}
+\blurb{%
+École polytechnique de l'Université de Nantes\\
+Département informatique
+}% 
+\setlength{\textwidth}{385pt}
+\setlength{\oddsidemargin}{42pt}
+\pagestyle{fancy}
+\fancyhead{}
+\rhead{\textsc{Projet Bomberman}}
+\lhead{\textsc{Bisiaux - Guihal - Guillermic - Rousseau}}
 
-%dans quelles conditions seront réalisés les tests
 
-\subsection{Les ordinateurs}
 
-Les tests seront effectués sur les ordinateurs de la salle réseau. La distribution utilisée sera la distribution linux.
+\begin{document}
+%\renewcommand{\sectionname}{Partie} % changer "chapitre" pour "partie"
+%\layout
+\maketitle
 
-\subsection{Le réseau}
+\tableofcontents
+\newpage
 
-Les tests supposent que les ordinateurs soient déjà paramétrés pour fonctionner en réseau local.
+\input{contenu}
 
-%\newpage
-
-\section{Les tests}
-
-\subsection{Tests du réseau}
-
-Ces tests permettront de déterminer si le jeu est bien jouable en réseau.
-
-Le premier test sera bien entendu de faire fonctionner le jeu sur un unique ordinateur.
-
-Le second test consistera à ajouter un ordinateur et de vérifier que l'on puisse jouer en réseau.
-
-Le test suivant consistera à ajouter encore deux autres ordinateurs afin de vérifier qu'avec un maximum de joueur, tous sur un ordinateur différent, le jeu fonctionne correctement.
-
-\subsection{Tests d'interface graphique}
-
-Ces tests permettront de vérifier que l'interface graphique fonctionne correctement.
-
-Le premier test d'interface graphique consistera à naviguer dans les menus afin de vérifier que leur affichage fonctionne.
-
-Le test suivant consistera simplement à jouer et de terminer une partie afin de tester l'affichage final.
-
-\subsection{Tests de contrôleurs de jeu}
-
-Ces tests permettront de vérifier que les contrôleurs de jeu permettent de jouer au jeu. De plus ils permettront de vérifier le bon fonctionnement du paramétrage des commandes.
-
-Un premier test consistera à utiliser un clavier pour deux.
-
-Le second test consistera à utiliser un clavier pour quatre joueurs. Ceci permettra de vérifier si toutes les interactions des touches du clavier fonctionnent bien.
-
-Le troisième test consistera à utiliser un joystick. Ceci permettra de tester la configuration ainsi que le paramétrage des touches.
-
-Le quatrième test consistera à utiliser la Wiimote. Ceci permettra de tester la configuration ainsi que le paramétrage des touches.
-
-\subsection{Tests de jouabilité}
-
-Ces tests permettront de déterminé si le jeu dans sa globalité (gestion des parties, du multijoueurs, etc ...) fonctionne bien.
-
-Ces tests de jouabilité consisteront à faire plusieurs parties et de vérifier que le jeu fonctionne bien. Pour cela, deux joueurs sur un même ordinateur utilisant un clavier suffiront à déterminer cela.
-
-%\newpage
-
-\section*{Conclusion}\addcontentsline{toc}{section}{Conclusion}
-
-La liste de test ci-dessus n'est pas exhaustive. Des tests pourront donc être ajoutés dans le futur.
+\end{document}
