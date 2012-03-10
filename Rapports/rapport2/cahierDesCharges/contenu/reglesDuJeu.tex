@@ -54,10 +54,12 @@ Les bonus et malus disponibles pour les bombes seront :
 \item \textbf{Flamme Jaune} : Augmentation de la portée d'une bombe d'une case
 \item \textbf{Flamme Bleue} : Diminution de la portée d'une bombe d'une case
 \item \textbf{Flamme Rouge} : Augmentation de la portée de la bombe au maximum
-\item \textbf{Mine} : Bombe qui explose lorsqu'un joueur est à portée
+\item \textbf{Mine} : Bombe qui se déclenche lorsqu'un joueur marche dessus
 \item \textbf{Bombe à pics} : Bombe dont la déflagration ne s'arrêtent pas lorsqu'elle rencontre une caisse
 \item \textbf{Bombe atomique} : Explosion circulaire qui explose en 8-connexité d'une portée celle du joueur
 \end{itemize}
+
+Quand un joueur obtient le bonus \emph{Mine}, il peut n'en poser qu'une seule sur la carte avant que le bonus soit annulé.
 
 \subsubsection{Bonus pour les personnages}
 
@@ -66,20 +68,22 @@ Les bonus et malus disponibles pour les personnages seront :
 \item \textbf{Patins} : Augmentation de la vitesse de déplacement du personnage
 \item \textbf{Sabots} : Diminution de la vitesse de déplacement du personnage
 \item \textbf{Ligne de bombes} : Une option qui permet au personnage de poser toutes ses bombes d'un seul coup, alignées devant lui,
-\item \textbf{Détonateur} : Ce bonus permet de transformer toutes les bombes posées en bombes télécommandées.
+\item \textbf{Détonateur} : Ce bonus permet de transformer toutes les bombes posées en bombes télécommandées. - 1 fois, juste nos bombes
 \end{itemize}
 
 \subsubsection{Infections}
 
 Les infections disponibles seront :
 \begin{itemize}
-\item \textbf{Crâne} : Infection aléatoire parmi toutes les infections,
-\item \textbf{Devil} : Tous les bomberman sont touchés par une maladie aléatoire, y compris celui qui a pris le Devil,
-\item \textbf{Confusion} : Inversion des touches du clavier,
-\item \textbf{Spasmes} : Mouvement vers une case tous les \nbSecondes secondes,
-\item \textbf{Dilatation} : Lenteur du personnage au maximum,
-\item \textbf{Fureur} : Pose une bombe toutes les \nbSecondes secondes.
+\item \textbf{Crâne} : Infection aléatoire parmi les infections ci-dessous
+\item \textbf{Enfer} : Tous les personnages sont touchés par une infection aléatoire
+\item \textbf{Confusion} : Inversion des touches du clavier
+\item \textbf{Spasmes} : Mouvement vers une case tous les \nbSecondes secondes
+\item \textbf{Dilatation} : Lenteur du personnage au maximum
+\item \textbf{Fureur} : Pose une bombe toutes les \nbSecondes secondes
 \end{itemize}
+
+Une infection prend fin quand le personnage attrape un autre bonus.
 
 \subsubsection{Probabilités des bonus - malus}
 
