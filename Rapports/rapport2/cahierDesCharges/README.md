@@ -7,7 +7,8 @@
 
 # Relecteurs
 
-*
+* Guihal Maxime
+* Rousseau Simon
 
 # Restants
 
