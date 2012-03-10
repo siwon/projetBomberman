@@ -9,7 +9,3 @@
 
 * Guihal Maxime
 * Rousseau Simon
-
-# Restants
-
-* Conclusion
