@@ -1,33 +1,35 @@
 Chaque joueur peut choisir son contrôleur de jeu via les options du menu. Il a le choix entre ces différents périphériques :
 
 \begin{itemize}
-	\item le clavier
-	\item Joystick
-	\item wiimote
+    \item Clavier
+    \item Joystick
+    \item Wiimote
 \end{itemize}
+
+\vspace{0.5cm}
+
+Chaque joueur a 7 touches utilisables pendant le jeu, afin de se déplacer dans les 4 directions (haut, bas, gauche, droite), ainsi que deux touches d'action afin de poser des bombes et d'utiliser le détonateur, et une touche de pause.
 	
-	
-\subsubsection{Clavier}
-Il est possible de paramétrer les différentes commandes du jeu en passant par le menu.
+\subsection{Clavier}
 
-Par défaut les commandes du jeu sont les suivantes :
+Il est possible de paramétrer les différentes commandes du jeu en passant par le menu. Les commandes de jeu sont représentées sur l'image page suivante.
 
-\begin{center}
-	\includegraphics[height=550pt]{images/clavier}
-\end{center}
+\begin{figure}
+    \begin{center}
+	    \includegraphics[height=520pt]{images/clavier}
+    \end{center}
+    \caption{Disposition des touches par défaut du clavier}
+\end{figure}
 
-\subsubsection{Joystick}
-La prise en charge des contrôleurs de jeu PC de type Joystick se fait par l'intermédiaire de la librairie SFML.
+\subsection{Joystick}
 
-Comme le clavier, il est possible de paramétrer les différentes commandes du jeu en passant par le menu.
-
-Par défaut les commandes du jeu sont les suivantes :
+Le programme permettra également la prise en charge des autres contrôleurs de jeux PC de type joystick. Comme le clavier, il sera possible de paramétrer les différentes commandes du jeu en passant par le menu. Par défaut ce sont les suivantes :
 
 \begin{center}
 	\begin{tabular}{|c|c|}
 		\hline
-			\rowcolor{blueTab}
-			\textbf{Action} & \textbf{Touche(s)} \\
+			%\rowcolor{blueTab}
+			\textbf{Action} & \textbf{Touches} \\
 		\hline
 		Se déplacer & Pad directionnel \\
 		\hline
@@ -35,17 +37,16 @@ Par défaut les commandes du jeu sont les suivantes :
 		\hline
 		Action 2 & Bouton 2\\
 		\hline
+		Pause & Bouton 3\\
+		\hline
 	\end{tabular}
 \end{center}
 
 
-\subsubsection{Wiimote}
-La prise en charge d'un contrôleur de type Wiimote se fait par l'intermédiaire de la librairie Wiiusecpp. Cette librairie sous licence GNU GPLv3 et GNU LGPLv3 (non commercial) est codée en langage C++ et est principalement basée sur la librairie Wiiuse. La librairie est disponible pour les systèmes d'exploitation Linux et Windows.
+\subsection{Wiimote}
 
-Le jeu ne requiert pas l'utilisation du nunchuck.
-
-Les commandes de jeu sont les suivantes et ne peuvent être modifiées :
+Tout comme les joysticks, le programme permettra de jouer avec une Wiimote (manette de la console Wii). Le jeu ne requiert pas l'utilisation de l'accessoire Nunchuck. Les commandes de jeu sont les suivantes et ne peuvent pas être modifiées :
 
 \begin{center}
-	\includegraphics[scale=1.7]{images/wiimote}
+	\includegraphics[scale=1.3]{images/wiimote}
 \end{center}

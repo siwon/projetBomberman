@@ -1,8 +1,8 @@
 \subsection{But du jeu}
 
-Le but principal du jeu Bomberman est d'être le dernier survivant de la partie. Des joueurs sont répartis sur une carte et doivent déposer des bombes de façon stratégique afin d'éliminer les autres joueurs en les faisant exploser.
+Le but principal du jeu Bomberman est d'être le dernier survivant de la partie. Des joueurs sont répartis sur une carte et doivent déposer des bombes de façon stratégique afin d'éliminer les autres joueurs en les faisant exploser.\\
 
-Le jeu se joue sous forme de match composé d'un nombre inconnu de parties. A la fin de chaque partie, l'ordinateur ayant créé la partie choisit de continuer ou de recommencer un match. Chaque partie rapporte un point à son vainqueur (le dernier à rester en vie). Le match est gagné par le joueur qui a accumulé le plus de points au cours des parties.
+Le jeu se joue sous forme de match composé d'un nombre inconnu de parties. A la fin de chaque partie, le joueur ayant créé la partie choisit de continuer ou de recommencer un match. Chaque partie rapporte un point à son vainqueur (le dernier à rester en vie). Le match est gagné par le joueur qui a accumulé le plus de points au cours des parties.
 
 \subsection{Nombre de joueurs}
 
@@ -24,6 +24,8 @@ La carte est une carte rectangulaire de 19 cases horizontales et 13 cases vertic
     \item Déflagration de bombe
 \end{itemize}
 
+\vspace{0.5cm}
+
 Les joueurs sont placés selon leur nombre : 
 \begin{itemize}
 \item \textbf{4 joueurs} : Les joueurs sont placés dans les 4 coins de la carte.
@@ -31,7 +33,9 @@ Les joueurs sont placés selon leur nombre :
 \item \textbf{2 joueurs} : Un joueur se trouve dans le coin supérieur gauche, le deuxième dans le coin inférieur droit.
 \end{itemize}
 
-Au début, chaque joueur sera dans une zone avec au moins 3 cases vides consécutives afin de pouvoir faire exploser au moins une bombe. De plus, les joueurs ne peuvent poser qu'une bombe à la fois, se déplacent à vitesse normale et les bombes ont une portée de \porteeParDefaut .
+\vspace{0.5cm}
+
+Au début, chaque joueur sera dans une zone avec au moins 3 cases vides consécutives afin de pouvoir faire exploser au moins une bombe. De plus, les joueurs ne peuvent poser qu'une bombe à la fois, se déplacent à vitesse normale et les bombes ont une portée de une case.
 
 \subsubsection{Déroulement}
 
@@ -43,11 +47,11 @@ La partie est terminée lorsqu'il n'y a plus qu'un survivant sur la carte. Dans 
 
 \subsection{Bonus - Malus}
 
-Il existe différents types de bonus. Certains améliorent ou bien dégradent les caractéristiques des bombes des joueurs, d'autres celles des personnages. Il existe aussi des "infections" qui sont des malus qui affectent un ou plusieurs joueurs.
+Il existe différents types de bonus. Certains améliorent ou bien dégradent les caractéristiques des bombes des joueurs, d'autres celles des personnages. Il existe aussi des \textit{infections} qui sont des malus qui affectent un ou plusieurs joueurs.
 
 \subsubsection{Bonus pour les bombes}
 
-Les bonus et malus disponibles pour les bombes seront :
+Les bonus et malus disponibles pour les bombes sont :
 \begin{itemize}
 \item \textbf{Bombe Up} : Augmentation du nombre de bombes pouvant être posées simultanément par un joueur
 \item \textbf{Bombe Down} : Diminution du nombre de bombes pouvant être posées simultanément par un joueur
@@ -56,14 +60,16 @@ Les bonus et malus disponibles pour les bombes seront :
 \item \textbf{Flamme Rouge} : Augmentation de la portée de la bombe au maximum
 \item \textbf{Mine} : Bombe qui se déclenche lorsqu'un joueur marche dessus
 \item \textbf{Bombe à pics} : Bombe dont la déflagration ne s'arrêtent pas lorsqu'elle rencontre une caisse
-\item \textbf{Bombe atomique} : Explosion circulaire qui explose en 8-connexité d'une portée celle du joueur
+\item \textbf{Bombe atomique} : Explosion circulaire qui explose en 8-connexité d'une portée de celle du joueur et capable de traverser les murs
 \end{itemize}
 
-Quand un joueur obtient le bonus \emph{Mine}, la prochaine bombe posée est obligatoirement la mine, et la bonus disparaît après la pose de la mine.
+\vspace{0.3cm}
+
+Quand un joueur obtient le bonus \textit{Mine}, la prochaine bombe posée est obligatoirement la mine, et le bonus disparaît après la pose de la mine.
 
 \subsubsection{Bonus pour les personnages}
 
-Les bonus et malus disponibles pour les personnages seront :
+Les bonus et malus disponibles pour les personnages sont :
 \begin{itemize}
 \item \textbf{Patins} : Augmentation de la vitesse de déplacement du personnage
 \item \textbf{Sabots} : Diminution de la vitesse de déplacement du personnage
@@ -71,11 +77,13 @@ Les bonus et malus disponibles pour les personnages seront :
 \item \textbf{Détonateur} : Ce bonus permet de faire exploser toutes les bombes posées par le personnage en même temps
 \end{itemize}
 
-Pour le bonus \emph{Ligne de bombes}, les bombes ne sont posées que dans la direction du regard du joueur, et si aucun obstacle n'empêche de les poser. Pour le bonus \emph{Détonateur}, une fois acquis il dure jusqu'à la fin de la partie. Le joueur pose ses bombes avec la touche d'action 1, puis les fait exploser en temps voulu en appuyant sur la touche d'action 2.
+\vspace{0.3cm}
+
+Pour le bonus \textit{Ligne de bombes}, les bombes ne sont posées que dans la direction du regard du joueur, et si aucun obstacle n'empêche de les poser. Pour le bonus \textit{Détonateur}, une fois acquis il dure jusqu'à la fin de la partie. Le joueur pose ses bombes avec la touche d'action 1, puis les fait exploser en temps voulu en appuyant sur la touche d'action 2.
 
 \subsubsection{Infections}
 
-Les infections disponibles seront :
+Les infections disponibles sont :
 \begin{itemize}
 \item \textbf{Crâne} : Infection aléatoire parmi les infections ci-dessous
 \item \textbf{Enfer} : Tous les personnages sont touchés par une infection aléatoire
@@ -85,15 +93,20 @@ Les infections disponibles seront :
 \item \textbf{Fureur} : Le personnage pose une bombe toutes les \nbSecondes secondes
 \end{itemize}
 
+\vspace{0.3cm}
+
 Une infection prend fin quand le personnage attrape un autre bonus.
 
 \subsubsection{Probabilités des bonus - malus}
 
+Les probabilités présentées ci-dessous correspondent aux probabilités par défaut des parties. Le joueur créant la partie aura la possibilité de changer ces paramètres pour chaque bonus ou malus.
+
 \paragraph{Probabilité d'obtenir un bonus}
-Lors de la destruction d'une caisse il y a 30 \% de chance d'obtenir un bonus. Il y a donc 70 \% de chance que la destruction d'une caisse ne libère aucun bonus.
+Lors de la destruction d'une caisse, il y a 30 \% de chance d'obtenir un bonus. Il y a donc 70 \% de chance que la destruction d'une caisse ne libère aucun bonus.
 
 \paragraph{Probabilités par catégories}
 Lorsqu'une caisse libère un bonus, les chances de libérer un bonus pour les bombes, un bonus pour le personnage ou bien une infection sont les suivantes :
+
 \begin{center}
 \begin{tabular}{|r|c|}
 \hline 
@@ -110,8 +123,8 @@ Infections & 20 \% \\
 \end{tabular} 
 \end{center}
 
-\paragraph{Probabilités parmi les bonus de bombes}
-Les probabilités de libérations d'un bonus lorsque celui-ci est un bonus de bombes sont les suivantes :
+\paragraph{Probabilités parmi les bonus pour les bombes}
+Les probabilités de libération d'un bonus lorsque celui-ci est un bonus pour les bombes sont les suivantes :
 \begin{center}
 \begin{tabular}{|r|c|}
 \hline 
@@ -138,8 +151,8 @@ Bombe atomique & 5 \% \\
 \end{tabular} 
 \end{center}
 
-\paragraph{Probabilités parmi les bonus de personnage}
-Les probabilités de libérations d'un bonus lorsque celui-ci est un bonus de personnage sont les suivantes :
+\paragraph{Probabilités parmi les bonus pour les personnages}
+Les probabilités de libération d'un bonus lorsque celui-ci est un bonus pour les personnages sont les suivantes :
 \begin{center}
 \begin{tabular}{|r|c|}
 \hline 
@@ -159,7 +172,7 @@ Détonateur & 10 \% \\
 \end{center}
 
 \paragraph{Probabilités parmi les infections}
-Les probabilités de libérations d'un bonus lorsque celui-ci est une infection sont les suivantes :
+Les probabilités de libération d'un bonus lorsque celui-ci est une infection sont les suivantes :
 \begin{center}
 \begin{tabular}{|r|c|}
 \hline 
@@ -167,7 +180,7 @@ Les probabilités de libérations d'un bonus lorsque celui-ci est une infection 
 \hline 
 Crâne & 30 \% \\ 
 \hline 
-Devil & 10 \% \\ 
+Enfer & 10 \% \\ 
 \hline 
 Confusion & 15 \% \\ 
 \hline 

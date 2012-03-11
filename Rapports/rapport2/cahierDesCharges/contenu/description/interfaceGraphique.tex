@@ -4,31 +4,35 @@ Lorsque le programme démarrera, une fenêtre d'une taille de 800 pixels de larg
 
 \subsection{Menus}
 
-Pour chaque menu présenté ci-dessous, les options affichées seront sélectionnables grâce aux touches directionnelles haut et bas du clavier. L'option  actuellement sélectionnée sera représentée d'une manière différente, en changeant sa couleur, ou en affichant un curseur devant elle. La validation de l'option sélectionnée s'effectuera par pression de la touche \emph{Entrée}. Un appui sur la touche \emph{Echap} permettra de revenir sur l'écran de menu précédent.
+Pour chaque menu présenté ci-dessous, les options affichées seront sélectionnables grâce aux touches directionnelles haut et bas du clavier. L'option  actuellement sélectionnée sera représentée d'une manière différente, en changeant sa couleur, ou en affichant un curseur devant elle. La validation de l'option sélectionnée s'effectuera par pression de la touche \textit{Entrée}. Un appui sur la touche \textit{Echap} permettra de revenir sur l'écran de menu précédent.
 
 \subsubsection{Menu principal}
 
-Le menu principal présentera trois options à l'utilisateur : \emph{Jouer}, \emph{Options}, \emph{Quitter}, permettant respectivement d'aller sur le menu de jeu, de paramétrage, ou de quitter le programme sans confirmation. Le nom du jeu sera également visible au-dessus de ces options. Sur ce menu, la touche \emph{Echap} n'aura pas d'effet.
+Le menu principal présentera trois options à l'utilisateur : \textbf{Jouer}, \textbf{Options} et \textbf{Quitter}, permettant respectivement d'aller sur le menu de jeu, de paramétrage, ou de quitter le programme sans confirmation. Le nom du jeu sera également visible au-dessus de ces options. Sur ce menu, la touche \textit{Echap} n'aura pas d'effet.
 
 \subsubsection{Menus de paramétrage}
 
-Ce menu permettra à l'utilisateur de pouvoir régler les options générales du programme. Il présentera une option \emph{Contrôles} permettant de configurer les contrôleurs et les touches de jeu, comme défini dans le prochain paragraphe. Il affichera en plus une option \emph{Audio} permettant d'aller sur le menu de configuration audio. Enfin, la dernière option \emph{Graphisme} permettra de changer les options graphiques du jeu en allant sur le menu du même nom. Une option \emph{Retour} pour retourner au menu principal sera également affichée.
+Ce menu permettra à l'utilisateur de pouvoir régler les options générales du programme. Il présentera une option \textbf{Contrôles} permettant de configurer les contrôleurs et les touches de jeu, comme défini dans le prochain paragraphe. Il affichera en plus une option \textbf{Audio} permettant d'aller sur le menu de configuration audio. Enfin, la dernière option \textbf{Graphisme} permettra de changer les options graphiques du jeu en allant sur le menu du même nom. Une option \textbf{Retour} pour retourner au menu principal sera également affichée.\\
+
+Toutes les options paramétrables dans ces menus seront conservées dans un fichier de configuration par le programme, de façon à les stocker entre deux lancements du programme.
 
 \paragraph{Menu de configuration des contrôleurs}
 
-Ce menu permettra de gérer l'attribution des touches pour chaque joueur. Un premier écran listera les quatre joueurs en précisant le type de contrôleur utilisé. Une option \emph{Retour} pour retourner au menu de paramétrage sera également affichée. Lorsque l'utilisateur sélectionnera un joueur, un second écran s'affichera. Celui-ci présentera en haut de la fenêtre un widget de sélection d'un contrôleur (clavier, joystick ou Wiimote) où le nom du contrôleur est affichée entourée de deux flèches permettant de sélectionner le contrôleur précédent ou suivant de l'actuel avec les flèches directionnelles gauche et droite. En dessous de ce widget se trouvera soit une image représentant le contrôleur avec l'emplacement des boutons prédéfinis pour la Wiimote, soit une liste des actions possibles avec l'assignation de la touche à côté. Lorsque l'action sera sélectionnée puis validée, le programme attendra que l'utilisateur saisisse la touche pour l'assigner. Lorsque l'utilisateur voudra assigner une touche déjà assignée, le programme affichera un message d'erreur informant l'utilisateur que la touche est déjà assignée. Sur cet écran se trouvera aussi un bouton de retour vers le menu qui liste les joueurs.
+Ce menu permettra de gérer l'attribution des touches pour chaque joueur. Un premier écran listera les quatre joueurs en précisant le type de contrôleur utilisé. Une option \textbf{Retour} pour retourner au menu de paramétrage sera également affichée. Lorsque l'utilisateur sélectionnera un joueur, un second écran s'affichera. Celui-ci présentera en haut de la fenêtre un widget de sélection d'un contrôleur (clavier, joystick ou Wiimote) où le nom du contrôleur est affichée entourée de deux flèches permettant de sélectionner le contrôleur précédent ou suivant de l'actuel avec les flèches directionnelles gauche et droite. En dessous de ce widget se trouvera soit une image représentant le contrôleur avec l'emplacement des boutons prédéfinis pour la Wiimote, soit une liste des actions possibles avec l'assignation de la touche à côté. Lorsque l'action sera sélectionnée puis validée, le programme attendra que l'utilisateur saisisse la touche pour l'assigner. Lorsque l'utilisateur voudra assigner une touche déjà assignée, le programme affichera un message d'erreur informant l'utilisateur que la touche est déjà assignée. Sur cet écran se trouvera aussi un bouton de retour vers le menu qui liste les joueurs.
 
 \paragraph{Menu de configuration audio}
 
-Ce menu gérera le volume de la musique et des effets sonores du jeu et du menu avec deux widgets permettant à l'utilisateur de choisir le volume entre 0\% et 100\%. Un bouton permettant de couper directement le son sera présent à côté de chacun des widgets. Un bouton de retour au menu précédent sera également visible.
+Ce menu gérera le volume de la musique et des effets sonores du jeu et du menu avec deux widgets permettant à l'utilisateur de choisir le volume entre 0 \% et 100 \%. Un bouton permettant de couper directement le son sera présent à côté de chacun des widgets. Un bouton de retour au menu précédent sera également visible.
 
 \paragraph{Menu de configuration graphique}
 
-Ce menu permettra de configurer l'aspect graphique du jeu. Il présentera une option permettant de passer du mode fenêtré au mode plein écran. En-dessous se trouvera un widget permettant de choisir le pack de textures à utiliser pour le programme. Celui-ci listera les packs disponibles et l'utilisateur pourra en sélectionner un. Un bouton permettant de revenir au menu de paramétrage sera aussi présent.
+Ce menu permettra de configurer l'aspect graphique du jeu. Il présentera une option permettant de passer du mode fenêtré au mode plein écran. En-dessous se trouvera un widget permettant de choisir le pack de textures\footnote{L'utilisateur aura la possibilité de changer l'aspect visuel du programme en changeant de pack de textures. Ces packs contiendront toutes les images utilisées par le programme, ainsi que des codes de couleur pour les différents textes affichés.} à utiliser pour le programme. Celui-ci listera les packs disponibles et l'utilisateur pourra en sélectionner un. Un bouton permettant de revenir au menu de paramétrage sera aussi présent.\\
+
+
 
 \subsubsection{Menus de jeu}
 
-Cet enchaînement de menus va permettre à l'utilisateur de jouer en configurant la partie. Le premier écran sera composé de deux options, \emph{Créer une partie} et \emph{Rejoindre une partie}. Un bouton permettant de revenir au menu principal sera aussi présent, tout comme dans les sous-menus décrits ci-dessous.
+Cet enchaînement de menus va permettre à l'utilisateur de jouer en configurant la partie. Le premier écran sera composé de deux options, \textbf{Créer une partie} et \textbf{Rejoindre une partie}. Un bouton permettant de revenir au menu principal sera aussi présent, tout comme dans les sous-menus décrits ci-dessous.
 
 \paragraph{Rejoindre une partie}
 
@@ -46,7 +50,7 @@ Cet écran listera par catégories (bombes, personnages, infections) paginées c
 
 La fenêtre du plateau de jeu sera composée de la carte du jeu (contenant 19 blocs carrés de largeur et 13 blocs carrés de hauteur) sur laquelle évolueront les personnages et les objets (bombes et bonus) du jeu. En-dessous de la carte seront affichés les scores du match actuel avec le nom du joueur aux couleurs de son personnage.\\
 
-Un appui sur la touche \emph{Echap} de l'un des joueurs mettra en pause le jeu et affichera un menu permettant de configurer les options en appelant le menu de paramétrage, de revenir au menu principal, ou de quitter directement le programme, après confirmation. Lorsqu'un joueur quitte une partie, celle-ci se termine si la partie est gérée par l'ordinateur abandonnant (dans ce cas les autres ordinateurs participants à la partie affichent un écran indiquant la fin de la partie). Le joueur est simplement retiré de la partie sinon.
+Un appui sur la touche \textit{Echap} de l'un des joueurs mettra en pause le jeu et affichera un menu permettant de configurer les options en appelant le menu de paramétrage, de revenir au menu principal, ou de quitter directement le programme, après confirmation. Lorsqu'un joueur quitte une partie, celle-ci se termine si la partie est gérée par l'ordinateur abandonnant (dans ce cas les autres ordinateurs participants à la partie affichent un écran indiquant la fin de la partie). Le joueur est simplement retiré de la partie sinon.
 
 \subsection{Fin de partie}
 
