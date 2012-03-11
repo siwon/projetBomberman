@@ -35,7 +35,7 @@ Les joueurs sont placés selon leur nombre :
 
 \vspace{0.5cm}
 
-Au début, chaque joueur sera dans une zone avec au moins 3 cases vides consécutives afin de pouvoir faire exploser au moins une bombe. De plus, les joueurs ne peuvent poser qu'une bombe à la fois, se déplacent à vitesse normale et les bombes ont une portée de une case.
+Au début, chaque joueur sera dans une zone avec au moins 3 cases vides consécutives afin de pouvoir faire exploser au moins une bombe. De plus, les joueurs ne peuvent poser qu'une bombe à la fois, ayant un retardement de \longueurMeche secondes, se déplacent à vitesse normale et les bombes ont une portée de une case.
 
 \subsubsection{Déroulement}
 
@@ -79,7 +79,9 @@ Les bonus et malus disponibles pour les personnages sont :
 
 \vspace{0.3cm}
 
-Pour le bonus \textit{Ligne de bombes}, les bombes ne sont posées que dans la direction du regard du joueur, et si aucun obstacle n'empêche de les poser. Pour le bonus \textit{Détonateur}, une fois acquis il dure jusqu'à la fin de la partie. Le joueur pose ses bombes avec la touche d'action 1, puis les fait exploser en temps voulu en appuyant sur la touche d'action 2.
+Pour le bonus \textit{Ligne de bombes}, les bombes ne sont posées que dans la direction du regard du joueur, et si aucun obstacle n'empêche de les poser. 
+
+Pour le bonus \textit{Détonateur}, une fois acquis il dure jusqu'à la fin de la partie. Le joueur pose ses bombes avec la touche d'action 1, puis les fait exploser en temps voulu en appuyant sur la touche d'action 2.
 
 \subsubsection{Infections}
 
@@ -88,7 +90,7 @@ Les infections disponibles sont :
 \item \textbf{Crâne} : Infection aléatoire parmi les infections ci-dessous
 \item \textbf{Enfer} : Tous les personnages sont touchés par une infection aléatoire
 \item \textbf{Confusion} : Inversion des touches du clavier
-\item \textbf{Spasmes} : Mouvement vers une case voisine libre tous les \nbSecondes secondes
+\item \textbf{Spasmes} : Mouvement vers une case voisine libre toutes les \nbSecondes secondes
 \item \textbf{Dilatation} : Vitesse de déplacement du personnage au minimum
 \item \textbf{Fureur} : Le personnage pose une bombe toutes les \nbSecondes secondes
 \end{itemize}
@@ -102,12 +104,23 @@ Une infection prend fin quand le personnage attrape un autre bonus.
 Les probabilités présentées ci-dessous correspondent aux probabilités par défaut des parties. Le joueur créant la partie aura la possibilité de changer ces paramètres pour chaque bonus ou malus.
 
 \paragraph{Probabilité d'obtenir un bonus}
-Lors de la destruction d'une caisse, il y a 30 \% de chance d'obtenir un bonus. Il y a donc 70 \% de chance que la destruction d'une caisse ne libère aucun bonus.
+Lors de la destruction d'une caisse, les chances de libération d'un bonus sont les suivantes :
+\begin{center}
+ \begin{tabular}{{|r|c|}}
+  \hline 
+& Probabilités \\ 
+\hline 
+Libération d'un bonus & 30 \% \\ 
+\hline 
+Non libération d'un bonus & 70 \% \\ 
+\hline 
+\textbf{\textsc{Total}} & \textbf{100 \%} \\ 
+\hline 
+ \end{tabular}
+\end{center}
 
 \paragraph{Probabilités par catégories}
-Lorsqu'une caisse libère un bonus, les chances de libérer un bonus pour les bombes, un bonus pour le personnage ou bien une infection sont les suivantes :
-
-\begin{center}
+Lorsqu'une caisse libère un bonus, les chances de libérer un bonus pour les bombes, un bonus pour le personnage ou bien une infection sont les suivantes :\begin{center}
 \begin{tabular}{|r|c|}
 \hline 
 & Probabilités \\ 
@@ -124,8 +137,7 @@ Infections & 20 \% \\
 \end{center}
 
 \paragraph{Probabilités parmi les bonus pour les bombes}
-Les probabilités de libération d'un bonus lorsque celui-ci est un bonus pour les bombes sont les suivantes :
-\begin{center}
+Les probabilités de libération de chaque bonus lorsque celui-ci est un bonus pour les bombes sont les suivantes :\begin{center}
 \begin{tabular}{|r|c|}
 \hline 
 & Probabilités \\ 
@@ -152,8 +164,7 @@ Bombe atomique & 5 \% \\
 \end{center}
 
 \paragraph{Probabilités parmi les bonus pour les personnages}
-Les probabilités de libération d'un bonus lorsque celui-ci est un bonus pour les personnages sont les suivantes :
-\begin{center}
+Les probabilités de libération de chaque bonus lorsque celui-ci est un bonus pour les personnages sont les suivantes :\begin{center}
 \begin{tabular}{|r|c|}
 \hline 
 & Probabilités \\ 
@@ -172,8 +183,7 @@ Détonateur & 10 \% \\
 \end{center}
 
 \paragraph{Probabilités parmi les infections}
-Les probabilités de libération d'un bonus lorsque celui-ci est une infection sont les suivantes :
-\begin{center}
+Les probabilités de libération de chaque bonus lorsque celui-ci est une infection sont les suivantes :\begin{center}
 \begin{tabular}{|r|c|}
 \hline 
 & Probabilités \\ 
