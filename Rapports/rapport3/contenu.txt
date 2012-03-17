@@ -1,8 +1,16 @@
 Noms des étudiants du groupe : 
+  - Bisiaux Alexandre
+  - Guihal Maxime
+  - Guillermic Brice
+  - Rousseau Simon
 
 Date effective de la réunion de la conception générale : 
 
 Noms des participants à cette réunion : 
+  - Bisiaux Alexandre
+  - Guihal Maxime
+  - Guillermic Brice
+  - Rousseau Simon
 
 Document à joindre : conception objet
 
