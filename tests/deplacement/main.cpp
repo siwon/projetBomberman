@@ -62,7 +62,7 @@ void GererIntersection(touches keys, touches& retour, sf::Sprite& sPerso, float 
 }
 
 sf::RenderWindow* app;
-const float speed = 100.f;
+const float speed = 200.f;
 
 int main()
 {
