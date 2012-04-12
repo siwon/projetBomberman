@@ -1,0 +1,146 @@
+IControllerToMenu
+
+                Enum EMenuKeys
+                {
+                    UP, DOWN, LEFT, RIGHT, VALID, BACK, NONE
+                }
+
+                Enum EGameKeys
+                {
+                    UP = 0, DOWN, LEFT, RIGHT, ACTION1, ACTION2, PAUSE
+                }
+
+                Struct SKeysConfig
+                {
+                    String controllerType;
+                    String keys[7];
+                    bool errors[7];
+                }
+
+                - EMenuKeys getKeyPressed()
+                - SKeysConfig getConfig(int player)
+                - SKeysConfig setPlayerKey(int player, EGameKeys key)
+
+IControllerToNetwork
+
+                Struct SKeyPressed
+                {
+                    bool keys[4][7];
+                }
+                
+                - SKeyPressed getKeysPressed();                
+                
+INetworkToMenu
+
+                Enum GameOptions
+                {
+                    // Liste exhaustive
+                }
+
+                Struct SGameConfig
+                {
+                    bool isLocal;
+                    unsigned int nbPlayers;
+                    String playersName[4];    
+                    unsigned int nbOptions[//NB_OPTIONS];
+                }
+
+                - void joinGame(String ip) throw NetworkException
+                - int getFreeSlots() throw NetworkException
+                - void setBookedSlots(unsigned int nb) throw NetworkException
+                - void setPlayersName(String[] names) throw NetworkException
+                - String[] getPlayers() throw NetworkException
+                - Unsigned int[] getScores() throw NetworkException
+                - bool isStarted() throw NetworkException
+
+IGameEngineToNetwork
+    
+                Enum EBonusType
+                {
+                    // Liste exhaustive
+                }
+                
+                Enum EExplosiveType
+                {
+                    // Liste exhaustive
+                }
+                
+                Enum EPlayerState
+                {
+                    ALIVE, DEAD
+                }
+                
+                Enum EFlameLocation
+                {
+                    ORIGIN, MIDDLE, END
+                }
+    
+                Struct SCoords
+                {
+                    unsigned int x;
+                    unsigned int y;
+                }
+                
+                Struct SBonus
+                {
+                    SCoords coords;
+                    EBonusType type;
+                }
+                
+                Struct SExplosive
+                {
+                    SCoords coords;
+                    EExplosiveType type;                   
+                }
+                
+                Struct SPlayer
+                {
+                    SCoords coords;
+                    EOrientation orientation;
+                    unsigned int number;
+                    EPlayerState state;
+                    unsigned int step;
+                }
+                
+                Struct SFlame
+                {
+                    SCoords coords;
+                    EOrientation orientation;
+                    EFlameLocation location;
+                    unsigned int step;
+                }
+
+                Struct SBoard
+                {
+                    vector<SCoords> boxes;
+                    vector<SBonus> bonus;
+                    vector<SExplosive> explosives;
+                    vector<SPlayer> players;
+                    vector<SFlame> flames;
+                }
+                
+                - SBoard getBoard()
+                
+INetworkToGameEngine
+
+                - SGameConfig getGameOptions()
+                - SKeyPressed getKeysPressed()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                
