@@ -9,6 +9,11 @@ IControllerToMenu
                 {
                     UP = 0, DOWN, LEFT, RIGHT, ACTION1, ACTION2, PAUSE
                 }
+                
+                Enum EControllerType
+                {
+                	  KEYBOARD, GAMEPAD, WII
+                }
 
                 Struct SKeysConfig
                 {
@@ -19,6 +24,7 @@ IControllerToMenu
 
                 - EMenuKeys getKeyPressed()
                 - SKeysConfig getConfig(int player)
+                - SKeysConfig setPlayerController(int player, EControllerType type)
                 - SKeysConfig setPlayerKey(int player, EGameKeys key)
 
 IControllerToNetwork
