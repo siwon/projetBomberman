@@ -58,6 +58,7 @@ INetworkToMenu
                 - String[] getPlayers() throw NetworkException
                 - Unsigned int[] getScores() throw NetworkException
                 - bool isStarted() throw NetworkException
+                - void startGame() throw NetworkException
 
 IGameEngineToNetwork
     
