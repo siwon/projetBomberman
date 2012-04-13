@@ -1,0 +1,13 @@
+Idées :
+
+Gérer clic souris pour le menu
+Gérer saisie texte (nom joueurs, adresse ip...)
+Méthode pour afficher l'adresse IP sur le menu
+
+divers:
+- callbacks quand on clique sur les flèches d'un widget de sélection
+- sélection horiz/verti (=liste)
+- widget hérite de sprite
+- SoundManager
+- ConfigFileManager
+- TextureManager
