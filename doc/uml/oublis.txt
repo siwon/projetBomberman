@@ -1,7 +1,4 @@
-Idées :
-
-Gérer clic souris pour le menu
 Gérer saisie texte (nom joueurs, adresse ip...)
 Méthode pour afficher l'adresse IP sur le menu
 
-Penser à plateau de jeu -> Menu
+@ Brice : Comment gérer la pause dans le jeu ??
