@@ -9,7 +9,7 @@ IControllerToMenu
                 {
                     UP = 0, DOWN, LEFT, RIGHT, ACTION1, ACTION2, PAUSE
                 }
-                
+
                 Enum EControllerType
                 {
                 	  KEYBOARD, GAMEPAD, WII
@@ -33,9 +33,9 @@ IControllerToNetwork
                 {
                     bool keys[4][7];
                 }
-                
-                - SKeyPressed getKeysPressed();                
-                
+
+                - SKeyPressed getKeysPressed();
+
 INetworkToMenu
 
                 Enum GameOptions
@@ -47,7 +47,7 @@ INetworkToMenu
                 {
                     bool isLocal;
                     unsigned int nbPlayers;
-                    String playersName[4];    
+                    String playersName[4];
                     unsigned int nbOptions[//NB_OPTIONS];
                 }
 
@@ -61,46 +61,46 @@ INetworkToMenu
                 - void startGame() throw NetworkException
 
 IGameEngineToNetwork
-    
+
                 Enum EBonusType
                 {
                     // Liste exhaustive
                 }
-                
+
                 Enum EExplosiveType
                 {
                     // Liste exhaustive
                 }
-                
+
                 Enum EPlayerState
                 {
                     ALIVE, DEAD
                 }
-                
+
                 Enum EFlameLocation
                 {
                     ORIGIN, MIDDLE, END
                 }
-    
-                Struct SCoords
+
+                ICoords
                 {
                     unsigned int x;
                     unsigned int y;
                 }
-                
-                Struct SBonus
+
+                IBonus
                 {
                     SCoords coords;
                     EBonusType type;
                 }
-                
-                Struct SExplosive
+
+                IExplosive
                 {
                     SCoords coords;
-                    EExplosiveType type;                   
+                    EExplosiveType type;
                 }
-                
-                Struct SPlayer
+
+                IPlayer
                 {
                     SCoords coords;
                     EOrientation orientation;
@@ -108,8 +108,8 @@ IGameEngineToNetwork
                     EPlayerState state;
                     unsigned int step;
                 }
-                
-                Struct SFlame
+
+                IFlame
                 {
                     SCoords coords;
                     EOrientation orientation;
@@ -117,7 +117,7 @@ IGameEngineToNetwork
                     unsigned int step;
                 }
 
-                Struct SBoard
+                IBoard
                 {
                     vector<SCoords> boxes;
                     vector<SBonus> bonus;
@@ -125,9 +125,9 @@ IGameEngineToNetwork
                     vector<SPlayer> players;
                     vector<SFlame> flames;
                 }
-                
+
                 - SBoard getBoard()
-                
+
 INetworkToGameEngine
 
                 - SGameConfig getGameOptions()
@@ -150,4 +150,4 @@ INetworkToGameEngine
 
 
 
-                
+
