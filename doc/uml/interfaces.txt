@@ -55,10 +55,11 @@ INetworkToMenu
                 - int getFreeSlots() throw NetworkException
                 - void setBookedSlots(unsigned int nb) throw NetworkException
                 - void setPlayersName(String[] names) throw NetworkException
-                - String[] getPlayers() throw NetworkException
-                - Unsigned int[] getScores() throw NetworkException
+                - string[] getPlayers() throw NetworkException
+                - unsigned int[] getScores() throw NetworkException
                 - bool isStarted() throw NetworkException
                 - void startGame() throw NetworkException
+                - string getIPAddress()
 
 IGameEngineToNetwork
 
@@ -127,11 +128,19 @@ IGameEngineToNetwork
                 }
 
                 - SBoard getBoard()
+                - int isFinished()
+
+INetworkToGameInterface
+
+                - <include IGameEngineToNetwork>
+                - int isPaused()
 
 INetworkToGameEngine
 
                 - SGameConfig getGameOptions()
                 - SKeyPressed getKeysPressed()
+                - bool isPaused()
+
 
 
 

@@ -1,4 +1,8 @@
-Gérer saisie texte (nom joueurs, adresse ip...)
-Méthode pour afficher l'adresse IP sur le menu
+Gérer saisie texte (nom joueurs, adresse ip...) -> DONE
+Méthode pour afficher l'adresse IP sur le menu  -> DONE
 
-@ Brice : Comment gérer la pause dans le jeu ??
+@ Brice : Comment gérer la pause dans le jeu ?? -> HALF DONE
+
+@ Brice : Tu gères quand un joueur quitte une partie niveau réseau ?
+@ Brice : Comment on gère les fins de partie, on a oublié ça... -> HALF DONE
+@ Brice : Qui stocke les scores lors d'une partie ? Réseau ou Menu ??
