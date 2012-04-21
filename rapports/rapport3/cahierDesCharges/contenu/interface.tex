@@ -1,0 +1,23 @@
+\subsection{Interfaces fournies}
+
+Ce composant fournit deux interfaces aux autres modules :
+
+\paragraph{IGameInterfaceToMenu}
+
+Cette interface fournit la méthode \textbf{run} qui est appelée par le menu lorsqu'une partie commence. Elle prend en paramètres la fenêtre du programme, les scores de chaque joueur, et une référence vers le joueur gagnant. Elle renvoie une constante indiquant la fin de la partie (EXITGAME), ou une erreur (EXITERROR).
+
+\subsection{Interfaces requises}
+
+Pour fonctionner, le composant Menu a besoin de 4 interfaces :
+\begin{itemize}
+    \item INetworkToGameInterface
+    \item IMenuToGameInterface
+    \item ISkin
+    \item ISound    
+\end{itemize}
+
+\subsection{Structure du composant}
+
+Le module reçoit en boucle l'état du jeu par l'intermédiaire du module Réseau (INetworkToGameInterface), et affiche les différents éléments du plateau de jeu en fonction de cet état, ainsi que le score des différents joueurs. Tout comme les autres composants principaux, le gestionnaire de l'interface de jeu n'est instancié qu'une seule fois par exécution du programme.\\
+
+Le diagramme de classes représentant ce composant est fourni en annexe

@@ -1,0 +1,28 @@
+\subsection{Interfaces fournies}
+
+Ce composant fournit deux interfaces aux autres modules :
+
+\paragraph{IMenuToMain}
+
+Cette interface permet de lier le composant à la méthode \textit{main} d'entrée du programme. Elle fournit la méthode \textbf{run} qui renvoit une des constantes suivantes : EXITGAME ou EXITERROR selon que le programme s'arrête sans ou avec un erreur.
+
+\paragraph{IMenuToGameInterface}
+
+Cette interface permet de lier le menu au composant d'interface de jeu lorsque celle-ci appelle le menu au cours d'une partie (lors d'une pause). La méthode \textbf{runPause} est alors appelée, renvoyant un signal à l'interface permettant de déterminer si le joueur reprend le jeu, ou quitte le programme. Le joueur pris en paramètre correspond à celui qui a appuyé sur le bouton pause.
+
+\subsection{Interfaces requises}
+
+Pour fonctionner, le composant Menu a besoin de 5 interfaces :
+\begin{itemize}
+    \item INetworkToMenu
+    \item IControllerToMenu
+    \item ISkin
+    \item IConfigFile
+    \item ISound    
+\end{itemize}
+
+\subsection{Structure du composant}
+
+Le module est composé d'un tableau de \textit{IMenuScreen} pour chacun des menus proposés aux joueurs, qui s'appellent les uns les autres en renvoyant l'indice de l'écran suivant. Chaque écran est composé de plusieurs \textit{widgets} dessinables et actionnables spécialisés selon leurs fonctions.\\
+
+Le diagramme de classes représentant ce composant est fourni en annexe
