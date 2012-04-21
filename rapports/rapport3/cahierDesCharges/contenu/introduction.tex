@@ -1,7 +1,51 @@
-Ce document présente la conception choisie pour le programme. Celui-ci est découpé en 5 modules distincts pouvant être développés séparément. Chacun de ces modules est décrit ci-après, et est accompagné de diagrammes UML permettant de représenter sa structure interne, et externe, ainsi que son mode de fonctionnement.
+Ce document présente la conception choisie pour le programme. Celui-ci est découpé en 8 modules distincts pouvant être développés séparément.  La structure globale du programme sera d'abord fournie puis chacun des modules sera décrit par un diagramme de classes UML et accompagné d'explications pour expliciter leurs interfaces.
 
 \vspace{0.5cm}
 
 \subsection{Bibliothèques utilisées}
 
-Ce programme sera réalisé à l'aide du langage \textbf{C++}. La bibliothèque graphique utilisée sera la \textbf{SFML 1.6} choisie pour sa simplicité et son efficacité. Celle-ci est sous licence zlib/png qui permet son utilisation sans aucune contreparties.
+Ce programme sera réalisé à l'aide du langage \textbf{C++}. La bibliothèque graphique utilisée sera la \textbf{SFML 1.6} \footnote{\url{http://www.sfml-dev.org}} choisie pour sa simplicité et son efficacité. Celle-ci est sous licence zlib/png qui permet son utilisation sans aucune contreparties.
+
+\subsection{Les composants du programme}
+
+La structure choisie pour le programme permet à celui-ci de se décomposer en huit composants (modules) indépendants, pouvant être développés parallèlement, dont voici les caractéristiques :
+
+\paragraph{Module de gestion du menu}
+
+Ce composant est le premier à être appelé par le programme. Il permet de gérer l'enchaînement des pages de menu pour configurer le programme et pour créer ou rejoindre une partie.
+
+\paragraph{Module de gestion de l'interface de jeu}
+
+Appelé par le menu lorsqu'une partie commence, ce composant permet de gérer l'affichage du plateau en fonction des informations reçues par le moteur de jeu.
+
+\paragraph{Module de gestion des contrôleurs}
+
+Ce composant permet l'interaction avec les contrôleurs de jeu (clavier, gamepad, Wiimote, ...) en fonction des configurations, puis communique ces informations avec les autres composants.
+
+\paragraph{Module de gestion du réseau}
+
+Ce module central du programme coordonne les autres composants en transférant les interactions avec les contrôleurs au moteur de jeu et le rendu du plateau de jeu à l'interface. Il gère aussi l'envoi et la réception des paquets sur un réseau local.
+
+\paragraph{Module de gestion du jeu}
+
+Ce composant est le moteur du jeu. Son rôle est d'analyser le plateau de jeu afin d'en déduire les mouvements à effectuer en fonctions des interactions avec les contrôleurs.
+
+\paragraph{Module de gestion de la configuration}
+
+Ce composant gère l'interaction avec les fichiers de configuration du jeu pour y stocker les touches paramétrés, et toutes les autres options du programme.
+
+\paragraph{Module de gestion des skins}
+
+Le programme permettant de changer de skin, ce composant permet de charger les images et les autres éléments de l'interface en fonction du skin choisi.
+
+\paragraph{Module de gestion du son}
+
+Ce composant permet simplement de jouer des sons ou des musiques selon la configuration du programme au cours de son exécution.
+
+\subsection{Les interfaces des composants}
+
+Afin de communiquer avec les autres composants, chaque module fournit une ou plusieurs interfaces, qui seront les seules parties publiques des composants, utilisable par les autres composants. La liaison des interfaces et des modules entre-eux sont représentés dans le diagramme de composants en annexe à ce dossier. Chacune des interface est détaillée dans la partie consacrée au module ci-après.
+
+\subsection{Communication des composants}
+
+Afin d'avoir une vue globale sur le fonctionnement du programme, les relations entre les différents composants du programme a été représenté sur un diagramme de déploiement présenté en annexe.
