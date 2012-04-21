@@ -38,7 +38,7 @@ IControllerToNetwork
 
 INetworkToMenu
 
-                Enum GameOptions
+                Enum GameBonus
                 {
                     // Liste exhaustive
                 }
@@ -59,6 +59,7 @@ INetworkToMenu
                 - unsigned int[] getScores() throw NetworkException
                 - bool isStarted() throw NetworkException
                 - void startGame() throw NetworkException
+                - void setGameConfig(SGameConfig config)
                 - string getIPAddress()
 
 IGameEngineToNetwork
@@ -83,25 +84,19 @@ IGameEngineToNetwork
                     ORIGIN, MIDDLE, END
                 }
 
-                ICoords
-                {
-                    unsigned int x;
-                    unsigned int y;
-                }
-
-                IBonus
+                SBonus
                 {
                     SCoords coords;
                     EBonusType type;
                 }
 
-                IExplosive
+                SExplosive
                 {
                     SCoords coords;
                     EExplosiveType type;
                 }
 
-                IPlayer
+                SPlayer
                 {
                     SCoords coords;
                     EOrientation orientation;
@@ -110,7 +105,7 @@ IGameEngineToNetwork
                     unsigned int step;
                 }
 
-                IFlame
+                SFlame
                 {
                     SCoords coords;
                     EOrientation orientation;
@@ -118,7 +113,7 @@ IGameEngineToNetwork
                     unsigned int step;
                 }
 
-                IBoard
+                SBoard
                 {
                     vector<SCoords> boxes;
                     vector<SBonus> bonus;
@@ -129,6 +124,7 @@ IGameEngineToNetwork
 
                 - SBoard getBoard()
                 - int isFinished()
+                - void setGameConfig(SGameConfig config)
 
 INetworkToGameInterface
 
@@ -137,7 +133,6 @@ INetworkToGameInterface
 
 INetworkToGameEngine
 
-                - SGameConfig getGameOptions()
                 - SKeyPressed getKeysPressed()
                 - bool isPaused()
 
