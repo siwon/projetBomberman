@@ -2,8 +2,8 @@
 #define _ESCREENSIGNAL
 
 /*!
- * \file IMenuToMain.hpp
- * \brief Interface Entrée du programme - Menu
+ * \file EScreenSignal.hpp
+ * \brief Enumération des signaux de sortie
  * \author Maxime GUIHAL
  */
 
