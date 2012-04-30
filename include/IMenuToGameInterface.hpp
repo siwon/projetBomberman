@@ -20,7 +20,7 @@ namespace PolyBomber
 		public:
 			/*!
 			 * \brief Exécution du menu de pause
-			 * \param player Numéro du joueur ayant appuyé sur pause
+			 * \param player : Numéro du joueur ayant appuyé sur pause
 			 * \return Signal de fin d'exécution, retourne EXITGAME si
 			 * l'exécution s'est bien passée, EXITERROR sinon
 			 */
