@@ -1,0 +1,17 @@
+\subsection{Interfaces fournies}
+
+Ce composant fournit une interface aux autres modules :
+
+\paragraph{IConfigFile}
+
+Cette interface fournit toutes les méthodes utiles à la lecture (\textbf{getStringValue} et \textbf{getIntValue}) et l'écriture (\textbf{setStringValue} et \textbf{setIntValue}) dans les fichiers de configuration. Un constructeur avec le fichier de configuration en paramètre est également fourni.
+
+\subsection{Interfaces requises}
+
+Ce composant n'a pas besoin d'interfaces avec d'autres modules pour fonctionner.
+
+\subsection{Structure du composant}
+
+Ce module ouvre simple le fichier de configuration passé en paramètre pour y lire ou écrire des ensemble (clé, valeur). Toute modification au fichier par ce module est instantanément retranscrite dans le fichier.\\
+
+Le diagramme de classes représentant ce composant est fourni en annexe.

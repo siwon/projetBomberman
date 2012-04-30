@@ -1,0 +1,29 @@
+\subsection{Interfaces fournies}
+
+Ce composant fournit trois interfaces aux autres modules :
+
+\paragraph{INetworkToGameInterface}
+
+Cette interface fournit une méthode \textbf{isPaused} qui renvoie le numéro du joueur qui a appuyé sur le bouton Pause, ou une valeur négative si le jeu n'est pas en pause, à l'interface graphique du jeu. Deux autres méthodes permettent de transférer le plateau de jeu (\textbf{getBoard}), ainsi que de donner l'état de la partie (si elle est finie ou non) (\textbf{isFinished}).
+
+\paragraph{INetworkToGameEngine}
+
+Cette interface fournit également une méthode \textbf{isPaused} qui renvoie cette fois-ci une valeur booléenne. Une seconde méthode \textbf{getKeysPressed} permet de transférer au moteur de jeu l'état des touches de chaque joueur de la partie, récupérées par l'interface IControllerToNetwork.
+
+\paragraph{INetworkToMenu}
+
+Cette interface fournit un ensemble de méthodes pour communiquer entre le menu et le réseau lors d'une création de partie, ou lorsqu'un joueur veut rejoindre une partie, afin de vérifier la connexion avec l'ordinateur hôte, de récupérer le nombre de places disponibles ainsi que les noms et les scores des autres joueurs. D'autres méthodes permettent de savoir si la partie est commencée, ou de la commencer.
+
+\subsection{Interfaces requises}
+
+Pour fonctionner, le composant Menu a besoin de deux interfaces :
+\begin{itemize}
+    \item IControllerToNetwork
+    \item IGameEngineToNetwork 
+\end{itemize}
+
+\subsection{Structure du composant}
+
+Ce module central du programme permet, pendant une partie, de faire communiquer le moteur de jeu avec les interfaces graphiques de chaque joueur, qu'ils soient locaux ou distants. Le composant demande en boucle l'état des touches des différents joueurs de la partie, les transmet au moteur de jeu par l'interface INetworkToGameEngine, puis récupère le plateau de jeu pour le transférer à l'interface graphique locale par l'interface INetworkToGameInterface, ou celles distantes en transmettant le plateau de jeu au module Réseau des autres ordinateurs si l'ordinateur est l'hôte de la partie, ou en transmettant à l'interface graphique locale le plateau de jeu reçu par le réseau si l'ordinateur est client.\\
+
+Le diagramme de classes représentant ce composant est fourni en annexe.

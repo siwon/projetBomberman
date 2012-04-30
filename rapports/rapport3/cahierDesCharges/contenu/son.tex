@@ -1,0 +1,20 @@
+\subsection{Interfaces fournies}
+
+Ce composant fournit une interface aux autres modules :
+
+\paragraph{ISound}
+
+Cette interface fournit un ensemble de méthodes pour pouvoir jouer un son (\textbf{playSound}) ou une musique (\textbf{plysMusic}), d'arrêter une musique (\textbf{stopMusic}), ainsi que pour gérer le volume des sons et leur configuration (\textbf{saveConfig}, \textbf{reloadConfig}, etc...).
+
+\subsection{Interfaces requises}
+
+Pour fonctionner, le composant Son a besoin d'une interface :
+\begin{itemize}
+    \item IConfigFile
+\end{itemize}
+
+\subsection{Structure du composant}
+
+Ce module charge une musique ou un son en fonction d'une clé fournie par les énumérations ESound et EMusic, puis la joue en s'appuyant sur les classes audio de la bibliothèque SFML.\\
+
+Le diagramme de classes représentant ce composant est fourni en annexe.

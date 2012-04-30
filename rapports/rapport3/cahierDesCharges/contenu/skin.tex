@@ -1,0 +1,20 @@
+\subsection{Interfaces fournies}
+
+Ce composant fournit une interface aux autres modules :
+
+\paragraph{ISkin}
+
+Cette interface fournit un ensemble de méthode pour charger des images (\textbf{loadImage}) ou des couleurs (\textbf{getColor}) dans le programme, en fonction d'un skin. Des méthodes permettant de lister les skins (\textbf{getSkinsList}, \textbf{getSkin}), et de le changer (\textbf{setSkin}, \textbf{saveConfig}, \textbf{reloadConfig}) sont également disponibles.
+
+\subsection{Interfaces requises}
+
+Pour fonctionner, le composant Skin a besoin d'une interface :
+\begin{itemize}
+    \item IConfigFile
+\end{itemize}
+
+\subsection{Structure du composant}
+
+Ce module charge les images en fonction d'une clé donnée par l'énumération EImage dans le bon dossier de skin. Il permet aussi de lire des couleurs  dans un fichier de configuration, en fonction d'une clé donnée par l'énumération EColorKey.\\
+
+Le diagramme de classes représentant ce composant est fourni en annexe.

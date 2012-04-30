@@ -1,0 +1,20 @@
+\subsection{Interfaces fournies}
+
+Ce composant fournit une interface aux autres modules :
+
+\paragraph{IGameEngineToNetwork}
+
+Cette interface fournit des méthodes au module Réseau afin qu'il récupère le plateau de jeu (\textbf{getBoard}), l'état de la partie (\textbf{isFinished}), et pour définir la configuration de la partie (\textbf{setGameConfig}).
+
+\subsection{Interfaces requises}
+
+Pour fonctionner, le composant Moteur a besoin d'une unique interface :
+\begin{itemize}
+    \item INetworkToGameEngine
+\end{itemize}
+
+\subsection{Structure du composant}
+
+Ce module reçoit en boucle l'état des touches de chaque joueur de la partie par l'intermédiaire de l'interfae INetworkToGameEngine, puis à partir de ces informations, il calcule la position et l'état de chaque objet du plateau, puis le transfère au module Réseau. Chaque objet du plateau est défini dans sa propre classe qui est contenue dans la classe \textbf{Board} (le plateau), géré par le singleton \textbf{GameEngineManager}.\\
+
+Le diagramme de classes représentant ce composant est fourni en annexe.

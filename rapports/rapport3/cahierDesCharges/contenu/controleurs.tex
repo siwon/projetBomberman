@@ -1,10 +1,21 @@
+\subsection{Interfaces fournies}
 
+Ce composant fournit deux interfaces aux autres modules :
 
-La communication entre le menu et les contrôleurs s'effectue par l'intermédiaire de l'interface IControllerToMenu. Le menu est contrôlable par l'intermédiaire d'un objet de type Controller qui est soit un clavier, soit un joystick ou une wiimote.
+\paragraph{IControllerToNetwork}
 
+Cette interface contient la méthode \textbf{getKeysPressed} qui renvoie l'état des touches pour chaque joueur de l'ordinateur, pour les transmettre ensuite au moteur de jeu.
 
-La communication entre la partie réseau et les contrôleurs s'effectue par l'interface IControllerToNetwork.
+\paragraph{IControllerToMenu}
 
-La gestion des contrôleurs de jeu est effectuée au niveau de la classe ControllerManager. Cette classe se charge d'assigner à chaque joueur un contrôleur disponible, de renvoyer les actions émises par chacun des contrôleurs, de configurer les commandes de jeu pour chaque joueur. La classe Wiimote utilise l'interface CWii pour gérer les contrôleurs de type Wiimote et Nunchuck.
+Cette interface fournit un ensemble de méthodes permettant de contrôler le menu avec les manettes de jeu et le clavier (\textbf{getKeyPressed}, \textbf{getCharPressed}). Des méthodes permettent aussi de récupérer et de sauvegarder la configuration des touches pour chaque joueur (\textbf{getConfig}, \textbf{save}, \textbf{reloadConfig}), ainsi que pour en assigner de nouvelles (\textbf{setPlayerKey}, \textbf{setPlayerController}).
 
-Le diagramme suivant est une ébauche, permettant de comprendre le fonctionnement du module contrôleur de jeu et peut être amené à changer par la suite si certaines fonctionnalités s' avéraient manquantes.
+\subsection{Interfaces requises}
+
+Ce composant n'a pas besoin d'interfaces avec d'autres modules pour fonctionner.
+
+\subsection{Structure du composant}
+
+La gestion des contrôleurs de jeu est effectuée au niveau de la classe ControllerManager. Cette classe se charge d'assigner à chaque joueur un contrôleur disponible, de renvoyer les actions émises par chacun des contrôleurs, de configurer les commandes de jeu pour chaque joueur. La classe Wiimote utilise l'interface CWii pour gérer les contrôleurs de type Wiimote.\\
+
+Le diagramme de classes représentant ce composant est fourni en annexe.
