@@ -1,4 +1,4 @@
-== Header Type ==
+# Header Type
 
 = Nom du fichier =
 * EHeader.hpp : Enumération EHeader
@@ -6,7 +6,7 @@
 * IHeader.hpp : Interface IHeader
 * header.hpp  : Classe Header
 
-= Unicité =
+## Unicité
 
 Au début de chaque header, penser à écrire :
 
@@ -17,7 +17,7 @@ Au début de chaque header, penser à écrire :
 
 #endif
 
-= Commentaires =
+# Commentaires
 
 Chaque header doit être documenté selon la norme Doxygen (http://franckh.developpez.com/tutoriels/outils/doxygen/).
 C'est à dire par exemple :
@@ -28,7 +28,7 @@ C'est à dire par exemple :
  * \author Maxime GUIHAL
  */
 
-= Espace de nommage =
+# Espace de nommage
 
 Inclure tous les objets du programme dans le namespace PolyBomber :
 
@@ -37,7 +37,7 @@ namespace PolyBomber
 	...
 }
 
-== Classe Type ==
+# Classe Type #
 
 Toutes les classes devront respecter la forme de Coplien, et documentées en français.
 
@@ -73,7 +73,7 @@ int Test::run()
 	...
 }
 
-== Includes ==
+# Includes
 
 Au début de chaque fichier .cpp, les #include doivent se faire dans l'ordre suivant :
 
@@ -87,7 +87,7 @@ Au début de chaque fichier .cpp, les #include doivent se faire dans l'ordre sui
 
 using namespace PolyBomber;
 
-== Noms des objets ==
+# Noms des objets
 
 Les noms des objets doivent être écrits en anglais et en lowerCamelCase.
 
