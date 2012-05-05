@@ -7,6 +7,8 @@
  * \author Simon ROUSSEAU
  */
 
+#include <Vector2.hpp>
+
 namespace PolyBomber;
 
 /*!
@@ -20,7 +22,7 @@ class Player {
     //cpacity
     EOrientation orientation;	/*! Orientation du joueur */
     int step;			/*!  */
-    Vector<int> location;	/*! Position du joueur */
+    sf::Vector2<int> location;	/*! Position du joueur */
     Board board;		/*! Plateau de jeu auquel appartient le joueur */
     
   public :
