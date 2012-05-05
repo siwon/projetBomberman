@@ -7,7 +7,7 @@
  * \author Simon ROUSSEAU
  */
 
-#include <Vector2.hpp>
+#include <SFML/Vector2.hpp>
 
 namespace PolyBomber;
 

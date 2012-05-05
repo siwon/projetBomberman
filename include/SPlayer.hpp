@@ -12,7 +12,7 @@
 
 
 //Bibliothèque SFML
-#include <Vector2.hpp>
+#include <SFML/Vector2.hpp>
 
 //Bibliothèque externes
 
