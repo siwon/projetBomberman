@@ -9,10 +9,10 @@
 
 /** Includes **/
 //Bibliothèque standard
-#include <vector>
+
 
 //Bibliothèque SFML
-
+#include <Vector2.hpp>
 
 //Bibliothèque externes
 
@@ -28,7 +28,7 @@ namespace PolyBomber;
  * 
  */
 struct SExplosive {
-  Vector<int> coords;		/*! Coordonnées de l'explosif */
+  sf::Vector2<int> coords;	/*! Coordonnées de l'explosif */
   EExplosiveType type;		/*! Type d'explosif */
 };
 

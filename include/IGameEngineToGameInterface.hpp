@@ -28,6 +28,6 @@ class IGameEngineToNetwork {
      * \return Renvoie 1 si le jeu est terminé, renvoie 0 sinon.
      */
     virtual int isFinished();
-}
+};
 
 #endif

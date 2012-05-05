@@ -18,6 +18,6 @@ enum EOrientation {
   DOWN,		/*! Vers le bas */
   LEFT,		/*! Vers la gauche */
   RIGHT		/*! Vers la droite */
-}
+};
 
 #endif

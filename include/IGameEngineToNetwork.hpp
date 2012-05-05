@@ -21,9 +21,8 @@ class IGameEngineToNetwork : public IGameEngineToGameInterface {
     /*!
      * \brief Méthode qui configure le jeu
      * Cette méthode permet de configurer le jeu.
-     * \return void
      */
     virtual void setGameConfig(SGameConfig gameConfig);
-}
+};
 
 #endif

@@ -16,6 +16,6 @@ namespace PolyBomber;
 enum EPlayerState {
   ALIVE,	/*! Joueur vivant */
   DEAD		/*! Joueur mort */
-}
+};
 
 #endif
