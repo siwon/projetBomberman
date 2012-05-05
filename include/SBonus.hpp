@@ -1,0 +1,35 @@
+#ifndef S_BONUS_HEADER
+#define S_BONUS_HEADER
+
+/*!
+ * \file SBonus.hpp
+ * \brief Structure de configuration d'un bonus
+ * \author Simon Rousseau
+ */
+
+/** Includes **/
+//Bibliothèque standard
+#include <vector>
+
+//Bibliothèque SFML
+
+
+//Bibliothèque externes
+
+
+//Headers du projet
+#include "./EGameBonus.hpp"
+
+namespace PolyBomber;
+
+/*!
+ * \struct SBonus
+ * \brief Configuration d'un bonus
+ * 
+ */
+struct SBonus {
+  Vector<int> coords;		/*! Coordonnées du bonus */
+  EGameBonus type;		/*! Type de bonus */
+};
+
+#endif
