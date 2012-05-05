@@ -4,64 +4,148 @@
  * \author Alexandre BISIAUX
  */
 
-//#include <SFML/Graphics.hpp>
+#define DEBUG 1
 
+/* Includes */
+
+// Bibliothèques standarts 
+#include <iostream>
+#include <vector>
+
+// Bibliothèques SFML
+#include <SFML/Graphics.hpp>
+#include <SFML/Window.hpp>
+// Bibliothèques externes
+
+// Headers
 #include "../../include/controller/ControllerManager.hpp"
+#include "../../include/controller/Controller.hpp"
+#include "../../include/controller/Keyboard.hpp"
 
 
-namespace PolyBomber
+
+
+using namespace PolyBomber;
+
+
+ControllerManager *ControllerManager::controllerManager = NULL; /*!< Initialisation du controllerManager */
+
+
+ControllerManager::ControllerManager(sf::RenderWindow* app)
 {
-	EMenuKeys ControllerManager::getKeyPressed()
+	this->app = app;
+	Controller* keyboard = new Keyboard;
+	this->controllers.push_back(keyboard);
+}
+
+ControllerManager* ControllerManager::getInstance(sf::RenderWindow* app)
+{
+	if(controllerManager == NULL)
 	{
-		const sf::Input& Input = App.GetInput();
-
-		/* Gestion des touches directionnelles */
-
-		if(input.IsKeyDown(sf::Key::Left) || input.GetJoystickAxis(0, sf::Joy::AxisX) < 10 || input.GetJoystickAxis(1, sf::Joy::AxisX) < 10)
-			return EMenuKeys.LEFT;
-
-		if(input.IsKeyDown(sf::Key::Right) || input.GetJoystickAxis(0, sf::Joy::AxisX) > 10 || input.GetJoystickAxis(1, sf::Joy::AxisX) > 10)
-			return EMenuKeys.RIGHT;
-		
-		if(input.IsKeyDown(sf::Key::Up) || input.GetJoystickAxis(0, sf::Joy::AxisY) > 10 || input.GetJoystickAxis(1, sf::Joy::AxisY) > 10)
-			return EMenuKeys.UP;
-
-		if(input.IsKeyDown(sf::Key::Down) || input.GetJoystickAxis(0, sf::Joy::AxisY) < 10 || input.GetJoystickAxis(1, sf::Joy::AxisY) < 10)
-			return EMenuKeys.DOWN;	
-		
-		if(input.IsKeyDown(sf::Key::Return)|| input.IsJoystickButtonDown(0, 1) || input.IsJoystickButtonDown(1, 1))
-			return EMenuKeys.VALID;
-		
-		if(input.IsKeyDown(sf::Key::Escape) || input.IsJoystickButtonDown(0, 2) || input.IsJoystickButtonDown(1, 2))
-			return EMenuKeys.BACK;
-		
-		return EMenuKeys::NONE;
-			
+		controllerManager = new ControllerManager(app);
+		#if DEBUG
+			std::cout << "Creation of a new instance of ControllerManager" << std::endl;
+		#endif
 	}
-
-	char ControllerManager::getCharPressed()
+	else
 	{
+		#if DEBUG
+			std::cout << "Instance already created!" << std::endl;
+		#endif
 	}
+	
+	
+	return controllerManager;
+}
 
-	SKeysConfig ControllerManager::getConfig(int player)
+ControllerManager::~ControllerManager()
+{
+	unsigned int i;
+	
+	for(i=0;i<controllers.size();i++)
+		delete controllers[i];
+	
+	if (controllerManager != NULL)
 	{
+		delete controllerManager;
+		controllerManager = NULL;
 	}
+}
 
-
-	SKeysConfig ControllerManager::setPlayerKey(int player, EGameKeys key)
+EMenuKeys ControllerManager::getKeyPressed()
+{
+	EMenuKeys key = NONE;
+	int i = 0;
+	
+	while(key == NONE && i < controllers.size() )
 	{
+		key = controllers[i]->getMenuKey();
+		i++;
 	}
+	
+	return key;
+}
 
-	SKeysConfig ControllerManager::setPlayerController(int player, EControllerType type)
+char ControllerManager::getCharPressed()
+{
+	return controllers[0]->getCharPressed(this->app);
+}
+
+/*
+SKeysConfig ControllerManager::getConfig(int player)
+{
+	return NULL;
+}
+
+
+SKeysConfig ControllerManager::setPlayerKey(int player, EGameKeys key)
+{
+	return NULL;
+}
+
+SKeysConfig ControllerManager::setPlayerController(int player, EControllerType type)
+{
+	return NULL;
+}
+
+
+void ControllerManager::save()
+{
+}
+
+void ControllerManager::reloadConfig()
+{
+}*/
+
+
+int main()
+{
+    
+     // Declare and create a new render-window
+	sf::RenderWindow window(sf::VideoMode(800, 600), "Bomberman - Test ControllerDeJeu");
+	
+	ControllerManager* controllerManager = ControllerManager::getInstance(&window);
+
+	// Limit the framerate to 60 frames per second (this step is optional)
+	window.setFramerateLimit(60);
+
+	// The main loop - ends as soon as the window is closed
+	while (window.isOpen())
 	{
-	}
+		controllerManager->getKeyPressed();
+		//controllerManager->getCharPressed();
+		// Event processing
+		sf::Event event;
+		while (window.pollEvent(event))
+		{
+			// Request for closing the window
+			if (event.type == sf::Event::Closed)
+				window.close();
+		}
 
-
-	void ControllerManager::save()
-	{
+		// End the current frame and display its contents on screen
+		window.display();
 	}
-
-	void ControllerManager::reloadConfig()
-	{
-	}
+	
+	return 0;
 }

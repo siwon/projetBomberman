@@ -7,9 +7,9 @@
  * \author Alexandre BISIAUX
  */
 
-#include "SKeysConfig.hpp"
+//#include "SKeysConfig.hpp"
 #include "EMenuKeys.hpp"
-#include "EGameKeys.hpp"
+//#include "EGameKeys.hpp"
 
 namespace PolyBomber
 {
@@ -53,7 +53,7 @@ namespace PolyBomber
 			 *
 			 * \return La structure de configuration des touches d'un joueur
 			 */
-			virtual SKeysConfig getConfig(int player) = 0;
+			//virtual SKeysConfig getConfig(int player) = 0;
 			
 			/*!
 			 * \brief Assignation d'une touche à un joueur
@@ -67,7 +67,7 @@ namespace PolyBomber
 			 *
 			 * \return La nouvelle structure de configuration des touches du joueur
 			 */
-			virtual SKeysConfig setPlayerKey(int player, EGameKeys key) = 0;
+			//virtual SKeysConfig setPlayerKey(int player, EGameKeys key) = 0;
 
 			/*!
 			 * \brief Assignation d'un type de contrôleur à un joueur
@@ -81,7 +81,7 @@ namespace PolyBomber
 			 *
 			 * \return La nouvelle structure de configuration des touches du joueur
 			 */
-			virtual SKeysConfig setPlayerController(int player, EControllerType type) = 0;
+			//virtual SKeysConfig setPlayerController(int player, EControllerType type) = 0;
 
 			/*!
 			 * \brief Sauvegarde de la configuration actuelle des joueurs dans le fichier de configuration
@@ -90,7 +90,7 @@ namespace PolyBomber
 			 * sauvegarder la configuration des joueurs
 			 * 
 			 */
-			virtual void save() = 0;
+			//virtual void save() = 0;
 
 			/*!
 			 * \brief Chargement de la configuration des joueurs à partir du fichier de configuration
@@ -99,7 +99,7 @@ namespace PolyBomber
 			 * recharger la configuration des joueurs
 			 * 
 			 */
-			virtual void reloadConfig() = 0;
+			//virtual void reloadConfig() = 0;
 	};
 }
 

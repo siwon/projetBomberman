@@ -7,10 +7,14 @@
  * \author Maxime GUIHAL
  */
 
+#include <string>
+
 #include "EControllerType.hpp"
 
 namespace PolyBomber
 { 
+	using namespace std;
+	
 	/*!
 	 * \struct SKeysConfig
 	 * \brief Configuration des touches d'un joueur
@@ -23,8 +27,8 @@ namespace PolyBomber
 	struct SKeysConfig
 	{
 		EControllerType controllerType; /*!< Type du contrôleur */
-		std::string keys[7]; /*!< Libellés des touches */
-		std::string errors[7]; /*!< Libellé d'erreur */
+		string keys[7]; /*!< Libellés des touches */
+		string errors[7]; /*!< Libellé d'erreur */
 	};
 }
 

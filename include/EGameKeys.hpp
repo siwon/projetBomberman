@@ -15,10 +15,10 @@ namespace PolyBomber
 	 */
 	enum EGameKeys
 	{
-		UP, /*!< Aller vers le haut */
-		DOWN, /*!< Aller vers le bas */
-		LEFT, /*!< Aller vers la gauche */
-		RIGHT, /*!< Aller vers la droite */
+		UP1, /*!< Aller vers le haut */
+		DOWN1, /*!< Aller vers le bas */
+		LEFT1, /*!< Aller vers la gauche */
+		RIGHT1, /*!< Aller vers la droite */
 		ACTION1, /*!< Poser une bombe */
 		ACTION2, /*!< Activer le détonateur */
 		PAUSE /*!< Mettre le jeu en pause */
