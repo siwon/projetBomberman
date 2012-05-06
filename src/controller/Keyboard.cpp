@@ -119,10 +119,10 @@ EMenuKeys Keyboard::getMenuKey()
 		
 }
 
-char Keyboard::getCharPressed(sf::RenderWindow* app)
+char Keyboard::getCharPressed()
 {
 	
-	std::map<sf::Keyboard::Key, char>::iterator it = keys.begin();
+	std::map<sf::Keyboard::Key, char>::iterator it = keys.begin(); /* Création d'un itérateur pour parcourir la map */
 	
 	bool charPressed = false;
 	char c = '\0';
@@ -135,6 +135,9 @@ char Keyboard::getCharPressed(sf::RenderWindow* app)
 			if(sf::Keyboard::isKeyPressed(sf::Keyboard::LShift)) /*!< Gestion des majuscules */
 				c = char(toupper(c));
 			charPressed = true;
+			#if DEBUG
+				std::cout << c << " pressed on Keyboard" << std::endl;
+			#endif
 		}
 		it++;
 		

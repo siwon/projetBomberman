@@ -24,13 +24,27 @@ namespace PolyBomber
   */
   class Keyboard : public Controller
   {
-	  public :
+	private :
+		std::map<sf::Keyboard::Key, char> keys; /*!< Correspondance touches clavier <=> caractère */
+	public :
+		/*!
+		 * \brief Constructeur de la classe Keyboard
+		 * Initialise la map de correspondance des touches clavier
+		 */
 		Keyboard();
-		virtual ~Keyboard();
-		virtual EMenuKeys getMenuKey();
-		char getCharPressed(sf::RenderWindow* app);
 		
-		std::map<sf::Keyboard::Key, char> keys;
+		/*!
+		 * \brief Destructeur de la classe Keyboard
+		 */
+		virtual ~Keyboard();
+		
+		/* Méthodes de la classe Controller */
+		
+		virtual EMenuKeys getMenuKey();
+		
+		char getCharPressed();
+
+		
 
   };
 }

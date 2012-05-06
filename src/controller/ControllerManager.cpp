@@ -88,7 +88,7 @@ EMenuKeys ControllerManager::getKeyPressed()
 
 char ControllerManager::getCharPressed()
 {
-	return controllers[0]->getCharPressed(this->app);
+	return controllers[0]->getCharPressed();
 }
 
 /*
@@ -122,17 +122,17 @@ int main()
 {
     
      // Declare and create a new render-window
-	sf::RenderWindow window(sf::VideoMode(800, 600), "Bomberman - Test ControllerDeJeu");
+	sf::RenderWindow window(sf::VideoMode(300, 150), "Bomberman - Test ControllerDeJeu");
 	ControllerManager* controllerManager = ControllerManager::getInstance(&window);
 
 	// Limit the framerate to 1 frames per second (this step is optional)
-	window.setFramerateLimit(1);
+	window.setFramerateLimit(15);
 
 	// The main loop - ends as soon as the window is closed
 	while (window.isOpen())
 	{
-		//controllerManager->getKeyPressed();
-		std::cout << controllerManager->getCharPressed() << std::flush;
+		controllerManager->getKeyPressed();
+		controllerManager->getCharPressed();
 
 		// Event processing
 		sf::Event event;

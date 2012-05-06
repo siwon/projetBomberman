@@ -22,6 +22,7 @@
 #include "../EMenuKeys.hpp"
 #include "../SKeysConfig.hpp"
 #include "../IControllerToMenu.hpp"
+#include "../IControllerToMenu.hpp"
 //#include "../IControllerToNetwork.hpp"
 #include "Controller.hpp"
 
@@ -45,6 +46,8 @@ namespace PolyBomber
 		
 		vector<Controller*> controllers; /*!< Vecteur des contrôleurs de jeu disponible */
 		
+		ConfigFileManager* configFileManager;
+		
 		/*!
 		 * \brief Constructeur de la classe ControllerManager
 		 */
@@ -64,7 +67,9 @@ namespace PolyBomber
 		 * \return Instance de la classe ControllerManager
 		 */
 		static ControllerManager* getInstance(sf::RenderWindow* app);
-						
+		
+		/* Méthodes de l'interface IControllerToMenu */
+		
 		virtual EMenuKeys getKeyPressed();
 		
 		virtual char getCharPressed();
