@@ -123,17 +123,16 @@ int main()
     
      // Declare and create a new render-window
 	sf::RenderWindow window(sf::VideoMode(800, 600), "Bomberman - Test ControllerDeJeu");
-	
 	ControllerManager* controllerManager = ControllerManager::getInstance(&window);
 
-	// Limit the framerate to 60 frames per second (this step is optional)
-	window.setFramerateLimit(60);
+	// Limit the framerate to 1 frames per second (this step is optional)
+	window.setFramerateLimit(1);
 
 	// The main loop - ends as soon as the window is closed
 	while (window.isOpen())
 	{
-		controllerManager->getKeyPressed();
-		//controllerManager->getCharPressed();
+		//controllerManager->getKeyPressed();
+		std::cout << controllerManager->getCharPressed() << std::flush;
 		// Event processing
 		sf::Event event;
 		while (window.pollEvent(event))

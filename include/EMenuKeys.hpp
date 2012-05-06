@@ -15,10 +15,10 @@ namespace PolyBomber
 	 */
 	enum EMenuKeys
 	{
-		UP, /*!< Aller vers le haut */
-		DOWN, /*!< Aller vers le bas */
-		LEFT, /*!< Aller vers la gauche */
-		RIGHT, /*!< Aller vers la droite */
+		UP_MENU, /*!< Aller vers le haut */
+		DOWN_MENU, /*!< Aller vers le bas */
+		LEFT_MENU, /*!< Aller vers la gauche */
+		RIGHT_MENU, /*!< Aller vers la droite */
 		VALID, /*!< Valider la sélection */
 		BACK, /*!< Allez en arrière */
 		NONE /*!< Aucune touche appuyée */
