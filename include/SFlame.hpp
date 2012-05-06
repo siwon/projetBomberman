@@ -9,10 +9,10 @@
 
 /** Includes **/
 //Bibliothèque standard
-#include <vector>
+
 
 //Bibliothèque SFML
-
+#include <SFML/Vector2.hpp>
 
 //Bibliothèque externes
 
@@ -29,7 +29,7 @@ namespace PolyBomber;
  * 
  */
 struct SFlame {
-  Vector<int> coords;		/*! Coordonnées de la déflagration */
+  sf::Vector2<int> coords;	/*! Coordonnées de la déflagration */
   EOrientation orientation;	/*! Orientation de la déflagration */
   unsigned int step;		/*!  */
   EFlameLocation location;	/*!  */

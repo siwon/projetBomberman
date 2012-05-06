@@ -23,7 +23,6 @@ class GameEngineManager : public IGameEngineToNetwork {
       * Cette méthode permet d'applique un bonus à un joueur.
       * \param bonus : Bonus à appliquer
       * \param player : Joueur sur lequel appliquer le bonus
-      * \return void
       */
     void applyBonus(Bonus bonus, Player player);
     
@@ -31,7 +30,6 @@ class GameEngineManager : public IGameEngineToNetwork {
       * \brief Déplace le joueur sur le plateau de jeu
       * 
       * \param player : Joueur sur lequel appliquer le déplacement
-      * \return void
       */
     void movePlayer(Player player);
     
@@ -39,7 +37,6 @@ class GameEngineManager : public IGameEngineToNetwork {
       * \brief Déclenche l'explosion d'une bombe
       * 
       * \param explosive : Bombe qui doit exploser
-      * \return void
       */
     void explode(Explosive explosive);
     
@@ -48,7 +45,6 @@ class GameEngineManager : public IGameEngineToNetwork {
       * Cette méthode est appelée lorsque le joueur active son détonateur.
       * Elle provoque l'explosion de toutes les bombes posées par le joueur pris en paramètre.
       * \param player : Joueur qui active le détonateur
-      * \return void
       */
     void activateDetonator(Player player);
     
@@ -57,7 +53,6 @@ class GameEngineManager : public IGameEngineToNetwork {
       * Cette méthode est appelée lorsque le joueur demande à poser une mine.
       * Dans le cas où le joueur peut poser une bombe, la bombe sera posée sous le joueur.
       * \param player : Joueur qui pose la mine
-      * \return void
       */
     void putMine(Player player);
     
@@ -66,9 +61,8 @@ class GameEngineManager : public IGameEngineToNetwork {
       * Cette méthode est appelé lorsque la déflagration d'une bombe touche une caisse.
       * Elle provoque la destruction de la caisse ainsi que la probable libération d'un bonus.
       * \param box : Caisse à exploser
-      * \return void
       */
     void breakBox(Box box);
-}
+};
 
 #endif

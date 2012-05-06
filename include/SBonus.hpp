@@ -9,10 +9,10 @@
 
 /** Includes **/
 //Bibliothèque standard
-#include <vector>
+
 
 //Bibliothèque SFML
-
+#include <SFML/Vector2.hpp>
 
 //Bibliothèque externes
 
@@ -28,7 +28,7 @@ namespace PolyBomber;
  * 
  */
 struct SBonus {
-  Vector<int> coords;		/*! Coordonnées du bonus */
+  sf::Vector2<int> coords;	/*! Coordonnées du bonus */
   EGameBonus type;		/*! Type de bonus */
 };
 

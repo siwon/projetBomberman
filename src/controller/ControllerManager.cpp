@@ -133,6 +133,7 @@ int main()
 	{
 		//controllerManager->getKeyPressed();
 		std::cout << controllerManager->getCharPressed() << std::flush;
+
 		// Event processing
 		sf::Event event;
 		while (window.pollEvent(event))

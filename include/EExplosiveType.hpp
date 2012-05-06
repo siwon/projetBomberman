@@ -17,6 +17,6 @@ enum EExplosiveType {
   MINE,		/*! Mine */
   BOMB,		/*! Bombe */
   REMOTE	/*! Bombe télécommandée */
-}
+};
 
 #endif

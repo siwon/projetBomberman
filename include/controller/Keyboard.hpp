@@ -31,6 +31,7 @@ namespace PolyBomber
 		char getCharPressed(sf::RenderWindow* app);
 		
 		std::map<sf::Keyboard::Key, char> keys;
+
   };
 }
 

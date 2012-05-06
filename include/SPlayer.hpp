@@ -9,10 +9,10 @@
 
 /** Includes **/
 //Bibliothèque standard
-#include <vector>
+
 
 //Bibliothèque SFML
-
+#include <SFML/Vector2.hpp>
 
 //Bibliothèque externes
 
@@ -29,7 +29,7 @@ namespace PolyBomber;
  * 
  */
 struct SPlayer {
-  Vector<int> coords;		/*! Coordonnées du joueur */
+  sf::Vector2<int> coords;	/*! Coordonnées du joueur */
   EOrientation orientation;	/*! Orientation du joueur */
   unsigned int number;		/*!  */
   EPlayerState state;		/*! Statistique du joueur */
