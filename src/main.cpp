@@ -4,7 +4,9 @@
  * \author Maxime GUIHAL
  */
 
- #include "menu/MenuManager.hpp"
+#include "menu/MenuManager.hpp"
+
+using namespace PolyBomber;
 
 int main(int argc, char** argv)
 {
@@ -12,7 +14,7 @@ int main(int argc, char** argv)
 
 	EScreenSignal signal = menu->run();
 
-	menu::kill();
+	MenuManager::kill();
 
 	return signal;
 }
