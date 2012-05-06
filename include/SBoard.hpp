@@ -23,19 +23,19 @@
 #include "./SPlayer.hpp"
 #include "./SFlame.hpp"
 
-namespace PolyBomber;
-
-/*!
- * \struct SBoard
- * \brief Configuration du plateau de jeu
- * 
- */
-struct SBoard {
-  sf::Vector2<int> boxes;		/*!  */
-  Vector<SBonus> bonus;			/*! Liste des bonus du plateau de jeu */
-  Vector<SExplosive> explosives;	/*! Liste des explosifs du plateau de jeu */
-  Vector<SPlayer> players;		/*! Liste des joueurs du plateau de jeu */
-  Vector<SFlame> flames;		/*! Liste des déflagrations du plateau de jeu */
-};
+namespace PolyBomber {
+  /*!
+  * \struct SBoard
+  * \brief Configuration du plateau de jeu
+  * 
+  */
+  struct SBoard {
+    sf::Vector2<int> boxes;		/*!  */
+    Vector<SBonus> bonus;			/*! Liste des bonus du plateau de jeu */
+    Vector<SExplosive> explosives;	/*! Liste des explosifs du plateau de jeu */
+    Vector<SPlayer> players;		/*! Liste des joueurs du plateau de jeu */
+    Vector<SFlame> flames;		/*! Liste des déflagrations du plateau de jeu */
+  };
+}
 
 #endif

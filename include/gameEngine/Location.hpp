@@ -7,17 +7,17 @@
  * \author Simon Rousseau
  */
 
-namespace PolyBomber;
-
-/*!
- * \class Location
- * \brief Classe Location
- */
-class Location {
-  protected :
-    Board board ;	/*! Plateau de jeu */
-    int x;		/*! coordonnée horizontale */
-    int y;		/*! coordonnée verticale */
-};
+namespace PolyBomber {
+  /*!
+  * \class Location
+  * \brief Classe Location
+  */
+  class Location {
+    protected :
+      Board board ;	/*! Plateau de jeu */
+      int x;		/*! coordonnée horizontale */
+      int y;		/*! coordonnée verticale */
+  };
+}
 
 #endif

@@ -21,19 +21,19 @@
 #include "./EOrientation.hpp"
 #include "./EPlayerState.hpp"
 
-namespace PolyBomber;
-
-/*!
- * \struct SPlayer
- * \brief Configuration du joueur
- * 
- */
-struct SPlayer {
-  sf::Vector2<int> coords;	/*! Coordonnées du joueur */
-  EOrientation orientation;	/*! Orientation du joueur */
-  unsigned int number;		/*!  */
-  EPlayerState state;		/*! Statistique du joueur */
-  unsigned int step;		/*!  */
-};
+namespace PolyBomber {
+  /*!
+  * \struct SPlayer
+  * \brief Configuration du joueur
+  * 
+  */
+  struct SPlayer {
+    sf::Vector2<int> coords;	/*! Coordonnées du joueur */
+    EOrientation orientation;	/*! Orientation du joueur */
+    unsigned int number;		/*!  */
+    EPlayerState state;		/*! Statistique du joueur */
+    unsigned int step;		/*!  */
+  };
+}
 
 #endif

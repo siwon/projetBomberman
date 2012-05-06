@@ -9,6 +9,9 @@
 
 /* Includes */
 
+// Bibliothèques standarts 
+#include <map>
+
 // Headers
 #include "Controller.hpp"
 #include "../EMenuKeys.hpp"
@@ -26,6 +29,9 @@ namespace PolyBomber
 		virtual ~Keyboard();
 		virtual EMenuKeys getMenuKey();
 		char getCharPressed(sf::RenderWindow* app);
+		
+		std::map<sf::Keyboard::Key, char> keys;
+
   };
 }
 

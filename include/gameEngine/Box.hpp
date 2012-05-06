@@ -7,20 +7,20 @@
  * \author Simon ROUSSEAU
  */
 
-namespace PolyBomber;
+namespace PolyBomber {
+  /*!
+  * \class Box
+  * \brief Classe Box
+  */
 
-/*!
- * \class Box
- * \brief Classe Box
- */
-
-class Box : public Cell {
-  public :
-    /*!
-     * \brief Méthode detruisant une caisse
-     *
-     */
-    void break();
-};
+  class Box : public Cell {
+    public :
+      /*!
+      * \brief Méthode detruisant une caisse
+      *
+      */
+      void broke(); //changement du nom de variable pour cause de mot reservé
+  };
+}
 
 #endif
