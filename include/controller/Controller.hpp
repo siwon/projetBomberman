@@ -36,12 +36,15 @@ namespace PolyBomber
 		
 		/*!
 		 * \brief Récupération de la touche appuyée sur le menu
-		 * \param app : Fenêtre SFML
 		 * \return L'action à effectuer sur le menu
 		 */
 		virtual EMenuKeys getMenuKey() = 0;
 		
-		virtual char getCharPressed(sf::RenderWindow* app) = 0;
+		/*!
+		 * \brief Récupération d'un caractère tapé sur le clavier
+		 * \return Caractère tapé sur le clavier
+		 */
+		virtual char getCharPressed() = 0;
 	
   };
 }
