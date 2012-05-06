@@ -7,16 +7,16 @@
  * \author Simon ROUSSEAU
  */
 
-namespace PolyBomber;
-
-/*!
- * \enum EFlameLocation
- * \brief Enumération des différents types de flammes
- */
-enum EFlameLocation {
-  ORIGIN,	/*! Origine de la flamme */
-  MIDDLE,	/*! Milieu de la flamme */
-  END		/*! Fin de la flamme */
-};
+namespace PolyBomber {
+  /*!
+  * \enum EFlameLocation
+  * \brief Enumération des différents types de flammes
+  */
+  enum EFlameLocation {
+    ORIGIN,	/*! Origine de la flamme */
+    MIDDLE,	/*! Milieu de la flamme */
+    END		/*! Fin de la flamme */
+  };
+}
 
 #endif

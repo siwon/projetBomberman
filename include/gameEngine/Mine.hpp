@@ -7,14 +7,14 @@
  * \author Simon ROUSSEAU
  */
 
-namespace PolyBomber;
-
-/*!
- * \class Mine
- * \brief Classe Mine
- */
-class Mine : public Explosive {
-  
-};
+namespace PolyBomber {
+  /*!
+  * \class Mine
+  * \brief Classe Mine
+  */
+  class Mine : public Explosive {
+    
+  };
+}
 
 #endif

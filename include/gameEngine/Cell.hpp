@@ -7,15 +7,15 @@
  * \author Simon ROUSSEAU
  */
 
-namespace PolyBomber;
+namespace PolyBomber {
+  /*!
+  * \class Cell
+  * \brief Classe Cell
+  */
 
-/*!
- * \class Cell
- * \brief Classe Cell
- */
-
-class Cell : public Location {
-  
-};
+  class Cell : public Location {
+    
+  };
+}
 
 #endif

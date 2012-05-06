@@ -7,15 +7,15 @@
  * \author Simon ROUSSEAU
  */
 
-namespace PolyBomber;
-
-/*!
- * \enum EPlayerState
- * \brief Enumération des différents états possible d'un joueur
- */
-enum EPlayerState {
-  ALIVE,	/*! Joueur vivant */
-  DEAD		/*! Joueur mort */
-};
+namespace PolyBomber {
+  /*!
+  * \enum EPlayerState
+  * \brief Enumération des différents états possible d'un joueur
+  */
+  enum EPlayerState {
+    ALIVE,	/*! Joueur vivant */
+    DEAD		/*! Joueur mort */
+  };
+}
 
 #endif
