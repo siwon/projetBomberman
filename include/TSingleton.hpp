@@ -23,8 +23,9 @@ namespace PolyBomber
 	 * == TestManager.hpp ==
 	 *
 	 * #include "TSingleton.hpp"
+	 * #include "ITestManager.hpp"
 	 *
-	 * class TestManager : public Singleton<TestManager>
+	 * class TestManager : public ITestManager, public Singleton<TestManager>
 	 * {
 	 *     friend class Singleton<TestManager>;
 	 *
@@ -46,14 +47,14 @@ namespace PolyBomber
 	 *
 	 * int main()
 	 * {
-	 *     TestManager* t = TestManager::getInstance();
+	 *     ITestManager* t = TestManager::getInstance();
 	 *
 	 *     t->setMessage("Maxime");
 	 *
 	 *     cout << t->getMessage() << endl;
 	 *
 	 *     // Penser à TOUJOURS faire un kill() après utilisation
-	 *     t->kill();
+	 *     TestManager::kill();
 	 *
 	 *     return 0;
 	 * }
