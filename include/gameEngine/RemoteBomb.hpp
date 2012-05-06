@@ -7,14 +7,13 @@
  * \author Simon ROUSSEAU
  */
 
-namespace PolyBomber;
-
-/*!
- * \class RemoteBomb
- * \brief Classe RemoteBomb
- */
-class RemoteBomb : public Explosive {
-  
-};
-
+namespace PolyBomber {
+  /*!
+  * \class RemoteBomb
+  * \brief Classe RemoteBomb
+  */
+  class RemoteBomb : public Explosive {
+    
+  };
+}
 #endif

@@ -7,15 +7,15 @@
  * \author Simon ROUSSEAU
  */
 
-namespace PolyBomber;
+namespace PolyBomber {
+  /*!
+  * \class Wall
+  * \brief Classe Wall
+  */
 
-/*!
- * \class Wall
- * \brief Classe Wall
- */
-
-class Wall : public Location {
-  
-};
+  class Wall : public Location {
+    
+  };
+}
 
 #endif

@@ -7,17 +7,17 @@
  * \author Simon ROUSSEAU
  */
 
-namespace PolyBomber;
-
-/*!
- * \enum EOrientation
- * \brief Codes des orientations
- */
-enum EOrientation {
-  UP,		/*! Vers le haut */
-  DOWN,		/*! Vers le bas */
-  LEFT,		/*! Vers la gauche */
-  RIGHT		/*! Vers la droite */
-};
+namespace PolyBomber {
+  /*!
+  * \enum EOrientation
+  * \brief Codes des orientations
+  */
+  enum EOrientation {
+    UP,		/*! Vers le haut */
+    DOWN,		/*! Vers le bas */
+    LEFT,		/*! Vers la gauche */
+    RIGHT		/*! Vers la droite */
+  };
+}
 
 #endif

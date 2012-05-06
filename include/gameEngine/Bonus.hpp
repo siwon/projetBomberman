@@ -7,15 +7,15 @@
  * \author Simon ROUSSEAU
  */
 
-namespace PolyBomber;
-
-/*!
- * \class Bonus
- * \brief Classe Bonus
- */
-class Bonus {
-  protected :
-    Cell cellule;
-};
+namespace PolyBomber {
+  /*!
+  * \class Bonus
+  * \brief Classe Bonus
+  */
+  class Bonus {
+    protected :
+      Cell cellule;
+  };
+}
 
 #endif

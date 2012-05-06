@@ -7,15 +7,15 @@
  * \author Simon Rousseau
  */
 
-namespace PolyBomber;
-
-/*!
- * \class Board
- * \brief Classe Board
- */
-class Board {
-  protected :
-    GameEngineManager gameEngineManager;	/*! Manager du plateau de jeu */
-};
+namespace PolyBomber {
+  /*!
+  * \class Board
+  * \brief Classe Board
+  */
+  class Board {
+    protected :
+      GameEngineManager gameEngineManager;	/*! Manager du plateau de jeu */
+  };
+}
 
 #endif
