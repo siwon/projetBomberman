@@ -53,7 +53,7 @@ namespace PolyBomber
 			 *
 			 * \return La structure de configuration des touches d'un joueur
 			 */
-			//virtual SKeysConfig getConfig(int player) = 0;
+			virtual SKeysConfig getConfig(int player) = 0;
 			
 			/*!
 			 * \brief Assignation d'une touche à un joueur

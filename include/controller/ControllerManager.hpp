@@ -40,13 +40,13 @@ namespace PolyBomber
 		
 		static ControllerManager* controllerManager; /*!< Unique instance de la classe */
 		
-		//SKeysConfig[4] keysAssignation; /*!<  Tableau de configuration des touches pour chaque joueur */
+		vector<SKeysConfig> keysAssignation; /*!<  Tableau de configuration des touches pour chaque joueur */
 		
 		sf::RenderWindow* app; /*!< Fenetre SFML */
 		
 		vector<Controller*> controllers; /*!< Vecteur des contrôleurs de jeu disponible */
 		
-		ConfigFileManager* configFileManager;
+		//ConfigFileManager* configFileManager;
 		
 		/*!
 		 * \brief Constructeur de la classe ControllerManager
@@ -73,6 +73,8 @@ namespace PolyBomber
 		virtual EMenuKeys getKeyPressed();
 		
 		virtual char getCharPressed();
+		
+		virtual SKeysConfig getConfig(int player);
 	  
   };
 }

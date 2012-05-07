@@ -47,6 +47,7 @@ ConfigFileManager::~ConfigFileManager()
 
 void ConfigFileManager::createDefault()
 {
+	
 }
 
 void ConfigFileManager::openFile()
@@ -58,6 +59,25 @@ void ConfigFileManager::openFile()
 			std::cout << "Ouverture du fichier de configuration : " << configFileName << std::endl;
 		#endif
 		configFile.open(configFileName.c_str(), std::ios::in | std::ios::out | std::ios::app);
+		
+		/* Stockage du contenu du fichier dans la map */
+		std::string buffer;
+		std::string line,k,v;
+		size_t pos;
+	
+		configFile >> line;
+	
+		while(!configFile.eof())
+		{
+			pos = line.find(":");
+			if(pos!= std::string::npos)
+			{
+				k = line.substr(0,pos);
+				v = line.substr(pos+1,line.length());
+				fileContents.insert(std::pair<std::string,std::string>(k,v));
+			}
+			configFile >> line;
+		}
 	}
 	else
 	{
@@ -71,6 +91,20 @@ void ConfigFileManager::closeFile()
 {
 	if(configFile.is_open())
 	{
+		configFile.close();
+		#if DEBUG
+			std::cout << "Fermeture du fichier de configuration : " << configFileName << std::endl;
+			std::cout << "Ouverture du fichier de configuration : " << configFileName << std::endl;
+		#endif	
+		configFile.open(configFileName.c_str(), std::ios::in | std::ios::out | std::ios::trunc);
+		std::map<std::string,std::string>::iterator it;
+		
+		/* Recopie du contenu de la map dans le fichier */
+		for(it = fileContents.begin(); it != fileContents.end(); it++)
+		{
+			configFile << (*it).first << ":" << (*it).second << std::endl;
+		}
+			
 		#if DEBUG
 			std::cout << "Fermeture du fichier de configuration : " << configFileName << std::endl;
 		#endif
@@ -81,128 +115,69 @@ void ConfigFileManager::closeFile()
 void ConfigFileManager::setStringValue(std::string key, std::string value)
 {
 	if(contains(key))
-		remove(key);
-	
-	std::string buffer = key + ":" + value;
-	configFile << buffer << std::endl;
+	{
+		std::map<std::string,std::string>::iterator it;
+		it = fileContents.find(key);
+		(*it).second = value;
+	}
+	else
+	{
+		fileContents.insert(std::pair<std::string,std::string>(key,value));
+	}
 }
 
 void ConfigFileManager::setIntValue(std::string key, int value)
 {
-	if(contains(key))
-		remove(key);
-	
 	std::ostringstream ss;
 	ss << value;
 	
-	std::string buffer = key + ":" + ss.str();
-	configFile << buffer << std::endl;
+	this->setStringValue(key,ss.str());
 }
 
 std::string ConfigFileManager::getStringValue(std::string key)
 {
-	configFile.seekp(std::ios_base::beg);
-	
-	std::string k;
-	std::string v;
-	
-	std::string line;
-	size_t pos;
-	bool found = false;
-	
-	configFile >> line;
-	
-	while(!configFile.eof() && !found)
+	if(contains(key))
 	{
-		pos = line.find(":");
-		if(pos != std::string::npos)
-		{
-			k = line.substr(0,pos);
-			if(k.compare(key) == 0)
-			{
-				found = true;
-				v = line.substr(pos+1,line.length());
-			}
-		
-		}
-		configFile >> line;
+		std::map<std::string,std::string>::iterator it;
+		it = fileContents.find(key);
+		return (*it).second;
 	}
-	
-	return v;
+	else
+	{
+		return "";
+	}	
 }
 
 int ConfigFileManager::getIntValue(std::string key)
 {
-	std::string v = getStringValue(key);
-	
-	std::istringstream iss(v);
-	
-	int value;
-	
-	iss >> value;
-	
-	return value;
+	if(contains(key))
+	{
+		std::string v = getStringValue(key);
+		
+		std::istringstream iss(v);
+		
+		int value;
+		
+		iss >> value;
+		
+		return value;
+	}
+	else
+	{
+		return -1;
+	}
 }
 
 void ConfigFileManager::remove(std::string key)
 {
-	std::string buffer;
-	std::string line,k;
-	size_t pos;
-	
-	configFile >> line;
-	
-	while(!configFile.eof())
-	{
-		pos = line.find(":");
-		if(pos!= std::string::npos)
-		{
-			k = line.substr(0,pos);
-			if(k.compare(key) != 0)
-			{
-				buffer.append(line+"\n");
-			}
-		
-		}
-		configFile >> line;
-	}
-	closeFile();
-	configFile.open(configFileName.c_str(), std::ios::in | std::ios::out | std::ios::trunc);
-	configFile << buffer;
-	closeFile();
-	openFile();
+	if(contains(key))
+		fileContents.erase(key);
 }
 	
 	
 bool ConfigFileManager::contains(std::string key)
 {
-	configFile.seekp(std::ios_base::beg);
-	
-	std::string k,line;
-	
-	bool found = false;
-	
-	size_t pos;
-	
-	configFile >> line;
-	
-	while(!configFile.eof() && !found)
-	{
-		pos = line.find(":");
-		if(pos != std::string::npos)
-		{
-			k = line.substr(0,pos);
-			if(k.compare(key) == 0)
-			{
-				found = true;
-			}
-		
-		}
-		configFile >> line;
-	}
-	closeFile();
-	openFile();
-	return found;
+	return fileContents.count(key);
 }
 
 int main()
@@ -213,6 +188,8 @@ int main()
 	
 	configFileManager.setStringValue("controller.player1.type","keyboard");
 	configFileManager.setIntValue("controller.player1.up",62);
+	
+	//configFileManager.setStringValue("controller.player1.type","wiimote");
 	
 	std::cout << configFileManager.getStringValue("controller.player1.type") << std::endl;
 	

@@ -15,13 +15,14 @@
 // Bibliothèques SFML
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
+
 // Bibliothèques externes
 
 // Headers
 #include "../../include/controller/ControllerManager.hpp"
 #include "../../include/controller/Controller.hpp"
 #include "../../include/controller/Keyboard.hpp"
-
+#include "../../include/SKeysConfig.hpp"
 
 
 
@@ -36,6 +37,12 @@ ControllerManager::ControllerManager(sf::RenderWindow* app)
 	this->app = app;
 	Controller* keyboard = new Keyboard;
 	this->controllers.push_back(keyboard);
+	
+	/* Initialisation de la structure keysAssignation */
+	
+	/* Par défault les 4 joueurs utilisent le clavier */
+	SKeysConfig sKeysConfig;
+	skeysCongig
 }
 
 ControllerManager* ControllerManager::getInstance(sf::RenderWindow* app)
@@ -91,18 +98,20 @@ char ControllerManager::getCharPressed()
 	return controllers[0]->getCharPressed();
 }
 
-/*
+
 SKeysConfig ControllerManager::getConfig(int player)
 {
-	return NULL;
+	return keysAssignation[player-1];
 }
 
 
 SKeysConfig ControllerManager::setPlayerKey(int player, EGameKeys key)
 {
-	return NULL;
+	if( keysAssignation.size() >= player ) // Si la structure contient déjà le joueur
+	
+	
 }
-
+/*
 SKeysConfig ControllerManager::setPlayerController(int player, EControllerType type)
 {
 	return NULL;
