@@ -19,7 +19,6 @@
 // Bibliothèques externes
 
 // Headers
-#include "../../include/IConfigFile.hpp"
 #include "../../include/configFile/ConfigFileManager.hpp"
 
 
@@ -116,12 +115,18 @@ void ConfigFileManager::setStringValue(std::string key, std::string value)
 {
 	if(contains(key))
 	{
+		#if DEBUG
+			std::cout << "Key already present => value changed" << std::endl;
+		#endif
 		std::map<std::string,std::string>::iterator it;
 		it = fileContents.find(key);
 		(*it).second = value;
 	}
 	else
 	{
+		#if DEBUG
+			std::cout << "New key inserted" << std::endl;
+		#endif
 		fileContents.insert(std::pair<std::string,std::string>(key,value));
 	}
 }
@@ -178,22 +183,4 @@ void ConfigFileManager::remove(std::string key)
 bool ConfigFileManager::contains(std::string key)
 {
 	return fileContents.count(key);
-}
-
-int main()
-{
-	ConfigFileManager configFileManager;
-	
-	//ConfigFileManager configFileManager("/home/alex/Bureau/bombi.conf");
-	
-	configFileManager.setStringValue("controller.player1.type","keyboard");
-	configFileManager.setIntValue("controller.player1.up",62);
-	
-	//configFileManager.setStringValue("controller.player1.type","wiimote");
-	
-	std::cout << configFileManager.getStringValue("controller.player1.type") << std::endl;
-	
-	std::cout << configFileManager.getIntValue("controller.player1.up") << std::endl;
-	
-	return 0;
 }

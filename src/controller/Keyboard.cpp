@@ -148,7 +148,7 @@ char Keyboard::getCharPressed()
 	return c;
 }
 
-
+/*
 SKeysConfig Keyboard::getDefaultConfig(int player)
 {
 	SKeysConfig sKeysConfig;
@@ -169,3 +169,4 @@ SKeysConfig Keyboard::getDefaultConfig(int player)
 	}
 	
 	return sKeysConfig;
+}*/

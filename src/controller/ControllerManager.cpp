@@ -23,6 +23,7 @@
 #include "../../include/controller/Controller.hpp"
 #include "../../include/controller/Keyboard.hpp"
 #include "../../include/SKeysConfig.hpp"
+#include "../../include/EGameKeys.hpp"
 
 
 
@@ -38,11 +39,9 @@ ControllerManager::ControllerManager(sf::RenderWindow* app)
 	Controller* keyboard = new Keyboard;
 	this->controllers.push_back(keyboard);
 	
-	/* Initialisation de la structure keysAssignation */
+	configFileManager = new ConfigFileManager("controller.conf");
 	
-	/* Par défault les 4 joueurs utilisent le clavier */
-	SKeysConfig sKeysConfig;
-	skeysCongig
+	reloadConfig();
 }
 
 ControllerManager* ControllerManager::getInstance(sf::RenderWindow* app)
@@ -77,12 +76,14 @@ ControllerManager::~ControllerManager()
 		delete controllerManager;
 		controllerManager = NULL;
 	}
+	
+	delete configFileManager;
 }
 
 EMenuKeys ControllerManager::getKeyPressed()
 {
 	EMenuKeys key = NONE;
-	int i = 0;
+	unsigned int i = 0;
 	
 	while(key == NONE && i < controllers.size() )
 	{
@@ -107,7 +108,16 @@ SKeysConfig ControllerManager::getConfig(int player)
 
 SKeysConfig ControllerManager::setPlayerKey(int player, EGameKeys key)
 {
-	if( keysAssignation.size() >= player ) // Si la structure contient déjà le joueur
+	switch(keysAssignation[player-1].controllerType)
+	{
+		case KEYBOARD:
+			keysAssignation[player-1].keys[key] = controllers[0]->getCharPressed();
+			break;
+		default :
+			break;
+	}
+	std::cout << keysAssignation[player-1].keys[key] << std::flush;
+	return keysAssignation[player-1];
 	
 	
 }
@@ -117,44 +127,47 @@ SKeysConfig ControllerManager::setPlayerController(int player, EControllerType t
 	return NULL;
 }
 
-
+*/
 void ControllerManager::save()
 {
+	int i = 0;
+	/*for(i=0;i<4;i++)
+	{*/
+		configFileManager->setIntValue("controller.player1.type",keysAssignation[i].controllerType);
+		configFileManager->setStringValue("controller.player1.up",keysAssignation[i].keys[0]);
+		configFileManager->setStringValue("controller.player1.down",keysAssignation[i].keys[1]);
+		configFileManager->setStringValue("controller.player1.left",keysAssignation[i].keys[2]);
+		configFileManager->setStringValue("controller.player1.right",keysAssignation[i].keys[3]);
+		configFileManager->setStringValue("controller.player1.action1",keysAssignation[i].keys[4]);
+		configFileManager->setStringValue("controller.player1.action2",keysAssignation[i].keys[5]);
+		configFileManager->setStringValue("controller.player1.pause",keysAssignation[i].keys[6]);
 }
 
 void ControllerManager::reloadConfig()
 {
-}*/
-
-
-int main()
-{
-    
-     // Declare and create a new render-window
-	sf::RenderWindow window(sf::VideoMode(300, 150), "Bomberman - Test ControllerDeJeu");
-	ControllerManager* controllerManager = ControllerManager::getInstance(&window);
-
-	// Limit the framerate to 1 frames per second (this step is optional)
-	window.setFramerateLimit(15);
-
-	// The main loop - ends as soon as the window is closed
-	while (window.isOpen())
-	{
-		controllerManager->getKeyPressed();
-		controllerManager->getCharPressed();
-
-		// Event processing
-		sf::Event event;
-		while (window.pollEvent(event))
-		{
-			// Request for closing the window
-			if (event.type == sf::Event::Closed)
-				window.close();
-		}
-
-		// End the current frame and display its contents on screen
-		window.display();
-	}
+	SKeysConfig sKeysConfig;
 	
-	return 0;
+	/* For Player 1 */
+	sKeysConfig.controllerType = (EControllerType)(configFileManager->getIntValue("controller.player1.type"));
+	sKeysConfig.keys[0] = char(configFileManager->getIntValue("controller.player1.up"));
+	sKeysConfig.keys[1] = char(configFileManager->getIntValue("controller.player1.down"));
+	sKeysConfig.keys[2] = char(configFileManager->getIntValue("controller.player1.left"));
+	sKeysConfig.keys[3] = char(configFileManager->getIntValue("controller.player1.right"));
+	sKeysConfig.keys[4] = char(configFileManager->getIntValue("controller.player1.action1"));
+	sKeysConfig.keys[5] = char(configFileManager->getIntValue("controller.player1.action2"));
+	sKeysConfig.keys[6] = char(configFileManager->getIntValue("controller.player1.pause"));
+		
+	keysAssignation.push_back(sKeysConfig);
+	
+	/* For Player 2 */
+	sKeysConfig.controllerType = (EControllerType)(configFileManager->getIntValue("controller.player2.type"));
+	sKeysConfig.keys[0] = char(configFileManager->getIntValue("controller.player2.up"));
+	sKeysConfig.keys[1] = char(configFileManager->getIntValue("controller.player2.down"));
+	sKeysConfig.keys[2] = char(configFileManager->getIntValue("controller.player2.left"));
+	sKeysConfig.keys[3] = char(configFileManager->getIntValue("controller.player2.right"));
+	sKeysConfig.keys[4] = char(configFileManager->getIntValue("controller.player2.action1"));
+	sKeysConfig.keys[5] = char(configFileManager->getIntValue("controller.player2.action2"));
+	sKeysConfig.keys[6] = char(configFileManager->getIntValue("controller.player2.pause"));
+		
+	keysAssignation.push_back(sKeysConfig);
 }
