@@ -22,7 +22,7 @@
 #include "../EMenuKeys.hpp"
 #include "../SKeysConfig.hpp"
 #include "../IControllerToMenu.hpp"
-#include "../IControllerToMenu.hpp"
+#include "../configFile/ConfigFileManager.hpp"
 //#include "../IControllerToNetwork.hpp"
 #include "Controller.hpp"
 
@@ -46,7 +46,7 @@ namespace PolyBomber
 		
 		vector<Controller*> controllers; /*!< Vecteur des contrôleurs de jeu disponible */
 		
-		//ConfigFileManager* configFileManager;
+		ConfigFileManager* configFileManager; /*!< Classe de gestion du fichier de configuration */
 		
 		/*!
 		 * \brief Constructeur de la classe ControllerManager
@@ -75,6 +75,12 @@ namespace PolyBomber
 		virtual char getCharPressed();
 		
 		virtual SKeysConfig getConfig(int player);
+		
+		virtual void reloadConfig();
+		
+		virtual SKeysConfig setPlayerKey(int player, EGameKeys key);
+		
+		virtual void save();
 	  
   };
 }

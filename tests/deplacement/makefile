@@ -1,2 +1,1 @@
-all:
-	gcc -o test ControllerManager.cpp Keyboard.cpp -lsfml-window -lsfml-graphics -lsfml-system
+g++ -o test main.cpp -lsfml-window -lsfml-graphics -lsfml-system
