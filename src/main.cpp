@@ -4,17 +4,17 @@
  * \author Maxime GUIHAL
  */
 
-#include "menu/MenuManager.hpp"
+#include "PolyBomberApp.hpp"
 
 using namespace PolyBomber;
 
 int main(int argc, char** argv)
 {
-	IMenuToMain* menu = MenuManager::getInstance();
+	PolyBomberApp* app = PolyBomberApp::getInstance();
 
-	EScreenSignal signal = menu->run();
+	int signal = app->run();
 
-	MenuManager::kill();
+	PolyBomberApp::kill();
 
 	return signal;
 }

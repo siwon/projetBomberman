@@ -47,14 +47,13 @@ namespace PolyBomber
 	 *
 	 * int main()
 	 * {
-	 *     ITestManager* t = TestManager::getInstance();
+	 *     ITestManager* t = PolyBomber::getITestManager();
 	 *
 	 *     t->setMessage("Maxime");
 	 *
 	 *     cout << t->getMessage() << endl;
 	 *
-	 *     // Penser à TOUJOURS faire un kill() après utilisation
-	 *     TestManager::kill();
+	 *     // Pas de désallocation du pointeur après utilisation
 	 *
 	 *     return 0;
 	 * }
@@ -64,7 +63,6 @@ namespace PolyBomber
 	{
 		private:
 			static T* instance; /*!< Instance unique de l'objet */
-			static int nbInstances;	 /*!< Nombre d'instances de l'objet */
 
 		protected:
 			/*!
@@ -86,8 +84,6 @@ namespace PolyBomber
 			{
 				if (Singleton::instance == NULL)
 					Singleton::instance = new T;
-
-				Singleton::nbInstances++;
 								
 				return Singleton::instance;
 			}
@@ -102,13 +98,8 @@ namespace PolyBomber
 			{
 				if (Singleton::instance != NULL)
 				{
-					Singleton::nbInstances--;
-
-					if (Singleton::nbInstances == 0)
-					{
-						delete Singleton::instance;
-						Singleton::instance = NULL;
-					}
+					delete Singleton::instance;
+					Singleton::instance = NULL;
 				}				
 			}
 	};
@@ -117,7 +108,6 @@ namespace PolyBomber
 	 * \brief Initialisation des variables statiques
 	 */
 	template <class T> T* Singleton<T>::instance = NULL;
-	template <class T> int Singleton<T>::nbInstances = 0;
 }
 
 #endif
