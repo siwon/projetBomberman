@@ -21,6 +21,8 @@
 
 // Headers
 #include "../../include/EMenuKeys.hpp"
+#include "../../include/SKeysConfig.hpp"
+#include "../../include/EControllerType.hpp"
 #include "../../include/controller/Keyboard.hpp"
 
 using namespace PolyBomber;
@@ -147,3 +149,23 @@ char Keyboard::getCharPressed()
 }
 
 
+SKeysConfig Keyboard::getDefaultConfig(int player)
+{
+	SKeysConfig sKeysConfig;
+	sKeysConfig.controllerType = KEYBOARD;
+	
+	switch(player)
+	{
+		case 1:
+			break;
+		case 2:
+			break;
+		case 3:
+			break;
+		case 4:
+			break;
+		default:
+			break;
+	}
+	
+	return sKeysConfig;

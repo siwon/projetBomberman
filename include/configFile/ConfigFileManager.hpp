@@ -12,6 +12,7 @@
 // Bibliothèques standarts 
 #include <string>
 #include <fstream>
+#include <map>
 
 // Bibliothèques SFML
 
@@ -31,10 +32,14 @@ namespace PolyBomber
   class ConfigFileManager : public IConfigFile
   {
 	private :
-		std::fstream configFile;
+
+		std::fstream configFile; /*!< Fichier de configuration */
 		
-		std::string configFileName;
+		std::string configFileName; /*!< Nom du fichier de configuration */
 		
+		std::map<std::string,std::string> fileContents; /*!< Map permettant de stocker le contenu du fichier permettant de limiter
+											le nombre d'accès au fichier */
+
 	public :
 		
 		/*!

@@ -15,6 +15,7 @@
 // Headers
 #include "Controller.hpp"
 #include "../EMenuKeys.hpp"
+#include "../SKeysConfig.hpp"
 
 namespace PolyBomber
 {
@@ -38,11 +39,19 @@ namespace PolyBomber
 		 */
 		virtual ~Keyboard();
 		
+		/*!
+		 * \brief Obtenir la configuration par défault d'un joueur clavier
+		 * \param player : Numéro du joueur
+		 * \return Structure de configuration du joueur
+		 */
+		static SKeysConfig getDefaultConfig(int player);
+		
 		/* Méthodes de la classe Controller */
 		
 		virtual EMenuKeys getMenuKey();
 		
 		char getCharPressed();
+		
 
 		
 
