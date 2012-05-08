@@ -16,14 +16,12 @@ namespace PolyBomber
 	}
 
 	MenuResources::~MenuResources()
-	{
-		delete this->window;
-	}
+	{}
 
 	MenuResources::MenuResources(const MenuResources& obj)
 	{
 		initInterfaces();
-		this->window = MainWindow(obj.getWindow());
+		this->window = MainWindow(obj.window);
 	}
 
 	MenuResources& MenuResources::operator=(const MenuResources& obj)

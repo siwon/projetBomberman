@@ -11,12 +11,12 @@
 #include "menu/MenuManager.hpp"
 #include "controller/ControllerManager.hpp"
 #include "network/NetworkManager.hpp"
-#include "gameEngine/GameEngineManager.hpp"
+//#include "gameEngine/GameEngineManager.hpp"
 #include "gameInterface/GameInterfaceManager.hpp"
 #include "sound/SoundManager.hpp"
 #include "skin/SkinManager.hpp"
 
-namespace PolyBomberApp
+namespace PolyBomber
 {
 	/*!
 	 * \class PolyBomberApp
@@ -49,7 +49,7 @@ namespace PolyBomberApp
 			 * \brief Retourne l'interface IGameEngineToNetwork
 			 * \return l'interface IGameEngineToNetwork
 			 */
-			static IGameEngineToNetwork* getIGameEngineToNetwork();
+			//static IGameEngineToNetwork* getIGameEngineToNetwork();
 
 			/*!
 			 * \brief Retourne l'interface INetworkToGameEngine
@@ -113,7 +113,7 @@ namespace PolyBomberApp
 			static MenuManager* menuManager; /*!< Instance du composant Menu */
 			static GameInterfaceManager* gameInterfaceManager; /*!< Instance du composant Interface de jeu */
 			static NetworkManager* networkManager; /*!< Instance du composant Réseau */
-			static GameEngineManager* gameEngineManager; /*!< Instance du composant Moteur de jeu */
+			//static GameEngineManager* gameEngineManager; /*!< Instance du composant Moteur de jeu */
 			static ControllerManager* controllerManager; /*!< Instance du composant Contrôleur */
 			static SoundManager* soundManager; /*!< Instance du composant Son */
 			static SkinManager* skinManager; /*!< Instance du composant Skin */

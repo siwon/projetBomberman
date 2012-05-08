@@ -23,7 +23,7 @@
 #include "../SKeysConfig.hpp"
 #include "../IControllerToMenu.hpp"
 #include "../configFile/ConfigFileManager.hpp"
-//#include "../IControllerToNetwork.hpp"
+#include "../IControllerToNetwork.hpp"
 #include "Controller.hpp"
 
 
@@ -34,7 +34,8 @@ namespace PolyBomber
   * \class ControllerManager
   * \brief Classe de gestion des contrôleurs de jeu
   */
-  class ControllerManager : public IControllerToMenu
+  class ControllerManager : public IControllerToMenu,
+							public IControllerToNetwork
   {
 	private:
 		

@@ -12,7 +12,7 @@
 #include <vector>
 
 //Bibliothèque SFML
-#include <SFML/Vector2.hpp>
+#include <SFML/System/Vector2.hpp>
 
 //Bibliothèque externes
 
@@ -30,11 +30,11 @@ namespace PolyBomber {
   * 
   */
   struct SBoard {
-    sf::Vector2<int> boxes;		/*!  */
-    Vector<SBonus> bonus;			/*! Liste des bonus du plateau de jeu */
-    Vector<SExplosive> explosives;	/*! Liste des explosifs du plateau de jeu */
-    Vector<SPlayer> players;		/*! Liste des joueurs du plateau de jeu */
-    Vector<SFlame> flames;		/*! Liste des déflagrations du plateau de jeu */
+    sf::Vector2<int> boxes;		        /*!  */
+    std::vector<SBonus> bonus;			/*! Liste des bonus du plateau de jeu */
+    std::vector<SExplosive> explosives;	/*! Liste des explosifs du plateau de jeu */
+    std::vector<SPlayer> players;		/*! Liste des joueurs du plateau de jeu */
+    std::vector<SFlame> flames;		    /*! Liste des déflagrations du plateau de jeu */
   };
 }
 

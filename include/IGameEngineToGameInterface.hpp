@@ -1,18 +1,20 @@
-#ifndef I_GAME_ENGINE_TO_NETWORK_HEADER
-#define I_GAME_ENGINE_TO_NETWORK_HEADER
+#ifndef _IGAMEENGINETOGAMEINTERFACE
+#define _IGAMEENGINETOGAMEINTERFACE
 
 /*!
  * \file IGameEngineToGameInterface.hpp
- * \brief Interface en le moteur de jeu et le réseau
+ * \brief Interface générale entre le moteur de jeu et le plateau de jeu
  * \author Simon Rousseau
  */
+
+#include "SBoard.hpp"
 
 namespace PolyBomber {
   /*!
   * \class IGameEngineToGameInterface
-  * \brief Interface en le moteur de jeu et le réseau
+  * \brief Interface en le moteur de jeu et le plateau de jeu
   */
-  class IGameEngineToNetwork {
+  class IGameEngineToGameInterface {
     public :
       /*!
       * \brief Méthode permettant de retourner le plateau de jeu

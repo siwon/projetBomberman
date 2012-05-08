@@ -17,3 +17,4 @@
 *.kilepr
 
 *.geany
+*.o

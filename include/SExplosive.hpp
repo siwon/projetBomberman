@@ -1,5 +1,5 @@
-#ifndef S_EXPLOSIVE _HEADER
-#define S_EXPLOSIVE _HEADER
+#ifndef S_EXPLOSIVE_HEADER
+#define S_EXPLOSIVE_HEADER
 
 /*!
  * \file SExplosive.hpp
@@ -12,7 +12,7 @@
 
 
 //Bibliothèque SFML
-#include <SFML/Vector2.hpp>
+#include <SFML/System/Vector2.hpp>
 
 //Bibliothèque externes
 

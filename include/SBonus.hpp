@@ -12,13 +12,13 @@
 
 
 //Bibliothèque SFML
-#include <SFML/Vector2.hpp>
+#include <SFML/System/Vector2.hpp>
 
 //Bibliothèque externes
 
 
 //Headers du projet
-#include "./EGameBonus.hpp"
+#include "EGameBonus.hpp"
 
 namespace PolyBomber {
   /*!

@@ -7,8 +7,8 @@
  * \author Simon Rousseau
  */
 
-#include "./IGameEngineToGameInterface.hpp"
-#include "./SGameConfig.hpp"
+#include "IGameEngineToGameInterface.hpp"
+#include "SGameConfig.hpp"
 
 namespace PolyBomber {
   /*!

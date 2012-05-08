@@ -13,10 +13,10 @@ namespace PolyBomber {
   * \brief Codes des orientations
   */
   enum EOrientation {
-    UP,		/*! Vers le haut */
-    DOWN,		/*! Vers le bas */
-    LEFT,		/*! Vers la gauche */
-    RIGHT		/*! Vers la droite */
+    ORIENTATION_UP,		/*! Vers le haut */
+    ORIENTATION_DOWN,		/*! Vers le bas */
+    ORIENTATION_LEFT,		/*! Vers la gauche */
+    ORIENTATION_RIGHT		/*! Vers la droite */
   };
 }
 

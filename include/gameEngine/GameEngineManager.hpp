@@ -7,6 +7,11 @@
  * \author Simon Rousseau
  */
 
+#include "IGameEngineToNetwork.hpp"
+#include "gameEngine/Board.hpp"
+#include "gameEngine/Bonus.hpp"
+#include "gameEngine/Player.hpp"
+
 namespace PolyBomber {
   /*!
   * \class ControllerManager
