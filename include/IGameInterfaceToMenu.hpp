@@ -7,7 +7,7 @@
  * \author Maxime GUIHAL
  */
 
-#include <SFML/RenderWindow.hpp>
+#include <SFML/Graphics/RenderWindow.hpp>
 
 #include "EScreenSignal.hpp"
 
