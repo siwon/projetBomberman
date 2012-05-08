@@ -4,6 +4,7 @@
  * \author Maxime GUIHAL
  */
 
+#include "PolyBomberApp.hpp"
 #include "menu/MenuResources.hpp"
 
 namespace PolyBomber

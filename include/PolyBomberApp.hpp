@@ -11,8 +11,8 @@
 #include "menu/MenuManager.hpp"
 #include "controller/ControllerManager.hpp"
 #include "network/NetworkManager.hpp"
-#include "gameEngine/GameEngine.hpp"
-#include "gameInterface/GameInterface.hpp"
+#include "gameEngine/GameEngineManager.hpp"
+#include "gameInterface/GameInterfaceManager.hpp"
 #include "sound/SoundManager.hpp"
 #include "skin/SkinManager.hpp"
 

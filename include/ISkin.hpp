@@ -9,8 +9,8 @@
 
 #include <vector>
 
-#include <SFML/Color.hpp>
-#include <SFML/Image.hpp>
+#include <SFML/Graphics/Color.hpp>
+#include <SFML/Graphics/Image.hpp>
 
 #include "EImage.hpp"
 #include "EColorKey.hpp"

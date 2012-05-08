@@ -32,7 +32,7 @@ namespace PolyBomber
 			 * \return Signal de retour
 			 * 
 			 */
-			virtual EScreenSignal run(sf::RenderWindow window, unsigned int[4] score, int& winner) = 0;
+			virtual EScreenSignal run(sf::RenderWindow window, unsigned int score[4], int& winner) = 0;
 	};
 }
 
