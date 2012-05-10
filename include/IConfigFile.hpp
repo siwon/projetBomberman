@@ -17,13 +17,6 @@ namespace PolyBomber
 	{
 		public:
 			/*!
-			 * \brief Constructeur de l'interface
-			 * \param path : Chemin du fichier de configuration, ou chaîne
-			 * vide si c'est le fichier de configuration principal
-			 */
-			//virtual IConfigFile(std::string path = "") = 0;
-
-			/*!
 			 * \brief Ecriture d'une chaine de caractère dans le fichier
 			 *
 			 * Si la clé est déjà présente, sa valeur est remplacée
@@ -31,7 +24,7 @@ namespace PolyBomber
 			 * \param key : Clé correspondante à la valeur
 			 * \param value : Valeur à écrire
 			 */
-			//virtual void setStringValue(std::string key, std::string value) = 0;
+			virtual void setStringValue(std::string key, std::string value) = 0;
 
 			/*!
 			 * \brief Ecriture d'une valeur numérique dans le fichier
@@ -41,7 +34,7 @@ namespace PolyBomber
 			 * \param key : Clé correspondante à la valeur
 			 * \param value : Nombre à écrire
 			 */
-			//virtual void setIntValue(std::string key, int value) = 0;
+			virtual void setIntValue(std::string key, int value) = 0;
 
 			/*!
 			 * \brief Récupération d'une chaine de caractère du fichier
@@ -52,7 +45,7 @@ namespace PolyBomber
 			 * \param key : Clé présente dans le fichier
 			 * \return Chaine de caractère correspondante à la clé
 			 */
-			//virtual std::string getStringValue(std::string key) = 0;
+			virtual std::string getStringValue(std::string key) = 0;
 
 			/*!
 			 * \brief Récupération d'un nombre dans le fichier
@@ -63,7 +56,7 @@ namespace PolyBomber
 			 * \param key : Clé présente dans le fichier
 			 * \return Nombre correspondant à la clé
 			 */
-			//virtual int getIntValue(std::string key) = 0;
+			virtual int getIntValue(std::string key) = 0;
 	};
 }
 
