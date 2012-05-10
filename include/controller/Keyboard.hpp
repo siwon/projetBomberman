@@ -16,7 +16,7 @@
 #include "Controller.hpp"
 #include "../EMenuKeys.hpp"
 #include "../SKeysConfig.hpp"
-
+#include "Keys.hpp"
 namespace PolyBomber
 {
   /*!
@@ -26,7 +26,7 @@ namespace PolyBomber
   class Keyboard : public Controller
   {
 	private :
-		std::map<sf::Keyboard::Key, char> keys; /*!< Correspondance touches clavier <=> caractère */
+		Keys keys;
 	public :
 		/*!
 		 * \brief Constructeur de la classe Keyboard

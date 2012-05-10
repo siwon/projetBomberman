@@ -33,9 +33,8 @@ using namespace PolyBomber;
 ControllerManager *ControllerManager::controllerManager = NULL; /*!< Initialisation du controllerManager */
 
 
-ControllerManager::ControllerManager(sf::RenderWindow* app)
+ControllerManager::ControllerManager()
 {
-	this->app = app;
 	Controller* keyboard = new Keyboard;
 	this->controllers.push_back(keyboard);
 	
@@ -44,11 +43,11 @@ ControllerManager::ControllerManager(sf::RenderWindow* app)
 	reloadConfig();
 }
 
-ControllerManager* ControllerManager::getInstance(sf::RenderWindow* app)
+ControllerManager* ControllerManager::getInstance()
 {
 	if(controllerManager == NULL)
 	{
-		controllerManager = new ControllerManager(app);
+		controllerManager = new ControllerManager();
 		#if DEBUG
 			std::cout << "Creation of a new instance of ControllerManager" << std::endl;
 		#endif
@@ -82,10 +81,10 @@ ControllerManager::~ControllerManager()
 
 EMenuKeys ControllerManager::getKeyPressed()
 {
-	EMenuKeys key = NONE;
+	EMenuKeys key = MENU_NONE;
 	unsigned int i = 0;
 	
-	while(key == NONE && i < controllers.size() )
+	while(key == MENU_NONE && i < controllers.size() )
 	{
 		key = controllers[i]->getMenuKey();
 		i++;
@@ -171,3 +170,8 @@ void ControllerManager::reloadConfig()
 		
 	keysAssignation.push_back(sKeysConfig);
 }
+/*
+SKeyPressed ControllerManager::getKeysPressed()
+{
+	return NULL;
+}*/

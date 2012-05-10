@@ -25,7 +25,7 @@ int main()
     
      // Declare and create a new render-window
 	sf::RenderWindow window(sf::VideoMode(300, 150), "Bomberman - Test ControllerDeJeu");
-	ControllerManager* controllerManager = ControllerManager::getInstance(&window);
+	ControllerManager* controllerManager = ControllerManager::getInstance();
 
 	// Limit the framerate to 1 frames per second (this step is optional)
 	window.setFramerateLimit(15);
