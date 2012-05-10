@@ -43,8 +43,6 @@ namespace PolyBomber
 		
 		vector<SKeysConfig> keysAssignation; /*!<  Tableau de configuration des touches pour chaque joueur */
 		
-		sf::RenderWindow* app; /*!< Fenetre SFML */
-		
 		vector<Controller*> controllers; /*!< Vecteur des contrôleurs de jeu disponible */
 		
 		ConfigFileManager* configFileManager; /*!< Classe de gestion du fichier de configuration */
@@ -52,7 +50,7 @@ namespace PolyBomber
 		/*!
 		 * \brief Constructeur de la classe ControllerManager
 		 */
-		ControllerManager(sf::RenderWindow*);
+		ControllerManager();
 		
 		/*!
 		 * \brief Destructeur de la classe ControllerManager
@@ -64,10 +62,9 @@ namespace PolyBomber
 		 * \brief Obtenir l'instance de la classe ControllerManager
 		 * Cette méthode permet d'obtenir l'unique instance de la classe ControllerManager ou de la créer si celle-ci n'existe pas.
 		 * Permet la mise en place du patron singleton
-		 * \param app : Fenêtre SFML
 		 * \return Instance de la classe ControllerManager
 		 */
-		static ControllerManager* getInstance(sf::RenderWindow* app);
+		static ControllerManager* getInstance();
 		
 		/* Méthodes de l'interface IControllerToMenu */
 		
@@ -82,6 +79,9 @@ namespace PolyBomber
 		virtual SKeysConfig setPlayerKey(int player, EGameKeys key);
 		
 		virtual void save();
+		
+		/* Méthodes de l'interface IControllerToNetwork */
+		//virtual SKeyPressed getKeysPressed();
 	  
   };
 }
