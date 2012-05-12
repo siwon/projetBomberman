@@ -9,7 +9,7 @@
 #include <sstream>
 #include <exception>
 
-#include "PolyBomberException.hpp"
+#include "../include/PolyBomberException.hpp"
 
 namespace PolyBomber
 {

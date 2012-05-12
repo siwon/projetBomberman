@@ -58,11 +58,6 @@ namespace PolyBomber
 		 */
 		virtual ~ConfigFileManager();
 		
-		/*!
-		 * \brief Création d'un fichier de configuration par défaut
-		 */
-		void createDefault();
-		
 		/* Méthodes de IConfigFile */
 
 		virtual void setStringValue(std::string key, std::string value);
@@ -98,6 +93,11 @@ namespace PolyBomber
 		 * \param Clé de l'entrée à supprimer
 		 */
 		void remove(std::string key);
+		
+		/*!
+		 * \brief Création d'un fichier de configuration par défaut si celui-ci n'existe pas
+		 */
+		void createDefault();
 		
 
   };

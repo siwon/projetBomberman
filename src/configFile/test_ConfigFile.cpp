@@ -15,29 +15,25 @@
 
 // Headers
 #include "../../include/configFile/ConfigFileManager.hpp"
+#include "../../include/PolyBomberException.hpp"
 
 using namespace PolyBomber;
 
 int main()
 {
-	ConfigFileManager configFileManager("controller.conf"); // Création d'un fichier de configuration
-	
-	/* Ajout de quelques valeurs */
-	configFileManager.setStringValue("controller.player1.type","keyboard");
-	configFileManager.setIntValue("controller.player1.up",62);
-	configFileManager.setIntValue("controller.player1.down",63);
-	configFileManager.setIntValue("controller.player1.left",64);
-	configFileManager.setIntValue("controller.player1.right",65);
-	configFileManager.setIntValue("controller.player1.action1",95);
-	configFileManager.setIntValue("controller.player1.action2",78);
-	configFileManager.setIntValue("controller.player1.pause",89);
-	
-	/* Modification de valeurs */
-	configFileManager.setStringValue("controller.player1.type","wiimote");
+	ConfigFileManager configFileManager("controller1.conf"); // Création d'un fichier de configuration
 	
 	/* Récupération de valeurs */
-	std::cout << configFileManager.getStringValue("controller.player1.type") << std::endl;
-	std::cout << configFileManager.getIntValue("controller.player1.up") << std::endl;
+	try
+	{
+		std::cout << configFileManager.getStringValue("controller.player1.type") << std::endl;
+		std::cout << configFileManager.getIntValue("controller.player1.up") << std::endl;
+		std::cout << configFileManager.getIntValue("controller.player2.up") << std::endl;
+	}
+	catch(PolyBomberException* e)
+	{
+		std::cout << e->what();
+	}	
 	
 	return 0;
 }

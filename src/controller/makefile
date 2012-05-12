@@ -17,7 +17,7 @@ test_Controller.o: test_Controller.cpp
 ControllerManager.o: ControllerManager.cpp
 	$(CC) -o $@ -c $< $(CFLAGS)
 	
-ConfigFileManager.o: ConfigFileManager.cpp
+ConfigFileManager.o: ../configFile/ConfigFileManager.cpp
 	$(CC) -o $@ -c $< $(CFLAGS)
 
 Keyboard.o: Keyboard.cpp
