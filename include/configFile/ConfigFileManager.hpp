@@ -68,6 +68,10 @@ namespace PolyBomber
 
 		virtual int getIntValue(std::string key);
 		
+		/*!
+		 * \brief Ecriture de la configuration par défaut du joueur donné
+		 */
+		void setDefaultConfig(int player);
 		
 	private :
 		

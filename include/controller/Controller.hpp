@@ -14,6 +14,7 @@
 
 // Headers
 #include "../EMenuKeys.hpp"
+#include "../EControllerType.hpp"
 
 namespace PolyBomber
 {
@@ -45,6 +46,18 @@ namespace PolyBomber
 		 * \return Caractère tapé sur le clavier
 		 */
 		virtual char getCharPressed() = 0;
+		
+		/*!
+		 * \brief Récupération d'une touche / bouton
+		 * \return Touche / bouton pressé
+		 */
+		virtual int getKeyPressed() = 0;
+		
+		/*!
+		 * \brief Récupération du type de contrôleur
+		 * \return Type du contrôleur
+		 */
+		virtual EControllerType getControllerType() = 0;
 	
   };
 }

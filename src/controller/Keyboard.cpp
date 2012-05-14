@@ -24,7 +24,7 @@
 #include "../../include/SKeysConfig.hpp"
 #include "../../include/EControllerType.hpp"
 #include "../../include/controller/Keyboard.hpp"
-#include "../../include/controller/Keys.hpp"
+#include "../../include/controller/KeyboardKeys.hpp"
 
 using namespace PolyBomber;
 
@@ -94,7 +94,7 @@ EMenuKeys Keyboard::getMenuKey()
 
 char Keyboard::getCharPressed()
 {
-	std::map<sf::Keyboard::Key, Keys::KeyValue*> ::iterator it;
+	std::map<sf::Keyboard::Key, KeyboardKeys::KeyValue*> ::iterator it;
 	it = keys.keyMap.begin(); /* Création d'un itérateur pour parcourir la map */
 	
 	bool charPressed = false;
@@ -102,7 +102,7 @@ char Keyboard::getCharPressed()
 
 	while((it != keys.keyMap.end()) && !charPressed)
 	{
-		if(sf::Keyboard::isKeyPressed((*it).first))
+		if( sf::Keyboard::A <= (*it).first && sf::Keyboard::Z >= (*it).first && sf::Keyboard::isKeyPressed((*it).first))
 		{
 			c = (*it).second->getCharValue();
 			if(sf::Keyboard::isKeyPressed(sf::Keyboard::LShift)) /*!< Gestion des majuscules */
@@ -119,25 +119,12 @@ char Keyboard::getCharPressed()
 	return c;
 }
 
-/*
-SKeysConfig Keyboard::getDefaultConfig(int player)
+EControllerType Keyboard::getControllerType()
 {
-	SKeysConfig sKeysConfig;
-	sKeysConfig.controllerType = KEYBOARD;
-	
-	switch(player)
-	{
-		case 1:
-			break;
-		case 2:
-			break;
-		case 3:
-			break;
-		case 4:
-			break;
-		default:
-			break;
-	}
-	
-	return sKeysConfig;
-}*/
+	return KEYBOARD;
+}
+
+int Keyboard::getKeyPressed()
+{
+	return 0;
+}

@@ -16,7 +16,7 @@
 #include "Controller.hpp"
 #include "../EMenuKeys.hpp"
 #include "../SKeysConfig.hpp"
-#include "Keys.hpp"
+#include "KeyboardKeys.hpp"
 namespace PolyBomber
 {
   /*!
@@ -25,9 +25,10 @@ namespace PolyBomber
   */
   class Keyboard : public Controller
   {
-	private :
-		Keys keys;
+	  
 	public :
+		KeyboardKeys keys;
+		
 		/*!
 		 * \brief Constructeur de la classe Keyboard
 		 * Initialise la map de correspondance des touches clavier
@@ -39,18 +40,15 @@ namespace PolyBomber
 		 */
 		virtual ~Keyboard();
 		
-		/*!
-		 * \brief Obtenir la configuration par défault d'un joueur clavier
-		 * \param player : Numéro du joueur
-		 * \return Structure de configuration du joueur
-		 */
-		static SKeysConfig getDefaultConfig(int player);
-		
 		/* Méthodes de la classe Controller */
 		
 		virtual EMenuKeys getMenuKey();
 		
-		char getCharPressed();
+		virtual char getCharPressed();
+		
+		virtual EControllerType getControllerType();
+		
+		virtual int getKeyPressed();
 		
 
 		

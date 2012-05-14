@@ -16,7 +16,7 @@ namespace PolyBomber
 	class PolyBomberException : public std::exception
 	{
 		public:
-			PolyBomberException(const char* msg);
+			PolyBomberException(std::string msg);
 
 			virtual ~PolyBomberException() throw();
 

@@ -1,9 +1,9 @@
-#ifndef _KEYS
-#define _KEYS
+#ifndef _GAMEPADKEYS
+#define _GAMEPADKEYS
 
 /*!
- * \file Keys.hpp
- * \brief Classe de correspondance pour les touches / boutons
+ * \file GamepadKeys.hpp
+ * \brief Classe de correspondance pour les boutons des joystick
  * \author Alexandre BISIAUX
  */
 
@@ -20,21 +20,16 @@
 namespace PolyBomber
 {
 	
-	class KeyboardKeys
+	class GamepadKeys
 	{
 		public:
 			class KeyValue
 			{
 				private :
-					int charCode;
 					std::string label;
 				
 				public :
-					KeyValue(int charCode);
-					KeyValue(char charValue);
-					KeyValue(int charCode, std::string label);
-					int getCharCode();
-					char getCharValue();
+					KeyValue(std::string label);
 					std::string getLabel();
 			};
 			

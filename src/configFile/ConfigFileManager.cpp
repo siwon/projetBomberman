@@ -22,6 +22,7 @@
 // Headers
 #include "../../include/configFile/ConfigFileManager.hpp"
 #include "../../include/PolyBomberException.hpp"
+#include "../../include/EControllerType.hpp"
 
 using namespace PolyBomber;
 
@@ -45,45 +46,64 @@ ConfigFileManager::~ConfigFileManager()
 	closeFile();
 }
 
+void ConfigFileManager::setDefaultConfig(int player)
+{
+	switch(player)
+	{
+		case 1 :
+			this->setIntValue("controller.player1.type", KEYBOARD);
+			this->setIntValue("controller.player1.up", sf::Keyboard::Up);
+			this->setIntValue("controller.player1.down", sf::Keyboard::Down);
+			this->setIntValue("controller.player1.left", sf::Keyboard::Left);
+			this->setIntValue("controller.player1.right", sf::Keyboard::Right);
+			this->setIntValue("controller.player1.action1", sf::Keyboard::RControl);
+			this->setIntValue("controller.player1.action2", sf::Keyboard::RShift);
+			this->setIntValue("controller.player1.pause",sf::Keyboard::Return);
+			break;
+			
+		case 2 :
+			this->setIntValue("controller.player2.type", KEYBOARD);
+			this->setIntValue("controller.player2.up", sf::Keyboard::Z);
+			this->setIntValue("controller.player2.down", sf::Keyboard::S);
+			this->setIntValue("controller.player2.left", sf::Keyboard::Q);
+			this->setIntValue("controller.player2.right", sf::Keyboard::D);
+			this->setIntValue("controller.player2.action1", sf::Keyboard::LControl);
+			this->setIntValue("controller.player2.action2", sf::Keyboard::LShift);
+			this->setIntValue("controller.player2.pause", sf::Keyboard::Escape);
+			break;
+			
+		case 3 :
+			this->setIntValue("controller.player3.type", KEYBOARD);
+			this->setIntValue("controller.player3.up", sf::Keyboard::Numpad8);
+			this->setIntValue("controller.player3.down", sf::Keyboard::Numpad5);
+			this->setIntValue("controller.player3.left", sf::Keyboard::Numpad4);
+			this->setIntValue("controller.player3.right", sf::Keyboard::Numpad6);
+			this->setIntValue("controller.player3.action1", sf::Keyboard::Numpad0);
+			this->setIntValue("controller.player3.action2", sf::Keyboard::Add);
+			this->setIntValue("controller.player3.pause", sf::Keyboard::Subtract);
+			break;
+			
+		case 4 :
+			this->setIntValue("controller.player4.type", KEYBOARD);
+			this->setIntValue("controller.player4.up", sf::Keyboard::I);
+			this->setIntValue("controller.player4.down", sf::Keyboard::K);
+			this->setIntValue("controller.player4.left", sf::Keyboard::J);
+			this->setIntValue("controller.player4.right", sf::Keyboard::L);
+			this->setIntValue("controller.player4.action1", sf::Keyboard::Space);
+			this->setIntValue("controller.player4.action2", sf::Keyboard::M);
+			this->setIntValue("controller.player4.pause", sf::Keyboard::P);
+			break;
+			
+		default :
+			break;
+	}
+}
+
 void ConfigFileManager::createDefault()
 {
 	/* Default player's configuration */
-	/* Player 1 */
-	this->setStringValue("controller.player1.type","keyboard");
-	this->setIntValue("controller.player1.up", sf::Keyboard::Up);
-	this->setIntValue("controller.player1.down", sf::Keyboard::Down);
-	this->setIntValue("controller.player1.left", sf::Keyboard::Left);
-	this->setIntValue("controller.player1.right", sf::Keyboard::Right);
-	this->setIntValue("controller.player1.action1", sf::Keyboard::RControl);
-	this->setIntValue("controller.player1.action2", sf::Keyboard::RShift);
-	this->setIntValue("controller.player1.pause",sf::Keyboard::Return);
-	/* Player 2*/
-	this->setStringValue("controller.player2.type","keyboard");
-	this->setIntValue("controller.player2.up", sf::Keyboard::Z);
-	this->setIntValue("controller.player2.down", sf::Keyboard::S);
-	this->setIntValue("controller.player2.left", sf::Keyboard::Q);
-	this->setIntValue("controller.player2.right", sf::Keyboard::D);
-	this->setIntValue("controller.player2.action1", sf::Keyboard::LControl);
-	this->setIntValue("controller.player2.action2", sf::Keyboard::LShift);
-	this->setIntValue("controller.player2.pause", sf::Keyboard::Escape);
-	/* Player 3*/
-	this->setStringValue("controller.player3.type","keyboard");
-	this->setIntValue("controller.player3.up", sf::Keyboard::Numpad8);
-	this->setIntValue("controller.player3.down", sf::Keyboard::Numpad5);
-	this->setIntValue("controller.player3.left", sf::Keyboard::Numpad4);
-	this->setIntValue("controller.player3.right", sf::Keyboard::Numpad6);
-	this->setIntValue("controller.player3.action1", sf::Keyboard::Numpad0);
-	this->setIntValue("controller.player3.action2", sf::Keyboard::Add);
-	this->setIntValue("controller.player3.pause", sf::Keyboard::Subtract);
-	/* Player 4*/
-	this->setStringValue("controller.player4.type","keyboard");
-	this->setIntValue("controller.player4.up", sf::Keyboard::I);
-	this->setIntValue("controller.player4.down", sf::Keyboard::K);
-	this->setIntValue("controller.player4.left", sf::Keyboard::J);
-	this->setIntValue("controller.player4.right", sf::Keyboard::L);
-	this->setIntValue("controller.player4.action1", sf::Keyboard::Space);
-	this->setIntValue("controller.player4.action2", sf::Keyboard::M);
-	this->setIntValue("controller.player4.pause", sf::Keyboard::P);
+	for(int i=0; i<4; i++)
+		this->setDefaultConfig(i);
 	
 	// A compléter pour les skins,...
 	
@@ -201,7 +221,9 @@ std::string ConfigFileManager::getStringValue(std::string key)
 	}
 	else
 	{
-		throw new PolyBomberException("Clé non présente.\n");
+		std::stringstream ss;
+		ss << "Clé " << key << " non présente.\n";
+		throw new PolyBomberException(ss.str());
 	}	
 }
 
