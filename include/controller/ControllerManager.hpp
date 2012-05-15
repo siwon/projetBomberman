@@ -106,6 +106,27 @@ namespace PolyBomber
 		 */
 		~ControllerManager();
 		
+		/*!
+		 * \brief Initialise à faux une structure SKeyPressed
+		 * \return Structure initialisée
+		 */
+		SKeyPressed initSKeyPressed();
+		
+		/*!
+		 * \brief Obtenir l'action de jeu à effectuer suivant un code touche / bouton appuyé
+		 * \param key : code touche / bouton
+		 * \param player : joueur courant
+		 * \return Action à effectuer
+		 */
+		EGameKeys getAction(int key, int player);
+		
+		/*!
+		 * \brief Vérifie si une touche n'est pas déjà assignée
+		 * \param key : code touche
+		 * \return Vrai si la touche est déjà utilisée, faux sinon.
+		 */
+		bool keyUsed(int key);
+		
 	public:
 		
 		/* Méthodes de l'interface IControllerToMenu */
@@ -126,7 +147,9 @@ namespace PolyBomber
 		
 		/* Méthodes de l'interface IControllerToNetwork */
 		
-		//virtual SKeyPressed getKeysPressed();
+		virtual SKeyPressed getKeysPressed();
+		
+		void printConfig(int player);
 	  
   };
 }

@@ -19,6 +19,7 @@
 
 // Headers
 #include "../../include/EMenuKeys.hpp"
+#include "../../include/EGameKeys.hpp"
 #include "../../include/SKeysConfig.hpp"
 #include "../../include/EControllerType.hpp"
 #include "../../include/controller/Gamepad.hpp"
@@ -27,6 +28,13 @@
 using namespace PolyBomber;
 
 int Gamepad::nbGamepad = 0;
+
+const std::string Gamepad::keysLabel[] = {"Axe X", "Axe Y", "Bouton 1", "Bouton 2", "Bouton 3", "Bouton 4", "Bouton 5", "Bouton 6"};
+
+std::string Gamepad::getLabel(int key)
+{
+	return keysLabel[key];
+}
 
 Gamepad::Gamepad()
 {
@@ -115,5 +123,37 @@ char Gamepad::getCharPressed()
 
 int Gamepad::getKeyPressed()
 {
-	return 0;
+	
+	if(sf::Joystick::getAxisPosition(noGamepad, sf::Joystick::X) < -10)
+		return GAME_LEFT;
+
+	if(sf::Joystick::getAxisPosition(noGamepad, sf::Joystick::X) > 10)
+		return GAME_RIGHT;
+
+	if(sf::Joystick::getAxisPosition(noGamepad, sf::Joystick::Y) > 10)
+		return GAME_UP;
+
+	if(sf::Joystick::getAxisPosition(noGamepad, sf::Joystick::Y) < -10)
+		return GAME_DOWN;
+	
+	int k = 0;
+	
+	bool buttonPressed = false;
+
+	while(k < sf::Joystick::getButtonCount(noGamepad) && !buttonPressed)
+	{
+		if( sf::Joystick::isButtonPressed(noGamepad, k) )
+		{
+			buttonPressed = true;
+		}
+		else
+		{
+			k++;
+		}
+		
+	}
+	if( k == sf::Joystick::getButtonCount(noGamepad))
+		k = -1;
+	
+	return k;
 }

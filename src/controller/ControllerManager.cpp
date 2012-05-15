@@ -4,7 +4,7 @@
  * \author Alexandre BISIAUX
  */
 
-#define DEBUG 0
+#define DEBUG 1
 
 /* Includes */
 
@@ -84,9 +84,10 @@ void ControllerManager::reloadConfig()
 	int i;
 	for(i=0; i<4; i++)
 	{
-		ss.str("");
+		
 		try
 		{
+			ss.str("");
 			ss << "controller.player" << i+1 << ".type";
 			type = (EControllerType)(configFileManager->getIntValue(ss.str()));
 			switch(type)
@@ -107,7 +108,8 @@ void ControllerManager::reloadConfig()
 		catch(PolyBomberException* e) // Si une erreur d'assignation est provoquée, on réassigne la configuration clavier par défaut au joueur
 		{
 			controllerAssignation[i].setController(keyboard);
-			configFileManager->setDefaultConfig(i+1);
+			configFileManager->setDefaultKeyboardConfig(i+1);
+			std::cout << e->what();
 		}
 		
 		ss.str("");
@@ -174,9 +176,16 @@ char ControllerManager::getCharPressed()
 SKeysConfig ControllerManager::getConfig(int player)
 {
 	SKeysConfig sKeysConfig;
-	sKeysConfig.controllerType = controllerAssignation[player-1].getController()->getControllerType();
+	Controller* controller = controllerAssignation[player-1].getController();
+	sKeysConfig.controllerType = controller->getControllerType();
 	
-	/* A compléter avec le libellé des touches et la gestion des erreurs */
+	sKeysConfig.keys[GAME_UP] = controller->getLabel(controllerAssignation[player-1].getKeys(GAME_UP));
+	sKeysConfig.keys[GAME_DOWN] = controller->getLabel(controllerAssignation[player-1].getKeys(GAME_DOWN));
+	sKeysConfig.keys[GAME_LEFT] = controller->getLabel(controllerAssignation[player-1].getKeys(GAME_LEFT));
+	sKeysConfig.keys[GAME_RIGHT] = controller->getLabel(controllerAssignation[player-1].getKeys(GAME_RIGHT));
+	sKeysConfig.keys[GAME_ACTION1] = controller->getLabel(controllerAssignation[player-1].getKeys(GAME_ACTION1));
+	sKeysConfig.keys[GAME_ACTION2] = controller->getLabel(controllerAssignation[player-1].getKeys(GAME_ACTION2));
+	sKeysConfig.keys[GAME_PAUSE] = controller->getLabel(controllerAssignation[player-1].getKeys(GAME_PAUSE));
 	
 	return sKeysConfig;
 }
@@ -184,8 +193,47 @@ SKeysConfig ControllerManager::getConfig(int player)
 
 SKeysConfig ControllerManager::setPlayerKey(int player, EGameKeys key)
 {
-	controllerAssignation[player-1].setKeys(key, controllerAssignation[player-1].getController()->getKeyPressed());
-	return this->getConfig(player);	
+	SKeysConfig sKeysConfig = this->getConfig(player);
+	std::cout << "Appuyer sur une touche / bouton" << std::endl;
+	int keyPressed = controllerAssignation[player-1].getController()->getKeyPressed();
+	while( keyPressed == -1)
+	{
+		keyPressed = controllerAssignation[player-1].getController()->getKeyPressed();
+	}
+	/* Si le controleur est de type clavier, on vérifie que la touche voulu n'est pas déjà utilisée par autre joueur ou par lui-même */
+	if(controllerAssignation[player-1].getController()->getControllerType() == KEYBOARD && keyUsed(keyPressed))
+	{
+		sKeysConfig.errors[key] = "Touche déjà utilisée.";
+		#if DEBUG
+			std::cout << sKeysConfig.errors[key] << std::endl;
+		#endif
+		return sKeysConfig;
+	}
+	
+	controllerAssignation[player-1].setKeys(key, keyPressed);
+	return sKeysConfig;
+		
+}
+
+bool ControllerManager::keyUsed(int key)
+{
+	int i=0;
+	int j=0;
+	bool used = false;
+	while(i<4 && !used)
+	{
+		if(controllerAssignation[i].getController()->getControllerType() == KEYBOARD)
+		{
+			while(j<4 && !used)
+			{
+				if(key == controllerAssignation[i].getKeys((EGameKeys)(j)))
+					used = true;
+				j++;
+			}
+		}
+		i++;
+	}
+	return used;
 }
 
 SKeysConfig ControllerManager::setPlayerController(int player, EControllerType type)
@@ -204,23 +252,40 @@ SKeysConfig ControllerManager::setPlayerController(int player, EControllerType t
 				break;
 				
 			case GAMEPAD:
-				if(controllerType != KEYBOARD)
+				try
 				{
-					delete controllerAssignation[player-1].getController();
+					gamepad = new Gamepad();
+					if(controllerType != KEYBOARD)
+					{
+						delete controllerAssignation[player-1].getController();
+					}
+					controllerAssignation[player-1].setController(gamepad);
 				}
-				gamepad = new Gamepad();
-				controllerAssignation[player-1].setController(gamepad);
+				catch(PolyBomberException* e)
+				{
+					#if DEBUG
+						std::cout << e->what();
+					#endif
+				}	
 				break;
 			
 			case WII:
-				std::cout << "WII" << std::endl;
 				/*
-				if(controllerType != KEYBOARD)
+				try
 				{
-					delete controllerAssignation[player-1].getController();
+					wiimote = new Wiimote();
+					if(controllerType != KEYBOARD)
+					{
+						delete controllerAssignation[player-1].getController();
+					}
+					controllerAssignation[player-1].setController(gamepad);
 				}
-				wiimote = new Wiimote();
-				controllerAssignation[player-1].setController(wiimote);*/
+				catch(PolyBomberException* e)
+				{
+					#if DEBUG
+						std::cout << e->what();
+					#endif
+				}*/
 				break;
 				
 			default:
@@ -270,8 +335,126 @@ void ControllerManager::save()
 	}
 }
 
-/*
+SKeyPressed ControllerManager::initSKeyPressed()
+{
+	SKeyPressed sKeyPressed;
+	int i,j;
+	for(i=0;i<4;i++)
+	{
+		for(j=0;j<7;j++)
+		{
+			sKeyPressed.keys[i][j] = false;
+		}
+	}
+}
+
+
 SKeyPressed ControllerManager::getKeysPressed()
 {
-	return NULL;
-}*/
+	SKeyPressed sKeyPressed = initSKeyPressed();
+	int i;
+	Controller* controller;
+	EGameKeys gameKeys;
+	for(i=0; i<4; i++)
+	{
+		controller = controllerAssignation[i].getController();
+		if(controller != NULL)
+		{
+			gameKeys = getAction(controller->getKeyPressed(),i+1);
+			
+			if(gameKeys == GAME_UP)
+			{
+				#if DEBUG
+					std::cout << "Player " << i+1 << ": UP" << std::endl;
+				#endif
+				sKeyPressed.keys[i][GAME_UP] = true;
+			}
+			
+			if(gameKeys == GAME_DOWN)
+			{
+				#if DEBUG
+					std::cout << "Player " << i+1 << ": DOWN" << std::endl;
+				#endif
+				sKeyPressed.keys[i][GAME_DOWN] = true;
+			}
+			
+			if(gameKeys == GAME_LEFT)
+			{
+				#if DEBUG
+					std::cout << "Player " << i+1 << ": LEFT" << std::endl;
+				#endif
+				sKeyPressed.keys[i][GAME_LEFT] = true;
+			}
+			
+			if(gameKeys == GAME_RIGHT)
+			{
+				#if DEBUG
+					std::cout << "Player " << i+1 << ": RIGHT" << std::endl;
+				#endif
+				sKeyPressed.keys[i][GAME_RIGHT] = true;
+			}
+			
+			if(gameKeys == GAME_ACTION1)
+			{
+				#if DEBUG
+					std::cout << "Player " << i+1 << ": ACTION1" << std::endl;
+				#endif
+				sKeyPressed.keys[i][GAME_ACTION1] = true;
+			}
+			
+			if(gameKeys == GAME_ACTION2)
+			{
+				#if DEBUG
+					std::cout << "Player " << i+1 << ": ACTION2" << std::endl;
+				#endif
+				sKeyPressed.keys[i][GAME_ACTION2] = true;
+			}
+			
+			if(gameKeys == GAME_PAUSE)
+			{
+				#if DEBUG
+					std::cout << "Player " << i+1 << ": PAUSE" << std::endl;
+				#endif
+				sKeyPressed.keys[i][GAME_PAUSE] = true;
+			}
+		}
+	}	
+}
+
+EGameKeys ControllerManager::getAction(int key, int player)
+{
+	if( key == (int)(controllerAssignation[player-1].getKeys(GAME_UP)) )
+		return GAME_UP;
+	
+	if( key == (int)(controllerAssignation[player-1].getKeys(GAME_DOWN)) )
+		return GAME_DOWN;
+	
+	if( key == (int)(controllerAssignation[player-1].getKeys(GAME_LEFT)) )
+		return GAME_LEFT;
+	
+	if( key == (int)(controllerAssignation[player-1].getKeys(GAME_RIGHT)) )
+		return GAME_RIGHT;
+	
+	if( key == (int)(controllerAssignation[player-1].getKeys(GAME_ACTION1)) )
+		return GAME_ACTION1;
+	
+	if( key == (int)(controllerAssignation[player-1].getKeys(GAME_ACTION2)) )
+		return GAME_ACTION2;
+	
+	if( key == (int)(controllerAssignation[player-1].getKeys(GAME_PAUSE)) )
+		return GAME_PAUSE;
+	
+	return GAME_NONE;
+}
+
+void ControllerManager::printConfig(int player)
+{
+	std::cout << "Player" << player << std::endl;
+	std::cout << "Type = " << controllerAssignation[player-1].getController()->getControllerType() << std::endl;
+	for(int j=0; j< 7 ; j++)
+	{
+		if(controllerAssignation[player-1].getController() != NULL)
+			std::cout << controllerAssignation[player-1].getController()->getLabel(controllerAssignation[player-1].getKeys((EGameKeys)(j))) << std::endl;
+	}
+
+}

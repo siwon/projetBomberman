@@ -8,7 +8,7 @@ EXEC=test_Controller
 
 all: $(EXEC)
 
-test_Controller: test_Controller.o ControllerManager.o ConfigFileManager.o Keyboard.o Controller.o KeyboardKeys.o Gamepad.o PolyBomberException.o
+test_Controller: test_Controller.o ControllerManager.o ConfigFileManager.o Keyboard.o Controller.o Gamepad.o PolyBomberException.o
 	$(CC) -o $@ $^ $(LDFLAGS)
 
 test_Controller.o: test_Controller.cpp
@@ -27,9 +27,6 @@ Gamepad.o: Gamepad.cpp
 	$(CC) -o $@ -c $< $(CFLAGS)
 
 Controller.o: Controller.cpp
-	$(CC) -o $@ -c $< $(CFLAGS)
-
-KeyboardKeys.o: KeyboardKeys.cpp
 	$(CC) -o $@ -c $< $(CFLAGS)
 
 PolyBomberException.o: ../PolyBomberException.cpp
