@@ -81,7 +81,7 @@ namespace PolyBomber
 			 *
 			 * \return La nouvelle structure de configuration des touches du joueur
 			 */
-			//virtual SKeysConfig setPlayerController(int player, EControllerType type) = 0;
+			virtual SKeysConfig setPlayerController(int player, EControllerType type) = 0;
 
 			/*!
 			 * \brief Sauvegarde de la configuration actuelle des joueurs dans le fichier de configuration

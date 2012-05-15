@@ -58,6 +58,13 @@ namespace PolyBomber
 		 * \return Type du contrôleur
 		 */
 		virtual EControllerType getControllerType() = 0;
+		
+		/*!
+		 * \brief Obtenir le label d'une touche
+		 * \param key : Touche dont on veut obtenir le label
+		 * \return Label correspondant à key
+		 */
+		virtual std::string getLabel(int key) = 0;
 	
   };
 }

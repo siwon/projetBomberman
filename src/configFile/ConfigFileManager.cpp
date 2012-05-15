@@ -23,6 +23,7 @@
 #include "../../include/configFile/ConfigFileManager.hpp"
 #include "../../include/PolyBomberException.hpp"
 #include "../../include/EControllerType.hpp"
+#include "../../include/controller/Gamepad.hpp"
 
 using namespace PolyBomber;
 
@@ -46,7 +47,43 @@ ConfigFileManager::~ConfigFileManager()
 	closeFile();
 }
 
-void ConfigFileManager::setDefaultConfig(int player)
+void ConfigFileManager::setDefaultGamepadConfig(int player)
+{
+	std::stringstream ss;
+	ss << "controller.player" << player << "type";
+	this->setIntValue(ss.str(), GAMEPAD);
+	
+	ss.str("");
+	ss << "controller.player" << player << "up";
+	this->setIntValue(ss.str(), Gamepad::X);
+	
+	ss.str("");
+	ss << "controller.player" << player << "down";
+	this->setIntValue(ss.str(), Gamepad::Y);
+	
+	ss.str("");
+	ss << "controller.player" << player << "left";
+	this->setIntValue(ss.str(), Gamepad::X);
+	
+	ss.str("");
+	ss << "controller.player" << player << "right";
+	this->setIntValue(ss.str(), Gamepad::X);
+	
+	ss.str("");
+	ss << "controller.player" << player << "action1";
+	this->setIntValue(ss.str(), Gamepad::But1);
+	
+	ss.str("");
+	ss << "controller.player" << player << "action2";
+	this->setIntValue(ss.str(), Gamepad::But2);
+	
+	ss.str("");
+	ss << "controller.player" << player << "pause";
+	this->setIntValue(ss.str(), Gamepad::But3);
+}
+	
+	
+void ConfigFileManager::setDefaultKeyboardConfig(int player)
 {
 	switch(player)
 	{
@@ -103,7 +140,7 @@ void ConfigFileManager::createDefault()
 {
 	/* Default player's configuration */
 	for(int i=0; i<4; i++)
-		this->setDefaultConfig(i);
+		this->setDefaultKeyboardConfig(i);
 	
 	// A compléter pour les skins,...
 	

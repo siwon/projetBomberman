@@ -16,7 +16,7 @@
 #include "Controller.hpp"
 #include "../EMenuKeys.hpp"
 #include "../SKeysConfig.hpp"
-#include "KeyboardKeys.hpp"
+
 namespace PolyBomber
 {
   /*!
@@ -25,9 +25,21 @@ namespace PolyBomber
   */
   class Keyboard : public Controller
   {
+	private :
+		
+		static const std::string keysLabel[]; /*!< Labels des touches clavier */
+		
+		
+		/**
+		 * \brief Vérifie si une key SFML correspond à caractère alpha-numérique
+		 * \param key : Valeur à vérifier
+		 * \return Vrai si key correspond un caractère alpha-numérique, faux sinon.
+		 */
+		bool isAlphaNum(sf::Keyboard::Key key);
+		
+		
 	  
 	public :
-		KeyboardKeys keys;
 		
 		/*!
 		 * \brief Constructeur de la classe Keyboard
@@ -50,8 +62,8 @@ namespace PolyBomber
 		
 		virtual int getKeyPressed();
 		
+		virtual std::string getLabel(int key);
 
-		
 
   };
 }

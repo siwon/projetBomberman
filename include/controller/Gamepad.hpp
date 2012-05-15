@@ -11,6 +11,9 @@
 
 // Bibliothèques standarts 
 
+// Bibliothèques SFML
+#include <SFML/Window.hpp>
+
 // Headers
 #include "Controller.hpp"
 #include "../EMenuKeys.hpp"
@@ -24,6 +27,25 @@ namespace PolyBomber
   */
   class Gamepad : public Controller
   {
+	public :
+		/**
+		 * \enum Keys
+		 * \brief Enumération des touches disponibles pour un controleur de type Joystick
+		 */
+		enum Keys
+		{
+			X = sf::Joystick::X,
+			Y = sf::Joystick::Y,
+			But1,
+			But2,
+			But3,
+			But4,
+			But5,
+			But6
+		};
+		static const std::string keysLabel[];
+		
+		
 	private :
 		int noGamepad;
 		
@@ -48,6 +70,8 @@ namespace PolyBomber
 		virtual char getCharPressed(); /* Non disponible pour les joystick */
 		
 		virtual int getKeyPressed();
+		
+		virtual std::string getLabel(int key);
 
   };
 }

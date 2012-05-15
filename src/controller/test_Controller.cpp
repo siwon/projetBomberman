@@ -18,8 +18,13 @@
 // Headers
 #include "../../include/controller/ControllerManager.hpp"
 #include "../../include/PolyBomberException.hpp"
+#include "../../include/SKeysConfig.hpp"
+#include "../../include/EGameKeys.hpp"
+#include "../../include/EControllerType.hpp"
 
 using namespace PolyBomber;
+
+
 
 int main()
 {
@@ -32,16 +37,23 @@ int main()
 
 
 	// Limit the framerate to 1 frames per second (this step is optional)
-	window.setFramerateLimit(15);
+	window.setFramerateLimit(30);
 	
+	//controllerManager->setPlayerKey(1,GAME_UP);
+
+	//controllerManager->printConfig(1);
+	//controllerManager->setPlayerController(2,GAMEPAD);
+	/*controllerManager->printConfig(2);
+	controllerManager->printConfig(3);
+	controllerManager->printConfig(4);*/
 	
 	// The main loop - ends as soon as the window is closed
 	while (window.isOpen())
 	{
-		controllerManager->getKeyPressed();
-		controllerManager->getCharPressed();
-		//controllerManager->setPlayerKey(1,UP);
-		
+		//controllerManager->getKeyPressed();
+		//controllerManager->getCharPressed();
+		controllerManager->getKeysPressed();
+
 		// Event processing
 		sf::Event event;
 		while (window.pollEvent(event))

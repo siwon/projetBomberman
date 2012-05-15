@@ -69,9 +69,19 @@ namespace PolyBomber
 		virtual int getIntValue(std::string key);
 		
 		/*!
-		 * \brief Ecriture de la configuration par défaut du joueur donné
+		 * \brief Ecriture de la configuration clavier par défaut du joueur donné
 		 */
-		void setDefaultConfig(int player);
+		void setDefaultKeyboardConfig(int player);
+		
+		/*!
+		 * \brief Ecriture de la configuration joystick par défaut du joueur donné
+		 */
+		void setDefaultGamepadConfig(int player);
+		
+		/*!
+		 * \brief Ecriture de la configuration wiimote par défaut du joueur donné
+		 */
+		void setDefaultWiimoteConfig(int player);
 		
 	private :
 		
