@@ -3,27 +3,25 @@
 
 /*!
  * \file INetworkToGameInterface.hpp
- * \brief Interface entre le composant RÃ©seau et Plateau de jeu
- * \author Maxime GUIHAL
+ * \brief Interface réseau - affichage
+ * \author Brice GUILLERMIC
  */
 
 #include "IGameEngineToGameInterface.hpp"
-
 namespace PolyBomber
 {
 	/*!
 	 * \class INetworkToGameInterface
-	 * \brief Interface RÃ©seau - Plateau de jeu
+	 * \brief Interface Interface réseau - affichage
 	 */
 	class INetworkToGameInterface : public IGameEngineToGameInterface
 	{
 		public:
-			// TODO - A ComplÃ©ter
-	};
-}
+			/*!
+			 * \brief Obtenir le joueur qui a mis le jeu en pause
+			 * \return Numéro du joueur
+			 */
+			virtual int isPaused() =0;
+};
 
 #endif
-
-
-
-

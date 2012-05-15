@@ -3,25 +3,33 @@
 
 /*!
  * \file INetworkToGameEngine.hpp
- * \brief Interface entre le composant RÃ©seau et Moteur de jeu
- * \author Maxime GUIHAL
+ * \brief Interface réseau - moteur de jeu
+ * \author Brice GUILLERMIC
  */
+
+#include "SKeyPressed.hpp"
 
 namespace PolyBomber
 {
 	/*!
 	 * \class INetworkToGameEngine
-	 * \brief Interface RÃ©seau - Moteur de jeu
+	 * \brief Interface Interface réseau - moteur de jeu
 	 */
 	class INetworkToGameEngine
 	{
 		public:
-			// TODO - A ComplÃ©ter
-	};
-}
+			/*!
+			 * \brief Obtenir les touches déclenchées
+			 * \return Matrice de booléens à VRAI si la touche est déclanché
+			 *	à FAUX si elle ne l'est pas
+			 */
+			virtual SKeyPressed : getKeyPressed() = 0;
+			/*!
+			 * \brief Demande si le jeu est en pause
+			 * \return VRAI si le jeu est en pause
+			 *	FAUX sinon
+			 */
+			virtual bool : isPaused() = 0;
+};
 
 #endif
-
-
-
-
