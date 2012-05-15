@@ -23,13 +23,13 @@ namespace PolyBomber
 			 * \return Matrice de booléens à VRAI si la touche est déclanché
 			 *	à FAUX si elle ne l'est pas
 			 */
-			virtual SKeyPressed : getKeyPressed() = 0;
+			virtual SKeyPressed getKeysPressed() = 0;
 			/*!
 			 * \brief Demande si le jeu est en pause
 			 * \return VRAI si le jeu est en pause
 			 *	FAUX sinon
 			 */
-			virtual bool : isPaused() = 0;
+			virtual int isPaused() = 0;
 };
 
 #endif

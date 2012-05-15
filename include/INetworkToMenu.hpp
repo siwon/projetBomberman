@@ -23,7 +23,7 @@ namespace PolyBomber
 			 * \brief Enregistrer la connexion d'un ordinateur distant
 			 * \return rien
 			 */
-			virtual void joingame(string ip)=0;
+			virtual void joinGame(string ip)=0;
 			/*!
 			 * \brief Nombre de place restant pour accueillir des joueurs
 			 * \return Entier correspondant au nombre de joueurs
