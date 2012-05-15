@@ -3,42 +3,31 @@
 
 /*!
  * \file NetworkManager.hpp
- * \brief Classe de gestion du r√©seau
- * \author Maxime GUIHAL
+ * \brief gestionnaire rÈseau
+ * \author Brice GUILLERMIC
  */
 
-#include "INetworkToMenu.hpp"
+#include <SFML/Network.hpp>
+
+#include "Sboard.hpp"
 #include "INetworkToGameInterface.hpp"
 #include "INetworkToGameEngine.hpp"
-#include "TSingleton.hpp"
+#include "INetworkToMenu.hpp"
+#include "SGameConfig.hpp"
 
 namespace PolyBomber
 {
 	/*!
 	 * \class NetworkManager
-	 * \brief Classe de gestion du r√©seau
+	 * \brief singleton du gestionnaire rÈseau
 	 */
-	class NetworkManager : public INetworkToMenu,
-						   public INetworkToGameInterface,
-						   public INetworkToGameEngine,
-						   public Singleton<NetworkManager>
+	class NetworkManager : public INetworkToGameInterface, public INetworkToMenu, public INetworkToGameEngine
 	{
-		friend class Singleton<NetworkManager>;
-
-		public:
-			// TODO - A compl√©ter
-
 		private:
-			/*!
-			 * \brief Constructeur
-			 */
-			NetworkManager();
-
-			/*!
-			 * \brief Destructeur
-			 */
-			~NetworkManager();
-	};
-}
+			SGameConfig gameConfig;
+			sf::IpAddress[4] ip;
+		public:
+			
+};
 
 #endif
