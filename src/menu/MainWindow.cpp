@@ -18,32 +18,38 @@ namespace PolyBomber
 		this->settings = sf::VideoMode();
 		this->initVideoMode(this->style, this->settings);
 
+		IConfigFile* configFile = new ConfigFileManager();
+
 		try
 		{
-			/*IConfigFile* configFile = new ConfigFileManager();
-
 			// On charge les paramètres du plein écran
 			if (configFile->getIntValue("window.fullscreen.enabled"))
 			{
-				style = sf::Style::Fullscreen;
-				settings.width = configFile->getIntValue("window.fullscreen.width");
-				settings.height = configFile->getIntValue("window.fullscreen.height");
-				settings.bitsPerPixel = configFile->getIntValue("window.fullscreen.bpp");
+				this->style = sf::Style::Fullscreen;
+				this->settings.width = configFile->getIntValue("window.fullscreen.width");
+				this->settings.height = configFile->getIntValue("window.fullscreen.height");
+				this->settings.bitsPerPixel = configFile->getIntValue("window.fullscreen.bpp");
 			}
 
-			delete configFile;
-
-			if (!settings.isValid())
-				throw PolyBomberException("Mode video plein ecran incorrect");*/
+			if (!this->settings.isValid())
+				throw PolyBomberException("Mode video plein ecran incorrect");
 		}
 		catch (PolyBomberException& e)
 		{
-			std::cerr << "Erreur : " << e.what() << std::endl;
-			this->initVideoMode(style, settings);
+			std::cerr << e.what() << std::endl;
+			this->initVideoMode(this->style, this->settings);
 		}
 
+		delete configFile;
+			
 		this->window.create(this->settings, "PolyBomber", this->style);
 		this->window.setMouseCursorVisible(false);
+
+		while (this->window.isOpen())
+		{
+			this->window.clear();
+			this->window.display();
+		}
 	}
 
 	MainWindow::~MainWindow()

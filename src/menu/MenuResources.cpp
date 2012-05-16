@@ -9,10 +9,9 @@
 
 namespace PolyBomber
 {
-	MenuResources::MenuResources()
+	MenuResources::MenuResources() : window()
 	{
 		initInterfaces();
-		this->window = MainWindow();
 	}
 
 	MenuResources::~MenuResources()

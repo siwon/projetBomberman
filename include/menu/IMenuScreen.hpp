@@ -7,6 +7,9 @@
  * \author Maxime GUIHAL
  */
 
+#include "menu/EMenuScreen.hpp"
+#include "menu/MenuResources.hpp"
+
 namespace PolyBomber
 {
 	/*!

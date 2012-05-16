@@ -11,7 +11,6 @@ using namespace PolyBomber;
 int main()
 {
 	PolyBomberApp* app = PolyBomberApp::getInstance();
-
 	int signal = app->run();
 
 	PolyBomberApp::kill();

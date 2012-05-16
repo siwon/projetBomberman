@@ -57,6 +57,11 @@ namespace PolyBomber
 			 * \return Nombre correspondant à la clé
 			 */
 			virtual int getIntValue(std::string key) = 0;
+
+			/*!
+			 * \brief Destructeur virtuel
+			 */
+			virtual ~IConfigFile() {};
 	};
 }
 

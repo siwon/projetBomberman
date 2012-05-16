@@ -8,10 +8,8 @@
 
 namespace PolyBomber
 {
-	MenuManager::MenuManager()
-	{
-		this->menuResources = MenuResources();
-	}
+	MenuManager::MenuManager() : menuResources()
+	{}
 
 	MenuManager::~MenuManager()
 	{}
