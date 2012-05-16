@@ -28,6 +28,11 @@ namespace PolyBomber
 			 * chaque joueur.
 			 */
 			virtual SKeyPressed getKeysPressed() = 0;
+
+			/*!
+			 * \brief Destructeur virtuel
+			 */
+			virtual ~IControllerToNetwork() {};
 	};
 }
 

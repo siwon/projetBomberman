@@ -87,6 +87,11 @@ namespace PolyBomber
 			 * rechargement entier du skin
 			 */
 			virtual void reloadConfig() = 0;
+
+			/*!
+			 * \brief Destructeur virtuel
+			 */
+			virtual ~ISkin() {};
 	};
 }
 

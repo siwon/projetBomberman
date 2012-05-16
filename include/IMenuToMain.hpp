@@ -24,6 +24,11 @@ namespace PolyBomber
 			 * l'exécution s'est bien passée, EXITERROR sinon
 			 */
 			virtual EScreenSignal run() = 0;
+
+			/*!
+			 * \brief Destructeur virtuel
+			 */
+			virtual ~IMenuToMain() {};
 	};
 }
 

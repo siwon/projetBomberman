@@ -25,6 +25,11 @@ namespace PolyBomber
 			 * l'exécution s'est bien passée, EXITERROR sinon
 			 */
 			virtual EScreenSignal runPause(unsigned int player) = 0;
+
+			/*!
+			 * \brief Destructeur virtuel
+			 */
+			virtual ~IMenuToGameInterface() {};
 	};
 }
 

@@ -17,11 +17,16 @@ namespace PolyBomber {
   */
   class IGameEngineToNetwork : public IGameEngineToGameInterface {
     public :
-      /*!
-      * \brief Méthode qui configure le jeu
-      * Cette méthode permet de configurer le jeu.
-      */
-      virtual void setGameConfig(SGameConfig gameConfig);
+		/*!
+		* \brief Méthode qui configure le jeu
+		* Cette méthode permet de configurer le jeu.
+		*/
+		virtual void setGameConfig(SGameConfig gameConfig);
+
+		/*!
+		 * \brief Destructeur virtuel
+		 */
+		virtual ~IGameEngineToNetwork() {};
   };
 }
 

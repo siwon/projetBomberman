@@ -33,6 +33,11 @@ namespace PolyBomber
 			 * 
 			 */
 			virtual EScreenSignal run(sf::RenderWindow window, unsigned int score[4], int& winner) = 0;
+
+			/*!
+			 * \brief Destructeur virtuel
+			 */
+			virtual ~IGameInterfaceToMenu() {};
 	};
 }
 
