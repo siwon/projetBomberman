@@ -21,7 +21,7 @@ namespace PolyBomber
 	MenuResources::MenuResources(const MenuResources& obj)
 	{
 		initInterfaces();
-		this->window = MainWindow(obj.window);
+		this->window = obj.window;
 	}
 
 	MenuResources& MenuResources::operator=(const MenuResources& obj)
@@ -33,8 +33,8 @@ namespace PolyBomber
 
 	void MenuResources::initInterfaces()
 	{
-		this->gameInterfaceToMenu = PolyBomberApp::getIGameInterfaceToMenu();
-		this->networkToMenu = PolyBomberApp::getINetworkToMenu();
+		/*this->gameInterfaceToMenu = PolyBomberApp::getIGameInterfaceToMenu();
+		this->networkToMenu = PolyBomberApp::getINetworkToMenu();*/
 		this->skin = PolyBomberApp::getISkin();
 		this->sound = PolyBomberApp::getISound();
 	}

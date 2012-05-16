@@ -9,22 +9,22 @@
 namespace PolyBomber
 {
 	MenuManager* PolyBomberApp::menuManager = NULL;
-	/*GameInterfaceManager* PolyBomberApp::gameInterfaceManager = NULL;
-	NetworkManager* PolyBomberApp::networkManager = NULL;
-	GameEngineManager* PolyBomberApp::gameEngineManager = NULL;
-	ControllerManager* PolyBomberApp::controllerManager = NULL;
+	//GameInterfaceManager* PolyBomberApp::gameInterfaceManager = NULL;
+	//NetworkManager* PolyBomberApp::networkManager = NULL;
+	//GameEngineManager* PolyBomberApp::gameEngineManager = NULL;
+	//ControllerManager* PolyBomberApp::controllerManager = NULL;
 	SoundManager* PolyBomberApp::soundManager = NULL;
-	SkinManager* PolyBomberApp::skinManager = NULL;*/
+	SkinManager* PolyBomberApp::skinManager = NULL;
 
 	PolyBomberApp::PolyBomberApp()
 	{
 		PolyBomberApp::menuManager = MenuManager::getInstance();
-		/*PolyBomberApp::gameInterfaceManager = GameInterfaceManager::getInstance();
-		PolyBomberApp::networkManager = NetworkManager::getInstance();
-		PolyBomberApp::gameEngineManager = GameEngineManager::getInstance();
-		PolyBomberApp::controllerManager = ControllerManager::getInstance();
+		//PolyBomberApp::gameInterfaceManager = GameInterfaceManager::getInstance();
+		//PolyBomberApp::networkManager = NetworkManager::getInstance();
+		//PolyBomberApp::gameEngineManager = GameEngineManager::getInstance();
+		//PolyBomberApp::controllerManager = ControllerManager::getInstance();
 		PolyBomberApp::soundManager = SoundManager::getInstance();
-		PolyBomberApp::skinManager = SkinManager::getInstance();*/
+		PolyBomberApp::skinManager = SkinManager::getInstance();
 	}
 
 	PolyBomberApp::~PolyBomberApp()
@@ -33,9 +33,9 @@ namespace PolyBomber
 		/*GameInterfaceManager::kill();
 		NetworkManager::kill();
 		GameEngineManager::kill();
-		ControllerManager::kill();
+		ControllerManager::kill();*/
 		SoundManager::kill();
-		SkinManager::kill();*/
+		SkinManager::kill();
 	}
 
 	/*IControllerToMenu* PolyBomberApp::getIControllerToMenu()
@@ -61,9 +61,9 @@ namespace PolyBomber
 	INetworkToGameInterface* PolyBomberApp::getINetworkToGameInterface()
 	{
 		return static_cast<INetworkToGameInterface*>(PolyBomberApp::networkManager);
-	}
+	}*/
 	
-	INetworkToMenu* PolyBomberApp::getINetworkToMenu()
+	/*INetworkToMenu* PolyBomberApp::getINetworkToMenu()
 	{
 		return static_cast<INetworkToMenu*>(PolyBomberApp::networkManager);
 	}*/
@@ -77,11 +77,11 @@ namespace PolyBomber
 	{
 		return static_cast<IMenuToMain*>(PolyBomberApp::menuManager);
 	}
-	/*		
+	/*	
 	IGameInterfaceToMenu* PolyBomberApp::getIGameInterfaceToMenu()
 	{
 		return static_cast<IGameInterfaceToMenu*>(PolyBomberApp::gameInterfaceManager);
-	}
+	}*/
 				
 	ISkin* PolyBomberApp::getISkin()
 	{
@@ -97,7 +97,8 @@ namespace PolyBomber
 	{
 		IMenuToMain* menu = PolyBomberApp::getIMenuToMain();
 		return menu->run();
-	}*/
+		return false;
+	}
 }
 
 
