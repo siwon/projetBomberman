@@ -11,7 +11,6 @@
 #include "INetworkToMenu.hpp"
 #include "ISkin.hpp"
 #include "ISound.hpp"
-#include "IConfigFile.hpp"
 
 #include "menu/MainWindow.hpp"
 

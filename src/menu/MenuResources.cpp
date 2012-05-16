@@ -33,8 +33,8 @@ namespace PolyBomber
 
 	void MenuResources::initInterfaces()
 	{
-		/*this->gameInterfaceToMenu = PolyBomberApp::getIGameInterfaceToMenu();
-		this->networkToMenu = PolyBomberApp::getINetworkToMenu();*/
+		//this->gameInterfaceToMenu = PolyBomberApp::getIGameInterfaceToMenu();
+		//this->networkToMenu = PolyBomberApp::getINetworkToMenu();
 		this->skin = PolyBomberApp::getISkin();
 		this->sound = PolyBomberApp::getISound();
 	}

@@ -13,11 +13,10 @@
 
 namespace PolyBomber
 {
-	MainWindow::MainWindow()
+	MainWindow::MainWindow() : window()
 	{
-		unsigned int style;
-		sf::VideoMode settings = sf::VideoMode();
-		this->initVideoMode(style, settings);
+		this->settings = sf::VideoMode();
+		this->initVideoMode(this->style, this->settings);
 
 		try
 		{
@@ -41,21 +40,23 @@ namespace PolyBomber
 		{
 			std::cerr << "Erreur : " << e.what() << std::endl;
 			this->initVideoMode(style, settings);
-		}		
-
-		sf::RenderWindow(settings, "PolyBomber", style);
-
-		while(1)
-		{
-			sf::RenderWindow::display();
 		}
+
+		this->window.create(this->settings, "PolyBomber", this->style);
+		this->window.setMouseCursorVisible(false);
 	}
 
 	MainWindow::~MainWindow()
 	{}
 
+	MainWindow::MainWindow(const MainWindow& obj) : window()
+	{
+		this->window.create(obj.getSettings(), "PolyBomber", obj.getStyle());
+	}
+
 	MainWindow& MainWindow::operator=(const MainWindow& obj)
 	{
+		this->window.create(obj.getSettings(), "PolyBomber", obj.getStyle());
 		return *this;
 	}
 
@@ -66,6 +67,16 @@ namespace PolyBomber
 		mode.width = 800;
 		mode.height = 600;
 		mode.bitsPerPixel = sf::VideoMode::getDesktopMode().bitsPerPixel;
+	}
+
+	unsigned int MainWindow::getStyle() const 
+	{
+		return this->style;
+	}
+
+	sf::VideoMode MainWindow::getSettings() const
+	{
+		return this->settings;
 	}
 }
 

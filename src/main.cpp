@@ -8,7 +8,7 @@
 
 using namespace PolyBomber;
 
-int main(int argc, char** argv)
+int main()
 {
 	PolyBomberApp* app = PolyBomberApp::getInstance();
 

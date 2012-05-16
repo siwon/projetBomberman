@@ -18,7 +18,6 @@
 
 namespace PolyBomber
 {
-	class PolyBomberApp;
 	/*!
 	 * \class MenuManager
 	 * \brief Classe de gestion du menu

@@ -16,7 +16,7 @@ namespace PolyBomber
 	class IMenuScreen
 	{
 		public:
-			// TODO - A Compléter
+			virtual EMenuScreen run(MenuResources& resources, EMenuScreen previous) = 0;
 	};
 }
 
