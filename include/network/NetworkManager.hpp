@@ -8,6 +8,7 @@
  */
 
 #include <SFML/Network.hpp>
+#include <list>
 
 #include "../Sboard.hpp"
 #include "../INetworkToGameInterface.hpp"
@@ -16,6 +17,7 @@
 #include "../IControllerToNetwork.hpp"
 #include "../IGameEngineToNetwork.hpp"
 #include "../SGameConfig.hpp"
+#include "../DataPlayer.hpp"
 #include "../TSingleton.hpp"
 
 namespace PolyBomber
@@ -33,6 +35,12 @@ namespace PolyBomber
 		private:
 			SGameConfig gameConfig;
 			sf::IpAddress* ip;
+			int paused;
+			bool started;
+			DataPlayer* players;
+			sf::SocketSelector selector;
+			sf::TcpListener listener;
+			std::list<sf::TcpSocket*> clients;
 
 			IControllerToNetwork* controller;
 			IGameEngineToNetwork* gameEngine;
@@ -41,7 +49,6 @@ namespace PolyBomber
 			 * \brief Constructeur
 			 */
 			NetworkManager();
-
 			/*!
 			 * \brief Destructeur
 			 */
@@ -50,18 +57,27 @@ namespace PolyBomber
 			SKeyPressed getKeysPressed();
 			int isPaused();
 
-			void joinGame(string ip);
-			int getFreeSlots();
-			void setBookedSlots(unsigned int nb);
-			void setPlayerName(string[]);
-			int* getScores();
+			//void joinGame(string ip);
+			//int getFreeSlots();
+			//void setBookedSlots(unsigned int nb);
+			//void setPlayerName(string[]);
+			//int* getScores();
 			bool isStarted();
-			void startGame();
-			string getIpAddress();
-			void setGameConfig(SGameConfig gameConfig);
-
+			//void startGame();
+			std::string getIpAddress();
+			void setGameConfig(SGameConfig& gameConfig);
+			
 			SBoard getBoard();
 			int isFinished();
-};
 
+			/******méthode ne provenant pas d'interface***/
+			sf::IpAddress getIp();
+			void createSocket(sf::IpAddress);
+			void createListener();
+			//sf::Packet createPacket();
+			//void decryptPacket(sf::Packet);
+			//void sendPacket(sf::Packet, sf::IpAddress);
+
+	};
+}
 #endif

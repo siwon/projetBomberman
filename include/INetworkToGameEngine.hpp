@@ -30,6 +30,6 @@ namespace PolyBomber
 			 *	FAUX sinon
 			 */
 			virtual int isPaused() = 0;
-};
-
+	};
+}
 #endif
