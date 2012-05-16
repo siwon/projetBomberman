@@ -27,7 +27,7 @@ namespace PolyBomber
 			 * \return La matrice des touches actuellement pressées pour
 			 * chaque joueur.
 			 */
-			//virtual SKeyPressed getKeysPressed() = 0;
+			virtual SKeyPressed getKeysPressed() = 0;
 	};
 }
 

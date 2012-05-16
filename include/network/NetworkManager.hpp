@@ -3,32 +3,40 @@
 
 /*!
  * \file NetworkManager.hpp
- * \brief Classe de gestion du r√©seau
- * \author Maxime GUIHAL
+ * \brief gestionnaire rÈseau
+ * \author Brice GUILLERMIC
  */
 
-#include "INetworkToMenu.hpp"
-#include "INetworkToGameInterface.hpp"
-#include "INetworkToGameEngine.hpp"
-#include "TSingleton.hpp"
+#include <SFML/Network.hpp>
+
+#include "../Sboard.hpp"
+#include "../INetworkToGameInterface.hpp"
+#include "../INetworkToGameEngine.hpp"
+#include "../INetworkToMenu.hpp"
+#include "../IControllerToNetwork.hpp"
+#include "../IGameEngineToNetwork.hpp"
+#include "../SGameConfig.hpp"
+#include "../TSingleton.hpp"
 
 namespace PolyBomber
 {
 	/*!
 	 * \class NetworkManager
-	 * \brief Classe de gestion du r√©seau
+	 * \brief singleton du gestionnaire rÈseau
 	 */
-	class NetworkManager : public INetworkToMenu,
-						   public INetworkToGameInterface,
-						   public INetworkToGameEngine,
-						   public Singleton<NetworkManager>
+	class NetworkManager : public INetworkToGameInterface,
+		public INetworkToMenu, 
+		public INetworkToGameEngine, 
+		public Singleton<NetworkManager>
 	{
 		friend class Singleton<NetworkManager>;
-
-		public:
-			// TODO - A compl√©ter
-
 		private:
+			SGameConfig gameConfig;
+			sf::IpAddress* ip;
+
+			IControllerToNetwork* controller;
+			IGameEngineToNetwork* gameEngine;
+
 			/*!
 			 * \brief Constructeur
 			 */
@@ -38,7 +46,22 @@ namespace PolyBomber
 			 * \brief Destructeur
 			 */
 			~NetworkManager();
-	};
-}
+		public:
+			SKeyPressed getKeysPressed();
+			int isPaused();
+
+			void joinGame(string ip);
+			int getFreeSlots();
+			void setBookedSlots(unsigned int nb);
+			void setPlayerName(string[]);
+			int* getScores();
+			bool isStarted();
+			void startGame();
+			string getIpAddress();
+			void setGameConfig(SGameConfig gameConfig);
+
+			SBoard getBoard();
+			int isFinished();
+};
 
 #endif
