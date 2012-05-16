@@ -65,6 +65,7 @@ namespace PolyBomber
 			 * \return rien
 			 */
 			virtual void setGameConfig(SGameConfig gameConfig) =0;
-};
+	};
+}
 
 #endif
