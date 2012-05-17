@@ -12,7 +12,7 @@ namespace PolyBomber {
   * \class Explosive
   * \brief Classe Explosive
   */
-  class Explosive {
+	class Explosive : public Location {
     protected :
       int impact;		/*!  */
       int step;		/*!  */

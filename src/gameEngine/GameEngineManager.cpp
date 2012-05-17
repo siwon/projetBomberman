@@ -43,10 +43,34 @@ void GameEngineManager::activateDetonator(Player player) { //a terminer
 void GameEngineManager::putMine(Player player) {
   if (player.getCapacity()) {
     player.decreaseCapacity();
-    this.board.add(new 
+    //this.board.add(new );
+	// TODO : à terminer
   }
 }
 
 void GameEngineManager::breakBox(Box box) {
   box.broke();
+}
+
+SBoard GameEngineManager::getBoard() {
+  SBoard toReturn;
+  
+  // TODO : à terminer
+  
+  return toReturn;
+}
+
+bool GameEngineManager::isFinished() {
+  int nbSurvivant;
+  bool toReturn;
+  
+  // TODO : à terminer
+  
+  return toReturn;
+}
+
+void GameEngineManager::setGameConfig(SGameConfig gameConfig) {
+  int nbPlayers = gameConfig->nbPlayers;
+  int nbBonus = gameConfig->nbBonus;
+  
 }
