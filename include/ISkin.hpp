@@ -10,7 +10,7 @@
 #include <vector>
 
 #include <SFML/Graphics/Color.hpp>
-#include <SFML/Graphics/Image.hpp>
+#include <SFML/Graphics/Texture.hpp>
 
 #include "EImage.hpp"
 #include "EColorKey.hpp"
@@ -45,7 +45,7 @@ namespace PolyBomber
 			 * \param name Clé correspondante à l'image
 			 * \return Image du skin
 			 */
-			virtual sf::Image loadImage(EImage name) = 0;
+			virtual sf::Texture* loadImage(EImage name) = 0;
 
 			/*!
 			 * \brief Chargement d'une couleur donnée

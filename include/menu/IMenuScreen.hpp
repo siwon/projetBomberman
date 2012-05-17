@@ -6,9 +6,14 @@
  * \brief Interface des ecrans du menu
  * \author Maxime GUIHAL
  */
+ 
+#include <vector>
+
+#include <SFML/Graphics.hpp>
 
 #include "menu/EMenuScreen.hpp"
 #include "menu/MenuResources.hpp"
+#include "menu/IWidgetMenu.hpp"
 
 namespace PolyBomber
 {
@@ -31,6 +36,9 @@ namespace PolyBomber
 			 * \brief Destructeur virtuel
 			 */
 			virtual ~IMenuScreen() {};
+
+		protected:
+			std::vector<IWidgetMenu*> widgets; /*!< Liste des widgets des écrans */
 	};
 }
 

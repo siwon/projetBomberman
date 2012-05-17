@@ -9,14 +9,10 @@
 namespace PolyBomber
 {
 	SkinManager::SkinManager()
-	{
-		
-	}
+	{}
 
 	SkinManager::~SkinManager()
-	{
-
-	}
+	{}
 
 	std::vector<std::string> SkinManager::getSkinsList()
 	{
@@ -24,10 +20,11 @@ namespace PolyBomber
 		return v;
 	}
 	
-	sf::Image SkinManager::loadImage(EImage name)
+	sf::Texture* SkinManager::loadImage(EImage name)
 	{
-		sf::Image i;
-		return i;
+		sf::Texture* t = new sf::Texture();
+		t->loadFromFile("logo.png");
+		return t;
 	}
 	
 	sf::Color SkinManager::getColor(EColorKey key)

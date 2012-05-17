@@ -15,7 +15,7 @@ namespace PolyBomber
 	 */
 	enum EImage
 	{
-		LOGO /*!< Logo du programme */
+		SPLASH /*!< Ecran d'accueil du programme */
 
 		// TODO: Remplir avec les autres libellés des images
 	};
