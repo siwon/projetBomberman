@@ -10,7 +10,7 @@
 #include <SFML/Network.hpp>
 #include <list>
 
-#include "../Sboard.hpp"
+#include "../SBoard.hpp"
 #include "../INetworkToGameInterface.hpp"
 #include "../INetworkToGameEngine.hpp"
 #include "../INetworkToMenu.hpp"
@@ -18,6 +18,7 @@
 #include "../IGameEngineToNetwork.hpp"
 #include "../SGameConfig.hpp"
 #include "../DataPlayer.hpp"
+#include "../SKeyPressed.hpp"
 #include "../TSingleton.hpp"
 
 namespace PolyBomber
@@ -38,9 +39,8 @@ namespace PolyBomber
 			int paused;
 			bool started;
 			DataPlayer* players;
-			sf::SocketSelector selector;
-			sf::TcpListener listener;
 			std::list<sf::TcpSocket*> clients;
+			SBoard board;
 
 			IControllerToNetwork* controller;
 			IGameEngineToNetwork* gameEngine;
@@ -73,11 +73,12 @@ namespace PolyBomber
 			/******méthode ne provenant pas d'interface***/
 			sf::IpAddress getIp();
 			void createSocket(sf::IpAddress);
-			void createListener();
-			//sf::Packet createPacket();
+			void createServerSocket();
+			sf::Packet createPacket(int);
 			//void decryptPacket(sf::Packet);
 			//void sendPacket(sf::Packet, sf::IpAddress);
-
+			sf::Packet& operator<<(sf::Packet&, const SBoard&);
+			sf::Packet& operator<<(sf::Packet&, const SKeyPressed&);
 	};
 }
 #endif

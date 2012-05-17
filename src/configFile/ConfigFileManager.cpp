@@ -260,7 +260,7 @@ std::string ConfigFileManager::getStringValue(std::string key)
 	{
 		std::stringstream ss;
 		ss << "Clé " << key << " non présente.\n";
-		throw new PolyBomberException(ss.str());
+		throw PolyBomberException(ss.str());
 	}	
 }
 

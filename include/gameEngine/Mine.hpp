@@ -13,7 +13,11 @@ namespace PolyBomber {
   * \brief Classe Mine
   */
   class Mine : public Explosive {
-    
+	public :
+	  Mine();
+	  Mine(Mine mine);
+	  //opérateur d'affectation
+	  ~Mine();
   };
 }
 

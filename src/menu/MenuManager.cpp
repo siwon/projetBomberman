@@ -8,21 +8,22 @@
 
 namespace PolyBomber
 {
-	MenuManager::MenuManager()
-	{
-		this->menuResources = MenuResources();
-	}
+	MenuManager::MenuManager() : menuResources()
+	{}
 
 	MenuManager::~MenuManager()
 	{}
 
-	EScreenSignal run()
+	EScreenSignal MenuManager::run()
 	{
-		
+		// TODO
+		return EXITGAME;
 	}
 
-	EScreenSignal runPause(unsigned int player)
+	
+	EScreenSignal MenuManager::runPause(unsigned int player)
 	{
-
+		// TODO
+		return EXITMENU;
 	}
 }

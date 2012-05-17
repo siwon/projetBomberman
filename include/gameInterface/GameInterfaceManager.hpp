@@ -22,7 +22,7 @@ namespace PolyBomber
 		friend class Singleton<GameInterfaceManager>;
 
 		public:
-			// TODO - A compléter
+			EScreenSignal run(sf::RenderWindow window, unsigned int score[4], int& winner);
 
 		private:
 			/*!

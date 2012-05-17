@@ -12,9 +12,15 @@ namespace PolyBomber {
   * \class Bonus
   * \brief Classe Bonus
   */
-  class Bonus {
+	class Bonus : public Location {
     protected :
-      Cell cellule;
+      
+	  
+	public :
+	  Bonus();
+	  Bonus(Cell cell);
+	  //opérateur de recopie
+	  ~Bonus();
   };
 }
 

@@ -15,9 +15,26 @@ namespace PolyBomber
 	 */
 	enum EGameBonus
 	{
-		SPEEDUP /*!< Accélération du joueur */
-
-		// TODO: Remplir avec les autres bonus
+		SPEEDUP, /*!< Accélération du joueur */
+		SPEEDDOWN, 
+		BOMBLINE,
+		DETONATOR,
+		BOMBUP,
+		BOMBDOWN,
+		RANGEUP,
+		RANGEDOWN,
+		RANGEUPMAX,
+		MINE,
+		INITYBOMB,
+		ATOMICBOMB,
+		CRANE,
+		HELL,
+		CONFUSION,
+		SPASME,
+		DILATATION,
+		RAGE
+		
+		TODO : À commenter
 	};
 }
 

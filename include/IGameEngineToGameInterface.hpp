@@ -16,19 +16,24 @@ namespace PolyBomber {
   */
   class IGameEngineToGameInterface {
     public :
-      /*!
-      * \brief Méthode permettant de retourner le plateau de jeu
-      *
-      * \return Retourne le plateau de jeu.
-      */
-      virtual SBoard getBoard() =0;
-      
-      /*!
-      * \brief Méthode qui signal si le jeu est terminé ou pas
-      * Cette méthode permet de déterminer si le jeu est terminé ou pas.
-      * \return Renvoie 1 si le jeu est terminé, renvoie 0 sinon.
-      */
-      virtual int isFinished() =0;
+		/*!
+		* \brief Méthode permettant de retourner le plateau de jeu
+		*
+		* \return Retourne le plateau de jeu.
+		*/
+		virtual SBoard getBoard() =0;
+
+		/*!
+		* \brief Méthode qui signal si le jeu est terminé ou pas
+		* Cette méthode permet de déterminer si le jeu est terminé ou pas.
+		* \return Renvoie 1 si le jeu est terminé, renvoie 0 sinon.
+		*/
+		virtual int isFinished() =0;
+
+		/*!
+		* \brief Destructeur virtuel
+		*/
+		virtual ~IGameEngineToGameInterface() {};
   };
 }
 

@@ -100,6 +100,11 @@ namespace PolyBomber
 			 * 
 			 */
 			virtual void reloadConfig() = 0;
+
+			/*!
+			 * \brief Destructeur virtuel
+			 */
+			virtual ~IControllerToMenu() {};
 	};
 }
 

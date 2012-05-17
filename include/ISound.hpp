@@ -87,6 +87,11 @@ namespace PolyBomber
 			 * rechargement entier des paramètres du son.
 			 */
 			virtual void reloadConfig() = 0;
+
+			/*!
+			 * \brief Destructeur virtuel
+			 */
+			virtual ~ISound() {};
 	};
 }
 

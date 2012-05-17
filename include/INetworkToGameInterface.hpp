@@ -22,6 +22,12 @@ namespace PolyBomber
 			 * \return Numéro du joueur
 			 */
 			virtual int isPaused() =0;
+
+			/*!
+			 * \brief Destructeur virtuel
+			 */
+			virtual ~INetworkToGameInterface() {};
 	};
 }
+
 #endif

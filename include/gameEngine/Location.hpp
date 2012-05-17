@@ -15,8 +15,13 @@ namespace PolyBomber {
   class Location {
     protected :
       Board board ;	/*! Plateau de jeu */
-      int x;		/*! coordonnée horizontale */
-      int y;		/*! coordonnée verticale */
+      int x;		/*! coordonnée horizontale avec 0 à gauche*/
+      int y;		/*! coordonnée verticale avec 0 en haut */
+	  
+	  Location();
+	  Location(Location loc);
+	  //opérateur d'affectation
+	  ~Location();
   };
 }
 

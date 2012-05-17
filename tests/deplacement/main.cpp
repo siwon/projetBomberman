@@ -18,17 +18,17 @@ sf::Vector2f GetCase(sf::Sprite& sPerso)
 {
 	sf::Vector2f retour;
 
-	retour.x = int((sPerso.GetPosition().x + LARGEUR) / (LARGEUR * 2)) * (LARGEUR * 2.f);
-	retour.y = int((sPerso.GetPosition().y + HAUTEUR) / (HAUTEUR * 2)) * (HAUTEUR * 2.f);
+	retour.x = int((sPerso.getPosition().x + LARGEUR) / (LARGEUR * 2)) * (LARGEUR * 2.f);
+	retour.y = int((sPerso.getPosition().y + HAUTEUR) / (HAUTEUR * 2)) * (HAUTEUR * 2.f);
 
 	return retour;
 }
 
-void GererIntersection(touches keys, touches& retour, sf::Sprite& sPerso, float x, float y)
+void gererIntersection(touches keys, touches& retour, sf::Sprite& sPerso, float x, float y)
 {
 	if (keys.left || keys.right)
 	{
-		sf::Vector2f pos = sPerso.GetPosition();
+		sf::Vector2f pos = sPerso.getPosition();
 
 		if (pos.y > y - HAUTEUR && pos.y <= y - MARGE)
 			retour.down = true;
@@ -36,7 +36,7 @@ void GererIntersection(touches keys, touches& retour, sf::Sprite& sPerso, float 
 			retour.up = true;
 		else if (abs(pos.y - y) < MARGE)
 		{
-			sPerso.SetY(y);
+			sPerso.setPosition(pos.x, y);
 
 			retour.left = keys.left;
 			retour.right = keys.right;
@@ -45,7 +45,7 @@ void GererIntersection(touches keys, touches& retour, sf::Sprite& sPerso, float 
 
 	if (keys.up || keys.down)
 	{
-		sf::Vector2f pos = sPerso.GetPosition();
+		sf::Vector2f pos = sPerso.getPosition();
 
 		if (pos.x > x - LARGEUR && pos.x <= x - MARGE)
 			retour.right = true;
@@ -53,7 +53,7 @@ void GererIntersection(touches keys, touches& retour, sf::Sprite& sPerso, float 
 			retour.left = true;
 		else if (abs(pos.x - x) < MARGE)
 		{
-			sPerso.SetX(x);
+			sPerso.setPosition(x, pos.y);
 
 			retour.up = keys.up;
 			retour.down = keys.down;
@@ -67,61 +67,64 @@ const float speed = 200.f;
 int main()
 {
     app = new sf::RenderWindow(sf::VideoMode(360, 200, 32), "Bomberman - Test deplacement");
-	app->SetFramerateLimit(60);
+	app->setFramerateLimit(60);
 
-    sf::Image iFond;
-	iFond.LoadFromFile("fond.png");
+    sf::Texture tFond;
+	tFond.loadFromFile("fond.png");
 
-	sf::Image iPerso;
-	iPerso.LoadFromFile("perso.png");
+	sf::Texture tPerso;
+	tPerso.loadFromFile("perso.png");
 
 	sf::Sprite sFond;
-	sFond.SetImage(iFond);
+	sFond.setTexture(tFond);
 
 	sf::Sprite sPerso;
-	sPerso.SetImage(iPerso);
+	sPerso.setTexture(tPerso);
 
 	sf::Sprite sCase;
-	sCase.SetColor(sf::Color(0, 255, 0, 128));
-	sCase.Resize(LARGEUR * 2.f, HAUTEUR * 2.f);
+	sCase.setColor(sf::Color(0, 255, 0, 128));
+	sCase.scale(LARGEUR * 2.f, HAUTEUR * 2.f);
 
-	sPerso.SetY(120.f);
+	sPerso.setPosition(0.f, 120.f);
 
-	const sf::Input& input = app->GetInput();
 	touches keys;
 
-    while (app->IsOpened())
+	sf::Clock clock;
+
+    while (app->isOpen())
     {
+		sf::Time elapsed = clock.restart();
+
 		sf::Event event;
 
-		while (app->GetEvent(event))
+		while (app->pollEvent(event))
 		{
-			if (event.Type == sf::Event::Closed)
-				app->Close();
+			if (event.type == sf::Event::Closed)
+				app->close();
 		}
 
-		keys.left = input.IsKeyDown(sf::Key::Left);
-		keys.right = input.IsKeyDown(sf::Key::Right);
-		keys.up = input.IsKeyDown(sf::Key::Up);
-		keys.down = input.IsKeyDown(sf::Key::Down);
+		keys.left = sf::Keyboard::isKeyPressed(sf::Keyboard::Left);
+		keys.right = sf::Keyboard::isKeyPressed(sf::Keyboard::Right);
+		keys.up = sf::Keyboard::isKeyPressed(sf::Keyboard::Up);
+		keys.down = sf::Keyboard::isKeyPressed(sf::Keyboard::Down);
 
 		touches retour = touches();
 
-		GererIntersection(keys, retour, sPerso, 80, 120);
-		GererIntersection(keys, retour, sPerso, 240, 120);
+		gererIntersection(keys, retour, sPerso, 80, 120);
+		gererIntersection(keys, retour, sPerso, 240, 120);
 		
-		sPerso.Move(speed * app->GetFrameTime() * (retour.right - retour.left),
-					speed * app->GetFrameTime() * (retour.down  - retour.up));
+		sPerso.move(speed * elapsed.asSeconds() * (retour.right - retour.left),
+					speed * elapsed.asSeconds() * (retour.down  - retour.up));
 
-		sCase.SetPosition(GetCase(sPerso));
+		sCase.setPosition(GetCase(sPerso));
 
-		app->Clear();
+		app->clear();
 
-		app->Draw(sFond);
-		app->Draw(sCase);
-		app->Draw(sPerso);
+		app->draw(sFond);
+		app->draw(sCase);
+		app->draw(sPerso);
 			
-		app->Display();
+		app->display();
 	}
 
 	delete app;

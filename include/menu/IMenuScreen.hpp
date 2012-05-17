@@ -7,6 +7,9 @@
  * \author Maxime GUIHAL
  */
 
+#include "menu/EMenuScreen.hpp"
+#include "menu/MenuResources.hpp"
+
 namespace PolyBomber
 {
 	/*!
@@ -16,7 +19,18 @@ namespace PolyBomber
 	class IMenuScreen
 	{
 		public:
-			// TODO - A Compléter
+			/*!
+			 * \brief Exécution du menu sélectionné
+			 * \param resources : Ressources associées au menu
+			 * \param previous : Menu précédent
+			 * \return Menu suivant
+			 */
+			virtual EMenuScreen run(MenuResources& resources, EMenuScreen previous) = 0;
+
+			/*!
+			 * \brief Destructeur virtuel
+			 */
+			virtual ~IMenuScreen() {};
 	};
 }
 

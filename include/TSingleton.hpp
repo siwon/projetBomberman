@@ -7,6 +7,8 @@
  * \author Maxime GUIHAL
  */
 
+#include <iostream>
+
 namespace PolyBomber
 {
 	/*!

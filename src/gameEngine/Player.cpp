@@ -21,7 +21,7 @@
 namespace PolyBomber;
 
 void Player::die() {
-  this.
+	this.~Player();
 }
 
 void Player::applyBonus(Bonus bonus) {

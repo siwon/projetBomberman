@@ -63,7 +63,13 @@ namespace PolyBomber
 			 * \brief Enregistrer les configuration de jeu
 			 * \return rien
 			 */
+
 			virtual void setGameConfig(SGameConfig& gameConfig) =0;
+			/*!
+			 * \brief Destructeur virtuel
+			 */
+			virtual ~INetworkToMenu() {};
 	};
 }
+
 #endif
