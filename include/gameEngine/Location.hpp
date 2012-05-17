@@ -8,21 +8,24 @@
  */
 
 namespace PolyBomber {
-  /*!
-  * \class Location
-  * \brief Classe Location
-  */
-  class Location {
-    protected :
-      Board board ;	/*! Plateau de jeu */
-      int x;		/*! coordonnée horizontale avec 0 à gauche*/
-      int y;		/*! coordonnée verticale avec 0 en haut */
-	  
-	  Location();
-	  Location(Location loc);
-	  //opérateur d'affectation
-	  ~Location();
-  };
+	/*!
+	 * \class Location
+	 * \brief Classe Location
+	 */
+	class Location {
+    protected:
+		Board board ;	/*! Plateau de jeu */
+		sf::Vector2<int> location;
+		
+		Location(sf::Vector2<int> location);
+		Location(int x, int y);
+		Location(Location loc);
+		//opérateur d'affectation
+		~Location();
+		
+	public:
+		sf::Vector2<int> getLocation(){return this->location;}
+	};
 }
 
 #endif

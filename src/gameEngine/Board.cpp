@@ -1,6 +1,6 @@
 /*!
- * \file GameEngineManager.cpp
- * \brief Implémentation de la classe GameEngineManager
+ * \file Board.cpp
+ * \brief Implémentation de la classe Board
  * \author Simon ROUSSEAU
  */
 
@@ -38,7 +38,8 @@ void Board::generateWall() {
 	for (x=0; x<19; x++) {
 		for (y=0; y<13; y++) {
 			if (x%2==1 && y%2==1) {
-				this->mur.push_back(new Wall());
+				//this->mur.push_back(new Wall());
+				//TODO : A corriger
 			}
 		}
 	}

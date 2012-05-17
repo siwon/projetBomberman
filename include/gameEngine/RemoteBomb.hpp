@@ -8,12 +8,16 @@
  */
 
 namespace PolyBomber {
-  /*!
-  * \class RemoteBomb
-  * \brief Classe RemoteBomb
-  */
-  class RemoteBomb : public Explosive {
-    
-  };
+	/*!
+	 * \class RemoteBomb
+	 * \brief Classe RemoteBomb
+	 */
+	class RemoteBomb : public Explosive {
+	public:
+		RemoteBomb(Player player);
+		RemoteBomb(RemoteBomb rb);
+		//opérateur d'affectation
+		~RemoteBomb();
+	};
 }
 #endif

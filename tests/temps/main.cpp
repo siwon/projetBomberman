@@ -7,7 +7,7 @@ using namespace std;
 int main()
 {
 	sf::Clock horloge = sf::Clock();
-	sf::Time tps = horloge.getElapsedTime();
+	//sf::Time tps = horloge.getElapsedTime();
 	int temps = horloge.getElapsedTime().asSeconds()+3;
 	
 	while (horloge.getElapsedTime().asSeconds()<temps) {
