@@ -13,13 +13,21 @@ namespace PolyBomber {
   * \brief Classe Box
   */
 
-  class Box : public Cell {
+  class Box : public Location {
     public :
+	  
+	  bool bonus;
+	  
       /*!
       * \brief Méthode detruisant une caisse
       *
       */
       void broke(); //changement du nom de variable pour cause de mot reservé
+	  
+	  Box(bool bonus);
+	  Box(Box boite);
+	  //opérateur par recopie
+	  ~Box();
   };
 }
 

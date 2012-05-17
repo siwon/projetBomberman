@@ -15,6 +15,11 @@ namespace PolyBomber {
   class Bomb : public Explosive {
     protected :
       int explosionTime;	/*! Date à laquelle la bombe va exploser */
+	public :
+	  Bomb();
+	  Bomb(Bomb bombe);
+	  //opérateur par recopie
+	  ~Bomb();
   };
 }
 

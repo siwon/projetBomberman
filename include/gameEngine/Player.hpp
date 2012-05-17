@@ -14,7 +14,7 @@ namespace PolyBomber {
   * \class Player
   * \brief Classe Player
   */
-  class Player {
+	class Player : public Location {
     protected :
       int id;			/*! Identifiant du joueur */
       int speed;			/*! Vitesse du joueur */
@@ -27,6 +27,12 @@ namespace PolyBomber {
       Vector<Bonus> bonus;	/*! Listes des bonus du joueur */
       
     public :
+	  
+	  Player();
+	  Player(Player pl);
+	  //opérateur d'affectation
+	  ~Player();
+	  
       /*!
       * \brief Méthode permettant de tuer le joueur
       *
