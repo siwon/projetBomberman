@@ -16,12 +16,6 @@ namespace PolyBomber {
 		// TODO : faire en sorte que ce soit un singleton !!!
     protected:
 		vector<Location> locations;
-		//    vector<Player> joueur; /** Liste des joueurs */
-		//	  vector<Explosive> bombe; /** Liste des bombes */
-		//	  vector<Flame> deflagration; /** Liste des déflagrations */
-		//	  vector<Bonus> bonus; /** Liste des bonus */
-		//	  vector<Box> boite; /** Liste des boites */
-		//	  vector<Wall> mur; /** Liste des murs */
 		
 		Board();
 		Board(Board b);
