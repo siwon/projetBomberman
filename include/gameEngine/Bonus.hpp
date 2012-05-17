@@ -8,20 +8,25 @@
  */
 
 namespace PolyBomber {
-  /*!
-  * \class Bonus
-  * \brief Classe Bonus
-  */
+	/*!
+	 * \class Bonus
+	 * \brief Classe Bonus
+	 */
 	class Bonus : public Location {
-    protected :
-      
-	  
+	protected :
+		EGameBonus type;
+		bool visible;
+		
 	public :
-	  Bonus();
-	  Bonus(Cell cell);
-	  //opérateur de recopie
-	  ~Bonus();
-  };
+		Bonus(int x, int y, EGameBonus type);
+		Bonus(Location loc, EGameBonus type);
+		Bonus(Bonus bonus);
+		//opérateur de recopie
+		~Bonus();
+		
+		EGameBonus getType(){return this->type;}
+		bool isVisible(){return this->visible;}
+	};
 }
 
 #endif

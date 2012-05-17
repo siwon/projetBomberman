@@ -8,19 +8,21 @@
  */
 
 namespace PolyBomber {
-  /*!
-  * \class Bomb
-  * \brief Classe Bomb
-  */
-  class Bomb : public Explosive {
-    protected :
-      int explosionTime;	/*! Date à laquelle la bombe va exploser */
-	public :
-	  Bomb();
-	  Bomb(Bomb bombe);
-	  //opérateur par recopie
-	  ~Bomb();
-  };
+	/*!
+	 * \class Bomb
+	 * \brief Classe Bomb
+	 */
+	class Bomb : public Explosive {
+    protected:
+		int timeOfExplosion; /*! Seconde ou doit exploser la bombe */
+	public:
+		Bomb(int time, Player player);
+		Bomb(Bomb bombe);
+		//opérateur par recopie
+		~Bomb();
+		
+		int getTimeOfExplosion(){return this->timeOfExplosion;}
+	};
 }
 
 #endif

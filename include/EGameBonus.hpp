@@ -25,7 +25,7 @@ namespace PolyBomber
 		RANGEDOWN,
 		RANGEUPMAX,
 		MINE,
-		INITYBOMB,
+		INFINITYBOMB,
 		ATOMICBOMB,
 		CRANE,
 		HELL,

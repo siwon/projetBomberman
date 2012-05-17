@@ -8,17 +8,17 @@
  */
 
 namespace PolyBomber {
-  /*!
-  * \class Mine
-  * \brief Classe Mine
-  */
-  class Mine : public Explosive {
-	public :
-	  Mine();
-	  Mine(Mine mine);
-	  //opérateur d'affectation
-	  ~Mine();
-  };
+	/*!
+	 * \class Mine
+	 * \brief Classe Mine
+	 */
+	class Mine : public Explosive {
+	public:
+		Mine(Player p);
+		Mine(Mine mine);
+		//opérateur d'affectation
+		~Mine();
+	};
 }
 
 #endif
