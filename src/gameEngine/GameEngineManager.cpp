@@ -74,3 +74,15 @@ void GameEngineManager::setGameConfig(SGameConfig gameConfig) {
   int nbBonus = gameConfig->nbBonus;
   
 }
+
+SBoard GameEngineManager::getBoard() {
+	SBoard toReturn;
+	
+	toReturn->boxes=board.getBox();
+	toReturn->bonus=board.getBonus();
+	toReturn->explosives=board.getExplosive();
+	toReturn->players=board.getPlayer();
+	toReturn->flames=board.getFlame();
+	
+	return toReturn;
+}
