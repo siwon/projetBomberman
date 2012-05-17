@@ -77,7 +77,7 @@ namespace PolyBomber
 			void draw(sf::Sprite s);
 
 		private:
-			sf::RenderWindow window; /*!< Fenetre du programme */
+			static sf::RenderWindow window; /*!< Fenetre du programme */
 			unsigned int style; /*! Style de la fenêtre */
 			sf::VideoMode settings; /*! Paramètres vidéo de la fenêtre */
 

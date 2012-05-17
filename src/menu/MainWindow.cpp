@@ -13,7 +13,9 @@
 
 namespace PolyBomber
 {
-	MainWindow::MainWindow() : window()
+	sf::RenderWindow MainWindow::window;
+
+	MainWindow::MainWindow()
 	{
 		this->settings = sf::VideoMode();
 		this->initVideoMode(this->style, this->settings);
@@ -48,7 +50,7 @@ namespace PolyBomber
 	MainWindow::~MainWindow()
 	{}
 
-	MainWindow::MainWindow(const MainWindow& obj) : window()
+	MainWindow::MainWindow(const MainWindow& obj)
 	{
 		initWindow(obj.getStyle(), obj.getSettings());
 	}
@@ -70,9 +72,9 @@ namespace PolyBomber
 
 	void MainWindow::initWindow(unsigned int style, sf::VideoMode settings)
 	{
-		this->window.create(settings, "PolyBomber", style);
-		this->window.setMouseCursorVisible(false);
-		this->window.setFramerateLimit(60);
+		MainWindow::window.create(settings, "PolyBomber", style);
+		MainWindow::window.setMouseCursorVisible(false);
+		MainWindow::window.setFramerateLimit(60);
 	}
 
 	unsigned int MainWindow::getStyle() const 
@@ -88,7 +90,7 @@ namespace PolyBomber
 	bool MainWindow::listenCloseButton()
 	{
 		sf::Event event;
-		while (this->window.pollEvent(event))
+		while (MainWindow::window.pollEvent(event))
 		{
 			if (event.type == sf::Event::Closed)
 				return true;
@@ -99,12 +101,12 @@ namespace PolyBomber
 
 	void MainWindow::clear()
 	{
-		this->window.clear();
+		MainWindow::window.clear();
 	}
 
 	void MainWindow::draw(sf::Sprite s)
 	{
-		this->window.draw(s);
+		MainWindow::window.draw(s);
 	}	
 
 	void MainWindow::display(std::vector<IWidgetMenu*> widgets)
@@ -112,9 +114,9 @@ namespace PolyBomber
 		std::vector<IWidgetMenu*>::iterator it;
 		
 		for (it = widgets.begin(); it < widgets.end(); it++)
-			this->window.draw(**it);
+			MainWindow::window.draw(**it);
 
-		this->window.display();
+		MainWindow::window.display();
 	}
 }
 

@@ -8,6 +8,9 @@
 #include "menu/ImageWidget.hpp"
 #include "EImage.hpp"
 
+#include "EColorKey.hpp"
+#include <iostream>
+
 namespace PolyBomber
 {
 	SplashScreen::SplashScreen()
@@ -26,6 +29,8 @@ namespace PolyBomber
 
 		this->widgets.push_back(&background);
 
+		sf::Color text = resources.getSkin()->getColor(TEXTCOLOR);
+
 		bool running = true;
 
 		while (running)
@@ -36,8 +41,6 @@ namespace PolyBomber
 			w.clear();
 			w.display(this->widgets);
 		}
-
-		delete splash;
 
 		return EXIT;
 	}

@@ -96,8 +96,7 @@ namespace PolyBomber
 	int PolyBomberApp::run()
 	{
 		IMenuToMain* menu = PolyBomberApp::getIMenuToMain();
-		return menu->run();
-		return false;
+		return (int)menu->run();
 	}
 }
 
