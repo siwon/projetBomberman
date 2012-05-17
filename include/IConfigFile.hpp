@@ -7,6 +7,8 @@
  * \author Maxime GUIHAL
  */
 
+#include <vector>
+
 namespace PolyBomber
 {
 	/*!
@@ -57,6 +59,12 @@ namespace PolyBomber
 			 * \return Nombre correspondant à la clé
 			 */
 			virtual int getIntValue(std::string key) = 0;
+
+			/*!
+			 * \brief Récupération de toutes les clés du fichier
+			 * \return La liste des clés du fichier
+			 */
+			virtual std::vector<std::string> getKeys() = 0;
 
 			/*!
 			 * \brief Destructeur virtuel
