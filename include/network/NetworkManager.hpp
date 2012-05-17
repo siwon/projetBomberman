@@ -35,12 +35,15 @@ namespace PolyBomber
 		friend class Singleton<NetworkManager>;
 		private:
 			SGameConfig gameConfig;
-			sf::IpAddress* ip;
+			//sf::IpAddress* ip;
 			int paused;
 			bool started;
-			DataPlayer* players;
+			std::vector<DataPlayer> players;
 			std::list<sf::TcpSocket*> clients;
+			std::list<sf::Packet> packets; // segment de mémoire partagé
 			SBoard board;
+			bool server;
+			SKeyPressed keyPressed;
 
 			IControllerToNetwork* controller;
 			IGameEngineToNetwork* gameEngine;
@@ -57,28 +60,29 @@ namespace PolyBomber
 			SKeyPressed getKeysPressed();
 			int isPaused();
 
-			//void joinGame(string ip);
-			//int getFreeSlots();
-			//void setBookedSlots(unsigned int nb);
+			void joinGame(std::string ip);
+			int getFreeSlots();
+			void setBookedSlots(unsigned int nb);
 			//void setPlayerName(string[]);
 			//int* getScores();
 			bool isStarted();
-			//void startGame();
+			void startGame();
 			std::string getIpAddress();
-			void setGameConfig(SGameConfig& gameConfig);
+			void setGameConfig(SGameConfig&);
 			
 			SBoard getBoard();
 			int isFinished();
 
 			/******méthode ne provenant pas d'interface***/
 			sf::IpAddress getIp();
-			void createSocket(sf::IpAddress);
 			void createServerSocket();
-			sf::Packet createPacket(int);
+			sf::Packet createPacket(int, int j =0);
 			//void decryptPacket(sf::Packet);
-			//void sendPacket(sf::Packet, sf::IpAddress);
-			sf::Packet& operator<<(sf::Packet&, const SBoard&);
-			sf::Packet& operator<<(sf::Packet&, const SKeyPressed&);
+			sf::TcpSocket& findSocket(sf::IpAddress&);
+			sf::Packet& waitPacket(int, sf::IpAddress&);
 	};
+
+	sf::Packet& operator<<(sf::Packet&, const SBoard&);
+	sf::Packet& operator<<(sf::Packet&, const SKeyPressed&);
 }
 #endif
