@@ -7,12 +7,21 @@
  * \author Maxime GUIHAL
  */
 
+class MenuManager;
+/*class ControllerManager;
+class NetworkManager;
+class GameEngineManager;
+class GameInterfaceManager;*/
+class SoundManager;
+class SkinManager;
+
 #include "TSingleton.hpp"
+
 #include "menu/MenuManager.hpp"
-#include "controller/ControllerManager.hpp"
-#include "network/NetworkManager.hpp"
+//#include "controller/ControllerManager.hpp"
+//#include "network/NetworkManager.hpp"
 //#include "gameEngine/GameEngineManager.hpp"
-#include "gameInterface/GameInterfaceManager.hpp"
+//#include "gameInterface/GameInterfaceManager.hpp"
 #include "sound/SoundManager.hpp"
 #include "skin/SkinManager.hpp"
 
@@ -37,13 +46,13 @@ namespace PolyBomber
 			 * \brief Retourne l'interface IControllerToMenu
 			 * \return l'interface IControllerToMenu
 			 */
-			static IControllerToMenu* getIControllerToMenu();
+			//static IControllerToMenu* getIControllerToMenu();
 
 			/*!
 			 * \brief Retourne l'interface IControllerToNetwork
 			 * \return l'interface IControllerToNetwork
 			 */
-			static IControllerToNetwork* getIControllerToNetwork();
+			//static IControllerToNetwork* getIControllerToNetwork();
 
 			/*!
 			 * \brief Retourne l'interface IGameEngineToNetwork
@@ -55,19 +64,19 @@ namespace PolyBomber
 			 * \brief Retourne l'interface INetworkToGameEngine
 			 * \return l'interface INetworkToGameEngine
 			 */			
-			static INetworkToGameEngine* getINetworkToGameEngine();
+			//static INetworkToGameEngine* getINetworkToGameEngine();
 
 			/*!
 			 * \brief Retourne l'interface INetworkToGameInterface
 			 * \return l'interface INetworkToGameInterface
 			 */
-			static INetworkToGameInterface* getINetworkToGameInterface();
+			//static INetworkToGameInterface* getINetworkToGameInterface();
 
 			/*!
 			 * \brief Retourne l'interface INetworkToMenu
 			 * \return l'interface INetworkToMenu
 			 */
-			static INetworkToMenu* getINetworkToMenu();
+			//static INetworkToMenu* getINetworkToMenu();
 
 			/*!
 			 * \brief Retourne l'interface IMenuToGameInterface
@@ -85,7 +94,7 @@ namespace PolyBomber
 			 * \brief Retourne l'interface IGameInterfaceToMenu
 			 * \return l'interface IGameInterfaceToMenu
 			 */			
-			static IGameInterfaceToMenu* getIGameInterfaceToMenu();
+			//static IGameInterfaceToMenu* getIGameInterfaceToMenu();
 
 			/*!
 			 * \brief Retourne l'interface ISkin
@@ -111,10 +120,10 @@ namespace PolyBomber
 			~PolyBomberApp();
 
 			static MenuManager* menuManager; /*!< Instance du composant Menu */
-			static GameInterfaceManager* gameInterfaceManager; /*!< Instance du composant Interface de jeu */
-			static NetworkManager* networkManager; /*!< Instance du composant Réseau */
+			//static GameInterfaceManager* gameInterfaceManager; /*!< Instance du composant Interface de jeu */
+			//static NetworkManager* networkManager; /*!< Instance du composant Réseau */
 			//static GameEngineManager* gameEngineManager; /*!< Instance du composant Moteur de jeu */
-			static ControllerManager* controllerManager; /*!< Instance du composant Contrôleur */
+			//static ControllerManager* controllerManager; /*!< Instance du composant Contrôleur */
 			static SoundManager* soundManager; /*!< Instance du composant Son */
 			static SkinManager* skinManager; /*!< Instance du composant Skin */
 	};

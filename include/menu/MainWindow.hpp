@@ -23,7 +23,6 @@ namespace PolyBomber
 		public:
 			MainWindow();
 			~MainWindow();
-			MainWindow(const MainWindow& obj);
 			MainWindow& operator=(const MainWindow& obj);
 
 		private:

@@ -13,7 +13,7 @@
 
 namespace PolyBomber
 {
-	PolyBomberException::PolyBomberException(const char* msg)
+	PolyBomberException::PolyBomberException(std::string msg)
 	{
 		std::ostringstream oss;
 		oss << "Erreur : " << msg;

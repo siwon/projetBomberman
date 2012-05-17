@@ -22,7 +22,23 @@ namespace PolyBomber
 		friend class Singleton<SoundManager>;
 
 		public:
-			// TODO - A compléter
+			void playSound(ESound sound);
+
+			void playMusic(EMusic music);
+
+			void stopMusic(EMusic music); 
+		
+			void setSoundVolume(unsigned int volume);
+
+			unsigned int getSoundVolume();
+
+			void setMusicVolume(unsigned int volume);
+
+			unsigned int getMusicVolume();
+
+			void saveConfig();
+
+			void reloadConfig();
 
 		private:
 			/*!

@@ -22,7 +22,19 @@ namespace PolyBomber
 		friend class Singleton<SkinManager>;
 
 		public:
-			// TODO - A compléter
+			std::vector<std::string> getSkinsList();
+
+			sf::Image loadImage(EImage name);
+
+			sf::Color getColor(EColorKey key);
+
+			void setSkin(std::string name);
+
+			std::string getSkin();
+
+			void saveConfig();
+
+			void reloadConfig();
 
 		private:
 			/*!

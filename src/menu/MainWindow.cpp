@@ -21,7 +21,7 @@ namespace PolyBomber
 
 		try
 		{
-			IConfigFile* configFile = new ConfigFileManager();
+			/*IConfigFile* configFile = new ConfigFileManager();
 
 			// On charge les paramètres du plein écran
 			if (configFile->getIntValue("window.fullscreen.enabled"))
@@ -35,7 +35,7 @@ namespace PolyBomber
 			delete configFile;
 
 			if (!settings.isValid())
-				throw PolyBomberException("Mode video plein ecran incorrect");
+				throw PolyBomberException("Mode video plein ecran incorrect");*/
 		}
 		catch (PolyBomberException& e)
 		{
@@ -44,19 +44,19 @@ namespace PolyBomber
 		}		
 
 		sf::RenderWindow(settings, "PolyBomber", style);
+
+		while(1)
+		{
+			sf::RenderWindow::display();
+		}
 	}
 
 	MainWindow::~MainWindow()
 	{}
 
-	MainWindow::MainWindow(const MainWindow& obj)
-	{
-
-	}
-
 	MainWindow& MainWindow::operator=(const MainWindow& obj)
 	{
-
+		return *this;
 	}
 
 	void MainWindow::initVideoMode(unsigned int& style, sf::VideoMode& mode)

@@ -16,7 +16,7 @@
 #include "Controller.hpp"
 #include "../EMenuKeys.hpp"
 #include "../SKeysConfig.hpp"
-#include "Keys.hpp"
+
 namespace PolyBomber
 {
   /*!
@@ -26,8 +26,21 @@ namespace PolyBomber
   class Keyboard : public Controller
   {
 	private :
-		Keys keys;
+		
+		static const std::string keysLabel[]; /*!< Labels des touches clavier */
+		
+		
+		/**
+		 * \brief Vérifie si une key SFML correspond à caractère alpha-numérique
+		 * \param key : Valeur à vérifier
+		 * \return Vrai si key correspond un caractère alpha-numérique, faux sinon.
+		 */
+		bool isAlphaNum(sf::Keyboard::Key key);
+		
+		
+	  
 	public :
+		
 		/*!
 		 * \brief Constructeur de la classe Keyboard
 		 * Initialise la map de correspondance des touches clavier
@@ -39,21 +52,18 @@ namespace PolyBomber
 		 */
 		virtual ~Keyboard();
 		
-		/*!
-		 * \brief Obtenir la configuration par défault d'un joueur clavier
-		 * \param player : Numéro du joueur
-		 * \return Structure de configuration du joueur
-		 */
-		static SKeysConfig getDefaultConfig(int player);
-		
 		/* Méthodes de la classe Controller */
 		
 		virtual EMenuKeys getMenuKey();
 		
-		char getCharPressed();
+		virtual char getCharPressed();
 		
+		virtual EControllerType getControllerType();
+		
+		virtual int getKeyPressed();
+		
+		virtual std::string getLabel(int key);
 
-		
 
   };
 }

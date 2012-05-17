@@ -7,7 +7,7 @@
  * \author Maxime GUIHAL
  */
 
-#define NULL 0
+#include <iostream>
 
 namespace PolyBomber
 {
