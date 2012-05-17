@@ -24,7 +24,7 @@ sf::Vector2f GetCase(sf::Sprite& sPerso)
 	return retour;
 }
 
-void GererIntersection(touches keys, touches& retour, sf::Sprite& sPerso, float x, float y)
+void gererIntersection(touches keys, touches& retour, sf::Sprite& sPerso, float x, float y)
 {
 	if (keys.left || keys.right)
 	{
@@ -36,7 +36,7 @@ void GererIntersection(touches keys, touches& retour, sf::Sprite& sPerso, float 
 			retour.up = true;
 		else if (abs(pos.y - y) < MARGE)
 		{
-			sPerso.setY(y);
+			sPerso.setPosition(pos.x, y);
 
 			retour.left = keys.left;
 			retour.right = keys.right;
@@ -53,7 +53,7 @@ void GererIntersection(touches keys, touches& retour, sf::Sprite& sPerso, float 
 			retour.left = true;
 		else if (abs(pos.x - x) < MARGE)
 		{
-			sPerso.setX(x);
+			sPerso.setPosition(x, pos.y);
 
 			retour.up = keys.up;
 			retour.down = keys.down;
@@ -66,52 +66,55 @@ const float speed = 200.f;
 
 int main()
 {
-    app = new sf::RenderWindow(sf::videoMode(360, 200, 32), "Bomberman - Test deplacement");
+    app = new sf::RenderWindow(sf::VideoMode(360, 200, 32), "Bomberman - Test deplacement");
 	app->setFramerateLimit(60);
 
-    sf::Image iFond;
-	iFond.loadFromFile("fond.png");
+    sf::Texture tFond;
+	tFond.loadFromFile("fond.png");
 
-	sf::Image iPerso;
-	iPerso.loadFromFile("perso.png");
+	sf::Texture tPerso;
+	tPerso.loadFromFile("perso.png");
 
 	sf::Sprite sFond;
-	sFond.setImage(iFond);
+	sFond.setTexture(tFond);
 
 	sf::Sprite sPerso;
-	sPerso.setImage(iPerso);
+	sPerso.setTexture(tPerso);
 
 	sf::Sprite sCase;
 	sCase.setColor(sf::Color(0, 255, 0, 128));
-	sCase.resize(LARGEUR * 2.f, HAUTEUR * 2.f);
+	sCase.scale(LARGEUR * 2.f, HAUTEUR * 2.f);
 
-	sPerso.setY(120.f);
+	sPerso.setPosition(0.f, 120.f);
 
-	const sf::Input& input = app->getInput();
 	touches keys;
 
-    while (app->isOpened())
+	sf::Clock clock;
+
+    while (app->isOpen())
     {
+		sf::Time elapsed = clock.restart();
+
 		sf::Event event;
 
-		while (app->getEvent(event))
+		while (app->pollEvent(event))
 		{
-			if (event.Type == sf::Event::Closed)
+			if (event.type == sf::Event::Closed)
 				app->close();
 		}
 
-		keys.left = input.isKeyDown(sf::Key::Left);
-		keys.right = input.isKeyDown(sf::Key::Right);
-		keys.up = input.isKeyDown(sf::Key::Up);
-		keys.down = input.isKeyDown(sf::Key::Down);
+		keys.left = sf::Keyboard::isKeyPressed(sf::Keyboard::Left);
+		keys.right = sf::Keyboard::isKeyPressed(sf::Keyboard::Right);
+		keys.up = sf::Keyboard::isKeyPressed(sf::Keyboard::Up);
+		keys.down = sf::Keyboard::isKeyPressed(sf::Keyboard::Down);
 
 		touches retour = touches();
 
 		gererIntersection(keys, retour, sPerso, 80, 120);
 		gererIntersection(keys, retour, sPerso, 240, 120);
 		
-		sPerso.move(speed * app->GetFrameTime() * (retour.right - retour.left),
-					speed * app->GetFrameTime() * (retour.down  - retour.up));
+		sPerso.move(speed * elapsed.asSeconds() * (retour.right - retour.left),
+					speed * elapsed.asSeconds() * (retour.down  - retour.up));
 
 		sCase.setPosition(GetCase(sPerso));
 
