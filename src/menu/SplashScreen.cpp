@@ -5,10 +5,9 @@
  */
 
 #include "menu/SplashScreen.hpp"
-#include "menu/ImageWidget.hpp"
-#include "EImage.hpp"
 
-#include "EColorKey.hpp"
+#include "menu/ImageWidget.hpp"
+
 #include <iostream>
 
 namespace PolyBomber
@@ -19,27 +18,34 @@ namespace PolyBomber
 	SplashScreen::~SplashScreen()
 	{}
 
-	EMenuScreen SplashScreen::run(MenuResources& resources, EMenuScreen previous)
+	EMenuScreen SplashScreen::run(MenuResources* resources, EMenuScreen previous)
 	{
-		MainWindow w = resources.getWindow();
+		MainWindow* w = resources->getWindow();
 
-		sf::Texture* splash = resources.getSkin()->loadImage(SPLASH);
-
-		ImageWidget background(splash);
+		ImageWidget background(resources->getSkin()->loadImage(MENU_BACKGROUND));
+		ImageWidget splash(resources->getSkin()->loadImage(SPLASH));
 
 		this->widgets.push_back(&background);
+		this->widgets.push_back(&splash);
 
-		sf::Color text = resources.getSkin()->getColor(TEXTCOLOR);
+		sf::Clock clock;
 
-		bool running = true;
-
-		while (running)
+		while (true)
 		{
-			if (w.listenCloseButton())
+			if (w->listenCloseButton())
 				return EXIT;
+
+			sf::Time elapsed = clock.getElapsedTime();
+
+			// Fondu de sortie
+			if (elapsed.asSeconds() > 2.f)
+				splash.setColor(sf::Color(255,255,255, 765 - 255 * elapsed.asSeconds()));
+
+			if (elapsed.asSeconds() > 3.f)
+				return MAINMENU;
 				
-			w.clear();
-			w.display(this->widgets);
+			w->clear();
+			w->display(this->widgets);
 		}
 
 		return EXIT;

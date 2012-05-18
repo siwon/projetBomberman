@@ -14,6 +14,7 @@ namespace PolyBomber
 	SkinManager::SkinManager() throw(PolyBomberException) : PATH("resources/skins/")
 	{
 		this->files[SPLASH] = "splash.png";
+		this->files[MENU_BACKGROUND] = "mback.png";
 
 		this->colors[TEXTCOLOR] = "text";
 

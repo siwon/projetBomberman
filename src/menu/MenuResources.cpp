@@ -38,9 +38,9 @@ namespace PolyBomber
 		this->sound = PolyBomberApp::getISound();
 	}
 
-	MainWindow& MenuResources::getWindow()
+	MainWindow* MenuResources::getWindow()
 	{
-		return this->window;
+		return &(this->window);
 	}
 
 	IGameInterfaceToMenu* MenuResources::getGameInterfaceToMenu()

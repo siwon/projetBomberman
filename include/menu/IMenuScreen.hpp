@@ -15,6 +15,9 @@
 #include "menu/MenuResources.hpp"
 #include "menu/IWidgetMenu.hpp"
 
+#include "EImage.hpp"
+#include "EColorKey.hpp"
+
 namespace PolyBomber
 {
 	/*!
@@ -30,7 +33,7 @@ namespace PolyBomber
 			 * \param previous : Menu précédent
 			 * \return Menu suivant
 			 */
-			virtual EMenuScreen run(MenuResources& resources, EMenuScreen previous) = 0;
+			virtual EMenuScreen run(MenuResources* resources, EMenuScreen previous) = 0;
 
 			/*!
 			 * \brief Destructeur virtuel
