@@ -7,10 +7,12 @@
  * \author Simon Rousseau
  */
 
-#include "IGameEngineToNetwork.hpp"
-#include "gameEngine/Board.hpp"
-#include "gameEngine/Bonus.hpp"
-#include "gameEngine/Player.hpp"
+#include "../../include/gameEngine/Board.hpp"
+#include "../../include/gameEngine/Bonus.hpp"
+#include "../../include/gameEngine/Player.hpp"
+#include "../../include/IGameEngineToNetwork.hpp"
+#include "../../include/IGameEngineToGameInterface.hpp"
+#include "../../include/INetworkToGameEngine.hpp"
 
 namespace PolyBomber {
 	/*!
@@ -23,7 +25,8 @@ namespace PolyBomber {
 		Board board; /*! Objet stockant le plateau de jeu */
 		bool gameConfigIsSet;
     public:
-		
+		bool getGameConfigIsSet(){return this->gameConfigIsSet;}
+		void setGameConfigIsSet(bool b){this->gameConfigIsSet=b;}
 		/*!
 		 * \brief Applique un bonus à un joueur
 		 * Cette méthode permet d'applique un bonus à un joueur.
@@ -70,6 +73,12 @@ namespace PolyBomber {
 		 * \param box : Caisse à exploser
 		 */
 		void breakBox(Box box);
+		
+		int isPaused();
+		SBoard getBoard();
+		bool isFinished();
+		void setGameConfig(SGameConfig gameConfig);
+		SKeyPressed getKeysPressed();
 		
 		void run();
 	};

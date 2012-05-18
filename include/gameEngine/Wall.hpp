@@ -7,6 +7,8 @@
  * \author Simon ROUSSEAU
  */
 
+#include "../../include/gameEngine/Location.hpp"
+
 namespace PolyBomber {
 	/*!
 	 * \class Wall
@@ -16,8 +18,8 @@ namespace PolyBomber {
 	class Wall : public Location {
 	public:
 		Wall(int x, int y);
-		Wall(Location loc);
-		Wall(Wall e);
+		Wall(const Location& loc);
+		Wall(const Wall& e);
 		//opérateur d'affectation
 		~Wall();
 	};
