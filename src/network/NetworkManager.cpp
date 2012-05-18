@@ -422,67 +422,57 @@ sf::TcpSocket& NetworkManager::findSocket(sf::IpAddress& ip){
 }
 
 sf::Packet& operator>>(sf::Packet& packet, SBoard& board){
-	/*std::vector<sf::Vector2<int>> boxes = b.boxes;
-	std::vector<SBonus> bonus = b.bonus;
-	std::vector<SExplosive> explosive = b.explosives;
-	std::vector<SPlayer> player= b.players;
-	std::vector<SFlame> flame = b.flames;*/
 
 	/*Ajout des Boxes*/
-	/*packet << boxes.size();
-	for (unsigned int i=0;i<boxes.size();i++){
-		sf::Vector2<int> tempVect = boxes[i];
-		packet >> board.boxes[i] tempVect.x << tempVect.y;
-	}*/
 	unsigned int j;
+	int type;
 	packet >> j;
-	for(unsigned i;i<j;i++){
-		sf::Vector2<int> coord;
-		packet >> coord.x >> coord.y;
+	for(unsigned i=0;i<j;i++){
+		sf::Vector2<int>* coord = new sf::Vector2<int>;
+		packet >> coord->x >> coord->y;
+		board.boxes.push_back(*coord);
 	}
 
-	
-	/*Ajout des Bonus
-	packet << bonus.size();
-	for(unsigned int i=0;i<bonus.size();i++){
-		sf::Vector2<int> tempCoord = bonus[i].coords;
-		int tempBonus = bonus[i].type;
-		packet << tempCoord.x << tempCoord.y << tempBonus;
+	/*Ajout des Bonus*/
+	packet >> j;
+	for(unsigned int i=0;i<j;i++){
+		SBonus* bonus = new SBonus;
+		packet >> bonus->coords.x >> bonus->coords.y >> type;
+		bonus->type = type;
+		board.bonus.push_back(*bonus);
 	}
 
-	/*Ajout des explosifs
-	packet << explosive.size();
-	for(unsigned int i=0;i<explosive.size();i++){
-		sf::Vector2<int> tempCoord = explosive[i].coords;
-		int tempExplo = explosive[i].type;
-		packet << tempCoord.x << tempCoord.y << tempExplo;
+
+	/*Ajout des explosifs}*/
+	packet >> j;
+	SExplosive* explo = new SExplosive;
+	for(unsigned int i=0;i<j;i++){
+		packet >> explo->coords.x >> explo->coords.y >> type;
+		explo->type = type;
+		board.explosives.push_back(*explo);
 	}
 
-	/*ajout des players
-	packet << player.size();
-	for (unsigned int i=0;i<player.size();i++){
-		sf::Vector2<int> tempCoord = player[i].coords;
-		int tempOrient = player[i].orientation;
-		unsigned int tempNum = player[i].number;
-		int tempState = player[i].state;
-		unsigned int tempStep = player[i].step;
-
-		packet << tempCoord.x << tempCoord.y << tempOrient << tempNum << tempState << tempStep;
+	/*ajout des players*/
+	packet >> j;
+	SPlayer* player = new SPlayer;
+	for(unsigned int i=0;i<j;i++){
+		packet >> player->coords.x >> player->coords.y >> type >> player->number >> player->state >> player->step;
+		player->orientation = type;
+		board.players.push_back(*player);
 	}
 
-	/*Ajout des flames
-	packet << flame.size();
-	for(unsigned int i=0;i<flame.size();i++){
-		sf::Vector2<int> tempCoord = flame[i].coords;
-		int tempOrient = flame[i].orientation;
-		unsigned int tempStep = flame[i].step;
-		int tempLocat = flame[i].location;
-		
-		packet << tempCoord.x << tempCoord.y << tempStep << tempLocat;
+	/*Ajout des flames*/
+	packet >> j;
+	SFlame* flame = new SFlame;
+	for(unsigned int i=0;i<j;i++){
+		packet >> flame->coords.x >> flame->coords.y >> type >> flame->step >> flame->location;
+		flame->orientation =type;
+		board.flames.push_back(*flame);
 	}
-	*/
+
 	return packet;
 }
+
 sf::Packet& operator>>(sf::Packet& packet, SKeyPressed& key){
 	bool val;
 	for(int i=0;i<4;i++){
