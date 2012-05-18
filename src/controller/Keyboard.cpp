@@ -165,7 +165,7 @@ EControllerType Keyboard::getControllerType()
 	return KEYBOARD;
 }
 
-int Keyboard::getKeyPressed()
+int Keyboard::getKeyPressed(int player)
 {
 	int k = (int)(sf::Keyboard::A);
 	
@@ -188,3 +188,7 @@ int Keyboard::getKeyPressed()
 	
 	return k;
 }
+
+void Keyboard::addWiimote(int player){}
+
+void Keyboard::disconnectWiimote(int player){}

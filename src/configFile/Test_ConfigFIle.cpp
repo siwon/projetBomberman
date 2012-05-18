@@ -26,12 +26,12 @@ int main(void)
 	
 	try
 	{
-		std::cout << configFileManager->getStringValue("skin") << std::endl;
+		//std::cout << configFileManager->getStringValue("skin") << std::endl;
 		std::cout << configFileManager->getStringValue("skin2") << std::endl;
 	}
-	catch(PolyBomberException* e)
+	catch(PolyBomberException e)
 	{
-		std::cout << e->what();
+		std::cout << e.what();
 	}
 	
 	delete configFileManager;

@@ -39,7 +39,7 @@ ControllerManager::ControllerAssignation::ControllerAssignation()
 
 ControllerManager::ControllerAssignation::~ControllerAssignation()
 {
-	if(this->controller != NULL && this->controller->getControllerType() != KEYBOARD)
+	if(this->controller != 	NULL && this->controller->getControllerType() == GAMEPAD)
 	{		
 		delete this->controller;
 	}
@@ -64,15 +64,88 @@ int ControllerManager::ControllerAssignation::getKeys(EGameKeys key)
 {
 	return this->keys[key];
 }
+
+void ControllerManager::ControllerAssignation::setDefaultWiimoteConfig()
+{
+	this->keys[GAME_UP] = CButtons::BUTTON_RIGHT;
+	this->keys[GAME_DOWN] = CButtons::BUTTON_LEFT;
+	this->keys[GAME_LEFT] = CButtons::BUTTON_UP;
+	this->keys[GAME_RIGHT] = CButtons::BUTTON_DOWN;
+	this->keys[GAME_ACTION1] = CButtons::BUTTON_TWO;
+	this->keys[GAME_ACTION2] = CButtons::BUTTON_ONE;
+	this->keys[GAME_PAUSE] = CButtons::BUTTON_HOME;
+}
+
+void ControllerManager::ControllerAssignation::setDefaultGamepadConfig()
+{
+	this->keys[GAME_UP] = Gamepad::Y;
+	this->keys[GAME_DOWN] = Gamepad::Y;
+	this->keys[GAME_LEFT] = Gamepad::Y;
+	this->keys[GAME_RIGHT] = Gamepad::X;
+	this->keys[GAME_ACTION1] = Gamepad::But1;
+	this->keys[GAME_ACTION2] = Gamepad::But2;
+	this->keys[GAME_PAUSE] = Gamepad::But3;
+}
+
+void ControllerManager::ControllerAssignation::setDefaultKeyboardConfig(int player)
+{
+	switch(player)
+	{
+		case 1 :
+			this->keys[GAME_UP] = sf::Keyboard::Up;
+			this->keys[GAME_DOWN] = sf::Keyboard::Down;
+			this->keys[GAME_LEFT] = sf::Keyboard::Left;
+			this->keys[GAME_RIGHT] = sf::Keyboard::Right;
+			this->keys[GAME_ACTION1] = sf::Keyboard::RControl;
+			this->keys[GAME_ACTION2] = sf::Keyboard::RShift;
+			this->keys[GAME_PAUSE] = sf::Keyboard::Return;
+			break;
+			
+		case 2 :
+			this->keys[GAME_UP] = sf::Keyboard::Z;
+			this->keys[GAME_DOWN] = sf::Keyboard::S;
+			this->keys[GAME_LEFT] = sf::Keyboard::Q;
+			this->keys[GAME_RIGHT] = sf::Keyboard::D;
+			this->keys[GAME_ACTION1] = sf::Keyboard::LControl;
+			this->keys[GAME_ACTION2] = sf::Keyboard::LShift;
+			this->keys[GAME_PAUSE] = sf::Keyboard::Escape;
+			break;
+			
+		case 3 :
+			this->keys[GAME_UP] = sf::Keyboard::Numpad8;
+			this->keys[GAME_DOWN] = sf::Keyboard::Numpad5;
+			this->keys[GAME_LEFT] = sf::Keyboard::Numpad4;
+			this->keys[GAME_RIGHT] = sf::Keyboard::Numpad6;
+			this->keys[GAME_ACTION1] = sf::Keyboard::Numpad0;
+			this->keys[GAME_ACTION2] = sf::Keyboard::Add;
+			this->keys[GAME_PAUSE] = sf::Keyboard::Subtract;
+			break;
+			
+		case 4 :
+			this->keys[GAME_UP] = sf::Keyboard::I;
+			this->keys[GAME_DOWN] = sf::Keyboard::K;
+			this->keys[GAME_LEFT] = sf::Keyboard::J;
+			this->keys[GAME_RIGHT] = sf::Keyboard::L;
+			this->keys[GAME_ACTION1] = sf::Keyboard::Space;
+			this->keys[GAME_ACTION2] = sf::Keyboard::M;
+			this->keys[GAME_PAUSE] = sf::Keyboard::P;
+			break;
+			
+		default :
+			break;
+	}
+}
 /************************************ Fin ControllerAssignation **********************************************/
 
 ControllerManager::ControllerManager()
 {
 	keyboard = new Keyboard(); // Prise en charge du clavier
 	
-	configFileManager = new ConfigFileManager("PolyBomber.conf");
+	configFileManager = new ConfigFileManager(DEFAULT_FILENAME);
 	
 	controllerAssignation = new ControllerAssignation[4];
+	
+	wii = new Wii();
 	
 	reloadConfig(); // Chargement de la configuration des joueurs
 }
@@ -101,7 +174,8 @@ void ControllerManager::reloadConfig()
 					break;
 				
 				case WII :
-					//controllerAssignation[i].setController(new Wiimote);
+					wii->addWiimote(i+1);
+					controllerAssignation[i].setController(wii);
 					break;
 			}
 		}
@@ -109,7 +183,7 @@ void ControllerManager::reloadConfig()
 		{
 			controllerAssignation[i].setController(keyboard);
 			configFileManager->setDefaultKeyboardConfig(i+1);
-			std::cout << e->what();
+			std::cout << e->what() << std::flush;
 		}
 		
 		ss.str("");
@@ -149,6 +223,8 @@ ControllerManager::~ControllerManager()
 	
 	delete keyboard;
 	
+	delete wii;
+	
 	delete configFileManager;
 	
 }
@@ -158,12 +234,21 @@ EMenuKeys ControllerManager::getKeyPressed()
 	EMenuKeys key = MENU_NONE;
 	unsigned int i = 0;
 	
-	while(key == MENU_NONE && i < 4 )
-	{
-		key = controllerAssignation[i].getController()->getMenuKey();
-		i++;
-	}
+	key = keyboard->getMenuKey();
 	
+	if(key == MENU_NONE)
+		key = wii->getMenuKey();
+	
+	if(key == MENU_NONE)
+	{
+		Controller* c = controllerAssignation[i].getController();
+		
+		while(key == MENU_NONE && i < 4 && c->getControllerType() == GAMEPAD )
+		{
+			key = c->getMenuKey();
+			i++;
+		}
+	}
 	return key;
 }
 
@@ -195,10 +280,10 @@ SKeysConfig ControllerManager::setPlayerKey(int player, EGameKeys key)
 {
 	SKeysConfig sKeysConfig = this->getConfig(player);
 	std::cout << "Appuyer sur une touche / bouton" << std::endl;
-	int keyPressed = controllerAssignation[player-1].getController()->getKeyPressed();
+	int keyPressed = controllerAssignation[player-1].getController()->getKeyPressed(player);
 	while( keyPressed == -1)
 	{
-		keyPressed = controllerAssignation[player-1].getController()->getKeyPressed();
+		keyPressed = controllerAssignation[player-1].getController()->getKeyPressed(player);
 	}
 	/* Si le controleur est de type clavier, on vérifie que la touche voulu n'est pas déjà utilisée par autre joueur ou par lui-même */
 	if(controllerAssignation[player-1].getController()->getControllerType() == KEYBOARD && keyUsed(keyPressed))
@@ -240,26 +325,34 @@ SKeysConfig ControllerManager::setPlayerController(int player, EControllerType t
 {	
 	EControllerType controllerType = controllerAssignation[player-1].getController()->getControllerType();
 	Gamepad* gamepad;
-	//Wiimote* wiimote;
 	
 	if( type != controllerType) // Si le type est différent du contrôleur déjà utilisé
 	{
 		switch(type)
 		{
 			case KEYBOARD:
-				delete controllerAssignation[player-1].getController();
+				if(controllerType == WII)
+				{
+					wii->disconnectWiimote(player);
+				}
+				else // Type Joystick
+				{
+					delete controllerAssignation[player-1].getController();
+				}
 				controllerAssignation[player-1].setController(keyboard);
+				controllerAssignation[player-1].setDefaultKeyboardConfig(player);
 				break;
 				
 			case GAMEPAD:
 				try
 				{
 					gamepad = new Gamepad();
-					if(controllerType != KEYBOARD)
+					if(controllerType == WII)
 					{
-						delete controllerAssignation[player-1].getController();
+						wii->disconnectWiimote(player);
 					}
 					controllerAssignation[player-1].setController(gamepad);
+					controllerAssignation[player-1].setDefaultGamepadConfig();
 				}
 				catch(PolyBomberException* e)
 				{
@@ -270,22 +363,22 @@ SKeysConfig ControllerManager::setPlayerController(int player, EControllerType t
 				break;
 			
 			case WII:
-				/*
 				try
 				{
-					wiimote = new Wiimote();
-					if(controllerType != KEYBOARD)
+					wii->addWiimote(player);
+					if(controllerType == GAMEPAD)
 					{
 						delete controllerAssignation[player-1].getController();
 					}
-					controllerAssignation[player-1].setController(gamepad);
+					controllerAssignation[player-1].setController(wii);
+					controllerAssignation[player-1].setDefaultWiimoteConfig();
 				}
 				catch(PolyBomberException* e)
 				{
 					#if DEBUG
 						std::cout << e->what();
 					#endif
-				}*/
+				}
 				break;
 				
 			default:
@@ -355,67 +448,60 @@ SKeyPressed ControllerManager::getKeysPressed()
 	int i;
 	Controller* controller;
 	EGameKeys gameKeys;
+	
 	for(i=0; i<4; i++)
 	{
 		controller = controllerAssignation[i].getController();
 		if(controller != NULL)
 		{
-			gameKeys = getAction(controller->getKeyPressed(),i+1);
+			gameKeys = getAction(controller->getKeyPressed(i+1),i+1);
 			
-			if(gameKeys == GAME_UP)
+			switch(gameKeys)
 			{
-				#if DEBUG
-					std::cout << "Player " << i+1 << ": UP" << std::endl;
-				#endif
-				sKeyPressed.keys[i][GAME_UP] = true;
-			}
-			
-			if(gameKeys == GAME_DOWN)
-			{
-				#if DEBUG
-					std::cout << "Player " << i+1 << ": DOWN" << std::endl;
-				#endif
-				sKeyPressed.keys[i][GAME_DOWN] = true;
-			}
-			
-			if(gameKeys == GAME_LEFT)
-			{
-				#if DEBUG
-					std::cout << "Player " << i+1 << ": LEFT" << std::endl;
-				#endif
-				sKeyPressed.keys[i][GAME_LEFT] = true;
-			}
-			
-			if(gameKeys == GAME_RIGHT)
-			{
-				#if DEBUG
-					std::cout << "Player " << i+1 << ": RIGHT" << std::endl;
-				#endif
-				sKeyPressed.keys[i][GAME_RIGHT] = true;
-			}
-			
-			if(gameKeys == GAME_ACTION1)
-			{
-				#if DEBUG
-					std::cout << "Player " << i+1 << ": ACTION1" << std::endl;
-				#endif
-				sKeyPressed.keys[i][GAME_ACTION1] = true;
-			}
-			
-			if(gameKeys == GAME_ACTION2)
-			{
-				#if DEBUG
-					std::cout << "Player " << i+1 << ": ACTION2" << std::endl;
-				#endif
-				sKeyPressed.keys[i][GAME_ACTION2] = true;
-			}
-			
-			if(gameKeys == GAME_PAUSE)
-			{
-				#if DEBUG
-					std::cout << "Player " << i+1 << ": PAUSE" << std::endl;
-				#endif
-				sKeyPressed.keys[i][GAME_PAUSE] = true;
+				case GAME_UP :
+					#if DEBUG
+						std::cout << "Player " << i+1 << ": UP" << std::endl;
+					#endif
+					sKeyPressed.keys[i][GAME_UP] = true;
+					break;
+				case GAME_DOWN :
+					#if DEBUG
+						std::cout << "Player " << i+1 << ": DOWN" << std::endl;
+					#endif
+					sKeyPressed.keys[i][GAME_DOWN] = true;
+					break;
+				case GAME_LEFT :
+					#if DEBUG
+						std::cout << "Player " << i+1 << ": LEFT" << std::endl;
+					#endif
+					sKeyPressed.keys[i][GAME_LEFT] = true;
+					break;
+				case GAME_RIGHT :
+					#if DEBUG
+						std::cout << "Player " << i+1 << ": RIGHT" << std::endl;
+					#endif
+					sKeyPressed.keys[i][GAME_RIGHT] = true;
+					break;
+				case GAME_ACTION1 :
+					#if DEBUG
+						std::cout << "Player " << i+1 << ": ACTION1" << std::endl;
+					#endif
+					sKeyPressed.keys[i][GAME_ACTION1] = true;
+					break;
+				case GAME_ACTION2 :
+					#if DEBUG
+						std::cout << "Player " << i+1 << ": ACTION2" << std::endl;
+					#endif
+					sKeyPressed.keys[i][GAME_ACTION2] = true;
+					break;
+				case GAME_PAUSE :
+					#if DEBUG
+						std::cout << "Player " << i+1 << ": PAUSE" << std::endl;
+					#endif
+					sKeyPressed.keys[i][GAME_PAUSE] = true;
+					break;
+				default :
+					break;
 			}
 		}
 	}	

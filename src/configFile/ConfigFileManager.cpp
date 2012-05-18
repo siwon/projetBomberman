@@ -4,7 +4,7 @@
  * \author Alexandre BISIAUX
  */
 
-#define DEBUG 1
+#define DEBUG 0
 
 /* Includes */
 

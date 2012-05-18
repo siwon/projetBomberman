@@ -121,7 +121,7 @@ char Gamepad::getCharPressed()
 	return '\0';
 }
 
-int Gamepad::getKeyPressed()
+int Gamepad::getKeyPressed(int player)
 {
 	
 	if(sf::Joystick::getAxisPosition(noGamepad, sf::Joystick::X) < -10)
@@ -157,3 +157,7 @@ int Gamepad::getKeyPressed()
 	
 	return k;
 }
+
+void Gamepad::addWiimote(int player){}
+
+void Gamepad::disconnectWiimote(int player){}
