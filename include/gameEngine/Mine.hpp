@@ -7,18 +7,20 @@
  * \author Simon ROUSSEAU
  */
 
+#include "../../include/gameEngine/Explosive.hpp"
+
 namespace PolyBomber {
-  /*!
-  * \class Mine
-  * \brief Classe Mine
-  */
-  class Mine : public Explosive {
-	public :
-	  Mine();
-	  Mine(Mine mine);
-	  //opérateur d'affectation
-	  ~Mine();
-  };
+	/*!
+	 * \class Mine
+	 * \brief Classe Mine
+	 */
+	class Mine : public Explosive {
+	public:
+		Mine(const Player& p);
+		Mine(const Mine& mine);
+		//opérateur d'affectation
+		~Mine();
+	};
 }
 
 #endif

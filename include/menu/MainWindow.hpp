@@ -7,10 +7,14 @@
  * \author Maxime GUIHAL
  */
 
+#include <vector>
+
 #include "SFML/Graphics/RenderWindow.hpp"
 #include "SFML/Window/VideoMode.hpp"
+#include "SFML/Window/Event.hpp"
 
 #include "menu/MainWindow.hpp"
+#include "menu/IWidgetMenu.hpp"
 
 namespace PolyBomber
 {
@@ -53,8 +57,27 @@ namespace PolyBomber
 			 */
 			sf::VideoMode getSettings() const;
 
+			/*!
+			 * \brief Méthode pour gérer la fermeture de la fenêtre
+			 *  \return True si la fenêtre doit être fermée
+			 */
+			bool listenCloseButton(); 
+
+			/*!
+			 * \brief Méthode pour effacer la fenêtre
+			 */
+			void clear();
+
+			/*!
+			 * \brief Méthode pour afficher la fenêtre
+			 * \param widgets : Elements à afficher
+			 */
+			void display(std::vector<IWidgetMenu*> widgets);
+
+			void draw(sf::Sprite s);
+
 		private:
-			sf::RenderWindow window; /*!< Fenetre du programme */
+			static sf::RenderWindow window; /*!< Fenetre du programme */
 			unsigned int style; /*! Style de la fenêtre */
 			sf::VideoMode settings; /*! Paramètres vidéo de la fenêtre */
 
@@ -64,6 +87,13 @@ namespace PolyBomber
 			 * \param mode : Paramètres vidéo de la fenêtre
 			 */
 			void initVideoMode(unsigned int& style, sf::VideoMode& mode);
+
+			/*!
+			 * \brief Méthode d'initialisation de la fenêtre
+			 * \param style : Style de la fenêtre (plein écran ou fenêtré)
+			 * \param mode : Paramètres vidéo de la fenêtre
+			 */
+			void initWindow(unsigned int style, sf::VideoMode settings);
 	};
 }
 

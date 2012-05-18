@@ -31,11 +31,10 @@ namespace PolyBomber
 			 */
 			virtual int isPaused() = 0;
 
-						/*!
+			/*!
 			 * \brief Destructeur virtuel
 			 */
 			virtual ~INetworkToGameEngine() {};
-
 	};
 }
 #endif

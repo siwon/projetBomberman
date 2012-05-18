@@ -7,15 +7,22 @@
  * \author Simon ROUSSEAU
  */
 
-namespace PolyBomber {
-  /*!
-  * \class Wall
-  * \brief Classe Wall
-  */
+#include "../../include/gameEngine/Location.hpp"
 
-  class Wall : public Location {
-    
-  };
+namespace PolyBomber {
+	/*!
+	 * \class Wall
+	 * \brief Classe Wall
+	 */
+	
+	class Wall : public Location {
+	public:
+		Wall(int x, int y);
+		Wall(const Location& loc);
+		Wall(const Wall& e);
+		//opérateur d'affectation
+		~Wall();
+	};
 }
 
 #endif

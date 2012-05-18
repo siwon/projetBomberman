@@ -9,7 +9,7 @@
 
 /* Includes */
 
-// Bibliothèques standarts 
+// Bibliothèques standards 
 #include <string>
 #include <fstream>
 #include <map>
@@ -22,6 +22,7 @@
 #include "../IConfigFile.hpp"
 
 
+#define DEFAULT_FILENAME "resources/PolyBomber.conf"
 
 namespace PolyBomber
 {
@@ -68,20 +69,12 @@ namespace PolyBomber
 
 		virtual int getIntValue(std::string key);
 		
+		virtual std::vector<std::string> getKeys();
+		
 		/*!
 		 * \brief Ecriture de la configuration clavier par défaut du joueur donné
 		 */
 		void setDefaultKeyboardConfig(int player);
-		
-		/*!
-		 * \brief Ecriture de la configuration joystick par défaut du joueur donné
-		 */
-		void setDefaultGamepadConfig(int player);
-		
-		/*!
-		 * \brief Ecriture de la configuration wiimote par défaut du joueur donné
-		 */
-		void setDefaultWiimoteConfig(int player);
 		
 	private :
 		

@@ -7,68 +7,81 @@
  * \author Simon Rousseau
  */
 
-#include "IGameEngineToNetwork.hpp"
-#include "gameEngine/Board.hpp"
-#include "gameEngine/Bonus.hpp"
-#include "gameEngine/Player.hpp"
+#include "../../include/gameEngine/Board.hpp"
+#include "../../include/gameEngine/Bonus.hpp"
+#include "../../include/gameEngine/Player.hpp"
+#include "../../include/IGameEngineToNetwork.hpp"
+#include "../../include/IGameEngineToGameInterface.hpp"
+#include "../../include/INetworkToGameEngine.hpp"
 
 namespace PolyBomber {
-  /*!
-  * \class ControllerManager
-  * \brief Classe de gestion du moteur de jeu
-  */
-  class GameEngineManager : public IGameEngineToNetwork, public IGameEngineToGameInterface, public INetworkToGameEngine {
-    protected :
-      Board board; /*! Objet stockant le plateau de jeu */
-    public :
-      
-      /*!
-	* \brief Applique un bonus à un joueur
-	* Cette méthode permet d'applique un bonus à un joueur.
-	* \param bonus : Bonus à appliquer
-	* \param player : Joueur sur lequel appliquer le bonus
-	*/
-      void applyBonus(Bonus bonus, Player player);
-      
-      /*!
-	* \brief Déplace le joueur sur le plateau de jeu
-	* 
-	* \param player : Joueur sur lequel appliquer le déplacement
-	* \param orientation : Direction du déplacement
-	*/
-      void movePlayer(Player player, EOrientation orientation);
-      
-      /*!
-	* \brief Déclenche l'explosion d'une bombe
-	* 
-	* \param explosive : Bombe qui doit exploser
-	*/
-      void explode(Explosive explosive);
-      
-      /*!
-	* \brief Active le détonateur afin de faire exploser les bombes
-	* Cette méthode est appelée lorsque le joueur active son détonateur.
-	* Elle provoque l'explosion de toutes les bombes posées par le joueur pris en paramètre.
-	* \param player : Joueur qui active le détonateur
-	*/
-      void activateDetonator(Player player);
-      
-      /*!
-	* \brief Pose une mine à l'emplacement du joueur
-	* Cette méthode est appelée lorsque le joueur demande à poser une mine.
-	* Dans le cas où le joueur peut poser une bombe, la bombe sera posée sous le joueur.
-	* \param player : Joueur qui pose la mine
-	*/
-      void putMine(Player player);
-      
-      /*!
-	* \brief Détruit une caisse
-	* Cette méthode est appelé lorsque la déflagration d'une bombe touche une caisse.
-	* Elle provoque la destruction de la caisse ainsi que la probable libération d'un bonus.
-	* \param box : Caisse à exploser
-	*/
-      void breakBox(Box box);
-  };
+	/*!
+	 * \class ControllerManager
+	 * \brief Classe de gestion du moteur de jeu
+	 */
+	class GameEngineManager : public IGameEngineToNetwork, public IGameEngineToGameInterface, public INetworkToGameEngine {
+		// TODO : faire en sorte que ce soit un singleton !!!
+	protected:
+		Board board; /*! Objet stockant le plateau de jeu */
+		bool gameConfigIsSet;
+    public:
+		bool getGameConfigIsSet(){return this->gameConfigIsSet;}
+		void setGameConfigIsSet(bool b){this->gameConfigIsSet=b;}
+		/*!
+		 * \brief Applique un bonus à un joueur
+		 * Cette méthode permet d'applique un bonus à un joueur.
+		 * \param bonus : Bonus à appliquer
+		 * \param player : Joueur sur lequel appliquer le bonus
+		 */
+		void applyBonus(Bonus bonus, Player player);
+		
+		/*!
+		 * \brief Déplace le joueur sur le plateau de jeu
+		 * 
+		 * \param player : Joueur sur lequel appliquer le déplacement
+		 * \param orientation : Direction du déplacement
+		 */
+		void movePlayer(Player player, EOrientation orientation);
+		
+		/*!
+		 * \brief Déclenche l'explosion d'une bombe
+		 * 
+		 * \param explosive : Bombe qui doit exploser
+		 */
+		void explode(Explosive explosive);
+		
+		/*!
+		 * \brief Active le détonateur afin de faire exploser les bombes
+		 * Cette méthode est appelée lorsque le joueur active son détonateur.
+		 * Elle provoque l'explosion de toutes les bombes posées par le joueur pris en paramètre.
+		 * \param player : Joueur qui active le détonateur
+		 */
+		void activateDetonator(Player player);
+		
+		/*!
+		 * \brief Pose une mine à l'emplacement du joueur
+		 * Cette méthode est appelée lorsque le joueur demande à poser une mine.
+		 * Dans le cas où le joueur peut poser une bombe, la bombe sera posée sous le joueur.
+		 * \param player : Joueur qui pose la mine
+		 */
+		void putMine(Player player);
+		
+		/*!
+		 * \brief Détruit une caisse
+		 * Cette méthode est appelé lorsque la déflagration d'une bombe touche une caisse.
+		 * Elle provoque la destruction de la caisse ainsi que la probable libération d'un bonus.
+		 * \param box : Caisse à exploser
+		 */
+		void breakBox(Box box);
+		
+		int isPaused();
+		SBoard getBoard();
+		bool isFinished();
+		void setGameConfig(SGameConfig gameConfig);
+		SKeyPressed getKeysPressed();
+		
+		void run();
+	};
 }
 
 #endif

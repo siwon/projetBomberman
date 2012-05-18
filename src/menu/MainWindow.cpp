@@ -13,7 +13,9 @@
 
 namespace PolyBomber
 {
-	MainWindow::MainWindow() : window()
+	sf::RenderWindow MainWindow::window;
+
+	MainWindow::MainWindow()
 	{
 		this->settings = sf::VideoMode();
 		this->initVideoMode(this->style, this->settings);
@@ -42,27 +44,20 @@ namespace PolyBomber
 
 		delete configFile;
 			
-		this->window.create(this->settings, "PolyBomber", this->style);
-		this->window.setMouseCursorVisible(false);
-
-		while (this->window.isOpen())
-		{
-			this->window.clear();
-			this->window.display();
-		}
+		initWindow(this->style, this->settings);
 	}
 
 	MainWindow::~MainWindow()
 	{}
 
-	MainWindow::MainWindow(const MainWindow& obj) : window()
+	MainWindow::MainWindow(const MainWindow& obj)
 	{
-		this->window.create(obj.getSettings(), "PolyBomber", obj.getStyle());
+		initWindow(obj.getStyle(), obj.getSettings());
 	}
 
 	MainWindow& MainWindow::operator=(const MainWindow& obj)
 	{
-		this->window.create(obj.getSettings(), "PolyBomber", obj.getStyle());
+		initWindow(obj.getStyle(), obj.getSettings());
 		return *this;
 	}
 
@@ -75,6 +70,13 @@ namespace PolyBomber
 		mode.bitsPerPixel = sf::VideoMode::getDesktopMode().bitsPerPixel;
 	}
 
+	void MainWindow::initWindow(unsigned int style, sf::VideoMode settings)
+	{
+		MainWindow::window.create(settings, "PolyBomber", style);
+		MainWindow::window.setMouseCursorVisible(false);
+		MainWindow::window.setFramerateLimit(60);
+	}
+
 	unsigned int MainWindow::getStyle() const 
 	{
 		return this->style;
@@ -83,6 +85,38 @@ namespace PolyBomber
 	sf::VideoMode MainWindow::getSettings() const
 	{
 		return this->settings;
+	}
+
+	bool MainWindow::listenCloseButton()
+	{
+		sf::Event event;
+		while (MainWindow::window.pollEvent(event))
+		{
+			if (event.type == sf::Event::Closed)
+				return true;
+		}
+
+		return false;
+	}
+
+	void MainWindow::clear()
+	{
+		MainWindow::window.clear();
+	}
+
+	void MainWindow::draw(sf::Sprite s)
+	{
+		MainWindow::window.draw(s);
+	}	
+
+	void MainWindow::display(std::vector<IWidgetMenu*> widgets)
+	{
+		std::vector<IWidgetMenu*>::iterator it;
+		
+		for (it = widgets.begin(); it < widgets.end(); it++)
+			MainWindow::window.draw(**it);
+
+		MainWindow::window.display();
 	}
 }
 

@@ -19,3 +19,4 @@
 *.geany
 *.o
 workspace.xcworkspace
+*.kate-swp

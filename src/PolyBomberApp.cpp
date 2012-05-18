@@ -18,13 +18,13 @@ namespace PolyBomber
 
 	PolyBomberApp::PolyBomberApp()
 	{
+		//PolyBomberApp::controllerManager = ControllerManager::getInstance();
+		PolyBomberApp::soundManager = SoundManager::getInstance();
+		PolyBomberApp::skinManager = SkinManager::getInstance();
 		PolyBomberApp::menuManager = MenuManager::getInstance();
 		//PolyBomberApp::gameInterfaceManager = GameInterfaceManager::getInstance();
 		//PolyBomberApp::networkManager = NetworkManager::getInstance();
 		//PolyBomberApp::gameEngineManager = GameEngineManager::getInstance();
-		//PolyBomberApp::controllerManager = ControllerManager::getInstance();
-		PolyBomberApp::soundManager = SoundManager::getInstance();
-		PolyBomberApp::skinManager = SkinManager::getInstance();
 	}
 
 	PolyBomberApp::~PolyBomberApp()
@@ -96,8 +96,7 @@ namespace PolyBomber
 	int PolyBomberApp::run()
 	{
 		IMenuToMain* menu = PolyBomberApp::getIMenuToMain();
-		return menu->run();
-		return false;
+		return (int)menu->run();
 	}
 }
 

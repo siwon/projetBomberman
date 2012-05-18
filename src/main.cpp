@@ -10,10 +10,20 @@ using namespace PolyBomber;
 
 int main()
 {
-	PolyBomberApp* app = PolyBomberApp::getInstance();
-	int signal = app->run();
+	int signal;
+	
+	try
+	{
+		PolyBomberApp* app = PolyBomberApp::getInstance();
+		signal = app->run();
 
-	PolyBomberApp::kill();
+		PolyBomberApp::kill();
+	}
+	catch (std::exception& e)
+	{
+		std::cerr << e.what() << std::endl;
+		signal = EXIT_FAILURE;
+	}
 
 	return signal;
 }
