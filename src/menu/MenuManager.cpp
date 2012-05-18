@@ -11,19 +11,19 @@
 
 namespace PolyBomber
 {
-	MenuManager::MenuManager() : menuResources()
+	MenuManager::MenuManager() : window()
 	{
 		// Ajout des menus
-		this->menuScreens.push_back(new SplashScreen());
-		this->menuScreens.push_back(new MainMenu());
+		this->menuScreens[SPLASHSCREEN] = new SplashScreen();
+		this->menuScreens[MAINMENU] = new MainMenu();
 	}
 
 	MenuManager::~MenuManager()
 	{
 		// On parcourt la liste pour désallouer les menus
-		std::vector<IMenuScreen*>::iterator it;
-		for (it = this->menuScreens.begin(); it < this->menuScreens.end(); it++)
-			delete *it;
+		std::map<EMenuScreen, IMenuScreen*>::iterator it;
+		for (it = this->menuScreens.begin(); it != this->menuScreens.end(); it++)
+			delete (*it).second;
 	}
 
 	EScreenSignal MenuManager::run()
@@ -31,7 +31,7 @@ namespace PolyBomber
 		EMenuScreen screen = SPLASHSCREEN;
 
 		while (screen != EXIT)
-			screen = this->menuScreens[screen]->run(&(this->menuResources), SPLASHSCREEN);
+			screen = this->menuScreens[screen]->run(this->window, SPLASHSCREEN);
 		
 		return EXITGAME;
 	}

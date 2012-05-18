@@ -12,13 +12,13 @@ namespace PolyBomber
 	//GameInterfaceManager* PolyBomberApp::gameInterfaceManager = NULL;
 	//NetworkManager* PolyBomberApp::networkManager = NULL;
 	//GameEngineManager* PolyBomberApp::gameEngineManager = NULL;
-	//ControllerManager* PolyBomberApp::controllerManager = NULL;
+	ControllerManager* PolyBomberApp::controllerManager = NULL;
 	SoundManager* PolyBomberApp::soundManager = NULL;
 	SkinManager* PolyBomberApp::skinManager = NULL;
 
 	PolyBomberApp::PolyBomberApp()
 	{
-		//PolyBomberApp::controllerManager = ControllerManager::getInstance();
+		PolyBomberApp::controllerManager = ControllerManager::getInstance();
 		PolyBomberApp::soundManager = SoundManager::getInstance();
 		PolyBomberApp::skinManager = SkinManager::getInstance();
 		PolyBomberApp::menuManager = MenuManager::getInstance();
@@ -32,18 +32,18 @@ namespace PolyBomber
 		MenuManager::kill();
 		/*GameInterfaceManager::kill();
 		NetworkManager::kill();
-		GameEngineManager::kill();
-		ControllerManager::kill();*/
+		GameEngineManager::kill();*/
+		ControllerManager::kill();
 		SoundManager::kill();
 		SkinManager::kill();
 	}
 
-	/*IControllerToMenu* PolyBomberApp::getIControllerToMenu()
+	IControllerToMenu* PolyBomberApp::getIControllerToMenu()
 	{
 		return static_cast<IControllerToMenu*>(PolyBomberApp::controllerManager);
 	}
 	
-	IControllerToNetwork* PolyBomberApp::getIControllerToNetwork()
+	/*IControllerToNetwork* PolyBomberApp::getIControllerToNetwork()
 	{
 		return static_cast<IControllerToNetwork*>(PolyBomberApp::controllerManager);
 	}

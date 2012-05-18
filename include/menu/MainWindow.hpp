@@ -13,9 +13,6 @@
 #include "SFML/Window/VideoMode.hpp"
 #include "SFML/Window/Event.hpp"
 
-#include "menu/MainWindow.hpp"
-#include "menu/IWidgetMenu.hpp"
-
 namespace PolyBomber
 {
 	/*!
@@ -72,9 +69,7 @@ namespace PolyBomber
 			 * \brief Méthode pour afficher la fenêtre
 			 * \param widgets : Elements à afficher
 			 */
-			void display(std::vector<IWidgetMenu*> widgets);
-
-			void draw(sf::Sprite s);
+			void display(std::vector<sf::Drawable*> widgets);
 
 		private:
 			static sf::RenderWindow window; /*!< Fenetre du programme */

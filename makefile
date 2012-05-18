@@ -5,7 +5,7 @@ EXEC=PolyBomber
 
 all: $(EXEC)
 
-PolyBomber: main.o PolyBomberApp.o PolyBomberException.o menu sound skin configFile
+PolyBomber: main.o PolyBomberApp.o PolyBomberException.o menu sound skin configFile controller
 	$(CC) -o $@ bin/*.o $(LDFLAGS)
 
 %.o: src/%.cpp
@@ -21,6 +21,9 @@ skin:
 	(cd src/$@ && $(MAKE))
 
 sound:
+	(cd src/$@ && $(MAKE))
+
+controller:
 	(cd src/$@ && $(MAKE))
 
 gameInterface:

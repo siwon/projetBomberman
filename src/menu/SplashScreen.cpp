@@ -5,10 +5,9 @@
  */
 
 #include "menu/SplashScreen.hpp"
+#include "PolyBomberApp.hpp"
 
 #include "menu/ImageWidget.hpp"
-
-#include <iostream>
 
 namespace PolyBomber
 {
@@ -18,12 +17,12 @@ namespace PolyBomber
 	SplashScreen::~SplashScreen()
 	{}
 
-	EMenuScreen SplashScreen::run(MenuResources* resources, EMenuScreen previous)
+	EMenuScreen SplashScreen::run(MainWindow& window, EMenuScreen previous)
 	{
-		MainWindow* w = resources->getWindow();
+		ISkin* skin = PolyBomberApp::getISkin();
 
-		ImageWidget background(resources->getSkin()->loadImage(MENU_BACKGROUND));
-		ImageWidget splash(resources->getSkin()->loadImage(SPLASH));
+		ImageWidget background(skin->loadImage(MENU_BACKGROUND));
+		ImageWidget splash(skin->loadImage(SPLASH));
 
 		this->widgets.push_back(&background);
 		this->widgets.push_back(&splash);
@@ -32,7 +31,7 @@ namespace PolyBomber
 
 		while (true)
 		{
-			if (w->listenCloseButton())
+			if (window.listenCloseButton())
 				return EXIT;
 
 			sf::Time elapsed = clock.getElapsedTime();
@@ -44,8 +43,8 @@ namespace PolyBomber
 			if (elapsed.asSeconds() > 3.f)
 				return MAINMENU;
 				
-			w->clear();
-			w->display(this->widgets);
+			window.clear();
+			window.display(this->widgets);
 		}
 
 		return EXIT;
