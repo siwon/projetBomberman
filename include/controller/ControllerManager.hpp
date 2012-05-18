@@ -9,7 +9,7 @@
 
 /* Includes */
 
-// Bibliothèques standarts 
+// Bibliothèques standards 
 #include <string>
 #include <vector>
 

@@ -3,12 +3,12 @@
  * \brief Implémentation de la classe Keyboard
  * \author Alexandre BISIAUX
  */
-
-#define DEBUG 1
+ 
+ #define DEBUG 1
 
 /* Includes */
 
-// Bibliothèques standarts 
+// Bibliothèques standards 
 #include <iostream>
 #include <vector>
 #include <map>

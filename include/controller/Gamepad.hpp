@@ -9,7 +9,7 @@
 
 /* Includes */
 
-// Bibliothèques standarts 
+// Bibliothèques standards 
 
 // Bibliothèques SFML
 #include <SFML/Window.hpp>

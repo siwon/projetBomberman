@@ -3,12 +3,12 @@
  * \brief Implémentation de la classe Wii
  * \author Alexandre BISIAUX
  */
-
-#define DEBUG 1
+ 
+ #define DEBUG 1
 
 /* Includes */
 
-// Bibliothèques standarts 
+// Bibliothèques standards 
 #include <iostream>
 #include <sstream>
 #include <map>

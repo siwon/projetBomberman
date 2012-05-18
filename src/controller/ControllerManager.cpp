@@ -8,7 +8,7 @@
 
 /* Includes */
 
-// Bibliothèques standarts 
+// Bibliothèques standards 
 #include <iostream>
 #include <sstream>
 
@@ -140,8 +140,9 @@ void ControllerManager::ControllerAssignation::setDefaultKeyboardConfig(int play
 ControllerManager::ControllerManager()
 {
 	keyboard = new Keyboard(); // Prise en charge du clavier
-	
-	configFileManager = new ConfigFileManager(DEFAULT_FILENAME);
+	std::stringstream ss;
+	ss << "../../" << DEFAULT_FILENAME;
+	configFileManager = new ConfigFileManager(ss.str());
 	
 	controllerAssignation = new ControllerAssignation[4];
 	

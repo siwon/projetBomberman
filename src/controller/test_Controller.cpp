@@ -6,7 +6,7 @@
 
 /* Includes */
 
-// Bibliothèques standarts 
+// Bibliothèques standards 
 #include <iostream>
 
 // Bibliothèques SFML
@@ -44,8 +44,8 @@ int main()
 	//controllerManager->printConfig(1);
 	//controllerManager->setPlayerController(2,WII);
 	//controllerManager->setPlayerController(3,WII);
-	controllerManager->printConfig(2);
-	controllerManager->printConfig(3);
+	//controllerManager->printConfig(2);
+	//controllerManager->printConfig(3);
 	//controllerManager->setPlayerController(3,KEYBOARD);
 	/*controllerManager->printConfig(4);*/
 	
