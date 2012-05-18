@@ -9,7 +9,7 @@
 
 /* Includes */
 
-// Bibliothèques standarts 
+// Bibliothèques standards 
 #include <string>
 #include <fstream>
 #include <map>
@@ -22,7 +22,7 @@
 #include "../IConfigFile.hpp"
 
 
-#define DEFAULT_FILENAME "../../resources/configFileManager/PolyBomber.conf"
+#define DEFAULT_FILENAME "resources/PolyBomber.conf"
 
 namespace PolyBomber
 {
