@@ -46,7 +46,7 @@ namespace PolyBomber
 			/*!
 			 * \brief Méthode de récupération de la fenêtre
 			 */
-			MainWindow& getWindow();
+			MainWindow* getWindow();
 
 			/*!
 			 * \brief Méthode de récupération de l'interface de jeu

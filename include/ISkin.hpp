@@ -12,6 +12,8 @@
 #include <SFML/Graphics/Color.hpp>
 #include <SFML/Graphics/Texture.hpp>
 
+#include "PolyBomberException.hpp"
+
 #include "EImage.hpp"
 #include "EColorKey.hpp"
 
@@ -35,7 +37,7 @@ namespace PolyBomber
 			 * 
 			 * \return Tableau des noms des skins
 			 */
-			virtual std::vector<std::string> getSkinsList() = 0;
+			virtual std::vector<std::string> getSkinsList() const = 0;
 
 			/*!
 			 * \brief Chargement d'une image donnée
@@ -70,7 +72,7 @@ namespace PolyBomber
 			 * \brief Récupération du nom du skin courant
 			 * \return Nom du skin
 			 */
-			virtual std::string getSkin() = 0;
+			virtual std::string getSkin() throw(PolyBomberException) = 0;
 
 			/*!
 			 * \brief Sauvegarde de la configuration
@@ -86,7 +88,7 @@ namespace PolyBomber
 			 * En cas d'annulation des changements effectués,
 			 * rechargement entier du skin
 			 */
-			virtual void reloadConfig() = 0;
+			virtual void reloadConfig() throw(PolyBomberException) = 0;
 
 			/*!
 			 * \brief Destructeur virtuel

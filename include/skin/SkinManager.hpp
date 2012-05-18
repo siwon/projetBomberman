@@ -7,8 +7,13 @@
  * \author Maxime GUIHAL
  */
 
+#include <map>
+
+#include "PolyBomberException.hpp"
+
 #include "ISkin.hpp"
 #include "TSingleton.hpp"
+#include "IConfigFile.hpp"
 
 namespace PolyBomber
 {
@@ -23,62 +28,75 @@ namespace PolyBomber
 
 		public:
 			/*!
-			 * \brief Récupération de la liste des skins disponibles
-			 *
-			 * Cette méthode liste les dossiers présents dans /resources/skins
-			 *
-			 * \return La liste des skins disponibles
+			 * \see ISkin::getSkinsList
 			 */
-			std::vector<std::string> getSkinsList();
+			std::vector<std::string> getSkinsList() const;
 
 			/*!
-			 * \brief Récupère une image du skin selon son intitulé
-			 * \param name : Intitulé de l'image
-			 * \return Texture associée à l'image
+			 * \see ISkin::loadImage
 			 */
 			sf::Texture* loadImage(EImage name);
 
 			/*!
-			 * \brief Récupère un code couleur du skin
-			 * \param key : intitulé de la couleur
-			 * \return Couleur correspondant à l'intitulé
+			 * \see ISkin::getColor
 			 */
 			sf::Color getColor(EColorKey key);
 
 			/*!
-			 * \brief Change le skin courant
-			 * \param name : Nouveau skin
+			 * \see ISkin::setSkin
 			 */
 			void setSkin(std::string name);
 
 			/*!
-			 * \brief Récupère le skin courant
-			 * \return Skin courant
+			 * \see ISkin::getSkin
 			 */
-			std::string getSkin();
+			std::string getSkin() throw(PolyBomberException);
 
 			/*!
-			 * \brief Sauvegarde le skin dans la configuration
+			 * \see ISkin::saveConfig
 			 */
 			void saveConfig();
 
 			/*!
-			 * \brief Recharge le skin de la configuration
+			 * \see ISkin::reloadConfig
 			 */
-			void reloadConfig();
+			void reloadConfig() throw(PolyBomberException);
 
 		private:
 			/*!
 			 * \brief Constructeur
 			 */
-			SkinManager();
+			SkinManager() throw(PolyBomberException);
 
 			/*!
 			 * \brief Destructeur
 			 */
 			~SkinManager();
 
-			
+			/*!
+			 * \brief Méthode pour supprimer toutes les textures
+			 */
+			void destroyTextures();
+
+			/*!
+			 * \brief Méthode pour créer et insérer une texture
+			 * \param key : Clé associée à la texture
+			 */
+			void insertTexture(EImage key);
+
+			/*!
+			 * \brief Méthode pour recharger les textures chargées
+			 */
+			void reloadTextures();
+
+			void getComponent(IConfigFile* configFile, EColorKey key, sf::Uint8& component, std::string suffix);
+
+			std::string folder; /*!< Dossier du skin */
+			std::map<EImage, std::string> files; /*!< Fichiers associés */
+			std::map<EImage, sf::Texture*> textures; /*!< Textures associées */
+			std::map<EColorKey, std::string> colors; /*!< Intitulés associés aux couleurs */
+
+			const std::string PATH; /*!< Chemin des skins */
 	};
 }
 

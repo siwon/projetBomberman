@@ -7,6 +7,9 @@
  * \author Maxime GUIHAL
  */
 
+#include <exception>
+#include <string>
+
 namespace PolyBomber
 {
 	/*!
