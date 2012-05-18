@@ -7,7 +7,7 @@
  * \author Simon ROUSSEAU
  */
 
-#include <Vector>
+#include <vector>
 #include "Bonus.hpp"
 #include "Location.hpp"
 #include "../EOrientation.hpp"

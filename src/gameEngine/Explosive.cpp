@@ -7,7 +7,7 @@
 
 /** Includes **/
 // Bibliothèques standards
-#include <Vector>
+#include <vector>
 
 // Bibliothèques SFML
 #include <SFML/System/Time.hpp>

@@ -6,6 +6,8 @@
  * \brief Classe Board
  * \author Simon Rousseau
  */
+ 
+#include <vector>
 
 #include "../../include/gameEngine/Flame.hpp"
 #include "../../include/gameEngine/Bonus.hpp"
@@ -14,6 +16,8 @@
 #include "../../include/gameEngine/Player.hpp"
 #include "../../include/gameEngine/Wall.hpp"
 #include "../../include/gameEngine/Location.hpp"
+
+#include <iostream>
 
 namespace PolyBomber {
 	/*!
@@ -25,6 +29,12 @@ namespace PolyBomber {
     protected:
 		std::vector<Location> locations;
 		
+		void generateWall();
+		void generatePlayer(int nbPlayer);
+		void generateBonus(int nbBonus);
+		void generateBox(int nbBox);
+		
+	public:
 		Board();
 		Board(const Board& b);
 		//opérateur d'affectation
@@ -37,16 +47,16 @@ namespace PolyBomber {
 		void addLocation(Player joueur){this->locations.push_back(joueur);}
 		void addLocation(Wall mur){this->locations.push_back(mur);}
 		
-		void removeLocation(int x, int y);
-		
 		void generateBoard(int nbPlayer, int nbBonus, int nbBox);
 		
-		void generateWall();
-		void generatePlayer(int nbPlayer);
-		void generateBonus(int nbBonus);
-		void generateBox(int nbBox);
+		void removeLocation(int x, int y);
 		
-	public:
+		bool isEmpty(int x, int y); // détermine si une case est vide
+		
+		const std::vector<Location> getLocation() const {return this->locations;}
+		
+		const Board getBoard() const {return *this;}
+		
 		std::vector<Player> getPlayer();
 		std::vector<Explosive> getExplosive();
 		std::vector<Flame> getFlame();
@@ -54,9 +64,11 @@ namespace PolyBomber {
 		std::vector<Box> getBox();
 		std::vector<Wall> getWall();
 		
-		
-	private:
-		bool isEmpty(int x, int y); // détermine si une case est vide
+		void toString() {
+			for (unsigned int i=0; i<locations.size(); i++) {
+				std::cout << locations[i].getLocation().x << " ; " << locations[i].getLocation().y << std::endl;
+			}
+		}
 		
 	};
 }

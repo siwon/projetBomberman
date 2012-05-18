@@ -7,7 +7,7 @@
 
 /** Includes **/
 // Bibliothèques standards
-#include <Vector>
+#include <vector>
 
 // Bibliothèques SFML
 
@@ -21,6 +21,21 @@
 
 
 using namespace PolyBomber;
+
+Board::Board() {
+	this->locations=std::vector<Location>::vector();
+}
+
+Board::Board(const Board& b) {
+	this->locations=std::vector<Location>::vector();
+	for (unsigned int i=0; b.getLocation().size(); i++) {
+		this->locations.push_back(b.getLocation()[i]);
+	}
+}
+
+Board::~Board() {
+	
+}
 
 void Board::generateBoard(int nbPlayer, int nbBonus, int nbBox) {
 	generateWall();
@@ -36,8 +51,8 @@ void Board::generateWall() {
 	for (x=0; x<19; x++) {
 		for (y=0; y<13; y++) {
 			if (x%2==1 && y%2==1) {
-				//this->mur.push_back(new Wall());
-				//TODO : A corriger
+				//Wall temp = new Wall(caseToPixel(x),caseToPixel(y));
+				//this->locations.push_back(temp);
 			}
 		}
 	}
