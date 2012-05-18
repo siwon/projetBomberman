@@ -64,7 +64,7 @@ namespace PolyBomber
 			 * \brief Récupération de toutes les clés du fichier
 			 * \return La liste des clés du fichier
 			 */
-			//virtual std::vector<std::string> getKeys() = 0;
+			virtual std::vector<std::string> getKeys() = 0;
 
 			/*!
 			 * \brief Destructeur virtuel

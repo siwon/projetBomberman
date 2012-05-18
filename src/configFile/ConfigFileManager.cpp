@@ -4,7 +4,7 @@
  * \author Alexandre BISIAUX
  */
 
-#define DEBUG 0
+#define DEBUG 1
 
 /* Includes */
 
@@ -29,7 +29,7 @@ using namespace PolyBomber;
 
 ConfigFileManager::ConfigFileManager()
 {
-	configFileName = "polyBomber.conf";
+	configFileName = DEFAULT_FILENAME;
 	this->openFile();
 }
 
@@ -45,41 +45,6 @@ ConfigFileManager::ConfigFileManager(std::string path)
 ConfigFileManager::~ConfigFileManager()
 {
 	closeFile();
-}
-
-void ConfigFileManager::setDefaultGamepadConfig(int player)
-{
-	std::stringstream ss;
-	ss << "controller.player" << player << "type";
-	this->setIntValue(ss.str(), GAMEPAD);
-	
-	ss.str("");
-	ss << "controller.player" << player << "up";
-	this->setIntValue(ss.str(), Gamepad::X);
-	
-	ss.str("");
-	ss << "controller.player" << player << "down";
-	this->setIntValue(ss.str(), Gamepad::Y);
-	
-	ss.str("");
-	ss << "controller.player" << player << "left";
-	this->setIntValue(ss.str(), Gamepad::X);
-	
-	ss.str("");
-	ss << "controller.player" << player << "right";
-	this->setIntValue(ss.str(), Gamepad::X);
-	
-	ss.str("");
-	ss << "controller.player" << player << "action1";
-	this->setIntValue(ss.str(), Gamepad::But1);
-	
-	ss.str("");
-	ss << "controller.player" << player << "action2";
-	this->setIntValue(ss.str(), Gamepad::But2);
-	
-	ss.str("");
-	ss << "controller.player" << player << "pause";
-	this->setIntValue(ss.str(), Gamepad::But3);
 }
 	
 	
@@ -140,7 +105,7 @@ void ConfigFileManager::createDefault()
 {
 	/* Default player's configuration */
 	for(int i=0; i<4; i++)
-		this->setDefaultKeyboardConfig(i);
+		this->setDefaultKeyboardConfig(i+1);
 	
 	// A compléter pour les skins,...
 	
@@ -173,9 +138,7 @@ void ConfigFileManager::openFile()
 		std::string line,k,v;
 		size_t pos;
 	
-		configFile >> line;
-	
-		while(!configFile.eof())
+		while(getline(configFile, line))
 		{
 			pos = line.find(":");
 			if(pos!= std::string::npos)
@@ -184,7 +147,6 @@ void ConfigFileManager::openFile()
 				v = line.substr(pos+1,line.length());
 				fileContents.insert(std::pair<std::string,std::string>(k,v));
 			}
-			configFile >> line;
 		}
 	}
 	else
@@ -260,7 +222,7 @@ std::string ConfigFileManager::getStringValue(std::string key)
 	{
 		std::stringstream ss;
 		ss << "Clé " << key << " non présente.\n";
-		throw PolyBomberException(ss.str());
+		throw new PolyBomberException(ss.str());
 	}	
 }
 
@@ -287,4 +249,18 @@ void ConfigFileManager::remove(std::string key)
 bool ConfigFileManager::contains(std::string key)
 {
 	return fileContents.count(key);
+}
+
+std::vector<std::string> ConfigFileManager::getKeys()
+{
+	std::vector<std::string> keys;
+	
+	std::map<std::string,std::string>::iterator it;
+	
+	for(it = fileContents.begin(); it != fileContents.end(); it++)
+	{
+		keys.push_back((*it).first);
+	}
+	
+	return keys;
 }
