@@ -1,56 +1,56 @@
 /*!
  * \file GameEngineManager.cpp
- * \brief Implémentation de la classe GameEngineManager
+ * \brief Implementation de la classe GameEngineManager
  * \author Simon ROUSSEAU
  */
 
 
 /** Includes **/
-// Bibliothèques standards
+// Bibliotheques standards
 #include <vector>
 
-// Bibliothèques SFML
+// Bibliotheques SFML
 #include <SFML/System/Vector2.hpp>
 
-// Bibliothèques externes
+// Bibliotheques externes
 
 
 // Headers
-#include "../../include/gameEngine/DefineAndFunction.hpp"
-#include "../../include/gameEngine/Board.hpp"
-#include "../../include/gameEngine/Bonus.hpp"
-#include "../../include/gameEngine/Player.hpp"
-#include "../../include/gameEngine/GameEngineManager.hpp"
-#include "../../include/IGameEngineToNetwork.hpp"
-#include "../../include/IGameEngineToGameInterface.hpp"
-#include "../../include/INetworkToGameEngine.hpp"
+#include "gameEngine/DefineAndFunction.hpp"
+#include "gameEngine/Board.hpp"
+#include "gameEngine/Bonus.hpp"
+#include "gameEngine/Player.hpp"
+#include "gameEngine/GameEngineManager.hpp"
+#include "IGameEngineToNetwork.hpp"
+#include "IGameEngineToGameInterface.hpp"
+#include "INetworkToGameEngine.hpp"
 
 using namespace PolyBomber;
 
 void GameEngineManager::applyBonus(Bonus bonus, Player player) {
-	//TODO : à faire
+	//TODO : a faire
 }
 
 void GameEngineManager::movePlayer(Player player, EOrientation orientation) {
-	//TODO : à faire
+	//TODO : a faire
 }
 
 void GameEngineManager::activateDetonator(Player player) {
-	//TODO : à faire
+	//TODO : a faire
 }
 
 void GameEngineManager::putMine(Player player) {
 	if (player.getCapacity()) {
 		player.decreaseCapacity();
 		//this.board.add(new );
-		// TODO : à terminer
+		// TODO : a terminer
 	}
 }
 
 SBoard IGameEngineToGameInterface::getBoard() {
 	SBoard toReturn;
 	
-	// TODO : à terminer
+	// TODO : a terminer
 	
 	return toReturn;
 }
@@ -59,7 +59,7 @@ bool GameEngineManager::isFinished() {
 	int nbSurvivant;
 	bool toReturn;
 	
-	// TODO : à terminer
+	// TODO : a terminer
 	
 	return toReturn;
 }
@@ -80,7 +80,7 @@ SBoard GameEngineManager::getBoard() {
 	
 	std::vector<Player> joueur=board.getPlayer(); /** Liste des joueurs */
 	std::vector<Explosive> bombe=board.getExplosive(); /** Liste des bombes */
-	std::vector<Flame> deflagration=board.getFlame(); /** Liste des déflagrations */
+	std::vector<Flame> deflagration=board.getFlame(); /** Liste des deflagrations */
 	std::vector<Bonus> bonus=board.getBonus(); /** Liste des bonus */
 	std::vector<Box> boite=board.getBox(); /** Liste des boites */
 	
@@ -103,6 +103,6 @@ void GameEngineManager::run() {
 	if (this->gameConfigIsSet) {
 		//fonctionnement normal
 	} else {
-		//erreur : la partie n'a pas étée paramétrée
+		//erreur : la partie n a pas etee parametree
 	}
 }

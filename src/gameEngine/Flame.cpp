@@ -1,23 +1,23 @@
 /*!
  * \file Flame.cpp
- * \brief Implémentation de la classe Flame
+ * \brief Implementation de la classe Flame
  * \author Simon ROUSSEAU
  */
 
 
 /** Includes **/
-// Bibliothèques standards
+// Bibliotheques standards
 
 
-// Bibliothèques SFML
+// Bibliotheques SFML
 
 
-// Bibliothèques externes
+// Bibliotheques externes
 
 
 // Headers
-#include "../../include/gameEngine/Flame.hpp"
-#include "../../include/gameEngine/DefineAndFunction.hpp"
+#include "gameEngine/Flame.hpp"
+#include "gameEngine/DefineAndFunction.hpp"
 
 using namespace PolyBomber;
 

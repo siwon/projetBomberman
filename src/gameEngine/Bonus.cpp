@@ -1,23 +1,23 @@
 /*!
  * \file Bonus.cpp
- * \brief Implémentation de la classe Bonus
+ * \brief Implementation de la classe Bonus
  * \author Simon ROUSSEAU
  */
 
 
 /** Includes **/
-// Bibliothèques standards
-#include <vector>
+// Bibliotheques standards
+//#include <vector>
 
-// Bibliothèques SFML
-
-
-// Bibliothèques externes
+// Bibliotheques SFML
 
 
+// Bibliotheques externes
+
+/*
 // Headers
-#include "../../include/gameEngine/Bonus.hpp"
-#include "../../include/gameEngine/DefineAndFunction.hpp"
+#include "gameEngine/Bonus.hpp"
+#include "gameEngine/DefineAndFunction.hpp"
 
 using namespace PolyBomber;
 
@@ -36,4 +36,4 @@ Bonus::Bonus(const Bonus& bonus) : Location(bonus.getLocation()) {
 
 Bonus::~Bonus() {
 	
-}
+}*/

@@ -7,8 +7,8 @@
  * \author Simon ROUSSEAU
  */
 
-#include "../../include/EGameBonus.hpp"
-#include "../../include/gameEngine/Location.hpp"
+#include "EGameBonus.hpp"
+#include "gameEngine/Location.hpp"
 
 namespace PolyBomber {
 	/*!
@@ -24,7 +24,7 @@ namespace PolyBomber {
 		Bonus(int x, int y, EGameBonus type);
 		Bonus(const Location& loc, EGameBonus type);
 		Bonus(const Bonus& bonus);
-		//opérateur de recopie
+		//operateur de recopie
 		~Bonus();
 		
 		const EGameBonus getType() const {return this->type;}
