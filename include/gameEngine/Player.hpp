@@ -7,19 +7,10 @@
  * \author Simon ROUSSEAU
  */
 
-#define VITESSEPARDEFAUT 150
-#define VITESSEMIN 100
-#define VITESSEMAX 400
-#define PASVITESSE 50
-#define NOMBREBOMBEDEFAUT 2
-#define RANGEDEFAUT 3
-#define RANGEMIN 3
-#define RANGEMAX 19
-#define PASRANGE 2
-#define ORIENTATIONDEFAUT EOrientation.RIGHT
-#define BOMBTIMESTAMP 3
-
-//TODO : mettre tous les define dans un fichier séparé
+#include <vector>
+#include "Bonus.hpp"
+#include "Location.hpp"
+#include "../EOrientation.hpp"
 
 namespace PolyBomber {
 	/*!
@@ -38,13 +29,14 @@ namespace PolyBomber {
 		int step;			/*! Etat de la jambe du joueur */
 		int range;
 		//Bonus du joueur
-		sl::vector<Bonus> bombBonus;
-		sl::vector<Bonus> infection;
+		std::vector<Bonus> bombBonus;
+		std::vector<Bonus> infection;
 		
 		
     public:
-		Player();
-		Player(Player pl);
+		Player(int x, int y);
+		Player(const Location& loc);
+		Player(const Player& pl);
 		//opérateur d'affectation
 		~Player();
 		
@@ -73,7 +65,7 @@ namespace PolyBomber {
 		 *
 		 * \return retourne le nombre de bombe que le joueur peut encore poser
 		 */
-		int getCapacity(){return this->capacity;}
+		const int getCapacity() const {return this->capacity;}
 		
 		/*!
 		 * \brief Méthode qui augmente le nombre de bombes disponibles pour le joueur
@@ -87,14 +79,14 @@ namespace PolyBomber {
 		 */
 		void decreaseCapacity(){this->capacity--;}
 		
-		int getId(){return this->id;}
-		int getSpeed(){return this->speed;}
-		EOrientation getOrientation(){return this->orientation;}
-		bool getAlive(){return this->alive;}
-		int getStep(){return this->step;}
-		int getRange(){return this->range;}
-		vector<Bonus> getBombBonus(){return this->bombBonus;}
-		vector<Bonus> getInfection(){return this->infection;}
+		const int getId() const {return this->id;}
+		const int getSpeed() const {return this->speed;}
+		const EOrientation getOrientation() const {return this->orientation;}
+		const bool getAlive() const {return this->alive;}
+		const int getStep() const {return this->step;}
+		const int getRange() const {return this->range;}
+		//std::vector<Bonus> getBombBonus(){return this->bombBonus;}
+		//std::vector<Bonus> getInfection(){return this->infection;}
 	};
 }
 

@@ -7,7 +7,7 @@
 
 /** Includes **/
 // Bibliothèques standards
-
+#include <vector>
 
 // Bibliothèques SFML
 
@@ -17,10 +17,12 @@
 
 // Headers
 #include "../../include/gameEngine/Player.hpp"
+#include "../../include/gameEngine/DefineAndFunction.hpp"
+#include "../../include/EOrientation.hpp"
 
-namespace PolyBomber;
+using namespace PolyBomber;
 
-Player::Player() {
+Player::Player(int x, int y) : Location(x,y) {
 	this->id=this->nbJoueur;
 	this->nbJoueur++;
 	this->speed=VITESSEPARDEFAUT;
@@ -31,7 +33,18 @@ Player::Player() {
 	this->step=0;
 }
 
-Player::Player(Player pl) {
+Player::Player(const Location& loc) : Location(loc) {
+	this->id=this->nbJoueur;
+	this->nbJoueur++;
+	this->speed=VITESSEPARDEFAUT;
+	this->capacity=NOMBREBOMBEDEFAUT;
+	this->orientation=ORIENTATIONDEFAUT;
+	this->range=RANGEDEFAUT;
+	this->alive=true;
+	this->step=0;
+}
+
+Player::Player(const Player& pl) : Location(pl.getLocation()) {
 	this->id=this->nbJoueur;
 	this->nbJoueur++;
 	this->speed=pl.getSpeed();
@@ -52,75 +65,75 @@ void Player::die() {
 
 void Player::applyBonus(Bonus bonus) {
 	switch (bonus.getType()) {
-		case EGameBonus.SPEEDUP :
+		case SPEEDUP :
 			this->speed=this->speed+PASVITESSE;
 			break;
 			
-		case EGameBonus.SPEEDDOWN :
+		case SPEEDDOWN :
 			this->speed=this->speed-PASVITESSE;
 			break;
 			
-		case EGameBonus.BOMBLINE :
+		case BOMBLINE :
 			this->bombBonus.push_back(bonus);
 			break;
 			
-		case EGameBonus.DETONATOR :
+		case DETONATOR :
 			this->bombBonus.push_back(bonus);
 			break;
 			
-		case EGameBonus.BOMBUP :
+		case BOMBUP :
 			this->capacity=this->capacity+1;
 			break;
 			
-		case EGameBonus.BOMBDOWN :
+		case BOMBDOWN :
 			this->capacity=this->capacity-1;
 			break;
 			
-		case EGameBonus.RANGEUP :
+		case RANGEUP :
 			this->range=this->range+PASRANGE;
 			break;
 			
-		case EGameBonus.RANGEDOWN :
+		case RANGEDOWN :
 			this->range=this->range+PASRANGE;
 			break;
 			
-		case EGameBonus.RANGEUPMAX :
+		case RANGEUPMAX :
 			this->range=RANGEMAX;
 			break;
 			
-		case EGameBonus.MINE :
+		case MINE :
 			this->bombBonus.push_back(bonus);
 			break;
 			
-		case EGameBonus.INFINITYBOMB :
+		case INFINITYBOMB :
 			this->bombBonus.push_back(bonus);
 			break;
 			
-		case EGameBonus.ATOMICBOMB :
+		case ATOMICBOMB :
 			this->bombBonus.push_back(bonus);
 			break;
 			
-		case EGameBonus.CRANE :
+		case CRANE :
 			this->infection.push_back(bonus);
 			break;
 			
-		case EGameBonus.HELL :
+		case HELL :
 			this->infection.push_back(bonus);
 			break;
 			
-		case EGameBonus.CONFUSION :
+		case CONFUSION :
 			this->infection.push_back(bonus);
 			break;
 			
-		case EGameBonus.SPASME :
+		case SPASME :
 			this->infection.push_back(bonus);
 			break;
 			
-		case EGameBonus.DILATATION :
+		case DILATATION :
 			this->infection.push_back(bonus);
 			break;
 			
-		case EGameBonus.RAGE :
+		case RAGE :
 			this->infection.push_back(bonus);
 			break;
 			

@@ -17,21 +17,22 @@
 
 // Headers
 #include "../../include/gameEngine/Wall.hpp"
+#include "../../include/gameEngine/DefineAndFunction.hpp"
 
-namespace PolyBomber;
+using namespace PolyBomber;
 
-Wall(int x, int y) {
-	super(x,y);
+Wall::Wall(int x, int y) : Location(x,y) {
+	
 }
 
-Wall(Location loc) {
-	super(loc);
+Wall::Wall(const Location& loc) : Location(loc) {
+	
 }
 
-Wall(Wall e) {
-	this(e.getLocation());
+Wall::Wall(const Wall& e) : Location(e.getLocation()) {
+	
 }
 
-~Wall(){
-	~super();
+Wall::~Wall(){
+	
 }

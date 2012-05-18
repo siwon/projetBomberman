@@ -18,21 +18,20 @@
 
 // Headers
 #include "../../include/gameEngine/Bomb.hpp"
+#include "../../include/gameEngine/DefineAndFunction.hpp"
 
-namespace PolyBomber;
+using namespace PolyBomber;
 
-Bomb(int time, Player player) {
-	super(player);
+Bomb::Bomb(int time, const Player& player) : Explosive(player) {
 	sf::Clock horloge = sf::Clock();
 	//TODO : Définir une horloge globale
-	this.timeOfExplosion=horloge.getElapsedTime().asSeconds()+BOMBTIMESTAMP;
+	this->timeOfExplosion=horloge.getElapsedTime().asSeconds()+BOMBTIMESTAMP;
 }
 
-Bomb(Bomb bombe) {
-	super(bombe.getPlayer());
+Bomb::Bomb(const Bomb& bombe) : Explosive(bombe.getLocation(), bombe.getPlayer(), bombe.getRange()) {
 	this->timeOfExplosion=bombe.getTimeOfExplosion();
 }
 
-~Bomb() {
-	~super();
+Bomb::~Bomb() {
+	
 }

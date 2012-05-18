@@ -7,6 +7,9 @@
  * \author Simon ROUSSEAU
  */
 
+#include "../../include/gameEngine/Player.hpp"
+#include "../../include/gameEngine/Location.hpp"
+
 namespace PolyBomber {
 	/*!
 	 * \class Explosive
@@ -15,10 +18,11 @@ namespace PolyBomber {
 	class Explosive : public Location {
     protected:
 		int range;		/*! Portée de la bombe */
-		Player player;	/*! Joueur qui possède la bombe */
+		int player;	/*! Joueur qui possède la bombe */
     public:
-		Explosive(Player player);
-		Explosive(Explosive expl);
+		Explosive(const Player& player);
+		Explosive(const Location& loc, int player, int range);
+		Explosive(const Explosive& expl);
 		//opérateur d'affectation
 		~Explosive();
 		
@@ -28,8 +32,8 @@ namespace PolyBomber {
 		 */
 		void explode();
 		
-		int getRange(){return this->range;}
-		Player getPlayer(){return this->player;}
+		const int getRange() const {return this->range;}
+		const int getPlayer() const {return this->player;}
 	};
 }
 

@@ -7,6 +7,8 @@
  * \author Simon ROUSSEAU
  */
 
+#include "../../include/gameEngine/Location.hpp"
+
 namespace PolyBomber {
 	/*!
 	 * \class Box
@@ -20,12 +22,12 @@ namespace PolyBomber {
 		
 	public:
 		Box(int x, int y, bool bonus);
-		Box(Location loc, bool bonus);
-		Box(Box boite);
+		Box(const Location& loc, bool bonus);
+		Box(const Box& boite);
 		//opérateur par recopie
 		~Box();
 		
-		bool getBonus(){return this->bonus;}
+		const bool getBonus() const {return this->bonus;}
 		
 		/*!
 		 * \brief Méthode detruisant une caisse

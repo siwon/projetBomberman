@@ -7,6 +7,8 @@
  * \author Simon ROUSSEAU
  */
 
+#include "../../include/gameEngine/Explosive.hpp"
+
 namespace PolyBomber {
 	/*!
 	 * \class Mine
@@ -14,8 +16,8 @@ namespace PolyBomber {
 	 */
 	class Mine : public Explosive {
 	public:
-		Mine(Player p);
-		Mine(Mine mine);
+		Mine(const Player& p);
+		Mine(const Mine& mine);
 		//opérateur d'affectation
 		~Mine();
 	};

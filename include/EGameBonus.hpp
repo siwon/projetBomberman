@@ -34,7 +34,7 @@ namespace PolyBomber
 		DILATATION,
 		RAGE
 		
-		TODO : À commenter
+		//TODO : À commenter
 	};
 }
 

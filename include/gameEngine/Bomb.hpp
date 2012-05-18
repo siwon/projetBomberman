@@ -7,6 +7,8 @@
  * \author Simon ROUSSEAU
  */
 
+#include "../../include/gameEngine/Explosive.hpp"
+
 namespace PolyBomber {
 	/*!
 	 * \class Bomb
@@ -16,12 +18,12 @@ namespace PolyBomber {
     protected:
 		int timeOfExplosion; /*! Seconde ou doit exploser la bombe */
 	public:
-		Bomb(int time, Player player);
-		Bomb(Bomb bombe);
+		Bomb(int time, const Player& player);
+		Bomb(const Bomb& bombe);
 		//opérateur par recopie
 		~Bomb();
 		
-		int getTimeOfExplosion(){return this->timeOfExplosion;}
+		const int getTimeOfExplosion() const {return this->timeOfExplosion;}
 	};
 }
 

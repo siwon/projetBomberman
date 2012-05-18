@@ -1,9 +1,32 @@
-//
-//  DefineAndFunction.hpp
-//  
-//
-//  Created by Simon Rousseau on 17/05/12.
-//  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
-//
+#ifndef DEFINE_AND_FUNCTION_HEADER
+#define DEFINE_AND_FUNCTION_HEADER
 
-#include <iostream>
+/*!
+ * \file GameEngineManager.hpp
+ * \brief Classe de gestion du moteur de jeu
+ * \author Simon Rousseau
+ */
+
+#define VITESSEPARDEFAUT 150
+#define VITESSEMIN 100
+#define VITESSEMAX 400
+#define PASVITESSE 50
+#define NOMBREBOMBEDEFAUT 2
+#define RANGEDEFAUT 3
+#define RANGEMIN 3
+#define RANGEMAX 19
+#define PASRANGE 2
+#define ORIENTATIONDEFAUT ORIENTATION_RIGHT
+#define BOMBTIMESTAMP 3
+
+#define LARGEUR 40
+
+int caseToPixel(int i) {
+	return i*LARGEUR;
+}
+
+int pixelToCase(int i) {
+	return i/LARGEUR;
+}
+
+#endif
