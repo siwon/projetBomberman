@@ -24,8 +24,9 @@ int main()
 	int nbPlayer = 2;
 	int nbBonus = 12;
 	int nbBox = 10;
-	std::vector<Board> vect = std::vector<Board>::vector();
-	vect.push_back(Board());
+	Board *board = new Board;
+	std::vector<Board> vect = new std::vector<Board>;
+	vect->push_back(board);
 	/*for (unsigned int i = 0 ; i < vect.size() ; i++) {
 		cout << vect[i] << endl;
 	}*/
