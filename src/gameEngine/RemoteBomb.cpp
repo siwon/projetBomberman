@@ -18,17 +18,18 @@
 
 // Headers
 #include "../../include/gameEngine/RemoteBomb.hpp"
+#include "../../include/gameEngine/DefineAndFunction.hpp"
 
-namespace PolyBomber;
+using namespace PolyBomber;
 
-RemoteBomb(Player player) {
-	super(player);
+RemoteBomb::RemoteBomb(const Player& player) : Explosive(player) {
+	
 }
 
-RemoteBomb(RemoteBomb rb) {
-	super(rb.getPlayer());
+RemoteBomb::RemoteBomb(const RemoteBomb& rb) : Explosive(rb.getLocation(),rb.getPlayer(),rb.getRange()) {
+	
 }
 
-~RemoteBomb() {
-	~super();
+RemoteBomb::~RemoteBomb() {
+	
 }

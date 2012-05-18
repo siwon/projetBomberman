@@ -10,25 +10,29 @@
 
 
 // Bibliothèques SFML
-
+#include <SFML/System/Vector2.hpp>
 
 // Bibliothèques externes
-#include <SFML/System/Vector2.hpp>
+
 
 // Headers
 #include "../../include/gameEngine/Location.hpp"
+#include "../../include/gameEngine/DefineAndFunction.hpp"
 
 using namespace PolyBomber;
 
-Location(sf::Vector2<int> location) {
-	this->Board=new Board();
-	this->location=location;
+Location::Location(const sf::Vector2<int>& loc) {
+	this->location=loc;
 }
 
 Location::Location(int x, int y) {
-	this(new sf::Vector2(x,y));
+	this->location= sf::Vector2<int>::Vector2(x,y);
 }
 
-Location::Location(Location loc) {
-	this(loc.getLocation());
+Location::Location(const Location& loc) {
+	this->location= sf::Vector2<int>::Vector2(loc.getLocationX(),loc.getLocationY());
+}
+
+Location::~Location() {
+	
 }

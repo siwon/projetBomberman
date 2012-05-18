@@ -13,9 +13,9 @@ namespace PolyBomber {
   * \brief Enumération des types d'explosifs
   */
   enum EExplosiveType {
-    MINE,		/*! Mine */
-    BOMB,		/*! Bombe */
-    REMOTE	/*! Bombe télécommandée */
+    EXPLOSIVE_MINE,		/*! Mine */
+    EXPLOSIVE_BOMB,		/*! Bombe */
+    EXPLOSIVE_REMOTE	/*! Bombe télécommandée */
   };
 }
 

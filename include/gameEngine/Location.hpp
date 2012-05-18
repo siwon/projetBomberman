@@ -6,6 +6,8 @@
  * \brief Classe Location
  * \author Simon Rousseau
  */
+#include <SFML/System/Vector2.hpp>
+//#include "Board.hpp"
 
 namespace PolyBomber {
 	/*!
@@ -14,17 +16,18 @@ namespace PolyBomber {
 	 */
 	class Location {
     protected:
-		Board board ;	/*! Plateau de jeu */
+		//Board board;	/*! Plateau de jeu */
 		sf::Vector2<int> location;
 		
-		Location(sf::Vector2<int> location);
+	public:
+		Location(const sf::Vector2<int>& location);
 		Location(int x, int y);
-		Location(Location loc);
+		Location(const Location& loc);
 		//opérateur d'affectation
 		~Location();
-		
-	public:
-		sf::Vector2<int> getLocation(){return this->location;}
+		const int getLocationX() const {return location.x;}
+		const int getLocationY() const {return location.y;}
+		const sf::Vector2<int> getLocation() const {return location;}
 	};
 }
 

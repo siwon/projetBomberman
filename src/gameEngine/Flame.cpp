@@ -17,25 +17,25 @@
 
 // Headers
 #include "../../include/gameEngine/Flame.hpp"
+#include "../../include/gameEngine/DefineAndFunction.hpp"
 
-namespace PolyBomber;
+using namespace PolyBomber;
 
-Flame(int x, int y, EOrientation orientation, EFlameLocation step) {
-	super(x,y);
+Flame::Flame(int x, int y, EOrientation orientation, EFlameLocation step) : Location(x,y) {
 	this->orientation=orientation;
 	this->step=step;
 }
 
-Flame(Location loc, EOrientation orientation, EFlameLocation step) {
-	super(loc);
+Flame::Flame(const Location& loc, EOrientation orientation, EFlameLocation step) : Location(loc) {
 	this->orientation=orientation;
 	this->step=step;
 }
 
-Flame(Flame flamme) {
-	this(flamme.getLocation(), flamme.getOrientation(), flamme.getStep());
+Flame::Flame(const Flame& flamme) : Location(flamme.getLocation()) {
+	this->orientation=flamme.getOrientation();
+	this->step=flamme.getStep();
 }
 
-~Flame() {
-	~super();
+Flame::~Flame() {
+	
 }
