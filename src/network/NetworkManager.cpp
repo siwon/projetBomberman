@@ -3,6 +3,7 @@
  * \brief Implémentation de classe NetworkManager
  * \author Brice GUILLERMIC
  */
+#define NBNETWORKMAX 4
 
 // Bibliothèques SFML
 #include <SFML/Network.hpp>
@@ -25,22 +26,63 @@
 using namespace PolyBomber;
 
 SKeyPressed NetworkManager::getKeysPressed(){
-	memcpy(&this->keyPressed,&this->controller->getKeysPressed(), sizeof(SKeyPressed));
-	// chercher le nombre de joueur sur le réseau
-	//chercher le nombre de joueur total
-	// pour chaque joueur en dehors du reseau, demander ces touches
-	//ajouter ses touches.
+	SKeyPressed keys;
+	if(this->server){
+		memcpy(&this->keyPressed.keys,&this->controller->getKeysPressed().keys, sizeof(SKeyPressed));
+		// chercher le nombre de joueur sur le réseau
+		unsigned int nbPlayerDone =0;
+		for(unsigned int i=0;i<this->players.size();i++){
+			if(this->players[i].getIp() == sf::IpAddress::LocalHost)
+				nbPlayerDone++;
+		}
+		// pour chaque joueur en dehors du reseau, demander ces touches
+		for(int i=0;i<NBNETWORKMAX;i++){
+			if(this->nbPlayerByIp[i]){
+				sf::TcpSocket& client = this->findSocket(this->ip[i]);
+				client.send(this->createPacket(3));
+				std::list<sf::Packet>::iterator it2 = waitPacket(3, client.getRemoteAddress());
+				sf::Packet& thePacket =  *it2 ;
+				thePacket >> keys;
+				//ajouter ses touches.
+				for(int j=0;j<this->nbPlayerByIp[i];j++){
+					for(int k=0;k<7;k++){
+						this->keyPressed.keys[nbPlayerDone][k] = keys.keys[j][k];
+					}
+					nbPlayerDone++;
+					
+				}
+			}
+		}
+	} else {
+		//demander au serveur
+		std::list<sf::TcpSocket*>::iterator it1 = this->clients.begin();
+		sf::TcpSocket* client = *it1;
+		client->send(createPacket(3));
+		std::list<sf::Packet>::iterator it2 = waitPacket(3, client->getRemoteAddress());
+		sf::Packet& thePacket = *it2;
+		thePacket >> this->keyPressed;
+		this->packets.erase(it2);
+	}
+	return this->keyPressed;
 }
 
 int NetworkManager::isPaused(){
+	int result;
 	if(this->server)
-		return this->paused;
+		result = this->paused;
 	else {
 		//demander au serveur
-		std::list<sf::TcpSocket*>::iterator client = this->clients.begin();
-		*client->send(createPacket(7));
-		sf::Packet thePacket = waitPacket(7, *client->getRemoteAddress());
+		std::list<sf::TcpSocket*>::iterator it1 = this->clients.begin();
+		sf::TcpSocket* client = *it1;
+		client->send(createPacket(7));
+		std::list<sf::Packet>::iterator it2 = waitPacket(7, client->getRemoteAddress());
+		sf::Packet& thePacket = *it2;
+		int num;
+		std::string ip;
+		thePacket >> num >> ip  >> result;
+		this->packets.erase(it2);
 	}
+	return result;
 }
 
 void NetworkManager::joinGame(std::string ip){
@@ -54,26 +96,35 @@ void NetworkManager::joinGame(std::string ip){
 }
 
 int NetworkManager::getFreeSlots(){
+	int result;
 	if(this->server){
-		return (4 - this->players.size());
+		result = (4 - this->players.size());
 	} else {
 		// demande au serveur
-		std::list<sf::TcpSocket*>::iterator client = this->clients.begin();
-		*client->send(createPacket(5));
-		sf::Packet thePacket = waitPacket(5, *client->getRemoteAddress());
+		std::list<sf::TcpSocket*>::iterator it1 = this->clients.begin();
+		sf::TcpSocket* client = *it1;
+		client->send(createPacket(5));
+		std::list<sf::Packet>::iterator it2 = waitPacket(5, client->getRemoteAddress());
+		sf::Packet& thePacket = *it2;
+		int num;
+		std::string ip;
+		thePacket >> num >> ip  >> result;
+		this->packets.erase(it2);
 	}
+	return result;
 }
 
 void NetworkManager::setBookedSlots(unsigned int nb){
 	if(this->server){
 		for(unsigned int i=0;i<nb;i++){
-			DataPlayer* aPlayer = new DataPlayer(i, sf::IpAddress::getLocalAddress());
+			DataPlayer* aPlayer = new DataPlayer(i, sf::IpAddress::LocalHost);
 			this->players.push_back(*aPlayer);
 		}
 	} else {
 		// envoyer au serveur
-		std::list<sf::TcpSocket*>::iterator client = this->clients.begin();
-		*client->send(createPacket(11,nb)); // pas besoin de réponse
+		std::list<sf::TcpSocket*>::iterator it = this->clients.begin();
+		sf::TcpSocket* client = *it;
+		client->send(createPacket(11,nb)); // pas besoin de réponse
 	}
 }
 //void NetworkManager::setPlayerName(string[]);
@@ -85,6 +136,7 @@ bool NetworkManager::isStarted(){
 void NetworkManager::startGame() {//threader la fonction de run
 	if(this->server){
 		this->gameEngine->run();
+		this->started=true;
 	}
 }
 
@@ -105,27 +157,40 @@ void NetworkManager::setGameConfig(SGameConfig& pGameConfig){
 SBoard NetworkManager::getBoard(){
 	if(this->server){
 		memcpy(&this->board,&gameEngine->getBoard(), sizeof(SBoard));
-		return this->board;
 	} else {
-		std::list<sf::TcpSocket*>::iterator client = this->clients.begin();
-		*client->send(createPacket(1));
-		sf::Packet thePacket = waitPacket(1, *client->getRemoteAddress());
+		//demande au serveur
+		std::list<sf::TcpSocket*>::iterator it1 = this->clients.begin();
+		sf::TcpSocket* client = *it1;
+		client->send(createPacket(1));
+		std::list<sf::Packet>::iterator it2 = waitPacket(1, client->getRemoteAddress());
+		sf::Packet& thePacket = *it2;
+		thePacket >> this->board;
+		this->packets.erase(it2);
 	}
+	return this->board;
 }
 
 int NetworkManager::isFinished(){
+	int result;
 	if(this->server){
 		if(this->started && this->gameEngine->isFinished()==1){
 			this->started=false;
-			return 1;
+			result = 1;
 		} else
-			return 0;
+			result = 0;
 		} else {
 		//demander au réseau
-			std::list<sf::TcpSocket*>::iterator client = this->clients.begin();
-			*client->send(createPacket(9));
-			sf::Packet thePacket = waitPacket(9, *client->getRemoteAddress());
+			std::list<sf::TcpSocket*>::iterator it1 = this->clients.begin();
+			sf::TcpSocket* client = *it1;
+			client->send(createPacket(9));
+			std::list<sf::Packet>::iterator it2 = waitPacket(9, client->getRemoteAddress());
+			sf::Packet& thePacket = *it2;
+			int num;
+			std::string ip;
+			thePacket >> num >> ip  >> result;
+			this->packets.erase(it2);
 	}
+	return result;
 }
 
 
@@ -215,7 +280,10 @@ sf::Packet NetworkManager::createPacket(int i, int j){
 			break;
 				 }
 		case 4 : { // envoi d'un SKeyPressed
-			packet << this->controller->getKeysPressed();
+			if(this->server)
+				packet << this->getKeysPressed();
+			else
+				packet << this->controller->getKeysPressed();
 			break;
 				 }
 		case 5 : { // demande des slots disponible
@@ -250,7 +318,26 @@ sf::Packet NetworkManager::createPacket(int i, int j){
 	}
 	return packet;
 }
-//void NetworkManager::decryptPacket(sf::Packet);
+
+std::list<sf::Packet>::iterator NetworkManager::waitPacket(int num, sf::IpAddress& ipAddr){
+	bool find=false;
+	int type;
+	std::string ip;
+	std::list<sf::Packet>::iterator it;
+	while(!find){
+		it = this->packets.begin();
+		while(it!=this->packets.end() && !find){
+			sf::Packet aPacket = *it; // duplique le paquet pour pouvoir le regarder
+			aPacket >> type >> ip;
+			if(type==(num+1) && ip==ipAddr.toString()){
+				find=true;
+			} else {
+				it++;
+			}
+		}
+	}
+	return it;
+}
 
 sf::Packet& operator<<(sf::Packet& packet, const SBoard& b){
 	std::vector<sf::Vector2<int>> boxes = b.boxes;
@@ -309,9 +396,11 @@ sf::Packet& operator<<(sf::Packet& packet, const SBoard& b){
 }
 
 sf::Packet& operator<<(sf::Packet& packet, const SKeyPressed& key){
+	bool val;
 	for(int i=0;i<4;i++){
 		for(int j=0;j<7;j++){
-			packet << key.keys[i][j];
+			val = key.keys[i][j];
+			packet << val;
 		}
 	}
 	return packet;
@@ -332,22 +421,76 @@ sf::TcpSocket& NetworkManager::findSocket(sf::IpAddress& ip){
 	return **it;
 }
 
-sf::Packet& NetworkManager::waitPacket(int num, sf::IpAddress& ipAddr){
-	bool find=false;
-	int type;
-	std::string ip;
-	std::list<sf::Packet>::iterator it = this->packets.begin();
-	while(!find){
-		while(it!=this->packets.end() && !find){
-			sf::Packet aPacket = *it; // duplique le paquet pour pouvoir le regarder
-			aPacket >> type >> ip;
-			if(type==(num+1) && ip==ipAddr.toString()){
-				find=true;
-			} else {
-				it++;
-			}
+sf::Packet& operator>>(sf::Packet& packet, SBoard& board){
+	/*std::vector<sf::Vector2<int>> boxes = b.boxes;
+	std::vector<SBonus> bonus = b.bonus;
+	std::vector<SExplosive> explosive = b.explosives;
+	std::vector<SPlayer> player= b.players;
+	std::vector<SFlame> flame = b.flames;*/
+
+	/*Ajout des Boxes*/
+	/*packet << boxes.size();
+	for (unsigned int i=0;i<boxes.size();i++){
+		sf::Vector2<int> tempVect = boxes[i];
+		packet >> board.boxes[i] tempVect.x << tempVect.y;
+	}*/
+	unsigned int j;
+	packet >> j;
+	for(unsigned i;i<j;i++){
+		sf::Vector2<int> coord;
+		packet >> coord.x >> coord.y;
+	}
+
+	
+	/*Ajout des Bonus
+	packet << bonus.size();
+	for(unsigned int i=0;i<bonus.size();i++){
+		sf::Vector2<int> tempCoord = bonus[i].coords;
+		int tempBonus = bonus[i].type;
+		packet << tempCoord.x << tempCoord.y << tempBonus;
+	}
+
+	/*Ajout des explosifs
+	packet << explosive.size();
+	for(unsigned int i=0;i<explosive.size();i++){
+		sf::Vector2<int> tempCoord = explosive[i].coords;
+		int tempExplo = explosive[i].type;
+		packet << tempCoord.x << tempCoord.y << tempExplo;
+	}
+
+	/*ajout des players
+	packet << player.size();
+	for (unsigned int i=0;i<player.size();i++){
+		sf::Vector2<int> tempCoord = player[i].coords;
+		int tempOrient = player[i].orientation;
+		unsigned int tempNum = player[i].number;
+		int tempState = player[i].state;
+		unsigned int tempStep = player[i].step;
+
+		packet << tempCoord.x << tempCoord.y << tempOrient << tempNum << tempState << tempStep;
+	}
+
+	/*Ajout des flames
+	packet << flame.size();
+	for(unsigned int i=0;i<flame.size();i++){
+		sf::Vector2<int> tempCoord = flame[i].coords;
+		int tempOrient = flame[i].orientation;
+		unsigned int tempStep = flame[i].step;
+		int tempLocat = flame[i].location;
+		
+		packet << tempCoord.x << tempCoord.y << tempStep << tempLocat;
+	}
+	*/
+	return packet;
+}
+sf::Packet& operator>>(sf::Packet& packet, SKeyPressed& key){
+	bool val;
+	for(int i=0;i<4;i++){
+		for(int j=0;j<7;i++){
+			packet >> val;
+			key.keys[i][j]=val;
 		}
 	}
-	return *it;
+	return packet;
 }
 

@@ -1,6 +1,8 @@
 #ifndef _NETWORKMANAGER
 #define _NETWORKMANAGER
 
+#define NBNETWORKMAX 4
+
 /*!
  * \file NetworkManager.hpp
  * \brief gestionnaire réseau
@@ -35,7 +37,8 @@ namespace PolyBomber
 		friend class Singleton<NetworkManager>;
 		private:
 			SGameConfig gameConfig;
-			//sf::IpAddress* ip;
+			sf::IpAddress ip[NBNETWORKMAX];
+			int nbPlayerByIp[NBNETWORKMAX];
 			int paused;
 			bool started;
 			std::vector<DataPlayer> players;
@@ -77,12 +80,15 @@ namespace PolyBomber
 			sf::IpAddress getIp();
 			void createServerSocket();
 			sf::Packet createPacket(int, int j =0);
-			//void decryptPacket(sf::Packet);
+			SBoard packetToSBoard(sf::Packet&);
+			SKeyPressed packetToSKeyPressed(sf::Packet&);
 			sf::TcpSocket& findSocket(sf::IpAddress&);
-			sf::Packet& waitPacket(int, sf::IpAddress&);
+			std::list<sf::Packet>::iterator waitPacket(int, sf::IpAddress&);
 	};
 
 	sf::Packet& operator<<(sf::Packet&, const SBoard&);
 	sf::Packet& operator<<(sf::Packet&, const SKeyPressed&);
+	sf::Packet& operator>>(sf::Packet&, SBoard&);
+	sf::Packet& operator>>(sf::Packet&, SKeyPressed&);
 }
 #endif

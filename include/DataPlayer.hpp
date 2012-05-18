@@ -35,6 +35,8 @@ namespace PolyBomber
 			DataPlayer(const DataPlayer &obj);
 			DataPlayer& operator=(const DataPlayer &obj);
 
+			inline sf::IpAddress getIp() const {return this->ip;}
+
 			void setName(std::string pName);
 	};
 }
