@@ -47,10 +47,12 @@ namespace PolyBomber
 		this->fontFiles[TITLEFONT] = "strong.ttf";
 		this->fontFiles[TEXTFONT] = "normal.ttf";
 		this->fontFiles[LINKFONT] = "normal.ttf";
+		this->fontFiles[ERRORFONT] = "normal.ttf";
 
 		this->sizes[TITLEFONT] = 40;
 		this->sizes[TEXTFONT] = 20;
 		this->sizes[LINKFONT] = 25;
+		this->sizes[ERRORFONT] = 20;
 
 		this->position = position;
 		this->fontStyle = font;

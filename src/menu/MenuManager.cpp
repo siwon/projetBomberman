@@ -12,10 +12,14 @@
 #include "menu/ConfigMenu.hpp"
 #include "menu/GraphicsConfigMenu.hpp"
 
+#include "PolyBomberApp.hpp"
+
 namespace PolyBomber
 {
 	MenuManager::MenuManager() : window()
 	{
+		PolyBomberApp::getIControllerToMenu()->setWindow(window.getWindow());
+
 		// Ajout des menus
 		this->menuScreens[SPLASHSCREEN] = new SplashScreen();
 		this->menuScreens[MAINMENU] = new MainMenu();

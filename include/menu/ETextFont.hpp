@@ -17,7 +17,8 @@ namespace PolyBomber
 	{
 		TITLEFONT,
 		TEXTFONT,
-		LINKFONT
+		LINKFONT,
+		ERRORFONT
 	};
 }
 

@@ -46,43 +46,37 @@ namespace PolyBomber
 		this->widgets.push_back(&options);
 		this->widgets.push_back(&quit);
 
-		sf::Clock clock;
-
 		while (true)
-		{
-			if (window.listenCloseButton())
-				return EXIT;
-
-			EMenuKeys key = controller->getKeyPressed();
-
-			if (clock.getElapsedTime().asMilliseconds() > 100)
-			{
-				clock.restart();
-
-				switch(key)
-				{
-					case MENU_DOWN:
-						quit.goNext();
-						options.goNext();
-						play.goNext();
-						break;
-					case MENU_UP:
-						play.goPrevious();
-						options.goPrevious();
-						quit.goPrevious();
-						break;
-					case MENU_VALID:
-						if (play.getSelected())    return play.activate();
-						if (options.getSelected()) return options.activate();
-						if (quit.getSelected())    return quit.activate();
-						break;
-					default:
-						break;
-				}				
-			}
-				
+		{				
 			window.clear();
 			window.display(this->widgets);
+
+			if (window.listenCloseButton())
+				return EXIT;
+	
+			EMenuKeys key = MENU_NONE;
+			while ((key = controller->getKeyPressed()) == MENU_NONE);
+
+			switch(key)
+			{
+				case MENU_DOWN:
+					quit.goNext();
+					options.goNext();
+					play.goNext();
+					break;
+				case MENU_UP:
+					play.goPrevious();
+					options.goPrevious();
+					quit.goPrevious();
+					break;
+				case MENU_VALID:
+					if (play.getSelected())    return play.activate();
+					if (options.getSelected()) return options.activate();
+					if (quit.getSelected())    return quit.activate();
+					break;
+				default:
+					break;
+			}
 		}
 
 		return EXIT;

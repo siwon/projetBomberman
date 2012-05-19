@@ -71,6 +71,11 @@ namespace PolyBomber
 			 */
 			void display(std::vector<sf::Drawable*> widgets);
 
+			/*!
+			 * \brief Accesseur vers la Fenêtre SFML
+			 */
+			inline sf::RenderWindow* getWindow() {return &window;}
+
 		private:
 			static sf::RenderWindow window; /*!< Fenetre du programme */
 			unsigned int style; /*! Style de la fenêtre */

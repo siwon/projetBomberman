@@ -1,10 +1,10 @@
 /*!
- * \file GameMenu.cpp
+ * \file ConfigMenu.cpp
  * \brief Gestionnaire du menu de jeu
  * \author Maxime GUIHAL
  */
 
-#include "menu/GameMenu.hpp"
+#include "menu/ConfigMenu.hpp"
 #include "PolyBomberApp.hpp"
 
 #include "menu/ImageWidget.hpp"
@@ -13,38 +13,44 @@
 
 namespace PolyBomber
 {
-	GameMenu::GameMenu()
+	ConfigMenu::ConfigMenu()
 	{}
 
-	GameMenu::~GameMenu()
+	ConfigMenu::~ConfigMenu()
 	{}
 
-	EMenuScreen GameMenu::run(MainWindow& window, EMenuScreen previous)
+	EMenuScreen ConfigMenu::run(MainWindow& window, EMenuScreen previous)
 	{
 		ISkin* skin = PolyBomberApp::getISkin();
 		IControllerToMenu* controller = PolyBomberApp::getIControllerToMenu();
 
 		ImageWidget background(skin->loadImage(MENU_BACKGROUND));
 
-		TextWidget title("Jouer", TITLEFONT, 100);
+		TextWidget title("Configuration", TITLEFONT, 100);
 		title.setColor(skin->getColor(TITLECOLOR));
 
-		LinkWidget create("Creer une partie", 250, CREATEGAMEMENU);		
-		LinkWidget join("Rejoindre une partie", 300, JOINGAMEMENU);		
+		LinkWidget keys("Controles", 250, CONTROLLERSCONFIGMENU);		
+		LinkWidget audio("Audio", 300, SOUNDCONFIGMENU);		
+		LinkWidget graphics("Graphisme", 350, GRAPHICSCONFIGMENU);		
 		LinkWidget back("Retour", 450, MAINMENU);
 
-		create.setNext(&join);
-		join.setNext(&back);
-		join.setPrevious(&create);
-		back.setPrevious(&join);
+		keys.setNext(&audio);
+		audio.setNext(&graphics);
+		graphics.setNext(&back);
+		audio.setPrevious(&keys);
+		graphics.setPrevious(&audio);
+		back.setPrevious(&graphics);
 
-		create.setSelected(true);
+		keys.setSelected(true);
 
 		this->widgets.push_back(&background);
 		this->widgets.push_back(&title);
-		this->widgets.push_back(&create);
-		this->widgets.push_back(&join);
+		this->widgets.push_back(&keys);
+		this->widgets.push_back(&audio);
+		this->widgets.push_back(&graphics);
 		this->widgets.push_back(&back);
+
+		sf::Clock clock;
 
 		while (true)
 		{				
@@ -61,17 +67,20 @@ namespace PolyBomber
 			{
 				case MENU_DOWN:
 					back.goNext();
-					join.goNext();
-					create.goNext();
+					graphics.goNext();
+					audio.goNext();
+					keys.goNext();
 					break;
 				case MENU_UP:
-					create.goPrevious();
-					join.goPrevious();
+					keys.goPrevious();
+					audio.goPrevious();
+					graphics.goPrevious();
 					back.goPrevious();
 					break;
 				case MENU_VALID:
-					if (create.getSelected())   return create.activate();
-					if (join.getSelected())		return join.activate();
+					if (keys.getSelected())   	return keys.activate();
+					if (audio.getSelected())	return audio.activate();
+					if (graphics.getSelected())	return graphics.activate();
 					if (back.getSelected())     return back.activate();
 					break;
 				case MENU_BACK:
