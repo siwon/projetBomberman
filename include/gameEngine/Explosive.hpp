@@ -10,6 +10,8 @@
 #include "gameEngine/Player.hpp"
 #include "gameEngine/Location.hpp"
 
+#include "gameEngine/DefineAndFunction.hpp"
+
 namespace PolyBomber {
 	/*!
 	 * \class Explosive
@@ -19,18 +21,14 @@ namespace PolyBomber {
     protected:
 		int range;		/*! Portee de la bombe */
 		int player;	/*! Joueur qui possede la bombe */
+		
+		Explosive(int player, int range, float x, float y);
+		
     public:
 		Explosive(const Player& player);
-		Explosive(const Location& loc, int player, int range);
 		Explosive(const Explosive& expl);
 		//operateur d affectation
 		~Explosive();
-		
-		/*!
-		 * \brief Methode provoquant l explosion de l explosif
-		 * 
-		 */
-		void explode();
 		
 		int getRange() const {return this->range;}
 		int getPlayer() const {return this->player;}

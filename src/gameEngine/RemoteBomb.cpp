@@ -20,16 +20,18 @@
 #include "gameEngine/RemoteBomb.hpp"
 #include "gameEngine/DefineAndFunction.hpp"
 
-using namespace PolyBomber;
-
-RemoteBomb::RemoteBomb(const Player& player) : Explosive(player) {
+namespace PolyBomber {
 	
-}
-
-RemoteBomb::RemoteBomb(const RemoteBomb& rb) : Explosive(rb.getLocation(),rb.getPlayer(),rb.getRange()) {
+	RemoteBomb::RemoteBomb(const Player& player) : Explosive(player) {
+		
+	}
 	
-}
-
-RemoteBomb::~RemoteBomb() {
+	RemoteBomb::RemoteBomb(const RemoteBomb& rb) : Explosive(rb.getPlayer(),rb.getRange(),rb.getLocationX(), rb.getLocationY()) {
+		
+	}
+	
+	RemoteBomb::~RemoteBomb() {
+		
+	}
 	
 }

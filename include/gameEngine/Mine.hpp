@@ -9,6 +9,8 @@
 
 #include "gameEngine/Explosive.hpp"
 
+#include "gameEngine/DefineAndFunction.hpp"
+
 namespace PolyBomber {
 	/*!
 	 * \class Mine

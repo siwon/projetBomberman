@@ -28,7 +28,7 @@ namespace PolyBomber {
 		* Cette methode permet de determiner si le jeu est termine ou pas.
 		* \return Renvoie 1 si le jeu est termine, renvoie 0 sinon.
 		*/
-		virtual bool isFinished() =0;
+		virtual int isFinished() =0;
 
 		/*!
 		* \brief Destructeur virtuel

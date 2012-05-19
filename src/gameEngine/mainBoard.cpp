@@ -5,7 +5,7 @@
 #include <vector>
 
 
-/*#include "gameEngine/Board.hpp"
+#include "gameEngine/Board.hpp"
 #include "gameEngine/Bonus.hpp"
 #include "gameEngine/Player.hpp"
 #include "gameEngine/Location.hpp"

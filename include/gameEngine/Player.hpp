@@ -8,9 +8,13 @@
  */
 
 #include <vector>
+
 #include "Bonus.hpp"
 #include "Location.hpp"
-#include "../EOrientation.hpp"
+
+#include "EOrientation.hpp"
+
+#include "gameEngine/DefineAndFunction.hpp"
 
 namespace PolyBomber {
 	/*!
@@ -34,53 +38,15 @@ namespace PolyBomber {
 		
 		
     public:
-		Player(int x, int y);
+		Player(float x, float y);
 		Player(const Location& loc);
 		Player(const Player& pl);
 		//operateur d affectation
 		~Player();
-		
-		/*!
-		 * \brief Methode permettant de tuer le joueur
-		 *
-		 */
-		void die();
-		
-		/*!
-		 * \brief Methode permettant d appliquer un bonus au joueur
-		 *
-		 * \param bonus : Bonus a appliquer
-		 */
-		void applyBonus(Bonus bonus);
-		
-		/*!
-		 * \brief Methode permettant de deplacer le joueur
-		 *
-		 * \param direction : Direction du deplacement
-		 */
-		void move(EOrientation direction);
-		
-		/*!
-		 * \brief Methode renvoyant le nombre de bombe qu une joueur peut poser
-		 *
-		 * \return retourne le nombre de bombe que le joueur peut encore poser
-		 */
-		const int getCapacity() const {return this->capacity;}
-		
-		/*!
-		 * \brief Methode qui augmente le nombre de bombes disponibles pour le joueur
-		 * Declenchee lorsqu une bombe du joueur explose ou bien que le joueur prend un bonus augmentant le nombre de bombes que le joueut peut poser.
-		 */
-		void increaseCapacity(){this->capacity++;}
-		
-		/*!
-		 * \brief Methode qui diminue le nombre de bombes disponibles pour le joueur
-		 * Declenchee lorsque le joueur pose une bombe ou bien lorsque le joueur prend un bonus qui diminue le nombre de bombes que le joueur peut poser.
-		 */
-		void decreaseCapacity(){this->capacity--;}
-		
+				
 		int getId() const {return this->id;}
 		int getSpeed() const {return this->speed;}
+		int getCapacity() const {return this->capacity;}
 		EOrientation getOrientation() const {return this->orientation;}
 		bool getAlive() const {return this->alive;}
 		int getStep() const {return this->step;}

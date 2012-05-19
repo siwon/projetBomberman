@@ -17,8 +17,7 @@ namespace PolyBomber {
 	
 	class Wall : public Location {
 	public:
-		Wall(int x, int y);
-		Wall(const Location& loc);
+		Wall(float x, float y);
 		Wall(const Wall& e);
 		//operateur d affectation
 		~Wall();

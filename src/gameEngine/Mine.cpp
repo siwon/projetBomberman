@@ -17,18 +17,19 @@
 
 // Headers
 #include "gameEngine/Mine.hpp"
-#include "gameEngine/DefineAndFunction.hpp"
 
-using namespace PolyBomber;
-
-Mine::Mine(const Player& p) : Explosive(p) {
+namespace PolyBomber {
 	
-}
-
-Mine::Mine(const Mine& mine) : Explosive(mine.getLocation(),mine.getPlayer(),mine.getRange()) {
+	Mine::Mine(const Player& p) : Explosive(p) {
+		
+	}
 	
-}
-
-Mine::~Mine() {
+	Mine::Mine(const Mine& mine) : Explosive(mine.getPlayer(),mine.getRange(),mine.getLocationX(),mine.getLocationY()) {
+		
+	}
+	
+	Mine::~Mine() {
+		
+	}
 	
 }

@@ -11,7 +11,7 @@ int main()
 	int temps = horloge.getElapsedTime().asSeconds()+3;
 	
 	while (horloge.getElapsedTime().asSeconds()<temps) {
-		cout << "Waiting ..." << endl;
+		cout << "Waiting ..." << horloge.getElapsedTime().asSeconds() << endl;
 	}
 	cout << "Boom" << endl;
 	

@@ -7,7 +7,12 @@
  * \author Simon ROUSSEAU
  */
 
+#include <SFML/System/Time.hpp>
+#include <SFML/System/Clock.hpp>
+
 #include "gameEngine/Explosive.hpp"
+
+#include "gameEngine/DefineAndFunction.hpp"
 
 namespace PolyBomber {
 	/*!
@@ -18,7 +23,7 @@ namespace PolyBomber {
     protected:
 		int timeOfExplosion; /*! Seconde ou doit exploser la bombe */
 	public:
-		Bomb(int time, const Player& player);
+		Bomb(sf::Clock horloge, const Player& player);
 		Bomb(const Bomb& bombe);
 		//operateur par recopie
 		~Bomb();

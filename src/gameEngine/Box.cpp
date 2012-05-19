@@ -7,7 +7,7 @@
 
 /** Includes **/
 // Bibliotheques standards
-#include <vector>
+
 
 // Bibliotheques SFML
 
@@ -17,18 +17,15 @@
 
 // Headers
 #include "gameEngine/Box.hpp"
-#include "gameEngine/DefineAndFunction.hpp"
 
-using namespace PolyBomber;
-
-Box::Box(int x, int y, bool bonus) : Location(x,y) {
-	this->bonus=bonus;
-}
-
-Box::Box(const Location& loc, bool bonus) : Location(loc) {
-	this->bonus=bonus;
-}
-
-Box::Box(const Box& boite) : Location(boite.getLocation()) {
-	this->bonus=boite.getBonus();
+namespace PolyBomber {
+	
+	Box::Box(float x, float y, bool bonus) : Location(x,y) {
+		this->bonus=bonus;
+	}
+	
+	Box::Box(const Box& boite) : Location(boite.getLocationX(),boite.getLocationY()) {
+		this->bonus=boite.getBonus();
+	}
+	
 }

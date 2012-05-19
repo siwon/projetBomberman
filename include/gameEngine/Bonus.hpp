@@ -8,7 +8,10 @@
  */
 
 #include "EGameBonus.hpp"
+
 #include "gameEngine/Location.hpp"
+
+#include "gameEngine/DefineAndFunction.hpp"
 
 namespace PolyBomber {
 	/*!
@@ -21,8 +24,7 @@ namespace PolyBomber {
 		bool visible;
 		
 	public :
-		Bonus(int x, int y, EGameBonus type);
-		Bonus(const Location& loc, EGameBonus type);
+		Bonus(float x, float y, EGameBonus type, bool visible);
 		Bonus(const Bonus& bonus);
 		//operateur de recopie
 		~Bonus();

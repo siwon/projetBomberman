@@ -9,6 +9,8 @@
 
 #include "gameEngine/Location.hpp"
 
+#include "gameEngine/DefineAndFunction.hpp"
+
 namespace PolyBomber {
 	/*!
 	 * \class Box
@@ -19,22 +21,13 @@ namespace PolyBomber {
     private:
 		bool bonus;
 		
-		
 	public:
-		Box(int x, int y, bool bonus);
-		Box(const Location& loc, bool bonus);
+		Box(float x, float y, bool bonus);
 		Box(const Box& boite);
 		//operateur par recopie
 		~Box();
 		
 		bool getBonus() const {return this->bonus;}
-		
-		/*!
-		 * \brief Methode detruisant une caisse
-		 *
-		 */
-		void broke(); //changement du nom de fonction pour cause de mot reserve
-		
 		
 	};
 }

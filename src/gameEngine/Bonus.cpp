@@ -14,26 +14,25 @@
 
 // Bibliotheques externes
 
-/*
+
 // Headers
 #include "gameEngine/Bonus.hpp"
-#include "gameEngine/DefineAndFunction.hpp"
 
-using namespace PolyBomber;
 
-Bonus::Bonus(int x, int y, EGameBonus type) : Location(x,y) {
-	this->type=type;
-}
-
-Bonus::Bonus(const Location& loc, EGameBonus type) : Location(loc) {
-	this->type=type;
-}
-
-Bonus::Bonus(const Bonus& bonus) : Location(bonus.getLocation()) {
-	this->visible=bonus.isVisible();
-	this->type=bonus.getType();
-}
-
-Bonus::~Bonus() {
+namespace PolyBomber {
 	
-}*/
+	Bonus::Bonus(float x, float y, EGameBonus type, bool visible) : Location(x,y) {
+		this->type=type;
+		this->visible=visible;
+	}
+	
+	Bonus::Bonus(const Bonus& bonus) : Location(bonus.getLocationX(),bonus.getLocationY()) {
+		this->type=bonus.getType();
+		this->visible=bonus.isVisible();
+	}
+	
+	Bonus::~Bonus() {
+		
+	}
+	
+}
