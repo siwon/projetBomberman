@@ -28,6 +28,8 @@ namespace PolyBomber {
 		
 	private:
 		void generateWall();
+		void generatePlayer(int nbPlayer);
+		void generateBox();
 		
     public:
 		GameEngineManager();

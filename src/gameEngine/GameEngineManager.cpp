@@ -47,14 +47,7 @@ namespace PolyBomber {
 		}
 	}
 	
-	//IGameEngineToNetwork
-	void GameEngineManager::setGameConfig(SGameConfig gameConfig) {
-		int nbPlayer = gameConfig.nbPlayers;
-		int nbBonusTemp;
-		int x=0;
-		int y=0;
-		
-		//generation des joueurs
+	void GameEngineManager::generatePlayer(int nbPlayer) {
 		switch (nbPlayer) {
 			case 2:
 				board.addPlayer(Player(Board::caseToPixel(0),Board::caseToPixel(0),0));
@@ -77,6 +70,29 @@ namespace PolyBomber {
 			default:
 				break;
 		}
+	}
+	
+	void GameEngineManager::generateBox() {
+		int x=0;
+		int y=0;
+		for (int i=0;i<NOMBREBOX;i++) {
+			while (!board.caseIsFreeInitialisation(Board::caseToPixel(x),Board::caseToPixel(y))) {
+				x=rand()%18;
+				y=rand()%13;
+			}
+			board.addBox(Box(Board::caseToPixel(x),Board::caseToPixel(y),false));
+		}
+	}
+	
+	//IGameEngineToNetwork
+	void GameEngineManager::setGameConfig(SGameConfig gameConfig) {
+		int nbPlayer = gameConfig.nbPlayers;
+		int nbBonusTemp;
+		int x=0;
+		int y=0;
+		
+		//generation des joueurs
+		generatePlayer(nbPlayer);
 		
 		//generation des murs
 		generateWall();
@@ -95,18 +111,12 @@ namespace PolyBomber {
 		}
 		
 		//generation des caisses
-		for (int i=0;i<NOMBREBOX;i++) {
-			while (!board.caseIsFreeInitialisation(Board::caseToPixel(x),Board::caseToPixel(y))) {
-				x=rand()%18;
-				y=rand()%13;
-			}
-			board.addBox(Box(Board::caseToPixel(x),Board::caseToPixel(y),false));
-		}
+		generateBox();
 		
 	}
 	
 	void GameEngineManager::run() {
-		
+		//TODO : a faire
 	}
 	
 	//IGameEngineToGameInterface
