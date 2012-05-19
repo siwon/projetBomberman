@@ -53,7 +53,7 @@ namespace PolyBomber
 		
 		/* Méthodes de la classe Controller */
 		
-		virtual EMenuKeys getMenuKey();
+		virtual EMenuKeys getMenuKey(sf::RenderWindow* window);
 		
 		virtual char getCharPressed();
 		

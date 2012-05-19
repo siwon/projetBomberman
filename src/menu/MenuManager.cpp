@@ -9,6 +9,8 @@
 #include "menu/SplashScreen.hpp"
 #include "menu/MainMenu.hpp"
 #include "menu/GameMenu.hpp"
+#include "menu/ConfigMenu.hpp"
+#include "menu/GraphicsConfigMenu.hpp"
 
 namespace PolyBomber
 {
@@ -18,6 +20,8 @@ namespace PolyBomber
 		this->menuScreens[SPLASHSCREEN] = new SplashScreen();
 		this->menuScreens[MAINMENU] = new MainMenu();
 		this->menuScreens[GAMEMENU] = new GameMenu();
+		this->menuScreens[CONFIGMENU] = new ConfigMenu();
+		this->menuScreens[GRAPHICSCONFIGMENU] = new GraphicsConfigMenu();
 	}
 
 	MenuManager::~MenuManager()

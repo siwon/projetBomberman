@@ -29,7 +29,7 @@ namespace PolyBomber
 		TextWidget title("Jouer", TITLEFONT, 100);
 		title.setColor(skin->getColor(TITLECOLOR));
 
-		LinkWidget create("Créer une partie", 250, CREATEGAMEMENU);		
+		LinkWidget create("Creer une partie", 250, CREATEGAMEMENU);		
 		LinkWidget join("Rejoindre une partie", 300, JOINGAMEMENU);		
 		LinkWidget back("Retour", 450, previous);
 
@@ -38,7 +38,7 @@ namespace PolyBomber
 		join.setPrevious(&create);
 		back.setPrevious(&join);
 
-		create.setSelected(true);
+		back.setSelected(true);
 
 		this->widgets.push_back(&background);
 		this->widgets.push_back(&title);

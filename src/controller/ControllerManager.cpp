@@ -149,6 +149,8 @@ ControllerManager::ControllerManager()
 	wii = new Wii();
 	
 	reloadConfig(); // Chargement de la configuration des joueurs
+	
+	window = NULL;
 }
 
 void ControllerManager::reloadConfig()
@@ -235,10 +237,10 @@ EMenuKeys ControllerManager::getKeyPressed()
 	EMenuKeys key = MENU_NONE;
 	unsigned int i = 0;
 	
-	key = keyboard->getMenuKey();
+	key = wii->getMenuKey(window);
 	
 	if(key == MENU_NONE)
-		key = wii->getMenuKey();
+		key = keyboard->getMenuKey(window);	
 	
 	if(key == MENU_NONE)
 	{
@@ -246,7 +248,7 @@ EMenuKeys ControllerManager::getKeyPressed()
 		
 		while(key == MENU_NONE && i < 4 && c->getControllerType() == GAMEPAD )
 		{
-			key = c->getMenuKey();
+			key = c->getMenuKey(window);
 			i++;
 		}
 	}
@@ -440,6 +442,7 @@ SKeyPressed ControllerManager::initSKeyPressed()
 			sKeyPressed.keys[i][j] = false;
 		}
 	}
+	return sKeyPressed;
 }
 
 
@@ -505,7 +508,8 @@ SKeyPressed ControllerManager::getKeysPressed()
 					break;
 			}
 		}
-	}	
+	}
+	return sKeyPressed;
 }
 
 EGameKeys ControllerManager::getAction(int key, int player)
@@ -544,4 +548,10 @@ void ControllerManager::printConfig(int player)
 			std::cout << controllerAssignation[player-1].getController()->getLabel(controllerAssignation[player-1].getKeys((EGameKeys)(j))) << std::endl;
 	}
 
+}
+
+
+void ControllerManager::setWindow(sf::RenderWindow* window)
+{
+	this->window = window;
 }

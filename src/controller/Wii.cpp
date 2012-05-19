@@ -68,7 +68,7 @@ Wii::~Wii()
 }
 
 
-EMenuKeys Wii::getMenuKey()
+EMenuKeys Wii::getMenuKey(sf::RenderWindow* window)
 {
 	std::vector<CWiimote>::iterator i;
 	if(wii->Poll())
