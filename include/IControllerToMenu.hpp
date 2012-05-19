@@ -101,6 +101,12 @@ namespace PolyBomber
 			virtual void reloadConfig() = 0;
 
 			/*!
+			 * \brief Méthode pour récupérer la fenêtre de rendu
+			 * \param window : Fenêtre de rendu
+			 */
+			virtual void setWindow(sf::RenderWindow window) = 0;
+
+			/*!
 			 * \brief Destructeur virtuel
 			 */
 			virtual ~IControllerToMenu() {};
