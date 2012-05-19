@@ -7,7 +7,7 @@
  * \author Simon ROUSSEAU
  */
 
-#include "../../include/gameEngine/Explosive.hpp"
+#include "gameEngine/Explosive.hpp"
 
 namespace PolyBomber {
 	/*!
@@ -18,7 +18,7 @@ namespace PolyBomber {
 	public:
 		RemoteBomb(const Player& player);
 		RemoteBomb(const RemoteBomb& rb);
-		//opérateur d'affectation
+		//operateur d affectation
 		~RemoteBomb();
 	};
 }

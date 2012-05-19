@@ -9,15 +9,13 @@
  
 #include <vector>
 
-#include "../../include/gameEngine/Flame.hpp"
-#include "../../include/gameEngine/Bonus.hpp"
-#include "../../include/gameEngine/Box.hpp"
-#include "../../include/gameEngine/Explosive.hpp"
-#include "../../include/gameEngine/Player.hpp"
-#include "../../include/gameEngine/Wall.hpp"
-#include "../../include/gameEngine/Location.hpp"
-
-#include <iostream>
+#include "gameEngine/Flame.hpp"
+#include "gameEngine/Bonus.hpp"
+#include "gameEngine/Box.hpp"
+#include "gameEngine/Explosive.hpp"
+#include "gameEngine/Player.hpp"
+#include "gameEngine/Wall.hpp"
+#include "gameEngine/Location.hpp"
 
 namespace PolyBomber {
 	/*!
@@ -37,7 +35,7 @@ namespace PolyBomber {
 	public:
 		Board();
 		Board(const Board& b);
-		//opérateur d'affectation
+		//operateur d affectation
 		~Board();
 		
 		void addLocation(Box boite){this->locations.push_back(boite);}
@@ -51,7 +49,7 @@ namespace PolyBomber {
 		
 		void removeLocation(int x, int y);
 		
-		bool isEmpty(int x, int y); // détermine si une case est vide
+		bool isEmpty(int x, int y); // determine si une case est vide
 		
 		const std::vector<Location> getLocation() const {return this->locations;}
 		
@@ -63,12 +61,6 @@ namespace PolyBomber {
 		std::vector<Bonus> getBonus();
 		std::vector<Box> getBox();
 		std::vector<Wall> getWall();
-		
-		void toString() {
-			for (unsigned int i=0; i<locations.size(); i++) {
-				std::cout << locations[i].getLocation().x << " ; " << locations[i].getLocation().y << std::endl;
-			}
-		}
 		
 	};
 }

@@ -7,9 +7,9 @@
  * \author Simon ROUSSEAU
  */
 
-#include "../../include/EOrientation.hpp"
-#include "../../include/EFlameLocation.hpp"
-#include "../../include/gameEngine/Location.hpp"
+#include "EOrientation.hpp"
+#include "EFlameLocation.hpp"
+#include "gameEngine/Location.hpp"
 
 namespace PolyBomber {
 	/*!
@@ -25,7 +25,7 @@ namespace PolyBomber {
 		Flame(int x, int y, EOrientation orientation, EFlameLocation step);
 		Flame(const Location& loc, EOrientation orientation, EFlameLocation step);
 		Flame(const Flame& flamme);
-		//opérateur d'affectation
+		//operateur d affectation
 		~Flame();
 		
 		const EOrientation getOrientation() const {return this->orientation;}

@@ -8,13 +8,13 @@
  */
 
 /** Includes **/
-//Bibliothèque standard
+//Bibliotheque standard
 #include <vector>
 
-//Bibliothèque SFML
+//Bibliotheque SFML
 #include <SFML/System/Vector2.hpp>
 
-//Bibliothèque externes
+//Bibliotheque externes
 
 
 //Headers du projet
@@ -34,7 +34,7 @@ namespace PolyBomber {
     std::vector<SBonus> bonus;			/*! Liste des bonus du plateau de jeu */
     std::vector<SExplosive> explosives;	/*! Liste des explosifs du plateau de jeu */
     std::vector<SPlayer> players;		/*! Liste des joueurs du plateau de jeu */
-    std::vector<SFlame> flames;		    /*! Liste des déflagrations du plateau de jeu */
+    std::vector<SFlame> flames;		    /*! Liste des deflagrations du plateau de jeu */
   };
 }
 

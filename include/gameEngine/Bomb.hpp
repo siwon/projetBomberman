@@ -7,7 +7,7 @@
  * \author Simon ROUSSEAU
  */
 
-#include "../../include/gameEngine/Explosive.hpp"
+#include "gameEngine/Explosive.hpp"
 
 namespace PolyBomber {
 	/*!
@@ -20,7 +20,7 @@ namespace PolyBomber {
 	public:
 		Bomb(int time, const Player& player);
 		Bomb(const Bomb& bombe);
-		//opérateur par recopie
+		//operateur par recopie
 		~Bomb();
 		
 		const int getTimeOfExplosion() const {return this->timeOfExplosion;}

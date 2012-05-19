@@ -1,23 +1,23 @@
 /*!
  * \file Mine.cpp
- * \brief Implémentation de la classe Mine
+ * \brief Implementation de la classe Mine
  * \author Simon ROUSSEAU
  */
 
 
 /** Includes **/
-// Bibliothèques standards
+// Bibliotheques standards
 
 
-// Bibliothèques SFML
+// Bibliotheques SFML
 
 
-// Bibliothèques externes
+// Bibliotheques externes
 
 
 // Headers
-#include "../../include/gameEngine/Mine.hpp"
-#include "../../include/gameEngine/DefineAndFunction.hpp"
+#include "gameEngine/Mine.hpp"
+#include "gameEngine/DefineAndFunction.hpp"
 
 using namespace PolyBomber;
 

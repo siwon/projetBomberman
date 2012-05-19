@@ -1,23 +1,23 @@
 /*!
  * \file Wall.cpp
- * \brief Implémentation de la classe Wall
+ * \brief Implementation de la classe Wall
  * \author Simon ROUSSEAU
  */
 
 
 /** Includes **/
-// Bibliothèques standards
+// Bibliotheques standards
 
 
-// Bibliothèques SFML
+// Bibliotheques SFML
 
 
-// Bibliothèques externes
+// Bibliotheques externes
 
 
 // Headers
-#include "../../include/gameEngine/Wall.hpp"
-#include "../../include/gameEngine/DefineAndFunction.hpp"
+#include "gameEngine/Wall.hpp"
+#include "gameEngine/DefineAndFunction.hpp"
 
 using namespace PolyBomber;
 

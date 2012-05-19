@@ -3,7 +3,7 @@
 
 /*!
  * \file EGameBonus.hpp
- * \brief Enumération des bonus du jeu
+ * \brief Enumeration des bonus du jeu
  * \author Maxime GUIHAL
  */
 
@@ -15,7 +15,7 @@ namespace PolyBomber
 	 */
 	enum EGameBonus
 	{
-		SPEEDUP, /*!< Accélération du joueur */
+		SPEEDUP, /*!< Acceleration du joueur */
 		SPEEDDOWN, 
 		BOMBLINE,
 		DETONATOR,
@@ -34,7 +34,7 @@ namespace PolyBomber
 		DILATATION,
 		RAGE
 		
-		//TODO : À commenter
+		//TODO : a commenter
 	};
 }
 

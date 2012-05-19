@@ -1,30 +1,30 @@
 /*!
  * \file Bomb.cpp
- * \brief Implémentation de la classe Bomb
+ * \brief Implementation de la classe Bomb
  * \author Simon ROUSSEAU
  */
 
 
 /** Includes **/
-// Bibliothèques standards
+// Bibliotheques standards
 
 
-// Bibliothèques SFML
+// Bibliotheques SFML
 #include <SFML/System/Time.hpp>
 #include <SFML/System/Clock.hpp>
 
-// Bibliothèques externes
+// Bibliotheques externes
 
 
 // Headers
-#include "../../include/gameEngine/Bomb.hpp"
-#include "../../include/gameEngine/DefineAndFunction.hpp"
+#include "gameEngine/Bomb.hpp"
+#include "gameEngine/DefineAndFunction.hpp"
 
 using namespace PolyBomber;
 
 Bomb::Bomb(int time, const Player& player) : Explosive(player) {
 	sf::Clock horloge = sf::Clock();
-	//TODO : Définir une horloge globale
+	//TODO : Definir une horloge globale
 	this->timeOfExplosion=horloge.getElapsedTime().asSeconds()+BOMBTIMESTAMP;
 }
 

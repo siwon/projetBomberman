@@ -3,7 +3,7 @@
 
 /*!
  * \file INetworkToGameEngine.hpp
- * \brief Interface réseau - moteur de jeu
+ * \brief Interface reseau - moteur de jeu
  * \author Brice GUILLERMIC
  */
 
@@ -13,15 +13,15 @@ namespace PolyBomber
 {
 	/*!
 	 * \class INetworkToGameEngine
-	 * \brief Interface Interface réseau - moteur de jeu
+	 * \brief Interface Interface reseau - moteur de jeu
 	 */
 	class INetworkToGameEngine
 	{
 	public:
 		/*!
-		 * \brief Obtenir les touches déclenchées
-		 * \return Matrice de booléens à VRAI si la touche est déclanché
-		 *	à FAUX si elle ne l'est pas
+		 * \brief Obtenir les touches declenchees
+		 * \return Matrice de booleens à VRAI si la touche est declanche
+		 * FAUX si elle ne l est pas
 		 */
 		virtual SKeyPressed getKeysPressed() = 0;
 		/*!

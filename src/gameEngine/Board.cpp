@@ -1,23 +1,23 @@
 /*!
  * \file Board.cpp
- * \brief Implémentation de la classe Board
+ * \brief Implementation de la classe Board
  * \author Simon ROUSSEAU
  */
 
 
 /** Includes **/
-// Bibliothèques standards
+// Bibliotheques standards
 #include <vector>
 
-// Bibliothèques SFML
+// Bibliotheques SFML
 
 
-// Bibliothèques externes
+// Bibliotheques externes
 
 
 // Headers
-#include "../../include/gameEngine/Board.hpp"
-#include "../../include/gameEngine/DefineAndFunction.hpp"
+#include "gameEngine/Board.hpp"
+#include "gameEngine/DefineAndFunction.hpp"
 
 
 using namespace PolyBomber;
@@ -34,7 +34,9 @@ Board::Board(const Board& b) {
 }
 
 Board::~Board() {
-	
+	for (unsigned int i=0; i<this->locations.size(); i++) {
+		this->locations[i].~Location();
+	}
 }
 
 void Board::generateBoard(int nbPlayer, int nbBonus, int nbBox) {
@@ -59,18 +61,18 @@ void Board::generateWall() {
 }
 
 void Board::generatePlayer(int nbPlayer) {
-	/*switch (nbPlayer) {
+	switch (nbPlayer) {
 		case 2:
-			Location l1 = new Location(caseToPixel(0),caseToPixel(0));
+			/*Location l1 = new Location(caseToPixel(0),caseToPixel(0));
 			Location l2 = new Location(caseToPixel(18),caseToPixel(12));
 			Player pl1 = new Player(l1);
 			Player pl2 = new Player(l2);
 			this->addLocation(pl1);
-			this->addLocation(pl2);
+			this->addLocation(pl2);*/
 			break;
 			
 		case 3:
-			Location l3 = new Location(caseToPixel(0),caseToPixel(0));
+			/*Location l3 = new Location(caseToPixel(0),caseToPixel(0));
 			Location l4 = new Location(caseToPixel(18),caseToPixel(0));
 			Location l5 = new Location(caseToPixel(9),caseToPixel(12));
 			Player pl3 = new Player(l3);
@@ -79,11 +81,11 @@ void Board::generatePlayer(int nbPlayer) {
 			this->addLocation(pl3);
 			this->addLocation(pl4);
 			this->addLocation(pl5);
-			//un joueur en haut à gauche(0,0) et un joueur en haut à droite(19,0) et un joueur en bas au milieu(10,13)
+			//un joueur en haut a gauche(0,0) et un joueur en haut a droite(19,0) et un joueur en bas au milieu(10,13)*/
 			break;
 			
 		case 4:
-			Location l6 = new Location(caseToPixel(0),caseToPixel(0));
+			/*Location l6 = new Location(caseToPixel(0),caseToPixel(0));
 			Location l7 = new Location(caseToPixel(18),caseToPixel(0));
 			Location l8 = new Location(caseToPixel(18),caseToPixel(12));
 			Location l9 = new Location(caseToPixel(0),caseToPixel(12));
@@ -95,23 +97,23 @@ void Board::generatePlayer(int nbPlayer) {
 			this->addLocation(pl7);
 			this->addLocation(pl8);
 			this->addLocation(pl9);
-			//un joueur en haut à gauche(0,0) et un joueur en bas à droite(19,13) et un joueur en haut à droite(19,0) et un joueur en bas à gauche(0,13)
+			//un joueur en haut a gauche(0,0) et un joueur en bas a droite(19,13) et un joueur en haut a droite(19,0) et un joueur en bas a gauche(0,13)*/
 			break;
 			
 		default:
 			//nothing
 			break;
-	}*/
+	}/**/
 }
 
 void Board::generateBonus(int nbBonus) {
 	for (int i=0; i<nbBonus; i++) {
-		//définir deux nombre aléatoire définissant des coordonnées où on peut mettre des bonus et les mettre sachant qu'il faut un "L" autour des joueurs
+		//definir deux nombre aleatoire definissant des coordonnees où on peut mettre des bonus et les mettre sachant qu il faut un "L" autour des joueurs
 	}
 }
 
 void Board::generateBox(int nbBox) {
 	for (int i=0; i<nbBox; i++) {
-		//définir deux nombre aléatoire définissant des coordonnées où on peut mettre des boites et les mettre sachant qu'il faut un "L" autour des joueurs
+		//definir deux nombre aleatoire definissant des coordonnees où on peut mettre des boites et les mettre sachant qu il faut un "L" autour des joueurs
 	}
 }

@@ -23,7 +23,7 @@ namespace PolyBomber {
 		
 		int id;				/*! Identifiant du joueur */
 		int speed;			/*! Vitesse du joueur */
-		int capacity;		/*! Nombre de bombes qu'un joueur peut poser */
+		int capacity;		/*! Nombre de bombes qu un joueur peut poser */
 		EOrientation orientation;	/*! Orientation du joueur */
 		bool alive;	/*! Statut du joueur */
 		int step;			/*! Etat de la jambe du joueur */
@@ -37,45 +37,45 @@ namespace PolyBomber {
 		Player(int x, int y);
 		Player(const Location& loc);
 		Player(const Player& pl);
-		//opérateur d'affectation
+		//operateur d affectation
 		~Player();
 		
 		/*!
-		 * \brief Méthode permettant de tuer le joueur
+		 * \brief Methode permettant de tuer le joueur
 		 *
 		 */
 		void die();
 		
 		/*!
-		 * \brief Méthode permettant d'appliquer un bonus au joueur
+		 * \brief Methode permettant d appliquer un bonus au joueur
 		 *
-		 * \param bonus : Bonus à appliquer
+		 * \param bonus : Bonus a appliquer
 		 */
 		void applyBonus(Bonus bonus);
 		
 		/*!
-		 * \brief Méthode permettant de déplacer le joueur
+		 * \brief Methode permettant de deplacer le joueur
 		 *
-		 * \param direction : Direction du déplacement
+		 * \param direction : Direction du deplacement
 		 */
 		void move(EOrientation direction);
 		
 		/*!
-		 * \brief Méthode renvoyant le nombre de bombe qu'une joueur peut poser
+		 * \brief Methode renvoyant le nombre de bombe qu une joueur peut poser
 		 *
 		 * \return retourne le nombre de bombe que le joueur peut encore poser
 		 */
 		const int getCapacity() const {return this->capacity;}
 		
 		/*!
-		 * \brief Méthode qui augmente le nombre de bombes disponibles pour le joueur
-		 * Déclenchée lorsqu'une bombe du joueur explose ou bien que le joueur prend un bonus augmentant le nombre de bombes que le joueut peut poser.
+		 * \brief Methode qui augmente le nombre de bombes disponibles pour le joueur
+		 * Declenchee lorsqu une bombe du joueur explose ou bien que le joueur prend un bonus augmentant le nombre de bombes que le joueut peut poser.
 		 */
 		void increaseCapacity(){this->capacity++;}
 		
 		/*!
-		 * \brief Méthode qui diminue le nombre de bombes disponibles pour le joueur
-		 * Déclenchée lorsque le joueur pose une bombe ou bien lorsque le joueur prend un bonus qui diminue le nombre de bombes que le joueur peut poser.
+		 * \brief Methode qui diminue le nombre de bombes disponibles pour le joueur
+		 * Declenchee lorsque le joueur pose une bombe ou bien lorsque le joueur prend un bonus qui diminue le nombre de bombes que le joueur peut poser.
 		 */
 		void decreaseCapacity(){this->capacity--;}
 		

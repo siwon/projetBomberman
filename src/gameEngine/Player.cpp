@@ -1,24 +1,24 @@
 /*!
  * \file Player.cpp
- * \brief Implémentation de la classe Player
+ * \brief Implementation de la classe Player
  * \author Simon ROUSSEAU
  */
 
 
 /** Includes **/
-// Bibliothèques standards
+// Bibliotheques standards
 #include <vector>
 
-// Bibliothèques SFML
+// Bibliotheques SFML
 
 
-// Bibliothèques externes
+// Bibliotheques externes
 
 
 // Headers
-#include "../../include/gameEngine/Player.hpp"
-#include "../../include/gameEngine/DefineAndFunction.hpp"
-#include "../../include/EOrientation.hpp"
+#include "gameEngine/Player.hpp"
+#include "gameEngine/DefineAndFunction.hpp"
+#include "EOrientation.hpp"
 
 using namespace PolyBomber;
 

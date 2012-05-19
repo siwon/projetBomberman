@@ -1,24 +1,24 @@
 /*!
  * \file Explosive.cpp
- * \brief Implémentation de la classe Explosive
+ * \brief Implementation de la classe Explosive
  * \author Simon ROUSSEAU
  */
 
 
 /** Includes **/
-// Bibliothèques standards
+// Bibliotheques standards
 #include <vector>
 
-// Bibliothèques SFML
+// Bibliotheques SFML
 #include <SFML/System/Time.hpp>
 #include <SFML/System/Clock.hpp>
 
-// Bibliothèques externes
+// Bibliotheques externes
 
 
 // Headers
-#include "../../include/gameEngine/Explosive.hpp"
-#include "../../include/gameEngine/DefineAndFunction.hpp"
+#include "gameEngine/Explosive.hpp"
+#include "gameEngine/DefineAndFunction.hpp"
 
 using namespace PolyBomber;
 
