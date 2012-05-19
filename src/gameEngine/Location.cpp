@@ -19,7 +19,8 @@
 #include "gameEngine/Location.hpp"
 #include "gameEngine/DefineAndFunction.hpp"
 
-using namespace PolyBomber;
+namespace PolyBomber
+{
 
 Location::Location(const sf::Vector2<int>& loc) {
 	this->location=loc;
@@ -35,4 +36,5 @@ Location::Location(const Location& loc) {
 
 Location::~Location() {
 	
+}
 }

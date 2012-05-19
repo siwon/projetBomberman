@@ -5,8 +5,11 @@
  */
 
 #include "menu/MainMenu.hpp"
+#include "PolyBomberApp.hpp"
 
 #include "menu/ImageWidget.hpp"
+#include "menu/TextWidget.hpp"
+#include "menu/LinkWidget.hpp"
 
 namespace PolyBomber
 {
@@ -16,21 +19,70 @@ namespace PolyBomber
 	MainMenu::~MainMenu()
 	{}
 
-	EMenuScreen MainMenu::run(MenuResources* resources, EMenuScreen previous)
+	EMenuScreen MainMenu::run(MainWindow& window, EMenuScreen previous)
 	{
-		MainWindow* w = resources->getWindow();
+		ISkin* skin = PolyBomberApp::getISkin();
+		IControllerToMenu* controller = PolyBomberApp::getIControllerToMenu();
 
-		ImageWidget background(resources->getSkin()->loadImage(MENU_BACKGROUND));
+		ImageWidget background(skin->loadImage(MENU_BACKGROUND));
+
+		TextWidget title("Menu principal", TITLEFONT, 100);
+		title.setColor(skin->getColor(TITLECOLOR));
+
+		LinkWidget play("Jouer", 250, GAMEMENU);		
+		LinkWidget options("Options", 300, CONFIGMENU);		
+		LinkWidget quit("Quitter", 350, EXIT);
+
+		play.setNext(&options);
+		options.setNext(&quit);
+		options.setPrevious(&play);
+		quit.setPrevious(&options);
+
+		play.setSelected(true);
 
 		this->widgets.push_back(&background);
+		this->widgets.push_back(&title);
+		this->widgets.push_back(&play);
+		this->widgets.push_back(&options);
+		this->widgets.push_back(&quit);
+
+		sf::Clock clock;
 
 		while (true)
 		{
-			if (w->listenCloseButton())
+			if (window.listenCloseButton())
 				return EXIT;
+
+			EMenuKeys key = controller->getKeyPressed();
+
+			if (clock.getElapsedTime().asMilliseconds() > 100)
+			{
+				clock.restart();
+
+				switch(key)
+				{
+					case MENU_DOWN:
+						quit.goNext();
+						options.goNext();
+						play.goNext();
+						break;
+					case MENU_UP:
+						play.goPrevious();
+						options.goPrevious();
+						quit.goPrevious();
+						break;
+					case MENU_VALID:
+						if (play.getSelected())    return play.activate();
+						if (options.getSelected()) return options.activate();
+						if (quit.getSelected())    return quit.activate();
+						break;
+					default:
+						break;
+				}				
+			}
 				
-			w->clear();
-			w->display(this->widgets);
+			window.clear();
+			window.display(this->widgets);
 		}
 
 		return EXIT;

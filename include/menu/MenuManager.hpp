@@ -7,13 +7,13 @@
  * \author Maxime GUIHAL
  */
 
-#include <vector>
+#include <map>
 
 #include "IMenuToMain.hpp"
 #include "IMenuToGameInterface.hpp"
 #include "TSingleton.hpp"
 
-#include "menu/MenuResources.hpp"
+#include "menu/MainWindow.hpp"
 #include "menu/IMenuScreen.hpp"
 
 namespace PolyBomber
@@ -50,8 +50,8 @@ namespace PolyBomber
 			 */
 			~MenuManager();
 
-			MenuResources menuResources; /*!< Interfaces avec les autres composants et conteneur de la fenêtre */
-			std::vector<IMenuScreen*> menuScreens; /*!< Liste des différents menus du jeu */
+			MainWindow window; /*!< Fenêtre du programme */
+			std::map<EMenuScreen, IMenuScreen*> menuScreens; /*!< Liste des différents menus du jeu */
 	};
 }
 

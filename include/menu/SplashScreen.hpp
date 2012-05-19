@@ -21,7 +21,7 @@ namespace PolyBomber
 			SplashScreen();
 			~SplashScreen();
 		
-			EMenuScreen run(MenuResources* resources, EMenuScreen previous);
+			EMenuScreen run(MainWindow& window, EMenuScreen previous);
 	};
 }
 

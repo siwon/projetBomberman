@@ -102,16 +102,11 @@ namespace PolyBomber
 	void MainWindow::clear()
 	{
 		MainWindow::window.clear();
-	}
-
-	void MainWindow::draw(sf::Sprite s)
-	{
-		MainWindow::window.draw(s);
 	}	
 
-	void MainWindow::display(std::vector<IWidgetMenu*> widgets)
+	void MainWindow::display(std::vector<sf::Drawable*> widgets)
 	{
-		std::vector<IWidgetMenu*>::iterator it;
+		std::vector<sf::Drawable*>::iterator it;
 		
 		for (it = widgets.begin(); it < widgets.end(); it++)
 			MainWindow::window.draw(**it);

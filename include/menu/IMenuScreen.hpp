@@ -6,14 +6,14 @@
  * \brief Interface des ecrans du menu
  * \author Maxime GUIHAL
  */
- 
+
 #include <vector>
 
+#include <SFML/System.hpp>
 #include <SFML/Graphics.hpp>
 
 #include "menu/EMenuScreen.hpp"
-#include "menu/MenuResources.hpp"
-#include "menu/IWidgetMenu.hpp"
+#include "menu/MainWindow.hpp"
 
 #include "EImage.hpp"
 #include "EColorKey.hpp"
@@ -29,11 +29,11 @@ namespace PolyBomber
 		public:
 			/*!
 			 * \brief Exécution du menu sélectionné
-			 * \param resources : Ressources associées au menu
+			 * \param window : Fenêtre du programme
 			 * \param previous : Menu précédent
 			 * \return Menu suivant
 			 */
-			virtual EMenuScreen run(MenuResources* resources, EMenuScreen previous) = 0;
+			virtual EMenuScreen run(MainWindow& window, EMenuScreen previous) = 0;
 
 			/*!
 			 * \brief Destructeur virtuel
@@ -41,7 +41,7 @@ namespace PolyBomber
 			virtual ~IMenuScreen() {};
 
 		protected:
-			std::vector<IWidgetMenu*> widgets; /*!< Liste des widgets des écrans */
+			std::vector<sf::Drawable*> widgets; /*!< Liste des widgets des écrans */
 	};
 }
 

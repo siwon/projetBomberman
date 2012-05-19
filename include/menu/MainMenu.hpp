@@ -21,7 +21,7 @@ namespace PolyBomber
 			MainMenu();
 			~MainMenu();
 		
-			EMenuScreen run(MenuResources* resources, EMenuScreen previous);
+			EMenuScreen run(MainWindow& window, EMenuScreen previous);
 	};
 }
 

@@ -11,5 +11,4 @@ all: $(OBJ)
 .PHONY: clean
 
 clean:
-	echo "" > error.log
 	rm ../../bin/*.o
