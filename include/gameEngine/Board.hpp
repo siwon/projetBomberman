@@ -44,13 +44,20 @@ namespace PolyBomber {
 		
 		SBoard boardToSBoard();
 		
-		static int caseToPixel(int i) {
-			return i*LARGEUR;
-		}
+		void addPlayer(Player pl) {player.push_back(pl);}
+		void addWall(Wall w) {wall.push_back(w);}
+		void addBonus(Bonus b) {bonus.push_back(b);}
+		void addBox(Box b) {box.push_back(b);}
 		
-		static int pixelToCase(int i) {
-			return i/LARGEUR;
-		}
+		bool caseIsFreeInitialisation(float x, float y);
+		bool caseIsFree(float x, float y);
+		int nbSurvivant();
+		int getIdSurvivant();
+		
+		static float caseToPixel(float i) {return i*LARGEUR;}
+		static int pixelToCase(float i) {return i/LARGEUR;}
+		static EGameBonus intToEGameBonus(int i);
+		
 		
 	};
 }

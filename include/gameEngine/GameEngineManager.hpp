@@ -26,6 +26,9 @@ namespace PolyBomber {
 		Board board; /*! Objet stockant le plateau de jeu */
 		bool gameConfigIsSet;
 		
+	private:
+		void generateWall();
+		
     public:
 		GameEngineManager();
 		GameEngineManager(const GameEngineManager& b);
@@ -34,6 +37,7 @@ namespace PolyBomber {
 		
 		//IGameEngineToNetwork
 		void setGameConfig(SGameConfig gameConfig);
+		void run();
 		
 		//IGameEngineToGameInterface
 		SBoard getBoard();

@@ -15,7 +15,7 @@ namespace PolyBomber
 	 */
 	enum EGameBonus
 	{
-		SPEEDUP, /*!< Acceleration du joueur */
+		SPEEDUP=0, /*!< Acceleration du joueur */
 		SPEEDDOWN, 
 		BOMBLINE,
 		DETONATOR,

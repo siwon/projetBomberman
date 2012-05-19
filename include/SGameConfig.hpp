@@ -20,7 +20,7 @@ namespace PolyBomber
 		bool isLocal;
 		unsigned int nbPlayers;
 		std::string playersName[4];
-		unsigned int nbBonus[17];
+		unsigned int nbBonus[18];
 	};
 }
 

@@ -26,7 +26,7 @@ namespace PolyBomber {
 		/*!
 		* \brief Methode qui signal si le jeu est termine ou pas
 		* Cette methode permet de determiner si le jeu est termine ou pas.
-		* \return Renvoie 1 si le jeu est termine, renvoie 0 sinon.
+		* \return Renvoie 0 si le jeu n'est pas termine, l'id du joueur +1 sinon.
 		*/
 		virtual int isFinished() =0;
 

@@ -23,8 +23,6 @@ namespace PolyBomber {
 	 */
 	class Player : public Location {
     protected:
-		static int nbJoueur;
-		
 		int id;				/*! Identifiant du joueur */
 		int speed;			/*! Vitesse du joueur */
 		int capacity;		/*! Nombre de bombes qu un joueur peut poser */
@@ -38,7 +36,7 @@ namespace PolyBomber {
 		
 		
     public:
-		Player(float x, float y);
+		Player(float x, float y, int id);
 		Player(const Location& loc);
 		Player(const Player& pl);
 		//operateur d affectation
@@ -51,8 +49,8 @@ namespace PolyBomber {
 		bool getAlive() const {return this->alive;}
 		int getStep() const {return this->step;}
 		int getRange() const {return this->range;}
-		//std::vector<Bonus> getBombBonus(){return this->bombBonus;}
-		//std::vector<Bonus> getInfection(){return this->infection;}
+		std::vector<Bonus> getBombBonus(){return this->bombBonus;}
+		std::vector<Bonus> getInfection(){return this->infection;}
 	};
 }
 

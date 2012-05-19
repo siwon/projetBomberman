@@ -20,10 +20,8 @@
 
 namespace PolyBomber {
 	
-	Player::Player(float x, float y) : Location(x,y) {
-		this->id=this->nbJoueur;
-		this->nbJoueur++;
-		
+	Player::Player(float x, float y, int id) : Location(x,y) {
+		this->id=id;
 		this->speed=VITESSEPARDEFAUT;
 		this->capacity=NOMBREBOMBEDEFAUT;
 		this->orientation=ORIENTATIONDEFAUT;
