@@ -64,37 +64,37 @@ EMenuKeys Keyboard::getMenuKey(sf::RenderWindow* window)
 			{
 				case sf::Keyboard::Left :
 					#if DEBUG
-						std::cout << "LEFT pressed on Keyboard" << std::endl;
+						std::cout << "LEFT on Keyboard" << std::endl;
 					#endif
 					return MENU_LEFT;
 					
 				case sf::Keyboard::Right :
 					#if DEBUG
-						std::cout << "RIGHT pressed on Keyboard" << std::endl;
+						std::cout << "RIGHT on Keyboard" << std::endl;
 					#endif
 					return MENU_RIGHT;
 					
 				case sf::Keyboard::Up :
 					#if DEBUG
-						std::cout << "UP pressed on Keyboard" << std::endl;
+						std::cout << "UP on Keyboard" << std::endl;
 					#endif
 					return MENU_UP;
 					
 				case sf::Keyboard::Down :
 					#if DEBUG
-						std::cout << "DOWN pressed on Keyboard" << std::endl;
+						std::cout << "DOWN on Keyboard" << std::endl;
 					#endif
 					return MENU_DOWN;
 					
 				case sf::Keyboard::Return :
 					#if DEBUG
-						std::cout << "VALID pressed on Keyboard" << std::endl;
+						std::cout << "VALID on Keyboard" << std::endl;
 					#endif
 					return MENU_VALID;
 					
 				case sf::Keyboard::Escape :
 					#if DEBUG
-						std::cout << "BACK pressed on Keyboard" << std::endl;
+						std::cout << "BACK on Keyboard" << std::endl;
 					#endif
 					return MENU_BACK;
 					
@@ -103,55 +103,6 @@ EMenuKeys Keyboard::getMenuKey(sf::RenderWindow* window)
 			}
 		}
 	}
-	/*
-	if(sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
-	{
-		#if DEBUG
-			std::cout << "LEFT pressed on Keyboard" << std::endl;
-		#endif
-		return MENU_LEFT;
-	}
-
-	if(sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
-	{
-		#if DEBUG
-			std::cout << "RIGHT pressed on Keyboard" << std::endl;
-		#endif
-		return MENU_RIGHT;
-	}
-
-	if(sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
-	{
-		#if DEBUG
-			std::cout << "UP pressed on Keyboard" << std::endl;
-		#endif
-		return MENU_UP;
-	}
-
-	if(sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
-	{
-		#if DEBUG
-			std::cout << "DOWN pressed on Keyboard" << std::endl;
-		#endif
-		return MENU_DOWN;
-	}
-
-	if(sf::Keyboard::isKeyPressed(sf::Keyboard::Return))
-	{
-		#if DEBUG
-			std::cout << "VALID pressed on Keyboard" << std::endl;
-		#endif
-		return MENU_VALID;
-	}
-
-	if(sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
-	{
-		#if DEBUG
-			std::cout << "BACK pressed on Keyboard" << std::endl;
-		#endif
-		return MENU_BACK;
-	}
-	*/
 	return MENU_NONE;
 		
 }
