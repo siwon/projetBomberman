@@ -30,7 +30,3 @@ DataPlayer& DataPlayer::operator=(const DataPlayer &obj){
 	this->name=obj.name;
 	return *this;
 }
-
-void DataPlayer::setName(std::string pName){
-	this->name=pName;
-}
