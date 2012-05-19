@@ -34,7 +34,9 @@ Board::Board(const Board& b) {
 }
 
 Board::~Board() {
-	
+	for (unsigned int i=0; i<this->locations.size(); i++) {
+		this->locations[i].~Location();
+	}
 }
 
 void Board::generateBoard(int nbPlayer, int nbBonus, int nbBox) {

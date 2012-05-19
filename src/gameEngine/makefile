@@ -1,5 +1,5 @@
 CC=g++
-CFLAGS=-W -Wall -ansi -pedantic -I ../../include/ 2>> error.log
+CFLAGS=-W -Wall -ansi -pedantic -I ../../include/
 SRC= $(wildcard *.cpp)
 OBJ= $(SRC:.cpp=.o)
 
@@ -11,5 +11,5 @@ all: $(OBJ)
 .PHONY: clean
 
 clean:
-	rm error.log
+	echo "" > error.log
 	rm ../../bin/*.o

@@ -17,8 +17,6 @@
 #include "gameEngine/Wall.hpp"
 #include "gameEngine/Location.hpp"
 
-#include <iostream>
-
 namespace PolyBomber {
 	/*!
 	 * \class Board
@@ -63,12 +61,6 @@ namespace PolyBomber {
 		std::vector<Bonus> getBonus();
 		std::vector<Box> getBox();
 		std::vector<Wall> getWall();
-		
-		void toString() {
-			for (unsigned int i=0; i<locations.size(); i++) {
-				std::cout << locations[i].getLocation().x << " ; " << locations[i].getLocation().y << std::endl;
-			}
-		}
 		
 	};
 }

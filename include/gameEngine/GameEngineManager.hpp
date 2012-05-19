@@ -25,7 +25,13 @@ namespace PolyBomber {
 		Board board; /*! Objet stockant le plateau de jeu */
 		bool gameConfigIsSet;
     public:
-		bool getGameConfigIsSet(){return this->gameConfigIsSet;}
+		GameEngineManager();
+		GameEngineManager(const GameEngineManager& b);
+		//operateur d affectation
+		~GameEngineManager();
+		
+		const bool getGameConfigIsSet() const {return this->gameConfigIsSet;}
+		
 		void setGameConfigIsSet(bool b){this->gameConfigIsSet=b;}
 		/*!
 		 * \brief Applique un bonus a un joueur
@@ -75,6 +81,7 @@ namespace PolyBomber {
 		void breakBox(Box box);
 		
 		int isPaused();
+		const Board getTheBoard() const {return this->board;}
 		SBoard getBoard();
 		bool isFinished();
 		void setGameConfig(SGameConfig gameConfig);

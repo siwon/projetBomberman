@@ -16,6 +16,7 @@
 
 
 // Headers
+
 #include "gameEngine/DefineAndFunction.hpp"
 #include "gameEngine/Board.hpp"
 #include "gameEngine/Bonus.hpp"
@@ -24,9 +25,25 @@
 #include "IGameEngineToNetwork.hpp"
 #include "IGameEngineToGameInterface.hpp"
 #include "INetworkToGameEngine.hpp"
+#include "SBoard.hpp"
+#include "SGameConfig.hpp"
 
 using namespace PolyBomber;
 
+GameEngineManager::GameEngineManager() {
+	this->board=Board();
+	this->gameConfigIsSet=false;
+}
+
+GameEngineManager::GameEngineManager(const GameEngineManager& b) : IGameEngineToNetwork(), IGameEngineToGameInterface(), INetworkToGameEngine() {
+	this->board=b.getTheBoard();
+	this->gameConfigIsSet=b.getGameConfigIsSet();
+}
+
+GameEngineManager::~GameEngineManager() {
+	this->board.~Board();
+}
+/*
 void GameEngineManager::applyBonus(Bonus bonus, Player player) {
 	//TODO : a faire
 }
@@ -75,34 +92,10 @@ void GameEngineManager::setGameConfig(SGameConfig gameConfig) {
 	this->setGameConfigIsSet(true);
 }
 
-SBoard GameEngineManager::getBoard() {
-	SBoard toReturn;
-	
-	std::vector<Player> joueur=board.getPlayer(); /** Liste des joueurs */
-	std::vector<Explosive> bombe=board.getExplosive(); /** Liste des bombes */
-	std::vector<Flame> deflagration=board.getFlame(); /** Liste des deflagrations */
-	std::vector<Bonus> bonus=board.getBonus(); /** Liste des bonus */
-	std::vector<Box> boite=board.getBox(); /** Liste des boites */
-	
-	for (unsigned int i=0; i<boite.size(); i++) { //ajout de toutes les caisses
-		sf::Vector2<int> loc=boite[i].getLocation();
-		
-		toReturn.boxes.push_back(loc);
-	}
-	
-	
-	//bonus
-	//explosives
-	//players
-	//flames
-	
-	return toReturn;
-}
-
 void GameEngineManager::run() {
 	if (this->gameConfigIsSet) {
 		//fonctionnement normal
 	} else {
 		//erreur : la partie n a pas etee parametree
 	}
-}
+}*/
