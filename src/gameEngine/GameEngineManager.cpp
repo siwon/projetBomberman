@@ -23,12 +23,12 @@
 
 namespace PolyBomber {
 	
-	GameEngineManager::GameEngineManager() : IGameEngineToNetwork(), IGameEngineToGameInterface(), INetworkToGameEngine() {
+	GameEngineManager::GameEngineManager() : IGameEngineToNetwork(), INetworkToGameEngine() {
 		this->board=Board();
 		this->gameConfigIsSet=false;
 	}
 	
-	GameEngineManager::GameEngineManager(const GameEngineManager& b) : IGameEngineToNetwork(), IGameEngineToGameInterface(), INetworkToGameEngine() {
+	GameEngineManager::GameEngineManager(const GameEngineManager& b) : IGameEngineToNetwork(), INetworkToGameEngine() {
 		this->board=Board();
 		this->gameConfigIsSet=false;
 	}

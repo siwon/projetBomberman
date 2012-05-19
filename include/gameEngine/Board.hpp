@@ -12,7 +12,9 @@
 #include "gameEngine/Flame.hpp"
 #include "gameEngine/Bonus.hpp"
 #include "gameEngine/Box.hpp"
-#include "gameEngine/Explosive.hpp"
+#include "gameEngine/RemoteBomb.hpp"
+#include "gameEngine/Bomb.hpp"
+#include "gameEngine/Mine.hpp"
 #include "gameEngine/Player.hpp"
 #include "gameEngine/Wall.hpp"
 
@@ -33,8 +35,12 @@ namespace PolyBomber {
 		std::vector<Flame> flame;
 		std::vector<Box> box;
 		std::vector<Player> player;
-		std::vector<Explosive> explosive;
+		std::vector<Bomb> bomb;
+		std::vector<RemoteBomb> remoteBomb;
+		std::vector<Mine> mine;
 		std::vector<Wall> wall;
+		
+		Player getPlayerById(int id);
 		
 	public:
 		Board();
@@ -53,6 +59,7 @@ namespace PolyBomber {
 		bool caseIsFree(float x, float y);
 		int nbSurvivant();
 		int getIdSurvivant();
+		void applyBonus(int pl, Bonus b);
 		
 		static float caseToPixel(float i) {return i*LARGEUR;}
 		static int pixelToCase(float i) {return i/LARGEUR;}

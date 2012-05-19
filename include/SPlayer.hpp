@@ -28,7 +28,7 @@ namespace PolyBomber {
   * 
   */
   struct SPlayer {
-    sf::Vector2<int> coords;	/*! Coordonnées du joueur */
+    sf::Vector2f coords;	/*! Coordonnées du joueur */
     EOrientation orientation;	/*! Orientation du joueur */
     unsigned int number;		/*!  */
     EPlayerState state;		/*! Statistique du joueur */

@@ -18,24 +18,24 @@
 
 
 //Headers du projet
-#include "./SBonus.hpp"
-#include "./SExplosive.hpp"
-#include "./SPlayer.hpp"
-#include "./SFlame.hpp"
+#include "SBonus.hpp"
+#include "SExplosive.hpp"
+#include "SPlayer.hpp"
+#include "SFlame.hpp"
 
 namespace PolyBomber {
-  /*!
-  * \struct SBoard
-  * \brief Configuration du plateau de jeu
-  * 
-  */
-  struct SBoard {
-	std::vector<sf::Vector2f > boxes;		        /*!  */
-    std::vector<SBonus> bonus;			/*! Liste des bonus du plateau de jeu */
-    std::vector<SExplosive> explosives;	/*! Liste des explosifs du plateau de jeu */
-    std::vector<SPlayer> players;		/*! Liste des joueurs du plateau de jeu */
-    std::vector<SFlame> flames;		    /*! Liste des deflagrations du plateau de jeu */
-  };
+	/*!
+	 * \struct SBoard
+	 * \brief Configuration du plateau de jeu
+	 * 
+	 */
+	struct SBoard {
+		std::vector<sf::Vector2<int> > boxes;	/*! Liste des boites du plateau */
+		std::vector<SBonus> bonus;			/*! Liste des bonus du plateau de jeu */
+		std::vector<SExplosive> explosives;	/*! Liste des explosifs du plateau de jeu */
+		std::vector<SPlayer> players;		/*! Liste des joueurs du plateau de jeu */
+		std::vector<SFlame> flames;		    /*! Liste des deflagrations du plateau de jeu */
+	};
 }
 
 #endif
