@@ -8,13 +8,14 @@
  */
 
 #include "SGameConfig.hpp"
+#include "IGameEngineToGameInterface.hpp"
 
 namespace PolyBomber {
 	/*!
 	 * \class IGameEngineToNetwork
 	 * \brief Interface en le moteur de jeu et le reseau
 	 */
-	class IGameEngineToNetwork {
+	class IGameEngineToNetwork : public IGameEngineToGameInterface {
 	public:
 		/*!
 		 * \brief Methode qui configure le jeu
