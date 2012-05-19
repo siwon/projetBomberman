@@ -17,25 +17,25 @@ namespace PolyBomber
 	 */
 	class INetworkToGameEngine
 	{
-	public:
-		/*!
-		 * \brief Obtenir les touches declenchees
-		 * \return Matrice de booleens à VRAI si la touche est declanche
-		 * FAUX si elle ne l est pas
-		 */
-		virtual SKeyPressed getKeysPressed() = 0;
-		/*!
-		 * \brief Demande si le jeu est en pause
-		 * \return VRAI si le jeu est en pause
-		 *	FAUX sinon
-		 */
-		virtual int isPaused() = 0;
-		
-		/*!
-		 * \brief Destructeur virtuel
-		 */
-		virtual ~INetworkToGameEngine() {};
+<<<<<<< HEAD
+		public:
+			/*!
+			 * \brief Obtenir les touches déclenchées
+			 * \return Matrice de booléens à VRAI si la touche est déclanché
+			 *	à FAUX si elle ne l'est pas
+			 */
+			virtual SKeyPressed getKeysPressed() = 0;
+			/*!
+			 * \brief Demande si le jeu est en pause
+			 * \return VRAI si le jeu est en pause
+			 *	FAUX sinon
+			 */
+			virtual int isPaused() = 0;
+
+			/*!
+			 * \brief Destructeur virtuel
+			 */
+			virtual ~INetworkToGameEngine() {};
 	};
 }
-
 #endif

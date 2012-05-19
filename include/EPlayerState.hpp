@@ -13,7 +13,7 @@ namespace PolyBomber {
   * \brief Enumération des différents états possible d'un joueur
   */
   enum EPlayerState {
-    ALIVE,	/*! Joueur vivant */
+    ALIVE =0,	/*! Joueur vivant */
     DEAD		/*! Joueur mort */
   };
 }

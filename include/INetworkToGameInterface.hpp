@@ -27,6 +27,7 @@ namespace PolyBomber
 			 * \brief Destructeur virtuel
 			 */
 			virtual ~INetworkToGameInterface() {};
-};
+	};
+}
 
 #endif

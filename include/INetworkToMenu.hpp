@@ -6,12 +6,11 @@
  * \brief Interface réseau - menu
  * \author Brice GUILLERMIC
  */
-#include <string>
+
 #include "SGameConfig.hpp"
 
 namespace PolyBomber
 {
-	using namespace std;
 	/*!
 	 * \class INetworkToMenu
 	 * \brief Interface Interface réseau - menu
@@ -23,7 +22,7 @@ namespace PolyBomber
 			 * \brief Enregistrer la connexion d'un ordinateur distant
 			 * \return rien
 			 */
-			virtual void joinGame(string ip)=0;
+			virtual void joinGame(std::string ip) =0;
 			/*!
 			 * \brief Nombre de place restant pour accueillir des joueurs
 			 * \return Entier correspondant au nombre de joueurs
@@ -38,7 +37,7 @@ namespace PolyBomber
 			 * \brief Enregistrement du nom des joueurs
 			 * \return rien
 			 */
-			virtual void setPlayerName(string []) = 0;
+			virtual void setPlayerName(std::string []) = 0;
 			/*!
 			 * \brief Obtention du score de chaque joueur
 			 * \return Tableau de 4 entiers
@@ -59,13 +58,13 @@ namespace PolyBomber
 			 * \brief Obtenir l'adresse IP du poste
 			 * \return Chaine de caractère correspondant à l'ip
 			 */
-			virtual string getIpAddress() =0;
+			virtual std::string getIpAddress() =0;
 			/*!
 			 * \brief Enregistrer les configuration de jeu
 			 * \return rien
 			 */
-			virtual void setGameConfig(SGameConfig gameConfig) =0;
 
+			virtual void setGameConfig(SGameConfig& gameConfig) =0;
 			/*!
 			 * \brief Destructeur virtuel
 			 */

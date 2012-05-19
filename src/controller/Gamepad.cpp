@@ -59,6 +59,84 @@ Gamepad::~Gamepad()
 
 EMenuKeys Gamepad::getMenuKey(sf::RenderWindow* window)
 {
+	
+	if(window != NULL)
+	{
+		sf::Event event;
+		
+		window->pollEvent(event);
+		
+		if(event.type == sf::Event::JoystickButtonReleased)
+		{
+			if(event.joystickButton.joystickId == noGamepad)
+			{
+				switch(event.joystickButton.button)
+				{
+					case 1 :
+						#if DEBUG
+							std::cout << "VALID on Gamepad" << std::endl;
+						#endif
+						return MENU_VALID;
+						
+					case 2 :
+						#if DEBUG
+							std::cout << "BACK on Gamepad" << std::endl;
+						#endif
+						return MENU_BACK;
+						
+					default :
+						return MENU_NONE;
+				}
+			}
+		}		
+		else if(event.type == sf::Event::JoystickMoved)
+		{
+			if(event.joystickMove.joystickId == noGamepad)
+			{
+				switch(event.joystickMove.axis)
+				{
+					case sf::Joystick::X :
+						if(event.joystickMove.position < -10)
+						{			
+							#if DEBUG
+								std::cout << "LEFT on Gamepad" << std::endl;
+							#endif
+							return MENU_LEFT;
+						}
+						else if(event.joystickMove.position > 10)
+						{
+							#if DEBUG
+								std::cout << "RIGHT on Gamepad" << std::endl;
+							#endif
+							return MENU_RIGHT;
+						}
+						break;
+						
+					case sf::Joystick::Y :
+						if(event.joystickMove.position < -10)
+						{			
+							#if DEBUG
+								std::cout << "DOWN on Gamepad" << std::endl;
+							#endif
+							return MENU_DOWN;
+						}
+						else if(event.joystickMove.position > 10)
+						{
+							#if DEBUG
+								std::cout << "UP on Gamepad" << std::endl;
+							#endif
+							return MENU_UP;
+						}
+						break;
+						
+					default :
+						return MENU_NONE;
+				}
+			}
+		}
+	}
+	return MENU_NONE;
+	/*
 	if(sf::Joystick::getAxisPosition(noGamepad, sf::Joystick::X) < -10)
 	{
 		#if DEBUG
@@ -107,7 +185,7 @@ EMenuKeys Gamepad::getMenuKey(sf::RenderWindow* window)
 		return MENU_BACK;
 	}
 
-	return MENU_NONE;
+	return MENU_NONE;*/
 		
 }
 
