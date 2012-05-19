@@ -42,7 +42,7 @@ int main()
 	//controllerManager->setPlayerKey(2,GAME_UP);
 
 	//controllerManager->printConfig(1);
-	//controllerManager->setPlayerController(2,WII);
+	controllerManager->setPlayerController(2,WII);
 	//controllerManager->setPlayerController(3,WII);
 	//controllerManager->printConfig(2);
 	//controllerManager->printConfig(3);
