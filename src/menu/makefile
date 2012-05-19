@@ -6,7 +6,7 @@ OBJ= $(SRC:.cpp=.o)
 all: $(OBJ)
 
 %.o: %.cpp
-	$(CC) -o ../../bin/$@ -c $< $(CFLAGS)
+	$(CC) -o ../../bin/menu_$@ -c $< $(CFLAGS)
 
 .PHONY: clean
 

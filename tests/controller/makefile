@@ -3,33 +3,36 @@
 
 CC=g++
 CFLAGS=
-LDFLAGS=-lsfml-window -lsfml-graphics -lsfml-system
+LDFLAGS=-lsfml-window -lsfml-graphics -lsfml-system -lwiicpp
 EXEC=test_Controller
 
 all: $(EXEC)
 
-test_Controller: test_Controller.o ControllerManager.o ConfigFileManager.o Keyboard.o Controller.o Gamepad.o PolyBomberException.o
+test_Controller: test_Controller.o ControllerManager.o ConfigFileManager.o Keyboard.o Controller.o Gamepad.o PolyBomberException.o Wii.o
 	$(CC) -o $@ $^ $(LDFLAGS)
 
 test_Controller.o: test_Controller.cpp
 	$(CC) -o $@ -c $< $(CFLAGS)
 
-ControllerManager.o: ControllerManager.cpp
+ControllerManager.o: ../../src/controller/ControllerManager.cpp
 	$(CC) -o $@ -c $< $(CFLAGS)
 	
-ConfigFileManager.o: ../configFile/ConfigFileManager.cpp
+ConfigFileManager.o: ../../src/configFile/ConfigFileManager.cpp
 	$(CC) -o $@ -c $< $(CFLAGS)
 
-Keyboard.o: Keyboard.cpp
+Keyboard.o: ../../src/controller/Keyboard.cpp
 	$(CC) -o $@ -c $< $(CFLAGS)
 
-Gamepad.o: Gamepad.cpp
+Wii.o: ../../src/controller/Wii.cpp
+	$(CC) -o $@ -c $< $(CFLAGS)
+	
+Gamepad.o: ../../src/controller/Gamepad.cpp
 	$(CC) -o $@ -c $< $(CFLAGS)
 
-Controller.o: Controller.cpp
+Controller.o: ../../src/controller/Controller.cpp
 	$(CC) -o $@ -c $< $(CFLAGS)
 
-PolyBomberException.o: ../PolyBomberException.cpp
+PolyBomberException.o: ../../src/PolyBomberException.cpp
 	$(CC) -o $@ -c $< $(CFLAGS)
 
 clean:
