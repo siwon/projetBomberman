@@ -103,6 +103,8 @@ namespace PolyBomber
 		
 		ConfigFileManager* configFileManager; /*!< Gestion du fichier de configuration */
 		
+		sf::RenderWindow* window;
+		
 		/*!
 		 * \brief Constructeur de la classe ControllerManager
 		 */
@@ -151,6 +153,8 @@ namespace PolyBomber
 		virtual SKeysConfig setPlayerController(int player, EControllerType type);
 		
 		virtual void save();
+		
+		virtual void setWindow(sf::RenderWindow* window);
 		
 		/* Méthodes de l'interface IControllerToNetwork */
 		

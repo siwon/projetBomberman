@@ -39,10 +39,11 @@ int main()
 	// Limit the framerate to 1 frames per second (this step is optional)
 	window.setFramerateLimit(300);
 	
+	controllerManager->setWindow(&window);
 	//controllerManager->setPlayerKey(2,GAME_UP);
 
 	//controllerManager->printConfig(1);
-	controllerManager->setPlayerController(2,WII);
+	//controllerManager->setPlayerController(2,WII);
 	//controllerManager->setPlayerController(3,WII);
 	//controllerManager->printConfig(2);
 	//controllerManager->printConfig(3);
@@ -52,9 +53,9 @@ int main()
 	// The main loop - ends as soon as the window is closed
 	while (window.isOpen())
 	{
-		//controllerManager->getKeyPressed();
+		controllerManager->getKeyPressed();
 		//controllerManager->getCharPressed();
-		controllerManager->getKeysPressed();
+		//controllerManager->getKeysPressed();
 
 		// Event processing
 		sf::Event event;

@@ -57,7 +57,7 @@ Gamepad::~Gamepad()
 	nbGamepad--;
 }
 
-EMenuKeys Gamepad::getMenuKey()
+EMenuKeys Gamepad::getMenuKey(sf::RenderWindow* window)
 {
 	if(sf::Joystick::getAxisPosition(noGamepad, sf::Joystick::X) < -10)
 	{
@@ -136,7 +136,7 @@ int Gamepad::getKeyPressed(int player)
 	if(sf::Joystick::getAxisPosition(noGamepad, sf::Joystick::Y) < -10)
 		return GAME_DOWN;
 	
-	int k = 0;
+	unsigned int k = 0;
 	
 	bool buttonPressed = false;
 
