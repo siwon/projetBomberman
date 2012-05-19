@@ -49,9 +49,10 @@ namespace PolyBomber
 		
 		/*!
 		 * \brief Récupération d'une touche / bouton
+		 * \param player : numéro de joueur pour la détermination de la wiimote
 		 * \return Touche / bouton pressé
 		 */
-		virtual int getKeyPressed() = 0;
+		virtual int getKeyPressed(int player) = 0;
 		
 		/*!
 		 * \brief Récupération du type de contrôleur
@@ -66,6 +67,18 @@ namespace PolyBomber
 		 */
 		virtual std::string getLabel(int key) = 0;
 	
+		/**
+		 * \brief Affecte une wiimote disponible à un joueur
+		 * Lance une exception PolyBomberException si aucune wiimote n'est disponible
+		 * \param player : joueur à qui affecter une wiimote
+		 */
+		virtual void addWiimote(int player) = 0;
+		
+		/**
+		 * \brief Déconnecte la wiimote d'un joueur donné
+		 * \param player : joueur à qui déconnecter la wiimote
+		 */
+		virtual void disconnectWiimote(int player) = 0;
   };
 }
 

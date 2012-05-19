@@ -9,7 +9,7 @@
 
 /* Includes */
 
-// Bibliothèques standarts 
+// Bibliothèques standards 
 #include <string>
 #include <vector>
 
@@ -27,6 +27,7 @@
 #include "../IControllerToNetwork.hpp"
 #include "Controller.hpp"
 #include "../TSingleton.hpp"
+#include "Wii.hpp"
 
 
 namespace PolyBomber
@@ -88,9 +89,15 @@ namespace PolyBomber
 				* \return Touche / Bouton correspondant
 				*/
 				int getKeys(EGameKeys key);
+				
+				void setDefaultWiimoteConfig();
+				void setDefaultGamepadConfig();
+				void setDefaultKeyboardConfig(int player);
 		};
 	
 		Controller* keyboard; /*!< Controleur de type clavier toujours instancié */
+		
+		Controller* wii;
 		
 		ControllerAssignation* controllerAssignation; /*!< Tableau des controleur assigné pour chaque joueur */
 		

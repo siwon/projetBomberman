@@ -22,7 +22,7 @@
 #include "../IConfigFile.hpp"
 
 
-#define DEFAULT_FILENAME "resources/PolyBomber.conf"
+#define DEFAULT_FILENAME "resources/configFileManager/PolyBomber.conf"
 
 namespace PolyBomber
 {

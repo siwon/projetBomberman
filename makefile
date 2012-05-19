@@ -1,6 +1,6 @@
 CC=g++
 CFLAGS=-W -Wall -ansi -pedantic -I include/
-LDFLAGS=-lsfml-window -lsfml-graphics -lsfml-system
+LDFLAGS=-lsfml-window -lsfml-graphics -lsfml-system -lwiicpp
 EXEC=PolyBomber
 
 all: $(EXEC)

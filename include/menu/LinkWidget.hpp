@@ -85,9 +85,9 @@ namespace PolyBomber
 
 			/*!
 			 * \brief Méthode qui active le lien
-			 * \return la cible du lien s'il est sélectionné, false sinon
+			 * \return La cible du lien
 			 */
-			EMenuScreen activate();
+			inline EMenuScreen activate() {return this->target;}
 
 		private:
 			bool selected; /*!< Sélection du lien */

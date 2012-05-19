@@ -69,12 +69,4 @@ namespace PolyBomber
 			this->next->setSelected(true);
 		}
 	}
-
-	EMenuScreen LinkWidget::activate()
-	{
-		if (this->selected)
-			return this->target;
-		else
-			return NONEMENU;
-	}
 }

@@ -8,6 +8,7 @@
 
 #include "menu/SplashScreen.hpp"
 #include "menu/MainMenu.hpp"
+#include "menu/GameMenu.hpp"
 
 namespace PolyBomber
 {
@@ -16,6 +17,7 @@ namespace PolyBomber
 		// Ajout des menus
 		this->menuScreens[SPLASHSCREEN] = new SplashScreen();
 		this->menuScreens[MAINMENU] = new MainMenu();
+		this->menuScreens[GAMEMENU] = new GameMenu();
 	}
 
 	MenuManager::~MenuManager()
@@ -28,10 +30,15 @@ namespace PolyBomber
 
 	EScreenSignal MenuManager::run()
 	{
+		EMenuScreen old = SPLASHSCREEN;
 		EMenuScreen screen = SPLASHSCREEN;
 
 		while (screen != EXIT)
-			screen = this->menuScreens[screen]->run(this->window, SPLASHSCREEN);
+		{			
+			EMenuScreen next = this->menuScreens[screen]->run(this->window, old);
+			old = screen;
+			screen = next;
+		}
 		
 		return EXITGAME;
 	}

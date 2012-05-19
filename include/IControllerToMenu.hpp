@@ -7,7 +7,6 @@
  * \author Alexandre BISIAUX
  */
 
-//#include "SKeysConfig.hpp"
 #include "EMenuKeys.hpp"
 #include "EGameKeys.hpp"
 

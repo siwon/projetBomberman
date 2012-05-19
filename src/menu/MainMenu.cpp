@@ -11,8 +11,6 @@
 #include "menu/TextWidget.hpp"
 #include "menu/LinkWidget.hpp"
 
-#include <iostream>
-
 namespace PolyBomber
 {
 	MainMenu::MainMenu()
@@ -32,8 +30,8 @@ namespace PolyBomber
 		title.setColor(skin->getColor(TITLECOLOR));
 
 		LinkWidget play("Jouer", 250, GAMEMENU);		
-		LinkWidget options("Options", 350, CONFIGMENU);		
-		LinkWidget quit("Quitter", 450, EXIT);
+		LinkWidget options("Options", 300, CONFIGMENU);		
+		LinkWidget quit("Quitter", 350, EXIT);
 
 		play.setNext(&options);
 		options.setNext(&quit);
@@ -74,7 +72,9 @@ namespace PolyBomber
 						quit.goPrevious();
 						break;
 					case MENU_VALID:
-						//return play.activate() | options.activate() | quit.activate();
+						if (play.getSelected())    return play.activate();
+						if (options.getSelected()) return options.activate();
+						if (quit.getSelected())    return quit.activate();
 						break;
 					default:
 						break;
