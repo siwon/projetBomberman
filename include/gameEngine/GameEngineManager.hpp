@@ -30,7 +30,7 @@ namespace PolyBomber {
 		//operateur d affectation
 		~GameEngineManager();
 		
-		const bool getGameConfigIsSet() const {return this->gameConfigIsSet;}
+		bool getGameConfigIsSet() const {return this->gameConfigIsSet;}
 		
 		void setGameConfigIsSet(bool b){this->gameConfigIsSet=b;}
 		/*!
@@ -81,7 +81,7 @@ namespace PolyBomber {
 		void breakBox(Box box);
 		
 		int isPaused();
-		const Board getTheBoard() const {return this->board;}
+		Board getTheBoard() const {return this->board;}
 		SBoard getBoard();
 		bool isFinished();
 		void setGameConfig(SGameConfig gameConfig);

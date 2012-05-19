@@ -24,8 +24,8 @@ namespace PolyBomber {
 		Location(const Location& loc);
 		//operateur d affectation
 		~Location();
-		const int getLocationX() const {return location.x;}
-		const int getLocationY() const {return location.y;}
+		int getLocationX() const {return location.x;}
+		int getLocationY() const {return location.y;}
 		const sf::Vector2<int> getLocation() const {return location;}
 	};
 }

@@ -23,7 +23,7 @@ namespace PolyBomber {
 		//operateur par recopie
 		~Bomb();
 		
-		const int getTimeOfExplosion() const {return this->timeOfExplosion;}
+		int getTimeOfExplosion() const {return this->timeOfExplosion;}
 	};
 }
 

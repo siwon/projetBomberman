@@ -32,8 +32,8 @@ namespace PolyBomber {
 		 */
 		void explode();
 		
-		const int getRange() const {return this->range;}
-		const int getPlayer() const {return this->player;}
+		int getRange() const {return this->range;}
+		int getPlayer() const {return this->player;}
 	};
 }
 

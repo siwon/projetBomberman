@@ -16,6 +16,8 @@
 #include "gameEngine/Player.hpp"
 #include "gameEngine/Wall.hpp"
 #include "gameEngine/Location.hpp"
+#include "gameEngine/DefineAndFunction.hpp"
+
 
 namespace PolyBomber {
 	/*!
@@ -51,9 +53,9 @@ namespace PolyBomber {
 		
 		bool isEmpty(int x, int y); // determine si une case est vide
 		
-		const std::vector<Location> getLocation() const {return this->locations;}
+		std::vector<Location> getLocation() const {return this->locations;}
 		
-		const Board getBoard() const {return *this;}
+		Board getBoard() const {return *this;}
 		
 		std::vector<Player> getPlayer();
 		std::vector<Explosive> getExplosive();
@@ -61,6 +63,14 @@ namespace PolyBomber {
 		std::vector<Bonus> getBonus();
 		std::vector<Box> getBox();
 		std::vector<Wall> getWall();
+		
+		static int caseToPixel(int i) {
+			return i*LARGEUR;
+		}
+		
+		static int pixelToCase(int i) {
+			return i/LARGEUR;
+		}
 		
 	};
 }

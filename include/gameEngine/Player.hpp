@@ -79,12 +79,12 @@ namespace PolyBomber {
 		 */
 		void decreaseCapacity(){this->capacity--;}
 		
-		const int getId() const {return this->id;}
-		const int getSpeed() const {return this->speed;}
-		const EOrientation getOrientation() const {return this->orientation;}
-		const bool getAlive() const {return this->alive;}
-		const int getStep() const {return this->step;}
-		const int getRange() const {return this->range;}
+		int getId() const {return this->id;}
+		int getSpeed() const {return this->speed;}
+		EOrientation getOrientation() const {return this->orientation;}
+		bool getAlive() const {return this->alive;}
+		int getStep() const {return this->step;}
+		int getRange() const {return this->range;}
 		//std::vector<Bonus> getBombBonus(){return this->bombBonus;}
 		//std::vector<Bonus> getInfection(){return this->infection;}
 	};

@@ -28,8 +28,8 @@ namespace PolyBomber {
 		//operateur d affectation
 		~Flame();
 		
-		const EOrientation getOrientation() const {return this->orientation;}
-		const EFlameLocation getStep() const {return this->step;}
+		EOrientation getOrientation() const {return this->orientation;}
+		EFlameLocation getStep() const {return this->step;}
 	};
 }
 

@@ -21,12 +21,4 @@
 
 #define LARGEUR 40
 
-int caseToPixel(int i) {
-	return i*LARGEUR;
-}
-
-int pixelToCase(int i) {
-	return i/LARGEUR;
-}
-
 #endif

@@ -27,8 +27,8 @@ namespace PolyBomber {
 		//operateur de recopie
 		~Bonus();
 		
-		const EGameBonus getType() const {return this->type;}
-		const bool isVisible() const {return this->visible;}
+		EGameBonus getType() const {return this->type;}
+		bool isVisible() const {return this->visible;}
 	};
 }
 

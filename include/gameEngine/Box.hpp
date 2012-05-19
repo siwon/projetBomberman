@@ -27,7 +27,7 @@ namespace PolyBomber {
 		//operateur par recopie
 		~Box();
 		
-		const bool getBonus() const {return this->bonus;}
+		bool getBonus() const {return this->bonus;}
 		
 		/*!
 		 * \brief Methode detruisant une caisse
