@@ -104,7 +104,7 @@ namespace PolyBomber
 			 * \brief Méthode pour récupérer la fenêtre de rendu
 			 * \param window : Fenêtre de rendu
 			 */
-			virtual void setWindow(sf::RenderWindow window) = 0;
+			virtual void setWindow(sf::RenderWindow* window) = 0;
 
 			/*!
 			 * \brief Destructeur virtuel
