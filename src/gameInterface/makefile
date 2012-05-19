@@ -6,7 +6,7 @@ OBJ= $(SRC:.cpp=.o)
 all: $(OBJ)
 
 %.o: %.cpp
-	$(CC) -o ../../bin/$@ -c $< $(CFLAGS)
+	$(CC) -o ../../bin/gameInterface_$@ -c $< $(CFLAGS)
 
 .PHONY: clean
 

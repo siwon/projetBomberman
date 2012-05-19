@@ -15,7 +15,7 @@ namespace PolyBomber
 	 */
 	enum EMenuScreen
 	{
-		SPLASHSCREEN=0,
+		SPLASHSCREEN,
 		MAINMENU,
 		CONFIGMENU,
 		GAMEMENU,
@@ -32,8 +32,7 @@ namespace PolyBomber
 		RUNGAME,
 		PAUSEMENU,
 		SCOREMENU,
-		EXIT,
-		NONEMENU = 0
+		EXIT
 	};
 }
 
