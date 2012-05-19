@@ -17,6 +17,10 @@ namespace PolyBomber
 		this->files[MENU_BACKGROUND] = "mback.png";
 
 		this->colors[TEXTCOLOR] = "text";
+		this->colors[TITLECOLOR] = "title";
+		this->colors[LINKCOLOR] = "link";
+		this->colors[SELECTEDCOLOR] = "selected";
+		this->colors[ERRORCOLOR] = "error";
 
 		reloadConfig();
 	}

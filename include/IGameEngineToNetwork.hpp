@@ -3,23 +3,22 @@
 
 /*!
  * \file IGameEngineToNetwork.hpp
- * \brief Interface en le moteur de jeu et le réseau
+ * \brief Interface en le moteur de jeu et le reseau
  * \author Simon Rousseau
  */
 
-#include "IGameEngineToGameInterface.hpp"
 #include "SGameConfig.hpp"
 
 namespace PolyBomber {
   /*!
   * \class IGameEngineToNetwork
-  * \brief Interface en le moteur de jeu et le réseau
+  * \brief Interface en le moteur de jeu et le reseau
   */
   class IGameEngineToNetwork : public IGameEngineToGameInterface {
     public :
 		/*!
-		* \brief Méthode qui configure le jeu
-		* Cette méthode permet de configurer le jeu.
+		* \brief Methode qui configure le jeu
+		* Cette methode permet de configurer le jeu.
 		*/
 		virtual void setGameConfig(SGameConfig gameConfig) =0;
 		

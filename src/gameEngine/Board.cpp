@@ -1,117 +1,240 @@
 /*!
  * \file Board.cpp
- * \brief Implémentation de la classe Board
+ * \brief Implementation de la classe Board
  * \author Simon ROUSSEAU
  */
 
 
 /** Includes **/
-// Bibliothèques standards
-#include <vector>
-
-// Bibliothèques SFML
+// Bibliotheques standards
 
 
-// Bibliothèques externes
+// Bibliotheques SFML
+
+
+// Bibliotheques externes
 
 
 // Headers
-#include "../../include/gameEngine/Board.hpp"
-#include "../../include/gameEngine/DefineAndFunction.hpp"
+#include "gameEngine/Board.hpp"
 
 
-using namespace PolyBomber;
-
-Board::Board() {
-	this->locations=std::vector<Location>::vector();
-}
-
-Board::Board(const Board& b) {
-	this->locations=std::vector<Location>::vector();
-	for (unsigned int i=0; b.getLocation().size(); i++) {
-		this->locations.push_back(b.getLocation()[i]);
+namespace PolyBomber {
+	
+	Board::Board() {
+		this->bonus=std::vector<Bonus>();
+		this->flame=std::vector<Flame>();
+		this->box=std::vector<Box>();
+		this->player=std::vector<Player>();
+		this->explosive=std::vector<Explosive>();
+		this->wall=std::vector<Wall>();
 	}
-}
-
-Board::~Board() {
 	
-}
-
-void Board::generateBoard(int nbPlayer, int nbBonus, int nbBox) {
-	generateWall();
-	generatePlayer(nbPlayer);
-	generateBonus(nbBonus);
-	generateBox(nbBox);
-}
-
-void Board::generateWall() {
-	int x;
-	int y;
+	Board::Board(const Board& b) {
+		this->bonus=std::vector<Bonus>();
+		this->flame=std::vector<Flame>();
+		this->box=std::vector<Box>();
+		this->player=std::vector<Player>();
+		this->explosive=std::vector<Explosive>();
+		this->wall=std::vector<Wall>();
+	}
 	
-	for (x=0; x<19; x++) {
-		for (y=0; y<13; y++) {
-			if (x%2==1 && y%2==1) {
-				//Wall temp = new Wall(caseToPixel(x),caseToPixel(y));
-				//this->locations.push_back(temp);
+	Board::~Board() {
+		unsigned int i;
+		
+		//suppression de tous les objets contenus
+		for (i=0; i<this->bonus.size(); i++) {
+			this->bonus[i].~Bonus();
+		}
+		for (i=0; i<this->flame.size(); i++) {
+			this->flame[i].~Flame();
+		}
+		for (i=0; i<this->box.size(); i++) {
+			this->box[i].~Box();
+		}
+		for (i=0; i<this->player.size(); i++) {
+			this->player[i].~Player();
+		}
+		for (i=0; i<this->explosive.size(); i++) {
+			this->explosive[i].~Explosive();
+		}
+		for (i=0; i<this->wall.size(); i++) {
+			this->wall[i].~Wall();
+		}
+		
+		//suppression de tous les conteneurs
+		this->bonus.~vector();
+		this->flame.~vector();
+		this->box.~vector();
+		this->player.~vector();
+		this->explosive.~vector();
+		this->wall.~vector();
+	}
+	
+	bool Board::caseIsFreeInitialisation(float x, float y) {
+		bool toReturn;
+		//test si c'est une coordonnee reservee
+		if ((x==caseToPixel(0)&&y==caseToPixel(1))||(x==caseToPixel(1)&&y==caseToPixel(0))||(x==caseToPixel(17)&&y==caseToPixel(0))||(x==caseToPixel(18)&&y==caseToPixel(1))||(x==caseToPixel(18)&&y==caseToPixel(11))||(x==caseToPixel(17)&&y==caseToPixel(12))||(x==caseToPixel(0)&&y==caseToPixel(11))||(x==caseToPixel(1)&&y==caseToPixel(12))||(x==caseToPixel(8)&&y==caseToPixel(11))||(x==caseToPixel(8)&&y==caseToPixel(12))||(x==caseToPixel(10)&&y==caseToPixel(12))||(x==caseToPixel(10)&&y==caseToPixel(11))) {
+			toReturn=false;
+		} else {
+			toReturn=caseIsFree(x,y);
+		}
+		return toReturn;
+	}
+	
+	bool Board::caseIsFree(float x, float y) {
+		bool toReturn = true;
+		unsigned int i=0;;
+		while (toReturn && i<bonus.size()) {//bonus
+			if (pixelToCase(x)==pixelToCase(bonus[i].getLocationX()) && pixelToCase(y)==pixelToCase(bonus[i].getLocationY())) {
+				toReturn=false;
+			}
+			i++;
+		}
+		i=0;
+		while (toReturn && i<flame.size()) {//flame
+			if (pixelToCase(x)==pixelToCase(flame[i].getLocationX()) && pixelToCase(y)==pixelToCase(flame[i].getLocationY())) {
+				toReturn=false;
+			}
+			i++;
+		}
+		i=0;
+		while (toReturn && i<box.size()) {//box
+			if (pixelToCase(x)==pixelToCase(box[i].getLocationX()) && pixelToCase(y)==pixelToCase(box[i].getLocationY())) {
+				toReturn=false;
+			}
+			i++;
+		}
+		i=0;
+		while (toReturn && i<player.size()) {//player
+			if (pixelToCase(x)==pixelToCase(player[i].getLocationX()) && pixelToCase(y)==pixelToCase(player[i].getLocationY())) {
+				toReturn=false;
+			}
+			i++;
+		}
+		i=0;
+		while (toReturn && i<explosive.size()) {//explosive
+			if (pixelToCase(x)==pixelToCase(explosive[i].getLocationX()) && pixelToCase(y)==pixelToCase(explosive[i].getLocationY())) {
+				toReturn=false;
+			}
+			i++;
+		}
+		i=0;
+		while (toReturn && i<wall.size()) {//wall
+			if (pixelToCase(x)==pixelToCase(wall[i].getLocationX()) && pixelToCase(y)==pixelToCase(wall[i].getLocationY())) {
+				toReturn=false;
+			}
+			i++;
+		}
+		return toReturn;
+	}
+	
+	
+	
+	int Board::nbSurvivant() {
+		int toReturn=0;
+		for (unsigned int i=0; i<player.size(); i++) {
+			if (player[i].getAlive()) {
+				toReturn++;
 			}
 		}
+		return toReturn;
 	}
-}
-
-void Board::generatePlayer(int nbPlayer) {
-	/*switch (nbPlayer) {
-		case 2:
-			Location l1 = new Location(caseToPixel(0),caseToPixel(0));
-			Location l2 = new Location(caseToPixel(18),caseToPixel(12));
-			Player pl1 = new Player(l1);
-			Player pl2 = new Player(l2);
-			this->addLocation(pl1);
-			this->addLocation(pl2);
-			break;
-			
-		case 3:
-			Location l3 = new Location(caseToPixel(0),caseToPixel(0));
-			Location l4 = new Location(caseToPixel(18),caseToPixel(0));
-			Location l5 = new Location(caseToPixel(9),caseToPixel(12));
-			Player pl3 = new Player(l3);
-			Player pl4 = new Player(l4);
-			Player pl5 = new Player(l5);
-			this->addLocation(pl3);
-			this->addLocation(pl4);
-			this->addLocation(pl5);
-			//un joueur en haut à gauche(0,0) et un joueur en haut à droite(19,0) et un joueur en bas au milieu(10,13)
-			break;
-			
-		case 4:
-			Location l6 = new Location(caseToPixel(0),caseToPixel(0));
-			Location l7 = new Location(caseToPixel(18),caseToPixel(0));
-			Location l8 = new Location(caseToPixel(18),caseToPixel(12));
-			Location l9 = new Location(caseToPixel(0),caseToPixel(12));
-			Player pl6 = new Player(l6);
-			Player pl7 = new Player(l7);
-			Player pl8 = new Player(l8);
-			Player pl9 = new Player(l9);
-			this->addLocation(pl6);
-			this->addLocation(pl7);
-			this->addLocation(pl8);
-			this->addLocation(pl9);
-			//un joueur en haut à gauche(0,0) et un joueur en bas à droite(19,13) et un joueur en haut à droite(19,0) et un joueur en bas à gauche(0,13)
-			break;
-			
-		default:
-			//nothing
-			break;
-	}*/
-}
-
-void Board::generateBonus(int nbBonus) {
-	for (int i=0; i<nbBonus; i++) {
-		//définir deux nombre aléatoire définissant des coordonnées où on peut mettre des bonus et les mettre sachant qu'il faut un "L" autour des joueurs
+	
+	int Board::getIdSurvivant() {
+		int toReturn;
+		unsigned int cpt;
+		if (nbSurvivant()==1) {
+			toReturn=1;
+			while (cpt< player.size() && !player[cpt].getAlive()) {
+				cpt++;
+				toReturn++;
+			}
+		} else {
+			toReturn=0;
+		}
+		return toReturn;
 	}
-}
-
-void Board::generateBox(int nbBox) {
-	for (int i=0; i<nbBox; i++) {
-		//définir deux nombre aléatoire définissant des coordonnées où on peut mettre des boites et les mettre sachant qu'il faut un "L" autour des joueurs
+	
+	static EGameBonus intToEGameBonus(int i) {
+		EGameBonus toReturn;
+		switch (i) {
+			case 0:
+				toReturn=SPEEDUP;
+				break;
+				
+			case 1:
+				toReturn=SPEEDDOWN;
+				break;
+				
+			case 2:
+				toReturn=BOMBLINE;
+				break;
+				
+			case 3:
+				toReturn=DETONATOR;
+				break;
+				
+			case 4:
+				toReturn=BOMBUP;
+				break;
+				
+			case 5:
+				toReturn=BOMBDOWN;
+				break;
+				
+			case 6:
+				toReturn=RANGEUP;
+				break;
+				
+			case 7:
+				toReturn=RANGEDOWN;
+				break;
+				
+			case 8:
+				toReturn=RANGEUPMAX;
+				break;
+				
+			case 9:
+				toReturn=MINE;
+				break;
+				
+			case 10:
+				toReturn=INFINITYBOMB;
+				break;
+				
+			case 11:
+				toReturn=ATOMICBOMB;
+				break;
+				
+			case 12:
+				toReturn=CRANE;
+				break;
+				
+			case 13:
+				toReturn=HELL;
+				break;
+				
+			case 14:
+				toReturn=CONFUSION;
+				break;
+				
+			case 15:
+				toReturn=SPASME;
+				break;
+				
+			case 16:
+				toReturn=DILATATION;
+				break;
+				
+			case 17:
+				toReturn=RAGE;
+				break;
+				
+			default:
+				//erreur
+				break;
+		}
 	}
+	
 }

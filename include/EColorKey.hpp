@@ -15,7 +15,11 @@ namespace PolyBomber
 	 */
 	enum EColorKey
 	{
-		TEXTCOLOR /*!< Couleur de texte normal */
+		TEXTCOLOR,
+		TITLECOLOR,
+		LINKCOLOR,
+		SELECTEDCOLOR,
+		ERRORCOLOR
 
 		// TODO: Remplir avec les autres libellés de couleur
 	};

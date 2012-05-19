@@ -7,7 +7,7 @@
  * \author Maxime GUIHAL
  */
 
-#include "menu/IWidgetMenu.hpp"
+#include <SFML/Graphics/Sprite.hpp>
 
 namespace PolyBomber
 {
@@ -15,11 +15,12 @@ namespace PolyBomber
 	 * \class ImageWidget
 	 * \brief Classe du widget Image
 	 */
-	class ImageWidget : public IWidgetMenu
+	class ImageWidget : public sf::Sprite
 	{
 		public:
 			/*!
 			 * \brief Constructeur
+			 * \param texture : Texture de l'image
 			 */
 			ImageWidget(sf::Texture* texture);
 

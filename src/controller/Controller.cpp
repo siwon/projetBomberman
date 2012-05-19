@@ -4,11 +4,9 @@
  * \author Alexandre BISIAUX
  */
 
-#define DEBUG 0
-
 /* Includes */
 
-// Bibliothèques standarts 
+// Bibliothèques standards 
 
 // Bibliothèques SFML
 
@@ -19,11 +17,5 @@
 
 using namespace PolyBomber;
 
-Controller::Controller()
-{
-}
-
-Controller::~Controller()
-{
-}
-
+Controller::Controller(){}
+Controller::~Controller(){}

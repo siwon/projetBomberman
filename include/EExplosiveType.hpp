@@ -3,19 +3,19 @@
 
 /*!
  * \file EExplosiveType.hpp
- * \brief Enumération des types d'explosifs
+ * \brief Enumeration des types d explosifs
  * \author Simon Rousseau
  */
 
 namespace PolyBomber {
   /*!
   * \enum EExplosiveType
-  * \brief Enumération des types d'explosifs
+  * \brief Enumeration des types d explosifs
   */
   enum EExplosiveType {
     EXPLOSIVE_MINE =0,		/*! Mine */
     EXPLOSIVE_BOMB,		/*! Bombe */
-    EXPLOSIVE_REMOTE	/*! Bombe télécommandée */
+    EXPLOSIVE_REMOTE	/*! Bombe telecommandee */
   };
 }
 

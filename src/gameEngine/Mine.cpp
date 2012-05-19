@@ -1,34 +1,35 @@
 /*!
  * \file Mine.cpp
- * \brief Implémentation de la classe Mine
+ * \brief Implementation de la classe Mine
  * \author Simon ROUSSEAU
  */
 
 
 /** Includes **/
-// Bibliothèques standards
+// Bibliotheques standards
 
 
-// Bibliothèques SFML
+// Bibliotheques SFML
 
 
-// Bibliothèques externes
+// Bibliotheques externes
 
 
 // Headers
-#include "../../include/gameEngine/Mine.hpp"
-#include "../../include/gameEngine/DefineAndFunction.hpp"
+#include "gameEngine/Mine.hpp"
 
-using namespace PolyBomber;
-
-Mine::Mine(const Player& p) : Explosive(p) {
+namespace PolyBomber {
 	
-}
-
-Mine::Mine(const Mine& mine) : Explosive(mine.getLocation(),mine.getPlayer(),mine.getRange()) {
+	Mine::Mine(const Player& p) : Explosive(p) {
+		
+	}
 	
-}
-
-Mine::~Mine() {
+	Mine::Mine(const Mine& mine) : Explosive(mine.getPlayer(),mine.getRange(),mine.getLocationX(),mine.getLocationY()) {
+		
+	}
+	
+	Mine::~Mine() {
+		
+	}
 	
 }

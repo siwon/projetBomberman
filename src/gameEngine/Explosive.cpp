@@ -1,42 +1,43 @@
 /*!
  * \file Explosive.cpp
- * \brief Implémentation de la classe Explosive
+ * \brief Implementation de la classe Explosive
  * \author Simon ROUSSEAU
  */
 
 
 /** Includes **/
-// Bibliothèques standards
-#include <vector>
+// Bibliotheques standards
 
-// Bibliothèques SFML
-#include <SFML/System/Time.hpp>
-#include <SFML/System/Clock.hpp>
 
-// Bibliothèques externes
+// Bibliotheques SFML
+
+
+// Bibliotheques externes
 
 
 // Headers
-#include "../../include/gameEngine/Explosive.hpp"
-#include "../../include/gameEngine/DefineAndFunction.hpp"
+#include "gameEngine/Explosive.hpp"
 
-using namespace PolyBomber;
 
-Explosive::Explosive(const Player& player) : Location(player.getLocation()) {
-	this->player=player.getId();
-	this->range=player.getRange();
-}
-
-Explosive::Explosive(const Location& loc, int player, int range) : Location(loc) {
-	this->player=player;
-	this->range=range;
-}
-
-Explosive::Explosive(const Explosive& expl) : Location(expl.getLocation()) {
-	this->player=expl.getPlayer();
-	this->range=expl.getRange();
-}
-
-Explosive::~Explosive() {
+namespace PolyBomber {
+	
+	Explosive::Explosive(int player, int range, float x, float y) : Location(x,y) {
+		this->player=player;
+		this->range=range;
+	}
+	
+	Explosive::Explosive(const Player& player) : Location(player.getLocationX(),player.getLocationY()) {
+		this->player=player.getId();
+		this->range=player.getRange();
+	}
+	
+	Explosive::Explosive(const Explosive& expl) : Location(expl.getLocationX(),expl.getLocationY()) {
+		this->player=expl.getPlayer();
+		this->range=expl.getRange();
+	}
+	
+	Explosive::~Explosive() {
+		
+	}
 	
 }

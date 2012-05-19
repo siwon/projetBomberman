@@ -18,15 +18,8 @@
 #define PASRANGE 2
 #define ORIENTATIONDEFAUT ORIENTATION_RIGHT
 #define BOMBTIMESTAMP 3
+#define NOMBREBOX 20
 
 #define LARGEUR 40
-
-int caseToPixel(int i) {
-	return i*LARGEUR;
-}
-
-int pixelToCase(int i) {
-	return i/LARGEUR;
-}
 
 #endif

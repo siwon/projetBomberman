@@ -7,8 +7,11 @@
  * \author Simon ROUSSEAU
  */
 
-#include "../../include/EGameBonus.hpp"
-#include "../../include/gameEngine/Location.hpp"
+#include "EGameBonus.hpp"
+
+#include "gameEngine/Location.hpp"
+
+#include "gameEngine/DefineAndFunction.hpp"
 
 namespace PolyBomber {
 	/*!
@@ -21,14 +24,13 @@ namespace PolyBomber {
 		bool visible;
 		
 	public :
-		Bonus(int x, int y, EGameBonus type);
-		Bonus(const Location& loc, EGameBonus type);
+		Bonus(float x, float y, EGameBonus type, bool visible);
 		Bonus(const Bonus& bonus);
-		//opérateur de recopie
+		//operateur de recopie
 		~Bonus();
 		
-		const EGameBonus getType() const {return this->type;}
-		const bool isVisible() const {return this->visible;}
+		EGameBonus getType() const {return this->type;}
+		bool isVisible() const {return this->visible;}
 	};
 }
 

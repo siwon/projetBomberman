@@ -3,12 +3,12 @@
  * \brief Implémentation de la classe Keyboard
  * \author Alexandre BISIAUX
  */
-
-#define DEBUG 1
+ 
+ #define DEBUG 1
 
 /* Includes */
 
-// Bibliothèques standarts 
+// Bibliothèques standards 
 #include <iostream>
 #include <vector>
 #include <map>
@@ -52,9 +52,58 @@ Keyboard::~Keyboard()
 {
 }
 
-EMenuKeys Keyboard::getMenuKey()
+EMenuKeys Keyboard::getMenuKey(sf::RenderWindow* window)
 {
-	
+	if(window != NULL)
+	{
+		sf::Event event;
+		window->pollEvent(event);
+		if(event.type == sf::Event::KeyReleased)
+		{
+			switch(event.key.code)
+			{
+				case sf::Keyboard::Left :
+					#if DEBUG
+						std::cout << "LEFT pressed on Keyboard" << std::endl;
+					#endif
+					return MENU_LEFT;
+					
+				case sf::Keyboard::Right :
+					#if DEBUG
+						std::cout << "RIGHT pressed on Keyboard" << std::endl;
+					#endif
+					return MENU_RIGHT;
+					
+				case sf::Keyboard::Up :
+					#if DEBUG
+						std::cout << "UP pressed on Keyboard" << std::endl;
+					#endif
+					return MENU_UP;
+					
+				case sf::Keyboard::Down :
+					#if DEBUG
+						std::cout << "DOWN pressed on Keyboard" << std::endl;
+					#endif
+					return MENU_DOWN;
+					
+				case sf::Keyboard::Return :
+					#if DEBUG
+						std::cout << "VALID pressed on Keyboard" << std::endl;
+					#endif
+					return MENU_VALID;
+					
+				case sf::Keyboard::Escape :
+					#if DEBUG
+						std::cout << "BACK pressed on Keyboard" << std::endl;
+					#endif
+					return MENU_BACK;
+					
+				default :
+					return MENU_NONE;
+			}
+		}
+	}
+	/*
 	if(sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
 	{
 		#if DEBUG
@@ -102,7 +151,7 @@ EMenuKeys Keyboard::getMenuKey()
 		#endif
 		return MENU_BACK;
 	}
-
+	*/
 	return MENU_NONE;
 		
 }
@@ -165,7 +214,7 @@ EControllerType Keyboard::getControllerType()
 	return KEYBOARD;
 }
 
-int Keyboard::getKeyPressed()
+int Keyboard::getKeyPressed(int player)
 {
 	int k = (int)(sf::Keyboard::A);
 	
@@ -188,3 +237,7 @@ int Keyboard::getKeyPressed()
 	
 	return k;
 }
+
+void Keyboard::addWiimote(int player){}
+
+void Keyboard::disconnectWiimote(int player){}

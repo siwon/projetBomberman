@@ -8,7 +8,7 @@
 
 /* Includes */
 
-// Bibliothèques standarts 
+// Bibliothèques standards 
 #include <iostream>
 #include <sstream>
 
@@ -57,7 +57,7 @@ Gamepad::~Gamepad()
 	nbGamepad--;
 }
 
-EMenuKeys Gamepad::getMenuKey()
+EMenuKeys Gamepad::getMenuKey(sf::RenderWindow* window)
 {
 	if(sf::Joystick::getAxisPosition(noGamepad, sf::Joystick::X) < -10)
 	{
@@ -121,7 +121,7 @@ char Gamepad::getCharPressed()
 	return '\0';
 }
 
-int Gamepad::getKeyPressed()
+int Gamepad::getKeyPressed(int player)
 {
 	
 	if(sf::Joystick::getAxisPosition(noGamepad, sf::Joystick::X) < -10)
@@ -136,7 +136,7 @@ int Gamepad::getKeyPressed()
 	if(sf::Joystick::getAxisPosition(noGamepad, sf::Joystick::Y) < -10)
 		return GAME_DOWN;
 	
-	int k = 0;
+	unsigned int k = 0;
 	
 	bool buttonPressed = false;
 
@@ -157,3 +157,7 @@ int Gamepad::getKeyPressed()
 	
 	return k;
 }
+
+void Gamepad::addWiimote(int player){}
+
+void Gamepad::disconnectWiimote(int player){}

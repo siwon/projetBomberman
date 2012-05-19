@@ -9,7 +9,7 @@
 
 /* Includes */
 
-// Bibliothèques standarts 
+// Bibliothèques standards 
 
 // Bibliothèques SFML
 #include <SFML/Window.hpp>
@@ -63,15 +63,19 @@ namespace PolyBomber
 		
 		/* Méthodes de la classe Controller */
 		
-		virtual EMenuKeys getMenuKey();
+		virtual EMenuKeys getMenuKey(sf::RenderWindow* window);
 		
 		virtual EControllerType getControllerType();
 		
 		virtual char getCharPressed(); /* Non disponible pour les joystick */
 		
-		virtual int getKeyPressed();
+		virtual int getKeyPressed(int player);
 		
 		virtual std::string getLabel(int key);
+		
+		virtual void addWiimote(int player); /* Non disponible pour les joystick */
+		
+		virtual void disconnectWiimote(int player); /* Non disponible pour les joystick */
 
   };
 }

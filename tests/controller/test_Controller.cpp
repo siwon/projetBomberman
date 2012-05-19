@@ -6,7 +6,7 @@
 
 /* Includes */
 
-// Bibliothèques standarts 
+// Bibliothèques standards 
 #include <iostream>
 
 // Bibliothèques SFML
@@ -37,22 +37,25 @@ int main()
 
 
 	// Limit the framerate to 1 frames per second (this step is optional)
-	window.setFramerateLimit(30);
+	window.setFramerateLimit(300);
 	
-	//controllerManager->setPlayerKey(1,GAME_UP);
+	controllerManager->setWindow(&window);
+	//controllerManager->setPlayerKey(2,GAME_UP);
 
 	//controllerManager->printConfig(1);
-	//controllerManager->setPlayerController(2,GAMEPAD);
-	/*controllerManager->printConfig(2);
-	controllerManager->printConfig(3);
-	controllerManager->printConfig(4);*/
+	//controllerManager->setPlayerController(2,WII);
+	//controllerManager->setPlayerController(3,WII);
+	//controllerManager->printConfig(2);
+	//controllerManager->printConfig(3);
+	//controllerManager->setPlayerController(3,KEYBOARD);
+	/*controllerManager->printConfig(4);*/
 	
 	// The main loop - ends as soon as the window is closed
 	while (window.isOpen())
 	{
-		//controllerManager->getKeyPressed();
+		controllerManager->getKeyPressed();
 		//controllerManager->getCharPressed();
-		controllerManager->getKeysPressed();
+		//controllerManager->getKeysPressed();
 
 		// Event processing
 		sf::Event event;

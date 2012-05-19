@@ -3,7 +3,7 @@
 
 /*!
  * \file INetworkToGameEngine.hpp
- * \brief Interface réseau - moteur de jeu
+ * \brief Interface reseau - moteur de jeu
  * \author Brice GUILLERMIC
  */
 
@@ -13,10 +13,11 @@ namespace PolyBomber
 {
 	/*!
 	 * \class INetworkToGameEngine
-	 * \brief Interface Interface réseau - moteur de jeu
+	 * \brief Interface Interface reseau - moteur de jeu
 	 */
 	class INetworkToGameEngine
 	{
+<<<<<<< HEAD
 		public:
 			/*!
 			 * \brief Obtenir les touches déclenchées

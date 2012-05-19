@@ -1,38 +1,36 @@
 /*!
  * \file Location.cpp
- * \brief Implémentation de la classe Location
+ * \brief Implementation de la classe Location
  * \author Simon ROUSSEAU
  */
 
 
 /** Includes **/
-// Bibliothèques standards
+// Bibliotheques standards
 
 
-// Bibliothèques SFML
-#include <SFML/System/Vector2.hpp>
+// Bibliotheques SFML
 
-// Bibliothèques externes
+
+// Bibliotheques externes
 
 
 // Headers
-#include "../../include/gameEngine/Location.hpp"
-#include "../../include/gameEngine/DefineAndFunction.hpp"
+#include "gameEngine/Location.hpp"
 
-using namespace PolyBomber;
 
-Location::Location(const sf::Vector2<int>& loc) {
-	this->location=loc;
-}
-
-Location::Location(int x, int y) {
-	this->location= sf::Vector2<int>::Vector2(x,y);
-}
-
-Location::Location(const Location& loc) {
-	this->location= sf::Vector2<int>::Vector2(loc.getLocationX(),loc.getLocationY());
-}
-
-Location::~Location() {
+namespace PolyBomber {
+	
+	Location::Location(float x, float y) {
+		this->location=sf::Vector2f(x,y);
+	}
+	
+	Location::Location(const Location& loc) {
+		this->location=sf::Vector2f(loc.getLocationX(),loc.getLocationY());
+	}
+	
+	Location::~Location() {
+		this->location.~Vector2();
+	}
 	
 }

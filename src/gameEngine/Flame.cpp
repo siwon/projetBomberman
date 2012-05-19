@@ -1,41 +1,37 @@
 /*!
  * \file Flame.cpp
- * \brief Implémentation de la classe Flame
+ * \brief Implementation de la classe Flame
  * \author Simon ROUSSEAU
  */
 
 
 /** Includes **/
-// Bibliothèques standards
+// Bibliotheques standards
 
 
-// Bibliothèques SFML
+// Bibliotheques SFML
 
 
-// Bibliothèques externes
+// Bibliotheques externes
 
 
 // Headers
-#include "../../include/gameEngine/Flame.hpp"
-#include "../../include/gameEngine/DefineAndFunction.hpp"
+#include "gameEngine/Flame.hpp"
 
-using namespace PolyBomber;
-
-Flame::Flame(int x, int y, EOrientation orientation, EFlameLocation step) : Location(x,y) {
-	this->orientation=orientation;
-	this->step=step;
-}
-
-Flame::Flame(const Location& loc, EOrientation orientation, EFlameLocation step) : Location(loc) {
-	this->orientation=orientation;
-	this->step=step;
-}
-
-Flame::Flame(const Flame& flamme) : Location(flamme.getLocation()) {
-	this->orientation=flamme.getOrientation();
-	this->step=flamme.getStep();
-}
-
-Flame::~Flame() {
+namespace PolyBomber {
+	
+	Flame::Flame(float x, float y, EOrientation orientation, EFlameLocation step) : Location(x,y) {
+		this->orientation=orientation;
+		this->step=step;
+	}
+	
+	Flame::Flame(const Flame& flamme) : Location(flamme.getLocationX(),flamme.getLocationY()) {
+		this->orientation=flamme.getOrientation();
+		this->step=flamme.getStep();
+	}
+	
+	Flame::~Flame() {
+		
+	}
 	
 }

@@ -8,30 +8,45 @@
 
 #include "menu/SplashScreen.hpp"
 #include "menu/MainMenu.hpp"
+#include "menu/GameMenu.hpp"
+#include "menu/ConfigMenu.hpp"
+#include "menu/GraphicsConfigMenu.hpp"
+
+#include "PolyBomberApp.hpp"
 
 namespace PolyBomber
 {
-	MenuManager::MenuManager() : menuResources()
+	MenuManager::MenuManager() : window()
 	{
+		PolyBomberApp::getIControllerToMenu()->setWindow(window.getWindow());
+
 		// Ajout des menus
-		this->menuScreens.push_back(new SplashScreen());
-		this->menuScreens.push_back(new MainMenu());
+		this->menuScreens[SPLASHSCREEN] = new SplashScreen();
+		this->menuScreens[MAINMENU] = new MainMenu();
+		this->menuScreens[GAMEMENU] = new GameMenu();
+		this->menuScreens[CONFIGMENU] = new ConfigMenu();
+		this->menuScreens[GRAPHICSCONFIGMENU] = new GraphicsConfigMenu();
 	}
 
 	MenuManager::~MenuManager()
 	{
 		// On parcourt la liste pour désallouer les menus
-		std::vector<IMenuScreen*>::iterator it;
-		for (it = this->menuScreens.begin(); it < this->menuScreens.end(); it++)
-			delete *it;
+		std::map<EMenuScreen, IMenuScreen*>::iterator it;
+		for (it = this->menuScreens.begin(); it != this->menuScreens.end(); it++)
+			delete (*it).second;
 	}
 
 	EScreenSignal MenuManager::run()
 	{
+		EMenuScreen old = SPLASHSCREEN;
 		EMenuScreen screen = SPLASHSCREEN;
 
 		while (screen != EXIT)
-			screen = this->menuScreens[screen]->run(&(this->menuResources), SPLASHSCREEN);
+		{			
+			EMenuScreen next = this->menuScreens[screen]->run(this->window, old);
+			old = screen;
+			screen = next;
+		}
 		
 		return EXITGAME;
 	}

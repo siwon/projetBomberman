@@ -9,13 +9,12 @@
 
 /* Includes */
 
-// Bibliothèques standarts 
+// Bibliothèques standards 
 #include <map>
 
 // Headers
 #include "Controller.hpp"
 #include "../EMenuKeys.hpp"
-#include "../SKeysConfig.hpp"
 
 namespace PolyBomber
 {
@@ -54,16 +53,19 @@ namespace PolyBomber
 		
 		/* Méthodes de la classe Controller */
 		
-		virtual EMenuKeys getMenuKey();
+		virtual EMenuKeys getMenuKey(sf::RenderWindow* window);
 		
 		virtual char getCharPressed();
 		
 		virtual EControllerType getControllerType();
 		
-		virtual int getKeyPressed();
+		virtual int getKeyPressed(int player);
 		
 		virtual std::string getLabel(int key);
 
+		virtual void addWiimote(int player); /* Non disponible pour le clavier */
+		
+		virtual void disconnectWiimote(int player); /* Non disponible pour le clavier */
 
   };
 }

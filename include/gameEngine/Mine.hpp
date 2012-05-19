@@ -7,7 +7,9 @@
  * \author Simon ROUSSEAU
  */
 
-#include "../../include/gameEngine/Explosive.hpp"
+#include "gameEngine/Explosive.hpp"
+
+#include "gameEngine/DefineAndFunction.hpp"
 
 namespace PolyBomber {
 	/*!
@@ -18,7 +20,7 @@ namespace PolyBomber {
 	public:
 		Mine(const Player& p);
 		Mine(const Mine& mine);
-		//opérateur d'affectation
+		//operateur d affectation
 		~Mine();
 	};
 }

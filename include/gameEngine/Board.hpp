@@ -9,15 +9,17 @@
  
 #include <vector>
 
-#include "../../include/gameEngine/Flame.hpp"
-#include "../../include/gameEngine/Bonus.hpp"
-#include "../../include/gameEngine/Box.hpp"
-#include "../../include/gameEngine/Explosive.hpp"
-#include "../../include/gameEngine/Player.hpp"
-#include "../../include/gameEngine/Wall.hpp"
-#include "../../include/gameEngine/Location.hpp"
+#include "gameEngine/Flame.hpp"
+#include "gameEngine/Bonus.hpp"
+#include "gameEngine/Box.hpp"
+#include "gameEngine/Explosive.hpp"
+#include "gameEngine/Player.hpp"
+#include "gameEngine/Wall.hpp"
 
-#include <iostream>
+#include "SBoard.hpp"
+
+#include "gameEngine/DefineAndFunction.hpp"
+
 
 namespace PolyBomber {
 	/*!
@@ -27,48 +29,35 @@ namespace PolyBomber {
 	class Board {
 		// TODO : faire en sorte que ce soit un singleton !!!
     protected:
-		std::vector<Location> locations;
-		
-		void generateWall();
-		void generatePlayer(int nbPlayer);
-		void generateBonus(int nbBonus);
-		void generateBox(int nbBox);
+		std::vector<Bonus> bonus;
+		std::vector<Flame> flame;
+		std::vector<Box> box;
+		std::vector<Player> player;
+		std::vector<Explosive> explosive;
+		std::vector<Wall> wall;
 		
 	public:
 		Board();
 		Board(const Board& b);
-		//opérateur d'affectation
+		//operateur d affectation
 		~Board();
 		
-		void addLocation(Box boite){this->locations.push_back(boite);}
-		void addLocation(Explosive bombe){this->locations.push_back(bombe);}
-		void addLocation(Flame flamme){this->locations.push_back(flamme);}
-		void addLocation(Bonus bonus){this->locations.push_back(bonus);}
-		void addLocation(Player joueur){this->locations.push_back(joueur);}
-		void addLocation(Wall mur){this->locations.push_back(mur);}
+		SBoard boardToSBoard();
 		
-		void generateBoard(int nbPlayer, int nbBonus, int nbBox);
+		void addPlayer(Player pl) {player.push_back(pl);}
+		void addWall(Wall w) {wall.push_back(w);}
+		void addBonus(Bonus b) {bonus.push_back(b);}
+		void addBox(Box b) {box.push_back(b);}
 		
-		void removeLocation(int x, int y);
+		bool caseIsFreeInitialisation(float x, float y);
+		bool caseIsFree(float x, float y);
+		int nbSurvivant();
+		int getIdSurvivant();
 		
-		bool isEmpty(int x, int y); // détermine si une case est vide
+		static float caseToPixel(float i) {return i*LARGEUR;}
+		static int pixelToCase(float i) {return i/LARGEUR;}
+		static EGameBonus intToEGameBonus(int i);
 		
-		const std::vector<Location> getLocation() const {return this->locations;}
-		
-		const Board getBoard() const {return *this;}
-		
-		std::vector<Player> getPlayer();
-		std::vector<Explosive> getExplosive();
-		std::vector<Flame> getFlame();
-		std::vector<Bonus> getBonus();
-		std::vector<Box> getBox();
-		std::vector<Wall> getWall();
-		
-		void toString() {
-			for (unsigned int i=0; i<locations.size(); i++) {
-				std::cout << locations[i].getLocation().x << " ; " << locations[i].getLocation().y << std::endl;
-			}
-		}
 		
 	};
 }

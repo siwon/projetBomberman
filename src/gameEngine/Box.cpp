@@ -1,34 +1,31 @@
 /*!
  * \file Box.cpp
- * \brief Implémentation de la classe Box
+ * \brief Implementation de la classe Box
  * \author Simon ROUSSEAU
  */
 
 
 /** Includes **/
-// Bibliothèques standards
-#include <vector>
-
-// Bibliothèques SFML
+// Bibliotheques standards
 
 
-// Bibliothèques externes
+// Bibliotheques SFML
+
+
+// Bibliotheques externes
 
 
 // Headers
-#include "../../include/gameEngine/Box.hpp"
-#include "../../include/gameEngine/DefineAndFunction.hpp"
+#include "gameEngine/Box.hpp"
 
-using namespace PolyBomber;
-
-Box::Box(int x, int y, bool bonus) : Location(x,y) {
-	this->bonus=bonus;
-}
-
-Box::Box(const Location& loc, bool bonus) : Location(loc) {
-	this->bonus=bonus;
-}
-
-Box::Box(const Box& boite) : Location(boite.getLocation()) {
-	this->bonus=boite.getBonus();
+namespace PolyBomber {
+	
+	Box::Box(float x, float y, bool bonus) : Location(x,y) {
+		this->bonus=bonus;
+	}
+	
+	Box::Box(const Box& boite) : Location(boite.getLocationX(),boite.getLocationY()) {
+		this->bonus=boite.getBonus();
+	}
+	
 }

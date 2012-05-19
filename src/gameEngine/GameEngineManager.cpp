@@ -1,108 +1,120 @@
 /*!
  * \file GameEngineManager.cpp
- * \brief Implémentation de la classe GameEngineManager
+ * \brief Implementation de la classe GameEngineManager
  * \author Simon ROUSSEAU
  */
 
 
 /** Includes **/
-// Bibliothèques standards
-#include <vector>
+// Bibliotheques standards
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
 
-// Bibliothèques SFML
-#include <SFML/System/Vector2.hpp>
+// Bibliotheques SFML
 
-// Bibliothèques externes
+
+// Bibliotheques externes
 
 
 // Headers
-#include "../../include/gameEngine/DefineAndFunction.hpp"
-#include "../../include/gameEngine/Board.hpp"
-#include "../../include/gameEngine/Bonus.hpp"
-#include "../../include/gameEngine/Player.hpp"
-#include "../../include/gameEngine/GameEngineManager.hpp"
-#include "../../include/IGameEngineToNetwork.hpp"
-#include "../../include/IGameEngineToGameInterface.hpp"
-#include "../../include/INetworkToGameEngine.hpp"
 
-using namespace PolyBomber;
+#include "gameEngine/GameEngineManager.hpp"
 
-void GameEngineManager::applyBonus(Bonus bonus, Player player) {
-	//TODO : à faire
-}
-
-void GameEngineManager::movePlayer(Player player, EOrientation orientation) {
-	//TODO : à faire
-}
-
-void GameEngineManager::activateDetonator(Player player) {
-	//TODO : à faire
-}
-
-void GameEngineManager::putMine(Player player) {
-	if (player.getCapacity()) {
-		player.decreaseCapacity();
-		//this.board.add(new );
-		// TODO : à terminer
-	}
-}
-
-SBoard IGameEngineToGameInterface::getBoard() {
-	SBoard toReturn;
+namespace PolyBomber {
 	
-	// TODO : à terminer
-	
-	return toReturn;
-}
-
-bool GameEngineManager::isFinished() {
-	int nbSurvivant;
-	bool toReturn;
-	
-	// TODO : à terminer
-	
-	return toReturn;
-}
-
-void GameEngineManager::setGameConfig(SGameConfig gameConfig) {
-	unsigned int nbPlayers = gameConfig.nbPlayers;
-	unsigned int nbBonus[17];
-	
-	for (int i=0; i<17; i++) {
-		nbBonus[i]=gameConfig.nbBonus[i];
+	GameEngineManager::GameEngineManager() : IGameEngineToNetwork(), IGameEngineToGameInterface(), INetworkToGameEngine() {
+		this->board=Board();
+		this->gameConfigIsSet=false;
 	}
 	
-	this->setGameConfigIsSet(true);
-}
-
-SBoard GameEngineManager::getBoard() {
-	SBoard toReturn;
+	GameEngineManager::GameEngineManager(const GameEngineManager& b) : IGameEngineToNetwork(), IGameEngineToGameInterface(), INetworkToGameEngine() {
+		this->board=Board();
+		this->gameConfigIsSet=false;
+	}
 	
-	std::vector<Player> joueur=board.getPlayer(); /** Liste des joueurs */
-	std::vector<Explosive> bombe=board.getExplosive(); /** Liste des bombes */
-	std::vector<Flame> deflagration=board.getFlame(); /** Liste des déflagrations */
-	std::vector<Bonus> bonus=board.getBonus(); /** Liste des bonus */
-	std::vector<Box> boite=board.getBox(); /** Liste des boites */
+	GameEngineManager::~GameEngineManager() {
+		this->board.~Board();
+	}
 	
-	for (unsigned int i=0; i<boite.size(); i++) { //ajout de toutes les caisses
-		sf::Vector2<int> loc=boite[i].getLocation();
+	void GameEngineManager::generateWall() {
+		for (int i=0; i<19; i++) {
+			for (int j=0; j<13; j++) {
+				if (i%2==1 && j%2==1) {
+					board.addWall(Wall(Board::caseToPixel(i),Board::caseToPixel(j)));
+				}
+			}
+		}
+	}
+	
+	//IGameEngineToNetwork
+	void GameEngineManager::setGameConfig(SGameConfig gameConfig) {
+		int nbPlayer = gameConfig.nbPlayers;
+		int nbBonusTemp;
+		int x=0;
+		int y=0;
 		
-		toReturn.boxes.push_back(loc);
+		//generation des joueurs
+		switch (nbPlayer) {
+			case 2:
+				board.addPlayer(Player(Board::caseToPixel(0),Board::caseToPixel(0),0));
+				board.addPlayer(Player(Board::caseToPixel(18),Board::caseToPixel(12),1));
+				break;
+				
+			case 3:
+				board.addPlayer(Player(Board::caseToPixel(0),Board::caseToPixel(0),0));
+				board.addPlayer(Player(Board::caseToPixel(18),Board::caseToPixel(0),1));
+				board.addPlayer(Player(Board::caseToPixel(9),Board::caseToPixel(12),2));
+				break;
+				
+			case 4:
+				board.addPlayer(Player(Board::caseToPixel(0),Board::caseToPixel(0),0));
+				board.addPlayer(Player(Board::caseToPixel(18),Board::caseToPixel(0),1));
+				board.addPlayer(Player(Board::caseToPixel(18),Board::caseToPixel(12),2));
+				board.addPlayer(Player(Board::caseToPixel(0),Board::caseToPixel(12),3));
+				break;
+				
+			default:
+				break;
+		}
+		
+		//generation des murs
+		generateWall();
+		
+		//generation des bonus
+		for (int i=0;i<17;i++) {
+			nbBonusTemp = gameConfig.nbBonus[i];
+			for (int j=0; j<nbBonusTemp; j++) {
+				while (!board.caseIsFreeInitialisation(Board::caseToPixel(x),Board::caseToPixel(y))) {
+					x=rand()%18;
+					y=rand()%13;
+				}
+				board.addBonus(Bonus(Board::caseToPixel(x),Board::caseToPixel(y),Board::intToEGameBonus(i),false));
+				board.addBox(Box(Board::caseToPixel(x),Board::caseToPixel(y),true));
+			}
+		}
+		
+		//generation des caisses
+		for (int i=0;i<NOMBREBOX;i++) {
+			while (!board.caseIsFreeInitialisation(Board::caseToPixel(x),Board::caseToPixel(y))) {
+				x=rand()%18;
+				y=rand()%13;
+			}
+			board.addBox(Box(Board::caseToPixel(x),Board::caseToPixel(y),false));
+		}
+		
 	}
 	
+	void GameEngineManager::run() {
+		
+	}
 	
-	//bonus
-	//explosives
-	//players
-	//flames
+	//IGameEngineToGameInterface
+	SBoard GameEngineManager::getBoard() {
+		return this->board.boardToSBoard();
+	}
 	
-	return toReturn;
-}
-
-void GameEngineManager::run() {
-	if (this->gameConfigIsSet) {
-		//fonctionnement normal
-	} else {
-		//erreur : la partie n'a pas étée paramétrée
+	int GameEngineManager::isFinished() {
+		return board.getIdSurvivant();
 	}
 }
