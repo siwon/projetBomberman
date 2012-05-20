@@ -12,10 +12,17 @@ namespace PolyBomber
 		throw(PolyBomberException) :
 			sf::Text(text),
 			PATH("resources/fonts/"),
-			WIDTH(800)
+			WIDTH(800),
+			fontStyle(font)
 	{
-		init(font, position);
-		setY(y);
+		init();
+
+		sf::FloatRect rect = this->getLocalBounds();
+		
+		if (position == RIGHT)
+			this->setPosition(this->WIDTH - rect.width, y);
+		else if (position == CENTER)
+			this->setPosition(this->WIDTH/2 - rect.width/2, y);
 	}
 
 	TextWidget::~TextWidget()
@@ -24,15 +31,19 @@ namespace PolyBomber
 	TextWidget::TextWidget(const TextWidget& obj) throw(PolyBomberException) :
 		sf::Text(obj),
 		PATH("resources/fonts/"),
-		WIDTH(800)		
+		WIDTH(800),
+		fontStyle(obj.fontStyle)
 	{
-		init(obj.fontStyle, obj.position);
+		init();
+		setPosition(obj.getPosition());
 	}
 
 	TextWidget& TextWidget::operator=(const TextWidget& obj) throw(PolyBomberException)
 	{
 		this->setString(obj.getString());
-		init(obj.fontStyle, obj.position);
+		this->fontStyle = obj.fontStyle;
+		init();
+		setPosition(obj.getPosition());
 		return *this;
 	}
 
@@ -41,7 +52,7 @@ namespace PolyBomber
 		this->setPosition(this->getPosition().x, y);
 	}
 
-	void TextWidget::init(ETextFont font, ETextPosition position) throw(PolyBomberException)
+	void TextWidget::init() throw(PolyBomberException)
 	{
 		// Initialisation des tables
 		this->fontFiles[TITLEFONT] = "strong.ttf";
@@ -54,22 +65,12 @@ namespace PolyBomber
 		this->sizes[LINKFONT] = 25;
 		this->sizes[ERRORFONT] = 20;
 
-		this->position = position;
-		this->fontStyle = font;
-
 		// Chargement de la police et mise en forme
-		if (!this->font.loadFromFile(this->PATH + this->fontFiles[font]))
-			throw PolyBomberException("Impossible de charger la police " + this->PATH + this->fontFiles[font]);
+		if (!this->font.loadFromFile(this->PATH + this->fontFiles[this->fontStyle]))
+			throw PolyBomberException("Impossible de charger la police " + this->PATH + this->fontFiles[this->fontStyle]);
 		
 		this->setFont(this->font);
-		this->setCharacterSize(this->sizes[font]);
-
-		sf::FloatRect rect = this->getLocalBounds();
-
-		if (position == RIGHT)
-			this->setPosition(this->WIDTH - rect.width, 0);
-		else if (position == CENTER)
-			this->setPosition(this->WIDTH/2 - rect.width/2, 0);
+		this->setCharacterSize(this->sizes[this->fontStyle]);
 	}
 }
 

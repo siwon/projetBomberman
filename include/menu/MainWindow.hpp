@@ -43,18 +43,6 @@ namespace PolyBomber
 			MainWindow& operator=(const MainWindow& obj);
 
 			/*!
-			 * \brief Getter du style de la fenêtre
-			 * \return Le style de la fenêtre
-			 */
-			unsigned int getStyle() const;
-
-			/*!
-			 * \brief Getter des paramètres de la fenêtre
-			 * \return Les paramètres vidéo de la fenêtre
-			 */
-			sf::VideoMode getSettings() const;
-
-			/*!
 			 * \brief Méthode pour gérer la fermeture de la fenêtre
 			 *  \return True si la fenêtre doit être fermée
 			 */
@@ -73,27 +61,36 @@ namespace PolyBomber
 
 			/*!
 			 * \brief Accesseur vers la Fenêtre SFML
+			 * \return La fenêtre SFML
 			 */
 			inline sf::RenderWindow* getWindow() {return &window;}
 
-		private:
-			static sf::RenderWindow window; /*!< Fenetre du programme */
-			unsigned int style; /*! Style de la fenêtre */
-			sf::VideoMode settings; /*! Paramètres vidéo de la fenêtre */
+			/*!
+			 * \brief Accesseur vers le style de la fenêtre
+			 * \return True si la fenêtre est en plein écran
+			 */
+			inline bool getFullScreen() {return this->fullscreen;}
 
 			/*!
-			 * \brief Méthode d'initialisation des paramètres de la fenêtre
-			 * \param style : Style de la fenêtre (plein écran ou fenêtré)
-			 * \param mode : Paramètres vidéo de la fenêtre
+			 * \brief Détermine si la fenêtre est en plein écran
+			 * \param fullscreen : True si la fenêtre doit être en plein écran
 			 */
-			void initVideoMode(unsigned int& style, sf::VideoMode& mode);
+			void setFullScreen(bool fullscreen);
+
+			/*!
+			 * \brief Détermine si la fenêtre peut se mettre en plein écran
+			 * \return False si le plein ecran est impossible
+			 */
+			bool canFullScreen();
+
+		private:
+			static sf::RenderWindow window; /*!< Fenetre du programme */
+			bool fullscreen; /*!< True si la fenêtre est en plein ecran */
 
 			/*!
 			 * \brief Méthode d'initialisation de la fenêtre
-			 * \param style : Style de la fenêtre (plein écran ou fenêtré)
-			 * \param mode : Paramètres vidéo de la fenêtre
 			 */
-			void initWindow(unsigned int style, sf::VideoMode settings);
+			void initWindow();
 	};
 }
 

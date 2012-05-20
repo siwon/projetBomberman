@@ -55,7 +55,7 @@ namespace PolyBomber
 			 */
 			void setY(unsigned int y);
 
-		private:
+		protected:
 			std::map<ETextFont, std::string> fontFiles; /*!< Liste des fichiers de police */
 			std::map<ETextFont, unsigned int> sizes; /*!< Liste des tailles de police */
 
@@ -64,14 +64,11 @@ namespace PolyBomber
 
 			sf::Font font; /*!< Police du texte */
 			ETextFont fontStyle; /*!< Style de la police */
-			ETextPosition position; /*!< Position du texte */
 
 			/*!
 			 * \brief Méthode d'initialisation
-			 * \param font : Style de police à utiliser
-			 * \param position : Position du texte
 			 */
-			void init(ETextFont font, ETextPosition position) throw(PolyBomberException);
+			void init() throw(PolyBomberException);
 	};
 }
 

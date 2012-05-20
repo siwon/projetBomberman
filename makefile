@@ -8,6 +8,9 @@ all: $(EXEC)
 PolyBomber: main.o PolyBomberApp.o PolyBomberException.o menu sound skin configFile controller
 	$(CC) -o $@ bin/*.o $(LDFLAGS)
 
+build:
+	$(CC) -o $(EXEC) bin/*.o $(LDFLAGS)
+
 %.o: src/%.cpp
 	$(CC) -o bin/$@ -c $< $(CFLAGS)
 
