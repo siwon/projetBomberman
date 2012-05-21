@@ -29,6 +29,7 @@ namespace PolyBomber {
 		~Bomb();
 		
 		int getTimeOfExplosion() const {return this->timeOfExplosion;}
+		void decalerExplosion(int nbSecondes) {this->timeOfExplosion=this->timeOfExplosion+nbSecondes;}
 	};
 }
 

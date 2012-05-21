@@ -83,6 +83,14 @@ namespace PolyBomber {
 		this->wall.~vector();
 	}
 	
+	Player Board::getPlayerById(int id) {
+		unsigned int indice=0;
+		while (indice<player.size() && player[indice].getId()!=id) {
+			indice++;
+		}
+		return player[indice];
+	}
+	
 	SBoard Board::boardToSBoard() {
 		SBoard toReturn;
 		
@@ -153,14 +161,6 @@ namespace PolyBomber {
 		return toReturn;
 	}
 	
-	Player Board::getPlayerById(int id) {
-		unsigned int indice=0;
-		while (indice<player.size() && player[indice].getId()!=id) {
-			indice++;
-		}
-		return player[indice];
-	}
-	
 	bool Board::caseIsFreeInitialisation(float x, float y) {
 		bool toReturn;
 		//test si c'est une coordonnee reservee
@@ -219,6 +219,28 @@ namespace PolyBomber {
 		return toReturn;
 	}
 	
+	bool Board::isAWallInThisCase(int x, int y) {
+		bool toReturn=false;
+		float xPixel = Board::caseToPixel(x);
+		float yPixel = Board::caseToPixel(y);
+		for (unsigned int i=0; i<wall.size(); i++) {
+			if (wall[i].getLocationX()==xPixel && wall[i].getLocationY()==yPixel) {
+				toReturn=true;
+			}
+		}
+		return toReturn;
+	}
+	
+	bool Board::isAFlameInThisCase(int x, int y) {
+		//TODO
+		return true;
+	}
+	
+	bool Board::isABonusInThisCase(int x, int y) {
+		//TODO
+		return true;
+	}
+	
 	int Board::nbSurvivant() {
 		int toReturn=0;
 		for (unsigned int i=0; i<player.size(); i++) {
@@ -242,6 +264,54 @@ namespace PolyBomber {
 			toReturn=0;
 		}
 		return toReturn;
+	}
+	
+	void Board::applyBonus(int pl, Bonus b) {
+		//TODO
+	}
+	
+	void Board::effectuerDecalage(int nbSecondes) {
+		for (unsigned int i=0; i<this->flame.size(); i++) {
+			this->flame[i].decalerDebutFlame(nbSecondes);
+		}
+		for (unsigned int i=0; i<this->bomb.size(); i++) {
+			this->bomb[i].decalerExplosion(nbSecondes);
+		}
+	}
+	
+	void Board::checkPosition() {
+		//faire la vérification des toutes les positions
+		//faire la vérification des joueurs (flammes, bonus)
+		for (unsigned int i=0; i<player.size(); i++) {
+			if (isAFlameInThisCase(Board::pixelToCase(player[i].getLocationX()),Board::pixelToCase(player[i].getLocationY()))) {
+				player[i].killPlayer();
+			}
+			if (isABonusInThisCase(Board::pixelToCase(player[i].getLocationX()),Board::pixelToCase(player[i].getLocationY()))) {
+				//ajout du bonus au joueur
+				player[i].addBonus(getBonusByCoord(Board::pixelToCase(player[i].getLocationX()),Board::pixelToCase(player[i].getLocationY())));
+				//suppression du bonus sur la carte
+				bonus.erase(bonus.begin()+getIndiceBonus(Board::pixelToCase(player[i].getLocationX()),Board::pixelToCase(player[i].getLocationY())));
+			}
+		}
+		//faire la vérification des caisses (flammes)
+		for (unsigned int i=0; i<box.size(); i++) {
+			if (isAFlameInThisCase(Board::pixelToCase(box[i].getLocationX()),Board::pixelToCase(box[i].getLocationY()))) {
+				box[i].~Box();
+				box.erase(box.begin()+i);
+			}
+		}
+		//faire la vérification des bonus (flammes)
+		for (unsigned int i=0; i<bonus.size(); i++) {
+			if (isAFlameInThisCase(Board::pixelToCase(bonus[i].getLocationX()),Board::pixelToCase(bonus[i].getLocationY()))) {
+				bonus[i].setVisible();
+			}
+		}
+		//faire la vérification des bombes (flamme qui déclenche les autres)
+		for (unsigned int i=0; i<bomb.size(); i++) {
+			if (isAFlameInThisCase(Board::pixelToCase(bomb[i].getLocationX()),Board::pixelToCase(bomb[i].getLocationY()))) {
+				explodeBomb(Board::pixelToCase(bomb[i].getLocationX()),Board::pixelToCase(bomb[i].getLocationY()));
+			}
+		}
 	}
 	
 	static EGameBonus intToEGameBonus(int i) {
