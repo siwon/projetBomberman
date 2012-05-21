@@ -24,7 +24,6 @@ namespace PolyBomber
 	 * GAME_ACTION1		< Poser une bombe
 	 * GAME_ACTION2		< Activer le détonateur
 	 * GAME_PAUSE		< Mettre le jeu en pause
-	 * GAME_NONE		< Aucune touche pressée
 	 */
 	struct SKeyPressed
 	{

@@ -37,7 +37,6 @@ namespace PolyBomber {
 		
     public:
 		Player(float x, float y, int id);
-		Player(const Location& loc);
 		Player(const Player& pl);
 		//operateur d affectation
 		~Player();
@@ -51,6 +50,9 @@ namespace PolyBomber {
 		int getRange() const {return this->range;}
 		std::vector<Bonus> getBombBonus(){return this->bombBonus;}
 		std::vector<Bonus> getInfection(){return this->infection;}
+		
+		void killPlayer() {this->alive=false;}
+		void addBonus(Bonus bonus);//TODO
 	};
 }
 

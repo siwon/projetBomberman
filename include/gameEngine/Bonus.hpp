@@ -31,6 +31,8 @@ namespace PolyBomber {
 		
 		EGameBonus getType() const {return this->type;}
 		bool isVisible() const {return this->visible;}
+		
+		void setVisible() {this->visible=true;}
 	};
 }
 
