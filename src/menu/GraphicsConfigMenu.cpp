@@ -6,6 +6,7 @@
 
 #include "menu/GraphicsConfigMenu.hpp"
 #include "PolyBomberApp.hpp"
+#include "configFile/ConfigFileManager.hpp"
 
 namespace PolyBomber
 {
@@ -137,7 +138,15 @@ namespace PolyBomber
 		if (save.getSelected())
 		{
 			if (window->canFullScreen())
+			{
 				window->setFullScreen(fullscreen.getCurrentItem());
+
+				IConfigFile* configFile = new ConfigFileManager();
+
+				configFile->setIntValue("window.fullscreen.enabled", fullscreen.getCurrentItem());
+
+				delete configFile;
+			}
 
 			skin->saveConfig();							
 			*nextScreen = save.activate();

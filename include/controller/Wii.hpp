@@ -78,9 +78,9 @@ namespace PolyBomber
 
 		virtual std::string getLabel(int key);
 		
-		virtual void addWiimote(int player);
+		virtual void add(int player);
 		
-		virtual void disconnectWiimote(int player);
+		virtual void disconnect(int player);
 
   };
 }
