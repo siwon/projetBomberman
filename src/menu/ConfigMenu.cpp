@@ -7,32 +7,17 @@
 #include "menu/ConfigMenu.hpp"
 #include "PolyBomberApp.hpp"
 
-#include "menu/ImageWidget.hpp"
-#include "menu/TextWidget.hpp"
-#include "menu/LinkWidget.hpp"
-
 namespace PolyBomber
 {
-	ConfigMenu::ConfigMenu()
-	{}
-
-	ConfigMenu::~ConfigMenu()
-	{}
-
-	EMenuScreen ConfigMenu::run(MainWindow& window, EMenuScreen previous)
+	ConfigMenu::ConfigMenu() :
+		title("Configuration", TITLEFONT, 100),
+		keys("Controles", 250, CONTROLLERSCONFIGMENU),	
+		audio("Audio", 300, SOUNDCONFIGMENU),
+		graphics("Graphisme", 350, GRAPHICSCONFIGMENU),		
+		back("Retour", 450, MAINMENU)
 	{
 		ISkin* skin = PolyBomberApp::getISkin();
-		IControllerToMenu* controller = PolyBomberApp::getIControllerToMenu();
-
-		ImageWidget background(skin->loadImage(MENU_BACKGROUND));
-
-		TextWidget title("Configuration", TITLEFONT, 100);
 		title.setColor(skin->getColor(TITLECOLOR));
-
-		LinkWidget keys("Controles", 250, CONTROLLERSCONFIGMENU);		
-		LinkWidget audio("Audio", 300, SOUNDCONFIGMENU);		
-		LinkWidget graphics("Graphisme", 350, GRAPHICSCONFIGMENU);		
-		LinkWidget back("Retour", 450, MAINMENU);
 
 		keys.setNext(&audio);
 		audio.setNext(&graphics);
@@ -43,55 +28,47 @@ namespace PolyBomber
 
 		keys.setSelected(true);
 
-		this->widgets.push_back(&background);
 		this->widgets.push_back(&title);
 		this->widgets.push_back(&keys);
 		this->widgets.push_back(&audio);
 		this->widgets.push_back(&graphics);
 		this->widgets.push_back(&back);
+	}
 
-		sf::Clock clock;
+	void ConfigMenu::downPressed()
+	{
+		back.goNext();
+		graphics.goNext();
+		audio.goNext();
+		keys.goNext();
+	}
 
-		while (true)
-		{				
-			window.clear();
-			window.display(this->widgets);
+	void ConfigMenu::upPressed()
+	{
+		keys.goPrevious();
+		audio.goPrevious();
+		graphics.goPrevious();
+		back.goPrevious();
+	}
 
-			if (window.listenCloseButton())
-				return EXIT;
+	void ConfigMenu::validPressed(EMenuScreen* nextScreen)
+	{
+		if (keys.getSelected())
+			*nextScreen = keys.activate();
+			
+		if (audio.getSelected())
+			*nextScreen = audio.activate();
+			
+		if (graphics.getSelected())
+			*nextScreen = graphics.activate();
+			
+		if (back.getSelected())
+			*nextScreen = back.activate();
+	}
 
-			EMenuKeys key = MENU_NONE;
-			while ((key = controller->getKeyPressed()) == MENU_NONE);
-
-			switch(key)
-			{
-				case MENU_DOWN:
-					back.goNext();
-					graphics.goNext();
-					audio.goNext();
-					keys.goNext();
-					break;
-				case MENU_UP:
-					keys.goPrevious();
-					audio.goPrevious();
-					graphics.goPrevious();
-					back.goPrevious();
-					break;
-				case MENU_VALID:
-					if (keys.getSelected())   	return keys.activate();
-					if (audio.getSelected())	return audio.activate();
-					if (graphics.getSelected())	return graphics.activate();
-					if (back.getSelected())     return back.activate();
-					break;
-				case MENU_BACK:
-					return previous;
-					break;
-				default:
-					break;
-			}				
-		}
-
-		return EXIT;
+	void ConfigMenu::backPressed(EMenuScreen* nextScreen)
+	{
+		*nextScreen = back.activate();
 	}
 }
 

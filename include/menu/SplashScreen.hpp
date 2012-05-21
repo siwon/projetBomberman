@@ -18,10 +18,23 @@ namespace PolyBomber
 	class SplashScreen : public IMenuScreen
 	{
 		public:
+			/*!
+			 * \brief Constructeur
+			 */
 			SplashScreen();
-			~SplashScreen();
-		
+
+			/*!
+			 * \brief Destructeur
+			 */
+			~SplashScreen() {}
+
+			/*!
+			 * \see IMenuScreen::run
+			 */
 			EMenuScreen run(MainWindow& window, EMenuScreen previous);
+
+		private:
+			ImageWidget splash;
 	};
 }
 

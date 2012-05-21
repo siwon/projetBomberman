@@ -32,7 +32,8 @@ namespace PolyBomber
 		RUNGAME,
 		PAUSEMENU,
 		SCOREMENU,
-		EXIT
+		EXIT,
+		NONEMENU
 	};
 }
 

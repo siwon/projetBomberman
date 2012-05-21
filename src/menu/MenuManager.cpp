@@ -39,7 +39,7 @@ namespace PolyBomber
 	EScreenSignal MenuManager::run()
 	{
 		EMenuScreen old = SPLASHSCREEN;
-		EMenuScreen screen = GRAPHICSCONFIGMENU;
+		EMenuScreen screen = SPLASHSCREEN;
 
 		while (screen != EXIT)
 		{			

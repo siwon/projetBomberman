@@ -12,28 +12,18 @@
 namespace PolyBomber
 {
 	SplashScreen::SplashScreen()
-	{}
-
-	SplashScreen::~SplashScreen()
-	{}
+	{
+		ISkin* skin = PolyBomberApp::getISkin();
+		splash.setImage(skin->loadImage(SPLASH));;
+		this->widgets.push_back(&splash);
+	}
 
 	EMenuScreen SplashScreen::run(MainWindow& window, EMenuScreen previous)
 	{
-		ISkin* skin = PolyBomberApp::getISkin();
-
-		ImageWidget background(skin->loadImage(MENU_BACKGROUND));
-		ImageWidget splash(skin->loadImage(SPLASH));
-
-		this->widgets.push_back(&background);
-		this->widgets.push_back(&splash);
-
 		sf::Clock clock;
 
 		while (true)
 		{
-			if (window.listenCloseButton())
-				return EXIT;
-
 			sf::Time elapsed = clock.getElapsedTime();
 
 			// Fondu de sortie

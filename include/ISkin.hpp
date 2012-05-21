@@ -72,7 +72,7 @@ namespace PolyBomber
 			 * \brief Récupération du nom du skin courant
 			 * \return Nom du skin
 			 */
-			virtual std::string getSkin() throw(PolyBomberException) = 0;
+			virtual std::string getSkin() = 0;
 
 			/*!
 			 * \brief Sauvegarde de la configuration

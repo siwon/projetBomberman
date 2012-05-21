@@ -7,67 +7,53 @@
 #include "menu/GraphicsConfigMenu.hpp"
 #include "PolyBomberApp.hpp"
 
-#include "menu/ImageWidget.hpp"
-#include "menu/TextWidget.hpp"
-#include "menu/LinkWidget.hpp"
-#include "menu/SelectionWidget.hpp"
-
 namespace PolyBomber
 {
-	GraphicsConfigMenu::GraphicsConfigMenu()
-	{}
-
-	GraphicsConfigMenu::~GraphicsConfigMenu()
-	{}
-
-	EMenuScreen GraphicsConfigMenu::run(MainWindow& window, EMenuScreen previous)
+	GraphicsConfigMenu::GraphicsConfigMenu() :
+		title("Configuration graphique", TITLEFONT, 100),
+		textFullscreen("Mode plein-ecran : ", TEXTFONT, 200),
+		fullscreen(TEXTFONT, 200),
+		noFullscreen("Indisponible", ERRORFONT, 200),
+		skinText("Skin choisi :", TEXTFONT, 300),
+		skinList(TEXTFONT, 350),
+		cancel("Annuler", 450, CONFIGMENU),
+		save("Valider", 450, CONFIGMENU)
 	{
 		ISkin* skin = PolyBomberApp::getISkin();
-		IControllerToMenu* controller = PolyBomberApp::getIControllerToMenu();
-
-		ImageWidget background(skin->loadImage(MENU_BACKGROUND));
-
-		TextWidget title("Configuration graphique", TITLEFONT, 100);
+		
 		title.setColor(skin->getColor(TITLECOLOR));
-
-		TextWidget textFullscreen("Mode plein-ecran : ", TEXTFONT, 200);
+		skinText.setColor(skin->getColor(TEXTCOLOR));		
 		textFullscreen.setColor(skin->getColor(TEXTCOLOR));
+
+		// Mode plein ecran
 		textFullscreen.move(-100, 0);
 
-		SelectionWidget fullscreen(TEXTFONT, 200);
 		fullscreen.push_back("non");
 		fullscreen.push_back("oui");
 		fullscreen.move(100, 0);
 
-		fullscreen.setCurrentItem(window.getFullScreen());
-
-		TextWidget noFullscreen("Indisponible", ERRORFONT, 200);
 		noFullscreen.setColor(skin->getColor(ERRORCOLOR));
 		noFullscreen.move(100, 0);
 
-		TextWidget skinText("Skin choisi :", TEXTFONT, 300);
-		skinText.setColor(skin->getColor(TEXTCOLOR));
+		// Liste des skins
+		std::vector<std::string> skins = skin->getSkinsList();
+		unsigned int currentSkinIndex = 0;
+		
+		for (unsigned int i=0; i<skins.size(); i++)
+		{
+			skinList.push_back(skins[i]);
+			if (skin->getSkin().compare(skins[i]) == 0)
+				currentSkinIndex = i;
+		}
 
-		SelectionWidget skinList(TEXTFONT, 350);
-		skinList.push_back("skin 1");
-		skinList.push_back("skin 2");		
-		skinList.push_back("skin 3");		
-		skinList.push_back("skin super long");		
-		
-		LinkWidget cancel("Annuler", 450, CONFIGMENU);
+		skinList.setCurrentItem(currentSkinIndex);
+
 		cancel.move(-100, 0);
-		
-		LinkWidget save("Valider", 450, CONFIGMENU);
 		save.move(100, 0);
 
 		cancel.setSelected(true);
-
 		
 		fullscreen.setNext(&skinList);
-
-		if (window.canFullScreen())
-			skinList.setPrevious(&fullscreen);
-			
 		skinList.setNext(&cancel);
 		
 		cancel.setPrevious(&skinList);
@@ -76,67 +62,90 @@ namespace PolyBomber
 		save.setPrevious(&skinList);
 		save.setNext(&cancel);
 
-		this->widgets.push_back(&background);
 		this->widgets.push_back(&title);
 		this->widgets.push_back(&textFullscreen);
 		this->widgets.push_back(&skinText);
 		this->widgets.push_back(&skinList);
 		this->widgets.push_back(&cancel);
 		this->widgets.push_back(&save);
-		
+
+		this->window = NULL;
+	}
+
+	EMenuScreen GraphicsConfigMenu::run(MainWindow& window, EMenuScreen previous)
+	{
+		this->window = &window;
+
+		fullscreen.setCurrentItem(window.getFullScreen());
+
 		if (window.canFullScreen())
+		{
+			skinList.setPrevious(&fullscreen);
 			this->widgets.push_back(&fullscreen);
+		}
 		else
 			this->widgets.push_back(&noFullscreen);
 
-		while (true)
-		{			
-			window.clear();
-			window.display(this->widgets);
+		return IMenuScreen::run(window, previous);
+	}
 
-			if (window.listenCloseButton())
-				return EXIT;
+	void GraphicsConfigMenu::downPressed()
+	{
+		skinList.goNext();
+		fullscreen.goNext();
+	}
 
-			EMenuKeys key = MENU_NONE;
-			while ((key = controller->getKeyPressed()) == MENU_NONE);
+	void GraphicsConfigMenu::upPressed()
+	{
+		skinList.goPrevious();
+		cancel.goPrevious();
+		save.goPrevious();
+	}
 
-			switch(key)
-			{
-				case MENU_DOWN:
-					skinList.goNext();
-					fullscreen.goNext();
-					break;
-				case MENU_UP:
-					skinList.goPrevious();
-					cancel.goPrevious();
-					save.goPrevious();
-					break;
-				case MENU_LEFT:
-					save.goNext();
-					fullscreen.goPreviousItem();
-					skinList.goPreviousItem();
-					break;
-				case MENU_RIGHT:
-					cancel.goNext();
-					fullscreen.goNextItem();
-					skinList.goNextItem();
-					break;
-				case MENU_VALID:
-					if (cancel.getSelected())  return cancel.activate();
-					
-					if (save.getSelected())
-					{
-						if (window.canFullScreen())
-							window.setFullScreen(fullscreen.getCurrentItem());
-							
-						return save.activate();
-					}
-					break;
-				default:
-					break;
-			}			
+	void GraphicsConfigMenu::leftPressed()
+	{
+		ISkin* skin = PolyBomberApp::getISkin();
+		std::vector<std::string> skins = skin->getSkinsList();
+
+		save.goNext();
+		fullscreen.goPreviousItem();
+		skinList.goPreviousItem();
+		skin->setSkin(skins[skinList.getCurrentItem()]);
+	}
+
+	void GraphicsConfigMenu::rightPressed()
+	{
+		ISkin* skin = PolyBomberApp::getISkin();
+		std::vector<std::string> skins = skin->getSkinsList();
+
+		cancel.goNext();
+		fullscreen.goNextItem();
+		skinList.goNextItem();
+		skin->setSkin(skins[skinList.getCurrentItem()]);
+	}
+
+	void GraphicsConfigMenu::validPressed(EMenuScreen* nextScreen)
+	{
+		ISkin* skin = PolyBomberApp::getISkin();
+
+		if (cancel.getSelected())
+		{
+			skin->reloadConfig();
+			*nextScreen = cancel.activate();
 		}
+		
+		if (save.getSelected())
+		{
+			if (window->canFullScreen())
+				window->setFullScreen(fullscreen.getCurrentItem());
 
-		return EXIT;
+			skin->saveConfig();							
+			*nextScreen = save.activate();
+		}
+	}
+
+	void GraphicsConfigMenu::backPressed(EMenuScreen* nextScreen)
+	{
+		*nextScreen = cancel.activate();
 	}
 }

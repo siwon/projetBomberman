@@ -8,7 +8,7 @@
 
 namespace PolyBomber
 {
-	ImageWidget::ImageWidget(sf::Texture* texture) : sf::Sprite(*texture)
+	ImageWidget::ImageWidget() : sf::Sprite()
 	{}
 
 	ImageWidget::~ImageWidget()
@@ -21,5 +21,10 @@ namespace PolyBomber
 	{
 		this->setTexture(*(obj.getTexture()));
 		return *this;
+	}
+
+	void ImageWidget::setImage(sf::Texture* texture)
+	{
+		this->setTexture(*texture);
 	}
 }

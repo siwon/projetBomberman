@@ -9,6 +9,10 @@
 
 #include "menu/IMenuScreen.hpp"
 
+#include "menu/ImageWidget.hpp"
+#include "menu/TextWidget.hpp"
+#include "menu/LinkWidget.hpp"
+
 namespace PolyBomber
 {
 	/*!
@@ -18,10 +22,37 @@ namespace PolyBomber
 	class MainMenu : public IMenuScreen
 	{
 		public:
+			/*!
+			 * \brief Constructeur
+			 */
 			MainMenu();
-			~MainMenu();
-		
-			EMenuScreen run(MainWindow& window, EMenuScreen previous);
+
+			/*!
+			 * \brief Destructeur
+			 */
+			~MainMenu() {}
+
+			/*!
+			 * \see IMenuScreen::downPressed
+			 */
+			void downPressed();
+
+			/*!
+			 * \see IMenuScreen::upPressed
+			 */
+			void upPressed();
+
+			/*!
+			 * \see IMenuScreen::validPressed
+			 */			
+			void validPressed(EMenuScreen* nextScreen);
+
+		private:
+			TextWidget title;
+			LinkWidget play;
+			LinkWidget options;
+			LinkWidget quit;
+			
 	};
 }
 
