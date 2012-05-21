@@ -63,9 +63,9 @@ namespace PolyBomber
 		
 		virtual std::string getLabel(int key);
 
-		virtual void addWiimote(int player); /* Non disponible pour le clavier */
+		virtual void add(int player); /* Non disponible pour le clavier */
 		
-		virtual void disconnectWiimote(int player); /* Non disponible pour le clavier */
+		virtual void disconnect(int player); /* Non disponible pour le clavier */
 
   };
 }

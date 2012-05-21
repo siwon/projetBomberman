@@ -189,6 +189,6 @@ int Keyboard::getKeyPressed(int player)
 	return k;
 }
 
-void Keyboard::addWiimote(int player){}
+void Keyboard::add(int player){}
 
-void Keyboard::disconnectWiimote(int player){}
+void Keyboard::disconnect(int player){}

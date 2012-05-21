@@ -47,7 +47,7 @@ namespace PolyBomber
 		
 		
 	private :
-		int noGamepad;
+		std::map<int,int> gamepadsAssignation; /*!< Tableau d'assignation des joysticks aux différents joueurs */
 		
 	public :
 		static int nbGamepad;
@@ -73,10 +73,9 @@ namespace PolyBomber
 		
 		virtual std::string getLabel(int key);
 		
-		virtual void addWiimote(int player); /* Non disponible pour les joystick */
+		virtual void add(int player);
 		
-		virtual void disconnectWiimote(int player); /* Non disponible pour les joystick */
-
+		virtual void disconnect(int player);
   };
 }
 

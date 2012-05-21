@@ -42,7 +42,7 @@ Wii::Wii()
 	this->nbWiimotes = 0;
 	
 	cout << "Searching for wiimotes... Turn them on!" << endl;
-	this->numFound = wii->Find(5);
+	this->numFound = wii->Find(2);
 	
 	wiimotes = wii->Connect();
 	
@@ -70,6 +70,8 @@ Wii::~Wii()
 
 EMenuKeys Wii::getMenuKey(sf::RenderWindow* window)
 {
+	if(numFound > 0)
+	{
 	std::vector<CWiimote>::iterator i;
 	if(wii->Poll())
 	{
@@ -131,6 +133,7 @@ EMenuKeys Wii::getMenuKey(sf::RenderWindow* window)
 				break;
 		    }
 		}
+	}
 	}
 	return MENU_NONE;
 		
@@ -225,7 +228,7 @@ void Wii::reload()
      // wiimotes = wii->GetWiimotes();
 }
 
-void Wii::addWiimote(int player)
+void Wii::add(int player)
 {
 	if(numFound > nbWiimotes)
 	{		
@@ -248,8 +251,9 @@ void Wii::addWiimote(int player)
 	}
 }
 
-void Wii::disconnectWiimote(int player)
+void Wii::disconnect(int player)
 {
 	wiimotesAssignation[player]->Disconnect();
+	wiimotesAssignation.erase(player);
 	nbWiimotes--;
 }
