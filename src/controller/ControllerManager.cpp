@@ -244,7 +244,7 @@ EMenuKeys ControllerManager::getKeyPressed()
 	EMenuKeys key = MENU_NONE;
 
 	// Correction processeur à 100%...
-	sf::sleep(sf::milliseconds(30));
+	//sf::sleep(sf::milliseconds(30));
 	
 	key = wii->getMenuKey(window);
 	
