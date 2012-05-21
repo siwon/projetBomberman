@@ -37,17 +37,9 @@ namespace PolyBomber
 		noFullscreen.move(100, 0);
 
 		// Liste des skins
-		std::vector<std::string> skins = skin->getSkinsList();
-		unsigned int currentSkinIndex = 0;
-		
+		std::vector<std::string> skins = skin->getSkinsList();		
 		for (unsigned int i=0; i<skins.size(); i++)
-		{
 			skinList.push_back(skins[i]);
-			if (skin->getSkin().compare(skins[i]) == 0)
-				currentSkinIndex = i;
-		}
-
-		skinList.setCurrentItem(currentSkinIndex);
 
 		cancel.move(-100, 0);
 		save.move(100, 0);
@@ -77,6 +69,7 @@ namespace PolyBomber
 	{
 		this->window = &window;
 
+		// Configuration plein ecran
 		fullscreen.setCurrentItem(window.getFullScreen());
 
 		if (window.canFullScreen())
@@ -86,6 +79,16 @@ namespace PolyBomber
 		}
 		else
 			this->widgets.push_back(&noFullscreen);
+
+		// Mise à jour du skin
+		ISkin* skin = PolyBomberApp::getISkin();
+		std::vector<std::string> skins = skin->getSkinsList();
+		
+		for (unsigned int i=0; i<skins.size(); i++)
+		{
+			if (skin->getSkin().compare(skins[i]) == 0)
+				skinList.setCurrentItem(i);
+		}
 
 		return IMenuScreen::run(window, previous);
 	}

@@ -11,6 +11,7 @@
 #include "menu/GameMenu.hpp"
 #include "menu/ConfigMenu.hpp"
 #include "menu/GraphicsConfigMenu.hpp"
+#include "menu/SoundConfigMenu.hpp"
 
 #include "PolyBomberApp.hpp"
 
@@ -26,6 +27,7 @@ namespace PolyBomber
 		this->menuScreens[GAMEMENU] = new GameMenu();
 		this->menuScreens[CONFIGMENU] = new ConfigMenu();
 		this->menuScreens[GRAPHICSCONFIGMENU] = new GraphicsConfigMenu();
+		this->menuScreens[SOUNDCONFIGMENU] = new SoundConfigMenu();
 	}
 
 	MenuManager::~MenuManager()

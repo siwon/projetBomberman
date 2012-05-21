@@ -40,17 +40,17 @@ namespace PolyBomber
 	
 	unsigned int SoundManager::getSoundVolume()
 	{
-		return 0;
+		return 70;
 	}
 	
 	void SoundManager::setMusicVolume(unsigned int volume)
 	{
-
+		std::cout << "now volume at : " << volume << std::endl;
 	}
 	
 	unsigned int SoundManager::getMusicVolume()
 	{
-		return 0;
+		return 40;
 	}
 	
 	void SoundManager::saveConfig()
