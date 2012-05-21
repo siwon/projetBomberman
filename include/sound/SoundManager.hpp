@@ -7,6 +7,11 @@
  * \author Maxime GUIHAL
  */
 
+#include <map>
+#include <string>
+
+#include <SFML/Audio.hpp>
+
 #include "ISound.hpp"
 #include "TSingleton.hpp"
 
@@ -30,11 +35,11 @@ namespace PolyBomber
 		
 			void setSoundVolume(unsigned int volume);
 
-			unsigned int getSoundVolume();
+			unsigned int getSoundVolume() {return this->soundVolume;}
 
 			void setMusicVolume(unsigned int volume);
 
-			unsigned int getMusicVolume();
+			unsigned int getMusicVolume() {return this->musicVolume;}
 
 			void saveConfig();
 
@@ -50,6 +55,16 @@ namespace PolyBomber
 			 * \brief Destructeur
 			 */
 			~SoundManager();
+
+			unsigned int soundVolume; /*!< Volume des sons */
+			unsigned int musicVolume; /*!< Volume des musiques */
+
+			std::map<ESound, std::string> soundFiles; /*!< Fichiers associés aux sons */
+			std::map<EMusic, std::string> musicFiles; /*!< Fichiers associés aux musiques */
+
+			std::map<EMusic, sf::Music*> musicPlayers; /*!< Ressources pour les musiques */
+
+			const std::string PATH; /*!< Chemin d'accès aux fichiers */
 	};
 }
 

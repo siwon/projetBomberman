@@ -106,6 +106,8 @@ namespace PolyBomber
 
 		sound->setSoundVolume(soundVolume.getCurrentItem()*10);
 		sound->setMusicVolume(musicVolume.getCurrentItem()*10);
+
+		sound->playSound(CLICKSOUND);
 	}
 
 	void SoundConfigMenu::validPressed(EMenuScreen* nextScreen)
