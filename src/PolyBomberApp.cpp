@@ -43,11 +43,11 @@ namespace PolyBomber
 		return static_cast<IControllerToMenu*>(PolyBomberApp::controllerManager);
 	}
 	
-	/*IControllerToNetwork* PolyBomberApp::getIControllerToNetwork()
+	IControllerToNetwork* PolyBomberApp::getIControllerToNetwork()
 	{
 		return static_cast<IControllerToNetwork*>(PolyBomberApp::controllerManager);
 	}
-	
+	/*
 	IGameEngineToNetwork* PolyBomberApp::getIGameEngineToNetwork()
 	{
 		return static_cast<IGameEngineToNetwork*>(PolyBomberApp::gameEngineManager);

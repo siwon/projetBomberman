@@ -11,6 +11,7 @@
 
 #include "PolyBomberException.hpp"
 #include "menu/TextWidget.hpp"
+#include "menu/ClickableWidget.hpp"
 #include "menu/EMenuScreen.hpp"
 
 namespace PolyBomber
@@ -19,7 +20,7 @@ namespace PolyBomber
 	 * \class TextWidget
 	 * \brief Classe du widget Lien
 	 */
-	class LinkWidget : public TextWidget
+	class LinkWidget : public TextWidget, public ClickableWidget
 	{
 		public:
 			/*!
@@ -52,49 +53,12 @@ namespace PolyBomber
 			void setSelected(bool selected);
 
 			/*!
-			 * \brief Récupère l'état de sélection du lien
-			 * \return True si le lien est sélectionné
-			 */
-			inline bool getSelected() {return this->selected;}
-			
-			/*!
-			 * \brief Définit le lien précédent
-			 * \param previous : Lien précédent
-			 */
-			inline void setPrevious(LinkWidget* previous) {this->previous = previous;}
-
-			/*!
-			 * \brief Définit le lien suivant
-			 * \param next : Lien suivant
-			 */			
-			inline void setNext(LinkWidget* next) {this->next = next;}
-
-			/*!
-			 * \brief Sélectionne le lien précédent
-			 *
-			 * Cette méthode n'agit que si le lien est sélectionné
-			 */
-			void goPrevious();
-
-			/*!
-			 * \brief Sélectionne le lien suivant
-			 *
-			 * Cette méthode n'agit que si le lien est sélectionné
-			 */
-			void goNext();
-
-			/*!
 			 * \brief Méthode qui active le lien
 			 * \return La cible du lien
 			 */
 			inline EMenuScreen activate() {return this->target;}
 
 		private:
-			bool selected; /*!< Sélection du lien */
-
-			LinkWidget* previous; /*!< Lien précédent */
-			LinkWidget* next; /*!< Lien suivant */
-
 			EMenuScreen target; /*!< Cible du lien */
 	};
 }

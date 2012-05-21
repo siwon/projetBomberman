@@ -52,7 +52,7 @@ namespace PolyBomber
 			 * \brief Retourne l'interface IControllerToNetwork
 			 * \return l'interface IControllerToNetwork
 			 */
-			//static IControllerToNetwork* getIControllerToNetwork();
+			static IControllerToNetwork* getIControllerToNetwork();
 
 			/*!
 			 * \brief Retourne l'interface IGameEngineToNetwork
