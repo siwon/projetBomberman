@@ -139,10 +139,7 @@ void ControllerManager::ControllerAssignation::setDefaultKeyboardConfig(int play
 
 ControllerManager::ControllerManager()
 {
-	
-	std::stringstream ss;
-	ss << "../../" << DEFAULT_FILENAME;
-	configFileManager = new ConfigFileManager(ss.str());
+	configFileManager = new ConfigFileManager();
 	
 	controllerAssignation = new ControllerAssignation[4];
 	

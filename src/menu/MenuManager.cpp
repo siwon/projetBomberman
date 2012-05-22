@@ -12,6 +12,8 @@
 #include "menu/ConfigMenu.hpp"
 #include "menu/GraphicsConfigMenu.hpp"
 #include "menu/SoundConfigMenu.hpp"
+#include "menu/ControllersConfigMenu.hpp"
+#include "menu/KeyAssignMenu.hpp"
 
 #include "PolyBomberApp.hpp"
 
@@ -28,6 +30,11 @@ namespace PolyBomber
 		this->menuScreens[CONFIGMENU] = new ConfigMenu();
 		this->menuScreens[GRAPHICSCONFIGMENU] = new GraphicsConfigMenu();
 		this->menuScreens[SOUNDCONFIGMENU] = new SoundConfigMenu();
+		this->menuScreens[CONTROLLERSCONFIGMENU] = new ControllersConfigMenu();
+		this->menuScreens[KEYASSIGNMENU1] = new KeyAssignMenu(1);
+		this->menuScreens[KEYASSIGNMENU2] = new KeyAssignMenu(2);
+		this->menuScreens[KEYASSIGNMENU3] = new KeyAssignMenu(3);
+		this->menuScreens[KEYASSIGNMENU4] = new KeyAssignMenu(4);
 	}
 
 	MenuManager::~MenuManager()
@@ -41,7 +48,7 @@ namespace PolyBomber
 	EScreenSignal MenuManager::run()
 	{
 		EMenuScreen old = SPLASHSCREEN;
-		EMenuScreen screen = SPLASHSCREEN;
+		EMenuScreen screen = CONTROLLERSCONFIGMENU;
 
 		while (screen != EXIT)
 		{			

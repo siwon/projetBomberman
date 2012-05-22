@@ -15,7 +15,7 @@ namespace PolyBomber
 	 */
 	enum EControllerType
 	{
-		KEYBOARD, /*!< Clavier */
+		KEYBOARD=0, /*!< Clavier */
 		GAMEPAD, /*!< Joystick, Joypad, etc... */
 		WII /*!< Wiimote */
 	};
