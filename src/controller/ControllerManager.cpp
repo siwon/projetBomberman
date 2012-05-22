@@ -140,9 +140,7 @@ void ControllerManager::ControllerAssignation::setDefaultKeyboardConfig(int play
 ControllerManager::ControllerManager()
 {
 	
-	std::stringstream ss;
-	ss << "../../" << DEFAULT_FILENAME;
-	configFileManager = new ConfigFileManager(ss.str());
+	configFileManager = new ConfigFileManager();
 	
 	controllerAssignation = new ControllerAssignation[4];
 	
@@ -151,7 +149,7 @@ ControllerManager::ControllerManager()
 	keyboard = new Keyboard();
 	
 	wii = new Wii();
-	
+		
 	gamepad = new Gamepad();
 	
 	reloadConfig(); // Chargement de la configuration des joueurs
@@ -184,8 +182,8 @@ void ControllerManager::reloadConfig()
 					break;
 				
 				case WII :
-					wii->add(i+1);
-					controllerAssignation[i].setController(wii);
+						wii->add(i+1);
+						controllerAssignation[i].setController(wii);
 					break;
 			}
 		}
@@ -233,7 +231,9 @@ ControllerManager::~ControllerManager()
 	
 	delete keyboard;
 	
-	delete wii;
+	#if WII
+		delete wii;
+	#endif
 	
 	delete configFileManager;
 	
@@ -242,12 +242,12 @@ ControllerManager::~ControllerManager()
 EMenuKeys ControllerManager::getKeyPressed()
 {
 	EMenuKeys key = MENU_NONE;
-
-	// Correction processeur à 100%...
-	//sf::sleep(sf::milliseconds(30));
 	
 	key = wii->getMenuKey(window);
 	
+	// Correction processeur à 100%...
+	sf::sleep(sf::milliseconds(5));
+		
 	if(key == MENU_NONE)
 		key = gamepad->getMenuKey(window);
 	
@@ -330,7 +330,6 @@ bool ControllerManager::keyUsed(int key)
 SKeysConfig ControllerManager::setPlayerController(int player, EControllerType type)
 {	
 	EControllerType controllerType = controllerAssignation[player-1].getController()->getControllerType();
-	Gamepad* gamepad;
 	
 	if( type != controllerType) // Si le type est différent du contrôleur déjà utilisé
 	{

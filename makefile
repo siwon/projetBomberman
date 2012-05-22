@@ -1,5 +1,5 @@
 CC=g++
-CFLAGS=-W -Wall -ansi -pedantic -I include/
+CFLAGS=-W -Wall -ansi -pedantic -I include/ 
 LDFLAGS=-lsfml-window -lsfml-graphics -lsfml-audio -lsfml-system -lwiicpp -lbluetooth
 EXEC=PolyBomber
 

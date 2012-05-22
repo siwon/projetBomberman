@@ -37,7 +37,7 @@ int main()
 
 
 	// Limit the framerate to 1 frames per second (this step is optional)
-	window.setFramerateLimit(300);
+	window.setFramerateLimit(1000);
 	
 	controllerManager->setWindow(&window);
 	//controllerManager->setPlayerKey(2,GAME_UP);

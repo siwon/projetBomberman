@@ -102,6 +102,8 @@ EMenuKeys Keyboard::getMenuKey(sf::RenderWindow* window)
 					return MENU_NONE;
 			}
 		}
+		if(event.type == sf::Event::Closed)
+			window->close();
 	}
 	return MENU_NONE;
 		

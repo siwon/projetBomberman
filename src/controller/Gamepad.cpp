@@ -136,6 +136,8 @@ EMenuKeys Gamepad::getMenuKey(sf::RenderWindow* window)
 					return MENU_NONE;
 			}
 		}
+		else if(event.type == sf::Event::Closed)
+			window->close();
 	}
 	return MENU_NONE;
 }

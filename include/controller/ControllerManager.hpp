@@ -6,6 +6,7 @@
  * \brief Classe de gestion des contrôleurs de jeu
  * \author Alexandre BISIAUX
  */
+#define WIIMOTE 0
 
 /* Includes */
 
