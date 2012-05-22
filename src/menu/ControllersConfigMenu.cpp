@@ -89,12 +89,12 @@ namespace PolyBomber
 
 	void ControllersConfigMenu::leftPressed()
 	{
-		//IControllerToMenu* controller = PolyBomberApp::getIControllerToMenu();
+		IControllerToMenu* controller = PolyBomberApp::getIControllerToMenu();
 
 		for (int i=0; i<4; i++)
 		{
 			playerController[i]->goPreviousItem();
-			//controller->setPlayerController(i+1, (EControllerType)playerController[i]->getCurrentItem());
+			controller->setPlayerController(i+1, (EControllerType)playerController[i]->getCurrentItem());
 		}
 
 		save.goNext();
@@ -107,7 +107,7 @@ namespace PolyBomber
 		for (int i=0; i<4; i++)
 		{
 			playerController[i]->goNextItem();
-			//controller->setPlayerController(i+1, (EControllerType)playerController[i]->getCurrentItem());
+			controller->setPlayerController(i+1, (EControllerType)playerController[i]->getCurrentItem());
 		}
 
 		cancel.goNext();

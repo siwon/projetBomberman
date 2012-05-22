@@ -15,7 +15,7 @@ namespace PolyBomber
 	 */
 	enum EGameKeys
 	{
-		GAME_UP, /*!< Aller vers le haut */
+		GAME_UP=0, /*!< Aller vers le haut */
 		GAME_DOWN, /*!< Aller vers le bas */
 		GAME_LEFT, /*!< Aller vers la gauche */
 		GAME_RIGHT, /*!< Aller vers la droite */

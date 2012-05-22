@@ -9,6 +9,8 @@
 
 #include "menu/IMenuScreen.hpp"
 
+#include "menu/MainWindow.hpp"
+
 #include "menu/TextWidget.hpp"
 #include "menu/LinkWidget.hpp"
 #include "menu/SelectionWidget.hpp"
@@ -71,10 +73,14 @@ namespace PolyBomber
 		private:
 			TextWidget title;
 			TextWidget subtitle;
-			/*TextWidget* keysText[7];
-			LinkWidget* keys[7];*/
+			TextWidget* actionText[7];
+			LinkWidget* keyText[7];
 			LinkWidget cancel;
 			LinkWidget save;
+
+			unsigned int player; /*!< Numéro du joueur */
+
+			MainWindow* window;
 
 			/*!
 			 * \brief Initialisation des touches

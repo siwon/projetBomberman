@@ -14,8 +14,9 @@ namespace PolyBomber
 	KeyAssignMenu::KeyAssignMenu(unsigned int player) :
 		title("Configuration des touches", TITLEFONT, 50),
 		subtitle("Joueur 1", TITLEFONT, 100),
-		cancel("Annuler", 450, CONTROLLERSCONFIGMENU),
-		save("Valider", 450, CONTROLLERSCONFIGMENU)
+		cancel("Annuler", 500, CONTROLLERSCONFIGMENU),
+		save("Valider", 500, CONTROLLERSCONFIGMENU),
+		player(player)
 	{
 		ISkin* skin = PolyBomberApp::getISkin();	
 		title.setColor(skin->getColor(TITLECOLOR));
@@ -31,65 +32,63 @@ namespace PolyBomber
 		this->widgets.push_back(&cancel);
 		this->widgets.push_back(&save);
 
-		/*for (int i=0; i<4; i++)
+		std::string actions[7] = {"Haut :", "Bas :", "Gauche :", "Droite :",
+								  "Action 1 :", "Action 2 :", "Pause :"};
+
+		for (int i=0; i<7; i++)
 		{
-			std::ostringstream text;
-			text << "Joueur " << i+1 << " : ";
-			playerText[i] = new TextWidget(text.str(), TEXTFONT, 200 + 50*i);
-			playerText[i]->setColor(skin->getColor(TEXTCOLOR));	
-			playerText[i]->move(-100, 0);
+			actionText[i] = new TextWidget(actions[i], TEXTFONT, 170 + 45*i, RIGHT);
+			actionText[i]->setColor(skin->getColor(TEXTCOLOR));	
+			actionText[i]->move(-420, 0);
 
-			playerController[i] = new SelectionWidget(LINKFONT, 200 + 50*i);
-
-			playerController[i]->push_back("Clavier");
-			playerController[i]->push_back("Gamepad");
-			playerController[i]->push_back("Wii");
-
-			playerController[i]->move(100, 0);
+			keyText[i] = new LinkWidget("touche", 170 + 45*i, NONEMENU);
+			keyText[i]->move(70, 0);
 
 			if (i > 0)
-				playerController[i]->setPrevious(playerController[i-1]);			
-
-			this->widgets.push_back(playerText[i]);
-			this->widgets.push_back(playerController[i]);
+				keyText[i]->setPrevious(keyText[i-1]);
+			
+			this->widgets.push_back(actionText[i]);
+			this->widgets.push_back(keyText[i]);
 		}
-
-		playerController[0]->setNext(playerController[1]);
-		playerController[1]->setNext(playerController[2]);
-		playerController[2]->setNext(playerController[3]);
-		playerController[3]->setNext(&cancel);*/
 
 		cancel.move(-100, 0);
 		save.move(100, 0);
 
-		//cancel.setPrevious(playerController[3]);
+		for (int i=0; i<6; i++)
+			keyText[i]->setNext(keyText[i+1]);
+
+		keyText[6]->setNext(&cancel);		
+
+		cancel.setPrevious(keyText[6]);
 		cancel.setNext(&save);
 			
-		//save.setPrevious(playerController[3]);
+		save.setPrevious(keyText[6]);
 		save.setNext(&cancel);
 
 		cancel.setSelected(true);
+
+		this->window = NULL;
 	}
 
 	KeyAssignMenu::~KeyAssignMenu()
 	{
-		/*for (int i=0; i<4; i++)
+		for (int i=0; i<7; i++)
 		{
-			delete playerText[i];
-			delete playerController[i];
-		}*/
+			delete actionText[i];
+			delete keyText[i];
+		}
 	}
 
 	void KeyAssignMenu::downPressed()
 	{
-		//for (int i=3; i>=0; i--)
-		//	playerController[i]->goNext();
+		for (int i=6; i>=0; i--)
+			keyText[i]->goNext();
 	}
 
 	void KeyAssignMenu::upPressed()
 	{
-		//for (int i=1; i<4; i++)
-		//	playerController[i]->goPrevious();
+		for (int i=1; i<7; i++)
+			keyText[i]->goPrevious();
 
 		cancel.goPrevious();
 		save.goPrevious();
@@ -97,27 +96,11 @@ namespace PolyBomber
 
 	void KeyAssignMenu::leftPressed()
 	{
-		//IControllerToMenu* controller = PolyBomberApp::getIControllerToMenu();
-
-		for (int i=0; i<4; i++)
-		{
-			//playerController[i]->goPreviousItem();
-			//controller->setPlayerController(i+1, (EControllerType)playerController[i]->getCurrentItem());
-		}
-
 		save.goNext();
 	}
 
 	void KeyAssignMenu::rightPressed()
 	{
-		IControllerToMenu* controller = PolyBomberApp::getIControllerToMenu();
-
-		for (int i=0; i<4; i++)
-		{
-			//playerController[i]->goNextItem();
-			//controller->setPlayerController(i+1, (EControllerType)playerController[i]->getCurrentItem());
-		}
-
 		cancel.goNext();
 	}
 
@@ -125,11 +108,20 @@ namespace PolyBomber
 	{
 		IControllerToMenu* controller = PolyBomberApp::getIControllerToMenu();
 
-		/*for (int i=0; i<4; i++)
+		for (int i=0; i<7; i++)
 		{
-			if (playerController[i]->getSelected())
+			if (keyText[i]->getSelected())
 			{
-				*nextScreen = static_cast<EMenuScreen>((int)KEYASSIGNMENU1 + i);
+				keyText[i]->setString("...");
+				this->window->clear();
+				this->window->display(this->widgets);
+				
+				SKeysConfig k = controller->setPlayerKey(this->player, (EGameKeys)i);
+
+				for (int j=0; j<7; j++)
+					std::cout << k.errors[j] << std::endl;
+				
+				initKeys();
 			}
 		}
 
@@ -143,7 +135,7 @@ namespace PolyBomber
 		{						
 			controller->save();
 			*nextScreen = save.activate();
-		}*/
+		}
 	}
 
 	void KeyAssignMenu::backPressed(EMenuScreen* nextScreen)
@@ -153,6 +145,8 @@ namespace PolyBomber
 
 	EMenuScreen KeyAssignMenu::run(MainWindow& window, EMenuScreen previous)
 	{
+		this->window = &window;
+
 		initKeys();
 
 		return IMenuScreen::run(window, previous);
@@ -162,11 +156,10 @@ namespace PolyBomber
 	{
 		IControllerToMenu* controller = PolyBomberApp::getIControllerToMenu();
 
-		/*for (int i=0; i<4; i++)
-		{
-			SKeysConfig keys = controller->getConfig(i + 1);			
-			playerController[i]->setCurrentItem(keys.controllerType);
-		}*/
+		SKeysConfig keys = controller->getConfig(this->player);
+
+		for(int i=0; i<7; i++)		
+			keyText[i]->setString(keys.keys[i]);
 	}
 }
 
