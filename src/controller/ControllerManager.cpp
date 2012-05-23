@@ -230,9 +230,7 @@ ControllerManager::~ControllerManager()
 	
 	delete keyboard;
 	
-	#if WII
-		delete wii;
-	#endif
+	delete wii;
 	
 	delete configFileManager;
 	
