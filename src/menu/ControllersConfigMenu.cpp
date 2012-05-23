@@ -13,25 +13,30 @@ namespace PolyBomber
 {
 	ControllersConfigMenu::ControllersConfigMenu() :
 		title("Configuration des controleurs", TITLEFONT, 100),
-		cancel("Annuler", 450, CONFIGMENU),
-		save("Valider", 450, CONFIGMENU)
+		error("Aucun controleur detecte", TEXTFONT, 200),
+		cancel("Annuler", 500, CONFIGMENU),
+		save("Valider", 500, CONFIGMENU)
 	{
 		ISkin* skin = PolyBomberApp::getISkin();	
 		title.setColor(skin->getColor(TITLECOLOR));
+		error.setColor(skin->getColor(ERRORCOLOR));
 
 		this->widgets.push_back(&title);
+		this->widgets.push_back(&error);
 		this->widgets.push_back(&cancel);
 		this->widgets.push_back(&save);
+
+		this->errorXPos = error.getPosition().x;
 
 		for (int i=0; i<4; i++)
 		{
 			std::ostringstream text;
 			text << "Joueur " << i+1 << " : ";
-			playerText[i] = new TextWidget(text.str(), TEXTFONT, 200 + 50*i);
-			playerText[i]->setColor(skin->getColor(TEXTCOLOR));	
+			playerText[i] = new TextWidget(text.str(), TEXTFONT, 250 + 50*i);
+			playerText[i]->setColor(skin->getColor(TEXTCOLOR));
 			playerText[i]->move(-100, 0);
 
-			playerController[i] = new SelectionWidget(LINKFONT, 200 + 50*i);
+			playerController[i] = new SelectionWidget(LINKFONT, 250 + 50*i);
 
 			playerController[i]->push_back("Clavier");
 			playerController[i]->push_back("Gamepad");
@@ -76,6 +81,8 @@ namespace PolyBomber
 	{
 		for (int i=3; i>=0; i--)
 			playerController[i]->goNext();
+
+		error.setPosition(this->errorXPos, -100);
 	}
 
 	void ControllersConfigMenu::upPressed()
@@ -85,31 +92,19 @@ namespace PolyBomber
 
 		cancel.goPrevious();
 		save.goPrevious();
+
+		error.setPosition(this->errorXPos, -100);
 	}
 
 	void ControllersConfigMenu::leftPressed()
 	{
-		IControllerToMenu* controller = PolyBomberApp::getIControllerToMenu();
-
-		for (int i=0; i<4; i++)
-		{
-			playerController[i]->goPreviousItem();
-			controller->setPlayerController(i+1, (EControllerType)playerController[i]->getCurrentItem());
-		}
-
+		changeController(false);
 		save.goNext();
 	}
 
 	void ControllersConfigMenu::rightPressed()
 	{
-		IControllerToMenu* controller = PolyBomberApp::getIControllerToMenu();
-
-		for (int i=0; i<4; i++)
-		{
-			playerController[i]->goNextItem();
-			controller->setPlayerController(i+1, (EControllerType)playerController[i]->getCurrentItem());
-		}
-
+		changeController(true);
 		cancel.goNext();
 	}
 
@@ -146,6 +141,7 @@ namespace PolyBomber
 	EMenuScreen ControllersConfigMenu::run(MainWindow& window, EMenuScreen previous)
 	{
 		initControllers();
+		error.setPosition(this->errorXPos, -100);
 
 		return IMenuScreen::run(window, previous);
 	}
@@ -158,6 +154,28 @@ namespace PolyBomber
 		{
 			SKeysConfig keys = controller->getConfig(i + 1);			
 			playerController[i]->setCurrentItem(keys.controllerType);
+		}
+	}
+
+	void ControllersConfigMenu::changeController(bool next)
+	{
+		IControllerToMenu* controller = PolyBomberApp::getIControllerToMenu();
+
+		try
+		{
+			for (int i=0; i<4; i++)
+			{
+				if (next)
+					playerController[i]->goNextItem();
+				else
+					playerController[i]->goPreviousItem();
+					
+				controller->setPlayerController(i+1, (EControllerType)playerController[i]->getCurrentItem());
+			}
+		}
+		catch (...)
+		{
+			error.setPosition(this->errorXPos, 200);
 		}
 	}
 }

@@ -69,15 +69,24 @@ namespace PolyBomber
 
 		private:
 			TextWidget title;
+			TextWidget error;
 			TextWidget* playerText[4];
 			SelectionWidget* playerController[4];
 			LinkWidget cancel;
 			LinkWidget save;
 
+			int errorXPos; /*!< Position X du label d'erreur */
+
 			/*!
 			 * \brief Initialisation des contrôleurs
 			 */
 			void initControllers();
+
+			/*!
+			 * \brief Changement d'un contrôleur
+			 * \param next : True si on sélectionne le contrôleur suivant
+			 */
+			void changeController(bool next);
 	};
 }
 
