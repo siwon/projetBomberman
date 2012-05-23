@@ -21,15 +21,15 @@
 #include "EGameBonus.hpp"
 
 namespace PolyBomber {
-  /*!
-  * \struct SBonus
-  * \brief Configuration d'un bonus
-  * 
-  */
-  struct SBonus {
-    sf::Vector2<int> coords;	/*! Coordonnées du bonus */
-    EGameBonus type;		/*! Type de bonus */
-  };
+	/*!
+	 * \struct SBonus
+	 * \brief Configuration d'un bonus
+	 * 
+	 */
+	struct SBonus {
+		sf::Vector2<int> coords;	/*! Coordonnées du bonus */
+		EGameBonus type;		/*! Type de bonus */
+	};
 }
 
 #endif

@@ -15,7 +15,7 @@ namespace PolyBomber
 	 */
 	enum ESound
 	{
-		CLICK /*!< Son du clic */
+		CLICKSOUND /*!< Son du clic */
 
 		// TODO: Remplir avec les autres libellés des sons
 	};

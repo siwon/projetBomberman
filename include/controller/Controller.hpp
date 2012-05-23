@@ -69,17 +69,17 @@ namespace PolyBomber
 		virtual std::string getLabel(int key) = 0;
 	
 		/**
-		 * \brief Affecte une wiimote disponible à un joueur
-		 * Lance une exception PolyBomberException si aucune wiimote n'est disponible
-		 * \param player : joueur à qui affecter une wiimote
+		 * \brief Affecte un controleur disponible à un joueur
+		 * Lance une exception PolyBomberException si aucune controleur n'est disponible
+		 * \param player : joueur à qui affecter un controleur
 		 */
-		virtual void addWiimote(int player) = 0;
+		virtual void add(int player) = 0;
 		
 		/**
-		 * \brief Déconnecte la wiimote d'un joueur donné
-		 * \param player : joueur à qui déconnecter la wiimote
+		 * \brief Déconnecte le controleur d'un joueur donné
+		 * \param player : joueur à qui déconnecter le controleur
 		 */
-		virtual void disconnectWiimote(int player) = 0;
+		virtual void disconnect(int player) = 0;
   };
 }
 

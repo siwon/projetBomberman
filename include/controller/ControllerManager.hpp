@@ -99,6 +99,8 @@ namespace PolyBomber
 		
 		Controller* wii;
 		
+		Controller* gamepad;
+		
 		ControllerAssignation* controllerAssignation; /*!< Tableau des controleur assigné pour chaque joueur */
 		
 		ConfigFileManager* configFileManager; /*!< Gestion du fichier de configuration */

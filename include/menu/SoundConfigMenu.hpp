@@ -1,9 +1,9 @@
-#ifndef _GRAPHICSCONFIGMENU
-#define _GRAPHICSCONFIGMENU
+#ifndef _SOUNDCONFIGMENU
+#define _SOUNDCONFIGMENU
 
 /*!
- * \file GraphicsConfigMenu.hpp
- * \brief Classe de gestion de configuration graphique
+ * \file SoundConfigMenu.hpp
+ * \brief Classe de gestion du menu de configuration audio
  * \author Maxime GUIHAL
  */
 
@@ -16,27 +16,22 @@
 namespace PolyBomber
 {
 	/*!
-	 * \class GraphicsConfigMenu
-	 * \brief Classe de gestion de configuration graphique
+	 * \class SoundConfigMenu
+	 * \brief Classe de gestion du menu de configuration audio
 	 */
-	class GraphicsConfigMenu : public IMenuScreen
+	class SoundConfigMenu : public IMenuScreen
 	{
 		public:
 			/*!
-			 * \brief Constructeur
+			 * Constructeur
 			 */
-			GraphicsConfigMenu();
+			SoundConfigMenu();
 
 			/*!
-			 * \brief Destructeur
+			 * Destructeur
 			 */
-			~GraphicsConfigMenu() {}
+			~SoundConfigMenu() {}
 
-			/*!
-			 * \see IMenuScreen::run
-			 */
-			EMenuScreen run(MainWindow& window, EMenuScreen previous);
-		
 			/*!
 			 * \see IMenuScreen::downPressed
 			 */
@@ -67,17 +62,19 @@ namespace PolyBomber
 			 */
 			void backPressed(EMenuScreen* nextScreen);
 
+			/*!
+			 * \see IMenuScreen::run
+			 */
+			EMenuScreen run(MainWindow& window, EMenuScreen previous);
+
 		private:
 			TextWidget title;
-			TextWidget textFullscreen;
-			SelectionWidget fullscreen;
-			TextWidget noFullscreen;
-			TextWidget skinText;
-			SelectionWidget skinList;
+			TextWidget soundText;
+			TextWidget musicText;
+			SelectionWidget soundVolume;
+			SelectionWidget musicVolume;
 			LinkWidget cancel;
 			LinkWidget save;
-
-			MainWindow* window; /*!< Pointeur vers la fenêtre du programme */
 	};
 }
 

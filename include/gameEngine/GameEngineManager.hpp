@@ -7,7 +7,14 @@
  * \author Simon Rousseau
  */
 
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+
 #include "gameEngine/Board.hpp"
+
+#include <SFML/System/Time.hpp>
+#include <SFML/System/Clock.hpp>
 
 #include "IGameEngineToNetwork.hpp"
 #include "IGameEngineToGameInterface.hpp"
@@ -20,14 +27,31 @@ namespace PolyBomber {
 	 * \class ControllerManager
 	 * \brief Classe de gestion du moteur de jeu
 	 */
-	class GameEngineManager : public IGameEngineToNetwork, public IGameEngineToGameInterface, public INetworkToGameEngine {
+	class GameEngineManager : public IGameEngineToNetwork, public INetworkToGameEngine {
 		// TODO : faire en sorte que ce soit un singleton !!!
 	protected:
 		Board board; /*! Objet stockant le plateau de jeu */
 		bool gameConfigIsSet;
+		sf::Clock horloge;
+		int debutPause;
 		
 	private:
+		//generation de la map
 		void generateWall();
+		void generatePlayer(int nbPlayer);
+		void generateBox();
+		void generateFlame(int x, int y, int range, int date);
+		
+		//gestion des touches
+		void actionToucheHaut(int player); //TODO
+		void actionToucheBas(int player); //TODO
+		void actionToucheGauche(int player); //TODO
+		void actionToucheDroite(int player); //TODO
+		void actionToucheAction1(int player); //TODO
+		void actionToucheAction2(int player); //TODO
+		
+		//decalageHoraire
+		void decalageHoraire(int secondes);
 		
     public:
 		GameEngineManager();

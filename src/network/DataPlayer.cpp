@@ -8,7 +8,7 @@
 #include <SFML/Network.hpp>
 
 //Headers
-#include "../../include/DataPlayer.hpp"
+#include "../../include/network/DataPlayer.hpp"
 
 using namespace PolyBomber;
 

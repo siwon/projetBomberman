@@ -1,9 +1,9 @@
-#ifndef _GRAPHICSCONFIGMENU
-#define _GRAPHICSCONFIGMENU
+#ifndef _CONTROLLERSCONFIGMENU
+#define _CONTROLLERSCONFIGMENU
 
 /*!
- * \file GraphicsConfigMenu.hpp
- * \brief Classe de gestion de configuration graphique
+ * \file ControllersConfigMenu.hpp
+ * \brief Classe de gestion du menu de configuration des contrôleurs
  * \author Maxime GUIHAL
  */
 
@@ -16,27 +16,22 @@
 namespace PolyBomber
 {
 	/*!
-	 * \class GraphicsConfigMenu
-	 * \brief Classe de gestion de configuration graphique
+	 * \class ControllersConfigMenu
+	 * \brief Classe de gestion du menu de configuration des contrôleurs
 	 */
-	class GraphicsConfigMenu : public IMenuScreen
+	class ControllersConfigMenu : public IMenuScreen
 	{
 		public:
 			/*!
-			 * \brief Constructeur
+			 * Constructeur
 			 */
-			GraphicsConfigMenu();
+			ControllersConfigMenu();
 
 			/*!
-			 * \brief Destructeur
+			 * Destructeur
 			 */
-			~GraphicsConfigMenu() {}
+			~ControllersConfigMenu();
 
-			/*!
-			 * \see IMenuScreen::run
-			 */
-			EMenuScreen run(MainWindow& window, EMenuScreen previous);
-		
 			/*!
 			 * \see IMenuScreen::downPressed
 			 */
@@ -67,19 +62,25 @@ namespace PolyBomber
 			 */
 			void backPressed(EMenuScreen* nextScreen);
 
+			/*!
+			 * \see IMenuScreen::run
+			 */
+			EMenuScreen run(MainWindow& window, EMenuScreen previous);
+
 		private:
 			TextWidget title;
-			TextWidget textFullscreen;
-			SelectionWidget fullscreen;
-			TextWidget noFullscreen;
-			TextWidget skinText;
-			SelectionWidget skinList;
+			TextWidget* playerText[4];
+			SelectionWidget* playerController[4];
 			LinkWidget cancel;
 			LinkWidget save;
 
-			MainWindow* window; /*!< Pointeur vers la fenêtre du programme */
+			/*!
+			 * \brief Initialisation des contrôleurs
+			 */
+			void initControllers();
 	};
 }
 
 #endif
+
 

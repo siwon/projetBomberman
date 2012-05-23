@@ -35,11 +35,11 @@ namespace PolyBomber
 		IConfigFile* configFile = new ConfigFileManager(this->PATH + "skins.conf");
 
 		std::vector<std::string> list;
-		/*std::vector<std::string> keys = configFile->getKeys();
+		std::vector<std::string> keys = configFile->getKeys();
 		std::vector<std::string>::iterator it;
 		
 		for (it = keys.begin(); it < keys.end(); it++)
-			list.push_back(configFile.getStringValue());*/
+			list.push_back(configFile->getStringValue(*it));
 
 		delete configFile;
 		
@@ -73,35 +73,36 @@ namespace PolyBomber
 	
 	void SkinManager::setSkin(std::string name)
 	{
-		std::map<EImage, std::string>::iterator it;
-
-		// Recherche de la clé correspondant au nom
-		for (it = this->files.begin(); it != this->files.end(); it++)
+		if (name.compare(this->name) != 0)
 		{
-			if (name.compare((*it).second) == 0)
+			IConfigFile* configFile = new ConfigFileManager(this->PATH + "skins.conf");
+			std::vector<std::string> keys = configFile->getKeys();
+			std::vector<std::string>::iterator it;
+
+			// Recherche de la clé correspondant au nom
+			for (it = keys.begin(); it != keys.end(); it++)
 			{
-				this->folder = (*it).first;
-				reloadTextures();
+				try
+				{
+					std::string value = configFile->getStringValue(*it);
+					if (name.compare(value) == 0)
+					{
+						this->folder = *it;
+						std::cout << "setskin" << std::endl;
+						reloadName();
+						reloadTextures();
+					}
+				}
+				catch (PolyBomberException& e) {}
 			}
+
+			delete configFile;
 		}
 	}
 	
-	std::string SkinManager::getSkin() throw(PolyBomberException)
+	std::string SkinManager::getSkin()
 	{
-		IConfigFile* configFile = new ConfigFileManager(this->PATH + "skins.conf");
-		std::string name = "";
-
-		try
-		{
-			name = configFile->getStringValue(this->folder);
-		}
-		catch (PolyBomberException& e)
-		{
-			throw PolyBomberException("Impossible d'accéder à la liste des skins");
-		}		
-
-		delete configFile;
-		return name;
+		return this->name;
 	}
 	
 	void SkinManager::saveConfig()
@@ -126,6 +127,7 @@ namespace PolyBomber
 		
 		delete configFile;
 
+		reloadName();
 		reloadTextures();	
 	}
 
@@ -147,12 +149,30 @@ namespace PolyBomber
 
 	void SkinManager::reloadTextures()
 	{
-		destroyTextures();
-
 		std::map<EImage, sf::Texture*>::iterator it;
 
 		for (it = this->textures.begin(); it != this->textures.end(); it++)
-			insertTexture((*it).first);		
+		{
+			std::string path = this->PATH + this->folder + "/" + this->files[(*it).first];			
+			(*it).second->loadFromFile(path);
+		}
+	}
+
+	void SkinManager::reloadName()
+	{
+		IConfigFile* configFile = new ConfigFileManager(this->PATH + "skins.conf");
+		this->name = "";
+
+		try
+		{
+			this->name = configFile->getStringValue(this->folder);
+		}
+		catch (PolyBomberException& e)
+		{
+			throw PolyBomberException("Impossible d'accéder à la liste des skins");
+		}		
+
+		delete configFile;
 	}
 
 	void SkinManager::getComponent(IConfigFile* configFile, EColorKey key, sf::Uint8& component, std::string suffix)

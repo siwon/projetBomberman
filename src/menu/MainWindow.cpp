@@ -15,76 +15,54 @@ namespace PolyBomber
 {
 	sf::RenderWindow MainWindow::window;
 
-	MainWindow::MainWindow()
+	MainWindow::MainWindow() : fullscreen(false)
 	{
-		this->settings = sf::VideoMode();
-		this->initVideoMode(this->style, this->settings);
-
 		IConfigFile* configFile = new ConfigFileManager();
 
 		try
 		{
-			// On charge les paramètres du plein écran
 			if (configFile->getIntValue("window.fullscreen.enabled"))
-			{
-				this->style = sf::Style::Fullscreen;
-				this->settings.width = configFile->getIntValue("window.fullscreen.width");
-				this->settings.height = configFile->getIntValue("window.fullscreen.height");
-				this->settings.bitsPerPixel = configFile->getIntValue("window.fullscreen.bpp");
-			}
-
-			if (!this->settings.isValid())
-				throw PolyBomberException("Mode video plein ecran incorrect");
+				this->fullscreen = true;
 		}
 		catch (PolyBomberException& e)
 		{
 			std::cerr << e.what() << std::endl;
-			this->initVideoMode(this->style, this->settings);
 		}
 
 		delete configFile;
 			
-		initWindow(this->style, this->settings);
+		initWindow();
 	}
 
 	MainWindow::~MainWindow()
 	{}
 
-	MainWindow::MainWindow(const MainWindow& obj)
+	MainWindow::MainWindow(const MainWindow& obj) : fullscreen(obj.fullscreen)
 	{
-		initWindow(obj.getStyle(), obj.getSettings());
+		initWindow();
 	}
 
 	MainWindow& MainWindow::operator=(const MainWindow& obj)
 	{
-		initWindow(obj.getStyle(), obj.getSettings());
+		if (this->fullscreen != obj.fullscreen)
+		{
+			this->fullscreen = obj.fullscreen;
+			initWindow();
+		}
 		return *this;
 	}
 
-	void MainWindow::initVideoMode(unsigned int& style, sf::VideoMode& mode)
+	void MainWindow::initWindow()
 	{
-		style = sf::Style::Titlebar | sf::Style::Close;
+		unsigned int style = sf::Style::Titlebar | sf::Style::Close;
+		sf::VideoMode settings(800, 600, sf::VideoMode::getDesktopMode().bitsPerPixel);
 
-		mode.width = 800;
-		mode.height = 600;
-		mode.bitsPerPixel = sf::VideoMode::getDesktopMode().bitsPerPixel;
-	}
+		if (this->fullscreen)
+			style = sf::Style::Fullscreen;
 
-	void MainWindow::initWindow(unsigned int style, sf::VideoMode settings)
-	{
 		MainWindow::window.create(settings, "PolyBomber", style);
 		MainWindow::window.setMouseCursorVisible(false);
 		MainWindow::window.setFramerateLimit(60);
-	}
-
-	unsigned int MainWindow::getStyle() const 
-	{
-		return this->style;
-	}
-
-	sf::VideoMode MainWindow::getSettings() const
-	{
-		return this->settings;
 	}
 
 	bool MainWindow::listenCloseButton()
@@ -112,6 +90,22 @@ namespace PolyBomber
 			MainWindow::window.draw(**it);
 
 		MainWindow::window.display();
+	}
+
+	void MainWindow::setFullScreen(bool fullscreen)
+	{
+		if (this->fullscreen != fullscreen)
+		{
+			this->fullscreen = fullscreen;
+			initWindow();			
+		}
+		this->fullscreen = fullscreen;
+	}
+
+	bool MainWindow::canFullScreen()
+	{
+		sf::VideoMode settings(800, 600, sf::VideoMode::getDesktopMode().bitsPerPixel);
+		return settings.isValid();
 	}
 }
 

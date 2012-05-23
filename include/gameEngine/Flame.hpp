@@ -24,14 +24,18 @@ namespace PolyBomber {
 	private:
 		EOrientation orientation;
 		EFlameLocation step;
+		int dateDebutFlame;
+		
 	public:
-		Flame(float x, float y, EOrientation orientation, EFlameLocation step);
+		Flame(float x, float y, EOrientation orientation, EFlameLocation step, int date);
 		Flame(const Flame& flamme);
 		//operateur d affectation
 		~Flame();
 		
 		EOrientation getOrientation() const {return this->orientation;}
 		EFlameLocation getStep() const {return this->step;}
+		int getDateDebutFlame() const {return this->dateDebutFlame;}
+		void decalerDebutFlame(int nbSecondes) {this->dateDebutFlame=this->dateDebutFlame+nbSecondes;}
 	};
 }
 

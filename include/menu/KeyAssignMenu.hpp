@@ -1,13 +1,15 @@
-#ifndef _GRAPHICSCONFIGMENU
-#define _GRAPHICSCONFIGMENU
+#ifndef _KEYASSIGNMENU
+#define _KEYASSIGNMENU
 
 /*!
- * \file GraphicsConfigMenu.hpp
- * \brief Classe de gestion de configuration graphique
+ * \file KeyAssignMenu.hpp
+ * \brief Classe de gestion du menu d'assignation des touches
  * \author Maxime GUIHAL
  */
 
 #include "menu/IMenuScreen.hpp"
+
+#include "menu/MainWindow.hpp"
 
 #include "menu/TextWidget.hpp"
 #include "menu/LinkWidget.hpp"
@@ -16,27 +18,23 @@
 namespace PolyBomber
 {
 	/*!
-	 * \class GraphicsConfigMenu
-	 * \brief Classe de gestion de configuration graphique
+	 * \class KeyAssignMenu
+	 * \brief Classe de gestion du menu d'assignation des touches
 	 */
-	class GraphicsConfigMenu : public IMenuScreen
+	class KeyAssignMenu : public IMenuScreen
 	{
 		public:
 			/*!
 			 * \brief Constructeur
+			 * \param player : Numéro du joueur (1-4)
 			 */
-			GraphicsConfigMenu();
+			KeyAssignMenu(unsigned int player);
 
 			/*!
 			 * \brief Destructeur
 			 */
-			~GraphicsConfigMenu() {}
+			~KeyAssignMenu();
 
-			/*!
-			 * \see IMenuScreen::run
-			 */
-			EMenuScreen run(MainWindow& window, EMenuScreen previous);
-		
 			/*!
 			 * \see IMenuScreen::downPressed
 			 */
@@ -67,19 +65,30 @@ namespace PolyBomber
 			 */
 			void backPressed(EMenuScreen* nextScreen);
 
+			/*!
+			 * \see IMenuScreen::run
+			 */
+			EMenuScreen run(MainWindow& window, EMenuScreen previous);
+
 		private:
 			TextWidget title;
-			TextWidget textFullscreen;
-			SelectionWidget fullscreen;
-			TextWidget noFullscreen;
-			TextWidget skinText;
-			SelectionWidget skinList;
+			TextWidget subtitle;
+			TextWidget* actionText[7];
+			LinkWidget* keyText[7];
 			LinkWidget cancel;
 			LinkWidget save;
 
-			MainWindow* window; /*!< Pointeur vers la fenêtre du programme */
+			unsigned int player; /*!< Numéro du joueur */
+
+			MainWindow* window;
+
+			/*!
+			 * \brief Initialisation des touches
+			 */
+			void initKeys();
 	};
 }
 
 #endif
+
 

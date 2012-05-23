@@ -13,25 +13,15 @@
 
 namespace PolyBomber
 {
-	MainMenu::MainMenu()
-	{}
-
-	MainMenu::~MainMenu()
-	{}
-
-	EMenuScreen MainMenu::run(MainWindow& window, EMenuScreen previous)
+	MainMenu::MainMenu() :
+		title("Menu principal", TITLEFONT, 100),
+		play("Jouer", 250, GAMEMENU),		
+		options("Options", 300, CONFIGMENU),
+		quit("Quitter", 350, EXIT)
 	{
 		ISkin* skin = PolyBomberApp::getISkin();
-		IControllerToMenu* controller = PolyBomberApp::getIControllerToMenu();
 
-		ImageWidget background(skin->loadImage(MENU_BACKGROUND));
-
-		TextWidget title("Menu principal", TITLEFONT, 100);
 		title.setColor(skin->getColor(TITLECOLOR));
-
-		LinkWidget play("Jouer", 250, GAMEMENU);		
-		LinkWidget options("Options", 300, CONFIGMENU);		
-		LinkWidget quit("Quitter", 350, EXIT);
 
 		play.setNext(&options);
 		options.setNext(&quit);
@@ -40,45 +30,35 @@ namespace PolyBomber
 
 		play.setSelected(true);
 
-		this->widgets.push_back(&background);
 		this->widgets.push_back(&title);
 		this->widgets.push_back(&play);
 		this->widgets.push_back(&options);
 		this->widgets.push_back(&quit);
+	}
 
-		while (true)
-		{				
-			window.clear();
-			window.display(this->widgets);
+	void MainMenu::downPressed()
+	{
+		quit.goNext();
+		options.goNext();
+		play.goNext();
+	}
 
-			if (window.listenCloseButton())
-				return EXIT;
-	
-			EMenuKeys key = MENU_NONE;
-			while ((key = controller->getKeyPressed()) == MENU_NONE);
+	void MainMenu::upPressed()
+	{
+		play.goPrevious();
+		options.goPrevious();
+		quit.goPrevious();
+	}
 
-			switch(key)
-			{
-				case MENU_DOWN:
-					quit.goNext();
-					options.goNext();
-					play.goNext();
-					break;
-				case MENU_UP:
-					play.goPrevious();
-					options.goPrevious();
-					quit.goPrevious();
-					break;
-				case MENU_VALID:
-					if (play.getSelected())    return play.activate();
-					if (options.getSelected()) return options.activate();
-					if (quit.getSelected())    return quit.activate();
-					break;
-				default:
-					break;
-			}
-		}
-
-		return EXIT;
+	void MainMenu::validPressed(EMenuScreen* nextScreen)
+	{
+		if (play.getSelected())
+			*nextScreen = play.activate();
+			
+		if (options.getSelected())
+			*nextScreen = options.activate();
+			
+		if (quit.getSelected())
+			*nextScreen = quit.activate();
 	}
 }

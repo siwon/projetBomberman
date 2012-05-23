@@ -20,9 +20,8 @@ namespace PolyBomber
 		public:
 			/*!
 			 * \brief Constructeur
-			 * \param texture : Texture de l'image
 			 */
-			ImageWidget(sf::Texture* texture);
+			ImageWidget();
 
 			/*!
 			 * \brief Destructeur
@@ -38,6 +37,12 @@ namespace PolyBomber
 			* \brief Opérateur d'affectation
 			*/
 			ImageWidget& operator=(const ImageWidget& obj);
+
+			/*!
+			 * \brief Définit la texture de l'image
+			 * \param texture : Texture de l'image
+			 */
+			void setImage(sf::Texture* texture);
 	};
 }
 

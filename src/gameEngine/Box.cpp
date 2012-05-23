@@ -28,4 +28,8 @@ namespace PolyBomber {
 		this->bonus=boite.getBonus();
 	}
 	
+	Box::~Box() {
+		
+	}
+	
 }

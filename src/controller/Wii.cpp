@@ -4,7 +4,7 @@
  * \author Alexandre BISIAUX
  */
  
- #define DEBUG 1
+#define DEBUG 1
 
 /* Includes */
 
@@ -41,13 +41,13 @@ Wii::Wii()
 	this->wii = new CWii();
 	this->nbWiimotes = 0;
 	
-	cout << "Searching for wiimotes... Turn them on!" << endl;
-	this->numFound = wii->Find(5);
+	cout << "Recherche des périphériques wiimotes....... Allumez les !" << endl;
+	this->numFound = wii->Find(2);
 	
 	wiimotes = wii->Connect();
-	
+
 	this->setupWiimotes();
-	
+
 	keysLabel.insert(std::pair<CButtons::ButtonDefs,std::string>(CButtons::BUTTON_TWO,"Bouton 2"));
 	keysLabel.insert(std::pair<CButtons::ButtonDefs,std::string>(CButtons::BUTTON_ONE,"Bouton 1"));
 	keysLabel.insert(std::pair<CButtons::ButtonDefs,std::string>(CButtons::BUTTON_B,"Bouton B"));
@@ -59,7 +59,6 @@ Wii::Wii()
 	keysLabel.insert(std::pair<CButtons::ButtonDefs,std::string>(CButtons::BUTTON_DOWN,"Bas"));
 	keysLabel.insert(std::pair<CButtons::ButtonDefs,std::string>(CButtons::BUTTON_UP,"Haut"));
 	keysLabel.insert(std::pair<CButtons::ButtonDefs,std::string>(CButtons::BUTTON_PLUS,"Bouton +"));
-	
 }
 
 Wii::~Wii()
@@ -73,12 +72,11 @@ EMenuKeys Wii::getMenuKey(sf::RenderWindow* window)
 	std::vector<CWiimote>::iterator i;
 	if(wii->Poll())
 	{
-		 for(i = wiimotes.begin(); i != wiimotes.end(); ++i)
-            {
-                // Use a reference to make working with the iterator handy.
-                CWiimote & wiimote = *i;
-                switch(wiimote.GetEvent())
-                {
+		for(i = wiimotes.begin(); i != wiimotes.end(); ++i)
+		{
+			CWiimote & wiimote = *i;
+			switch(wiimote.GetEvent())
+			{
 			case CWiimote::EVENT_EVENT :
 				if(wiimote.Buttons.isPressed(CButtons::BUTTON_LEFT))
 				{
@@ -121,6 +119,9 @@ EMenuKeys Wii::getMenuKey(sf::RenderWindow* window)
 
 				if(wiimote.Buttons.isPressed(CButtons::BUTTON_B))
 				{
+					wiimote.SetRumbleMode(CWiimote::ON);
+					usleep(50000);
+					wiimote.SetRumbleMode(CWiimote::OFF);
 					#if DEBUG
 						std::cout << "BACK on Wiimote" << std::endl;
 					#endif
@@ -129,7 +130,7 @@ EMenuKeys Wii::getMenuKey(sf::RenderWindow* window)
 				break;
 			default :
 				break;
-		    }
+			}
 		}
 	}
 	return MENU_NONE;
@@ -152,7 +153,7 @@ int Wii::getKeyPressed(int player)
 	if(wii->Poll())
 	{
 		CWiimote & wiimote =  *wiimotesAssignation[player];
-				
+			
 		switch(wiimote.GetEvent())
 		{
 			case CWiimote::EVENT_EVENT :
@@ -167,25 +168,25 @@ int Wii::getKeyPressed(int player)
 
 				if(wiimote.Buttons.isPressed(CButtons::BUTTON_DOWN))
 					return CButtons::BUTTON_DOWN;
-				
+			
 				if(wiimote.Buttons.isPressed(CButtons::BUTTON_TWO))
 					return CButtons::BUTTON_TWO;
-				
+			
 				if(wiimote.Buttons.isPressed(CButtons::BUTTON_ONE))
 					return CButtons::BUTTON_ONE;
-				
+			
 				if(wiimote.Buttons.isPressed(CButtons::BUTTON_HOME))
 					return CButtons::BUTTON_HOME;
-				
+			
 				if(wiimote.Buttons.isPressed(CButtons::BUTTON_MINUS))
 					return CButtons::BUTTON_MINUS;
-					
+				
 				if(wiimote.Buttons.isPressed(CButtons::BUTTON_PLUS))
 					return CButtons::BUTTON_PLUS;
-				
+			
 				if(wiimote.Buttons.isPressed(CButtons::BUTTON_A))
 					return CButtons::BUTTON_A;
-				
+			
 				if(wiimote.Buttons.isPressed(CButtons::BUTTON_B))
 					return CButtons::BUTTON_B;
 				break;
@@ -201,16 +202,12 @@ void Wii::setupWiimotes()
 {
 	std::vector<CWiimote>::iterator i;
 	int index;
-	 // Setup the wiimotes
 	for(index = 0, i = wiimotes.begin(); i != wiimotes.end(); ++i, ++index)
 	{
-		// Use a reference to make working with the iterator handy.
 		CWiimote & wiimote = *i;
 
-		//Set Leds
 		wiimote.SetLEDs(LED_MAP[index]);
 
-		//Rumble for 0.2 seconds as a connection ack
 		wiimote.SetRumbleMode(CWiimote::ON);
 		usleep(200000);
 		wiimote.SetRumbleMode(CWiimote::OFF);
@@ -225,7 +222,7 @@ void Wii::reload()
      // wiimotes = wii->GetWiimotes();
 }
 
-void Wii::addWiimote(int player)
+void Wii::add(int player)
 {
 	if(numFound > nbWiimotes)
 	{		
@@ -248,8 +245,13 @@ void Wii::addWiimote(int player)
 	}
 }
 
-void Wii::disconnectWiimote(int player)
+void Wii::disconnect(int player)
 {
+	wiimotesAssignation[player]->SetRumbleMode(CWiimote::ON);
+	usleep(100000);
+	wiimotesAssignation[player]->SetRumbleMode(CWiimote::OFF);
+	
 	wiimotesAssignation[player]->Disconnect();
+	wiimotesAssignation.erase(player);
 	nbWiimotes--;
 }

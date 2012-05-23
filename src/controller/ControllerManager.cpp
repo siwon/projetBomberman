@@ -139,14 +139,17 @@ void ControllerManager::ControllerAssignation::setDefaultKeyboardConfig(int play
 
 ControllerManager::ControllerManager()
 {
-	keyboard = new Keyboard(); // Prise en charge du clavier
-	std::stringstream ss;
-	ss << "../../" << DEFAULT_FILENAME;
-	configFileManager = new ConfigFileManager(ss.str());
+	configFileManager = new ConfigFileManager();
 	
 	controllerAssignation = new ControllerAssignation[4];
 	
+	/* Allocation des périphériques de jeu */
+	
+	keyboard = new Keyboard();
+	
 	wii = new Wii();
+		
+	gamepad = new Gamepad();
 	
 	reloadConfig(); // Chargement de la configuration des joueurs
 	
@@ -173,12 +176,13 @@ void ControllerManager::reloadConfig()
 					break;
 					
 				case GAMEPAD :
-					controllerAssignation[i].setController(new Gamepad());
+					gamepad->add(i+1);
+					controllerAssignation[i].setController(gamepad);
 					break;
 				
 				case WII :
-					wii->addWiimote(i+1);
-					controllerAssignation[i].setController(wii);
+						wii->add(i+1);
+						controllerAssignation[i].setController(wii);
 					break;
 			}
 		}
@@ -222,7 +226,7 @@ void ControllerManager::reloadConfig()
 ControllerManager::~ControllerManager()
 {
 	
-	delete[] controllerAssignation;
+	delete gamepad;
 	
 	delete keyboard;
 	
@@ -235,23 +239,19 @@ ControllerManager::~ControllerManager()
 EMenuKeys ControllerManager::getKeyPressed()
 {
 	EMenuKeys key = MENU_NONE;
-	unsigned int i = 0;
 	
 	key = wii->getMenuKey(window);
+	
+	// Correction processeur à 100%...
+	sf::sleep(sf::milliseconds(5));
+		
+	if(key == MENU_NONE)
+		key = gamepad->getMenuKey(window);
 	
 	if(key == MENU_NONE)
 		key = keyboard->getMenuKey(window);	
 	
-	if(key == MENU_NONE)
-	{
-		Controller* c = controllerAssignation[i].getController();
-		
-		while(key == MENU_NONE && i < 4 && c->getControllerType() == GAMEPAD )
-		{
-			key = c->getMenuKey(window);
-			i++;
-		}
-	}
+	
 	return key;
 }
 
@@ -312,7 +312,7 @@ bool ControllerManager::keyUsed(int key)
 	{
 		if(controllerAssignation[i].getController()->getControllerType() == KEYBOARD)
 		{
-			while(j<4 && !used)
+			while(j<7 && !used)
 			{
 				if(key == controllerAssignation[i].getKeys((EGameKeys)(j)))
 					used = true;
@@ -327,7 +327,6 @@ bool ControllerManager::keyUsed(int key)
 SKeysConfig ControllerManager::setPlayerController(int player, EControllerType type)
 {	
 	EControllerType controllerType = controllerAssignation[player-1].getController()->getControllerType();
-	Gamepad* gamepad;
 	
 	if( type != controllerType) // Si le type est différent du contrôleur déjà utilisé
 	{
@@ -336,11 +335,11 @@ SKeysConfig ControllerManager::setPlayerController(int player, EControllerType t
 			case KEYBOARD:
 				if(controllerType == WII)
 				{
-					wii->disconnectWiimote(player);
+					wii->disconnect(player);
 				}
 				else // Type Joystick
 				{
-					delete controllerAssignation[player-1].getController();
+					gamepad->disconnect(player);
 				}
 				controllerAssignation[player-1].setController(keyboard);
 				controllerAssignation[player-1].setDefaultKeyboardConfig(player);
@@ -349,10 +348,10 @@ SKeysConfig ControllerManager::setPlayerController(int player, EControllerType t
 			case GAMEPAD:
 				try
 				{
-					gamepad = new Gamepad();
+					gamepad->add(player);
 					if(controllerType == WII)
 					{
-						wii->disconnectWiimote(player);
+						wii->disconnect(player);
 					}
 					controllerAssignation[player-1].setController(gamepad);
 					controllerAssignation[player-1].setDefaultGamepadConfig();
@@ -368,10 +367,10 @@ SKeysConfig ControllerManager::setPlayerController(int player, EControllerType t
 			case WII:
 				try
 				{
-					wii->addWiimote(player);
+					wii->add(player);
 					if(controllerType == GAMEPAD)
 					{
-						delete controllerAssignation[player-1].getController();
+						gamepad->disconnect(player);
 					}
 					controllerAssignation[player-1].setController(wii);
 					controllerAssignation[player-1].setDefaultWiimoteConfig();

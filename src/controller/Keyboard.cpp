@@ -102,6 +102,8 @@ EMenuKeys Keyboard::getMenuKey(sf::RenderWindow* window)
 					return MENU_NONE;
 			}
 		}
+		if(event.type == sf::Event::Closed)
+			window->close();
 	}
 	return MENU_NONE;
 		
@@ -189,6 +191,6 @@ int Keyboard::getKeyPressed(int player)
 	return k;
 }
 
-void Keyboard::addWiimote(int player){}
+void Keyboard::add(int player){}
 
-void Keyboard::disconnectWiimote(int player){}
+void Keyboard::disconnect(int player){}

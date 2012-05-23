@@ -50,7 +50,7 @@ namespace PolyBomber
 			/*!
 			 * \see ISkin::getSkin
 			 */
-			std::string getSkin() throw(PolyBomberException);
+			std::string getSkin();
 
 			/*!
 			 * \see ISkin::saveConfig
@@ -89,6 +89,11 @@ namespace PolyBomber
 			 */
 			void reloadTextures();
 
+			/*!
+			 * \brief Méthode pour recharger le nom du skin
+			 */
+			void reloadName();
+
 			void getComponent(IConfigFile* configFile, EColorKey key, sf::Uint8& component, std::string suffix);
 
 			std::string folder; /*!< Dossier du skin */
@@ -97,6 +102,8 @@ namespace PolyBomber
 			std::map<EColorKey, std::string> colors; /*!< Intitulés associés aux couleurs */
 
 			const std::string PATH; /*!< Chemin des skins */
+
+			std::string name; /*! Nom du skin */
 	};
 }
 

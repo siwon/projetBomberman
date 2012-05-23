@@ -18,10 +18,10 @@
 
 
 //Headers du projet
-#include "./SBonus.hpp"
-#include "./SExplosive.hpp"
-#include "./SPlayer.hpp"
-#include "./SFlame.hpp"
+#include "SBonus.hpp"
+#include "SExplosive.hpp"
+#include "SPlayer.hpp"
+#include "SFlame.hpp"
 
 namespace PolyBomber {
   /*!
