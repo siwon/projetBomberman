@@ -17,7 +17,6 @@ namespace PolyBomber
 	 */
 	class INetworkToGameEngine
 	{
-<<<<<<< HEAD
 		public:
 			/*!
 			 * \brief Obtenir les touches déclenchées

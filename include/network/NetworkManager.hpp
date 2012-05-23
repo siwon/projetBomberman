@@ -17,7 +17,7 @@
 #include "../IControllerToNetwork.hpp"
 #include "../IGameEngineToNetwork.hpp"
 #include "../SGameConfig.hpp"
-#include "../DataPlayer.hpp"
+#include "DataPlayer.hpp"
 #include "../SKeyPressed.hpp"
 #include "../TSingleton.hpp"
 
@@ -27,7 +27,7 @@ namespace PolyBomber
 	 * \class NetworkManager
 	 * \brief singleton du gestionnaire réseau
 	 */
-	class NetworkManager : public INetworkToGameInterface,
+	class  NetworkManager : public INetworkToGameInterface,
 		public INetworkToMenu, 
 		public INetworkToGameEngine, 
 		public Singleton<NetworkManager>
@@ -43,12 +43,14 @@ namespace PolyBomber
 			std::vector<DataPlayer> players;
 			std::list<sf::TcpSocket*> clients;//ME
 			std::list<sf::Packet> packets; // segment de mémoire partagé
-			SBoard board;
 			bool server;
 			SKeyPressed keyPressed;
 
 			IControllerToNetwork* controller;
 			IGameEngineToNetwork* gameEngine;
+
+			sf::Mutex mutexPacket;
+			sf::Mutex mutexClients;
 
 			/*!
 			 * \brief Constructeur
@@ -81,17 +83,10 @@ namespace PolyBomber
 			std::list<sf::Packet>::iterator waitPacket(int, sf::IpAddress&);
 			void decryptPacket(sf::Packet&);
 			
-			/*methode de conversion d'entier en type énuméré*/
-			static EGameBonus intToBonus(int);
-			static EExplosiveType intToExplosive(int);
-			static EOrientation intToOrientation(int);
-			static EPlayerState intToState(int);
-			static EFlameLocation intToLocation(int);
-
 	};
 
-	sf::Packet& operator<<(sf::Packet&, const SBoard&);
-	sf::Packet& operator<<(sf::Packet&, const SKeyPressed&);
+	sf::Packet& operator<<(sf::Packet&, SBoard&);
+	sf::Packet& operator<<(sf::Packet&, SKeyPressed&);
 	sf::Packet& operator>>(sf::Packet&, SBoard&);
 	sf::Packet& operator>>(sf::Packet&, SKeyPressed&);
 

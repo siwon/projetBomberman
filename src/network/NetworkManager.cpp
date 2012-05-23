@@ -11,7 +11,7 @@
 #include <iostream>
 #include <vector>
 #include "../../include/network/NetworkManager.hpp"
-#include "../../include/controller/ControllerManager.hpp"
+//#include "../../include/controller/ControllerManager.hpp"
 #include "../../include/SKeyPressed.hpp"
 #include "../../include/SBonus.hpp"
 #include "../../include/EGameBonus.hpp"
@@ -22,7 +22,7 @@
 #include "../../include/EPlayerState.hpp"
 #include "../../include/SFlame.hpp"
 #include "../../include/EGameKeys.hpp"
-#include "../../include/PolyBomberApp.hpp"
+//#include "../../include/PolyBomberApp.hpp"
 
 using namespace PolyBomber;
 
@@ -42,12 +42,14 @@ NetworkManager::NetworkManager(){
 		}
 	}
 
-	//this->controller = PolyBomberApp::;
-	//this->gameEngine;
+	//this->controller = PolyBomberApp::getIControllerToNetwork();
+	this->gameEngine = NULL;
 }
 
 NetworkManager::~NetworkManager(){
-
+	this->clients.erase(this->clients.begin(),this->clients.end());
+	this->packets.erase(this->packets.begin(),this->packets.end());
+	this->players.erase(this->players.begin(),this->players.end());
 }
 
 SKeyPressed NetworkManager::getKeysPressed(){
@@ -64,8 +66,10 @@ SKeyPressed NetworkManager::getKeysPressed(){
 		// pour chaque joueur en dehors du reseau, demander ces touches
 		for(int i=0;i<4;i++){ // on parcourt le tableau d'ip
 			if(this->nbPlayerByIp[i]){ // s'il y a une adresse d'enregistrée
+				this->mutexClients.lock();
 				sf::TcpSocket& client = this->findSocket(this->ip[i]);
 				client.send(this->createPacket(3));
+				this->mutexClients.unlock();
 				std::list<sf::Packet>::iterator it2 = waitPacket(3, client.getRemoteAddress());
 				sf::Packet& thePacket =  *it2 ;
 				thePacket >> keys; // récupération des touches envoyées
@@ -79,30 +83,24 @@ SKeyPressed NetworkManager::getKeysPressed(){
 				}
 			}
 		}
+		//verification de la pause par un joueur
+		if(this->paused){
+			if(this->keyPressed.keys[this->paused - 1][GAME_PAUSE]) // il était en pause et l'enlève
+				this->paused=0;
+		} else {
+			int i=0;
+			while(i<4 && !this->paused){
+				if(this->keyPressed.keys[i][GAME_PAUSE])
+					this->paused=i+1;
+				else
+					i++;
+			}
+		}
 	} else { // on est le client
-		//demander au serveur
-		std::list<sf::TcpSocket*>::iterator it1 = this->clients.begin();
-		sf::TcpSocket* client = *it1;
-		client->send(createPacket(3));
-		std::list<sf::Packet>::iterator it2 = waitPacket(3, client->getRemoteAddress());
-		sf::Packet& thePacket = *it2;
-		thePacket >> this->keyPressed;
-		this->packets.erase(it2); // destruction du paquet
+		//message d'erreur car le client ne peut demander les touche au gameEngine
+		std::cerr << "le client ne peut demander les touches au gameEngine" << std::endl;
 	}
 
-	//verification de la pause par un joueur
-	if(this->paused){
-		if(this->keyPressed.keys[this->paused - 1][GAME_PAUSE]) // il était en pause et l'enlève
-			this->paused=0;
-	} else {
-		int i=0;
-		while(i<4 && !this->paused){
-			if(this->keyPressed.keys[i][GAME_PAUSE])
-				this->paused=i+1;
-			else
-				i++;
-		}
-	}
 	return this->keyPressed;
 }
 
@@ -112,9 +110,11 @@ int NetworkManager::isPaused(){
 		result = this->paused;
 	else {
 		//demander au serveur
+		this->mutexClients.lock();
 		std::list<sf::TcpSocket*>::iterator it1 = this->clients.begin();
 		sf::TcpSocket* client = *it1;
 		client->send(createPacket(7));
+		this->mutexClients.unlock();
 		std::list<sf::Packet>::iterator it2 = waitPacket(7, client->getRemoteAddress());
 		sf::Packet& thePacket = *it2;
 		int num;
@@ -131,7 +131,9 @@ void NetworkManager::joinGame(std::string ip){
 	if(server->connect(ip, 55001) == sf::Socket::Error){
 		std::cerr << "erreur de connection au serveur " << ip << std::endl;
 	} else {
+		this->mutexClients.lock();
 		this->clients.push_back(server);
+		this->mutexClients.unlock();
 	}
 	sf::Thread thread(&NetworkManager::listenToServer, this);
 	thread.launch();
@@ -143,9 +145,11 @@ int NetworkManager::getFreeSlots(){
 		result = (4 - this->players.size());
 	} else {
 		// demande au serveur
+		this->mutexClients.lock();
 		std::list<sf::TcpSocket*>::iterator it1 = this->clients.begin();
 		sf::TcpSocket* client = *it1;
 		client->send(createPacket(5));
+		this->mutexClients.unlock();
 		std::list<sf::Packet>::iterator it2 = waitPacket(5, client->getRemoteAddress());
 		sf::Packet& thePacket = *it2;
 		int num;
@@ -171,9 +175,11 @@ void NetworkManager::setBookedSlots(unsigned int nb, sf::IpAddress ip){
 		}
 	} else {
 		// envoyer au serveur
+		this->mutexClients.lock();
 		std::list<sf::TcpSocket*>::iterator it = this->clients.begin();
 		sf::TcpSocket* client = *it;
 		client->send(createPacket(15,nb)); // pas besoin de réponse
+		this->mutexClients.unlock();
 	}
 }
 
@@ -189,6 +195,7 @@ void NetworkManager::setPlayerName(std::string names[4], sf::IpAddress ip){
 			j++;
 		}
 	} else { // envoyer la demande au serveur
+		this->mutexClients.lock();
 		std::list<sf::TcpSocket*>::iterator it = this->clients.begin();
 		sf::TcpSocket* client = *it;
 		sf::Packet packet; //paquet créé sur place car modification de createPacket pour passer les params
@@ -197,15 +204,18 @@ void NetworkManager::setPlayerName(std::string names[4], sf::IpAddress ip){
 			packet << names[i];
 		}
 		client->send(packet); // pas besoin de réponse
+		this->mutexClients.unlock();
 	}
 }
 
 int* NetworkManager::getScores(){
 	if(!this->server){
 		//demander au serveur
+		this->mutexClients.lock();
 		std::list<sf::TcpSocket*>::iterator it1 = this->clients.begin();
 		sf::TcpSocket* client = *it1;
 		client->send(createPacket(7));
+		this->mutexClients.unlock();
 		std::list<sf::Packet>::iterator it2 = waitPacket(7, client->getRemoteAddress());
 		sf::Packet& thePacket = *it2;
 		int num;
@@ -225,9 +235,11 @@ bool NetworkManager::isStarted(){
 		result = this->started;
 		} else {
 		//demander au serveur
+			this->mutexClients.lock();
 			std::list<sf::TcpSocket*>::iterator it1 = this->clients.begin();
 			sf::TcpSocket* client = *it1;
 			client->send(createPacket(11));
+			this->mutexClients.unlock();
 			std::list<sf::Packet>::iterator it2 = waitPacket(9, client->getRemoteAddress());
 			sf::Packet& thePacket = *it2;
 			int num;
@@ -244,7 +256,7 @@ void NetworkManager::startGame() {//threader la fonction de run
 		thread.launch();
 		this->started=true;
 	} else {
-		cerr << "le client ne peut pas donner le départ du jeu. Appel de startGame interdit" << endl;
+		std::cerr << "le client ne peut pas donner le départ du jeu. Appel de startGame interdit" << std::endl;
 	}
 }
 
@@ -254,7 +266,10 @@ std::string NetworkManager::getIpAddress(){
 }
 
 void NetworkManager::setGameConfig(SGameConfig& pGameConfig){
+	//this->gameEngine = PolyBomberApp::getIGameEngineToNetwork();
 	memcpy(&this->gameConfig,&pGameConfig, sizeof(SGameConfig));
+	memcpy(this->gameConfig.playersName,pGameConfig.playersName, sizeof(std::string)*4);
+	memcpy(this->gameConfig.nbBonus,pGameConfig.nbBonus, sizeof(unsigned int)*18);
 	this->server=true;//l'ordinateur sera le serveur
 
 	this->gameEngine->setGameConfig(this->gameConfig);// on envoie également au gameEngine
@@ -265,35 +280,41 @@ void NetworkManager::setGameConfig(SGameConfig& pGameConfig){
 
 SBoard NetworkManager::getBoard(){
 	if(this->server){
-		memcpy(&this->board,&gameEngine->getBoard(), sizeof(SBoard));
+		return this->gameEngine->getBoard();
 	} else {
 		//demande au serveur
+		this->mutexClients.lock();
 		std::list<sf::TcpSocket*>::iterator it1 = this->clients.begin();
 		sf::TcpSocket* client = *it1;
 		client->send(createPacket(1));
+		this->mutexClients.unlock();
 		std::list<sf::Packet>::iterator it2 = waitPacket(1, client->getRemoteAddress());
 		sf::Packet& thePacket = *it2;
-		thePacket >> this->board;
+		SBoard aBoard;
+		thePacket >> aBoard;
 		this->packets.erase(it2);
+		return aBoard;
 	}
-	return this->board;
+	
 }
 
 int NetworkManager::isFinished(){
 	int result;
 	if(this->server){
 		result = this->gameEngine->isFinished();
-		} else {
-		//demander au réseau
-			std::list<sf::TcpSocket*>::iterator it1 = this->clients.begin();
-			sf::TcpSocket* client = *it1;
-			client->send(createPacket(9));
-			std::list<sf::Packet>::iterator it2 = waitPacket(9, client->getRemoteAddress());
-			sf::Packet& thePacket = *it2;
-			int num;
-			std::string ip;
-			thePacket >> num >> ip  >> result;
-			this->packets.erase(it2);
+	} else {
+	//demander au réseau
+		this->mutexClients.lock();
+		std::list<sf::TcpSocket*>::iterator it1 = this->clients.begin();
+		sf::TcpSocket* client = *it1;
+		client->send(createPacket(9));
+		this->mutexClients.unlock();
+		std::list<sf::Packet>::iterator it2 = waitPacket(9, client->getRemoteAddress());
+		sf::Packet& thePacket = *it2;
+		int num;
+		std::string ip;
+		thePacket >> num >> ip  >> result;
+		this->packets.erase(it2);
 	}
 	return result;
 }
@@ -326,7 +347,9 @@ void NetworkManager::createServerSocket(){
 				 {
 					 std::cout << "nouveau client " << client->getRemoteAddress() << std::endl;
 					 // Add the new client to the clients list
+					 this->mutexClients.lock();
 					 this->clients.push_back(client);
+					 this->mutexClients.unlock();
 
 					 // Add the new client to the selector so that we will
 					 // be notified when he sends something
@@ -336,6 +359,7 @@ void NetworkManager::createServerSocket(){
 			 else
 			 {
 				 // The listener socket is not ready, test all other sockets (the clients)
+				 this->mutexClients.lock();
 				 for (std::list<sf::TcpSocket*>::iterator it = clients.begin(); it != clients.end(); ++it)
 				 {
 					 sf::TcpSocket& client = **it;
@@ -352,11 +376,14 @@ void NetworkManager::createServerSocket(){
 							 if(num%2){ // si c'est impaire
 								 decryptPacket(*packet);
 							 } else { //ajouter le packet !!!!! mutex !!!!
+								 this->mutexPacket.lock();
 								 this->packets.push_back(*packet);
+								 this->mutexPacket.unlock();
 							 }
 						 }
 					 }
 				 }
+				 this->mutexClients.unlock();
 			 }
 		 }
 	 }
@@ -375,7 +402,9 @@ void NetworkManager::listenToServer(){
 			if(num%2){ // si c'est impaire
 				decryptPacket(*packet);
 			} else { //ajouter le packet !!!!! mutex !!!!
+				this->mutexPacket.lock();
 				this->packets.push_back(*packet);
+				this->mutexPacket.unlock();
 			}
 		}
 	}
@@ -392,7 +421,7 @@ sf::Packet NetworkManager::createPacket(int i, int j){
 				 }
 		case 2 : { // envoi d'un SBoard
 			if(this->server){
-				packet <<  this->board;
+				packet <<  this->gameEngine->getBoard();
 			} else {
 				std::cerr << "le plateau ne peut être obtenu car un Client n'a pas accès à un GameEngine" << std::endl;
 			}
@@ -471,8 +500,9 @@ sf::TcpSocket& NetworkManager::findSocket(sf::IpAddress& ip){
 			find=true;
 		else
 			it++;
-
 	}
+	if(!find)
+		std::cerr << "Le serveur n'a pas pu trouver le socket pour communiquer avec le client "<< ip.toString() << std::endl;
 	return **it;
 }
 
@@ -482,6 +512,7 @@ std::list<sf::Packet>::iterator NetworkManager::waitPacket(int num, sf::IpAddres
 	std::string ip;
 	std::list<sf::Packet>::iterator it;
 	while(!find){
+		this->mutexPacket.lock();
 		it = this->packets.begin();
 		while(it!=this->packets.end() && !find){
 			sf::Packet aPacket = *it; // duplique le paquet pour pouvoir le regarder
@@ -492,6 +523,7 @@ std::list<sf::Packet>::iterator NetworkManager::waitPacket(int num, sf::IpAddres
 				it++;
 			}
 		}
+		this->mutexPacket.unlock();
 	}
 	return it;
 }
@@ -521,166 +553,8 @@ void NetworkManager::decryptPacket(sf::Packet& packet){
 
 
 
-/*methode de conversion d'entier en type énuméré*/
-EGameBonus NetworkManager::intToBonus(int i){
-	EGameBonus result;
-	switch(i){
-	case 0 : {
-		result = SPEEDUP;
-		break;
-			}
-	case 1 : {
-		result = SPEEDDOWN;
-		break;
-			}
-	case 2 : {
-		result = BOMBLINE;
-		break;
-			}
-	case 3 : {
-		result = DETONATOR;
-		break;
-			}
-	case 4 : {
-		result = BOMBUP;
-		break;
-			}
-	case 5 : {
-		result = BOMBDOWN;
-		break;
-			}
-	case 6 : {
-		result = RANGEUP;
-		break;
-			}
-	case 7 : {
-		result = RANGEDOWN;
-		break;
-			}
-	case 8 : {
-		result = RANGEUPMAX;
-		break;
-			}
-	case 9 : {
-		result = MINE;
-		break;
-			}
-	case 10 : {
-		result = INFINITYBOMB;
-		break;
-			}
-	case 11 : {
-		result = ATOMICBOMB;
-		break;
-			}
-	case 12 : {
-		result = CRANE;
-		break;
-			}
-	case 13 : {
-		result = HELL;
-		break;
-			}
-	case 14 : {
-		result = CONFUSION;
-		break;
-			}
-	case 15 : {
-		result = SPASME;
-		break;
-			}
-	case 16 : {
-		result = DILATATION;
-		break;
-			}
-	case 17 : {
-		result = RAGE;
-		break;
-			}
-	}
-	return result;
-}
-
-EExplosiveType NetworkManager::intToExplosive(int i){
-	EExplosiveType result;
-	switch(i){
-		case 0 : {
-			result = EXPLOSIVE_MINE;
-			break;
-				 }
-		case 1 : {
-			result = EXPLOSIVE_BOMB;
-			break;
-				 }
-		case 2 : {
-			result = EXPLOSIVE_REMOTE;
-			break;
-				 }
-	}
-	return result;
-}
-
-EOrientation NetworkManager::intToOrientation(int i){
-	EOrientation result;
-	switch(i){
-		case 0 : {
-			result = ORIENTATION_UP;
-			break;
-				 }
-		case 1 : {
-			result = ORIENTATION_DOWN;
-			break;
-				 }
-		case 2 : {
-			result = ORIENTATION_LEFT;
-			break;
-				 }
-		case 3 : {
-			result = ORIENTATION_RIGHT;
-			break;
-				 }
-	}
-	return result;
-}
-
-EPlayerState NetworkManager::intToState(int i){
-	EPlayerState result;
-	switch(i){
-		case 0 : {
-			result = ALIVE;
-			break;
-				 }
-		case 1 : {
-			result = DEAD;
-			break;
-				 }
-	}
-	return result;
-}
-
-EFlameLocation NetworkManager::intToLocation(int i){
-	EFlameLocation result;
-	switch(i){
-		case 0 : {
-			result = ORIGIN;
-			break;
-				 }
-		case 1 : {
-			result = MIDDLE;
-			break;
-				 }
-		case 2 : {
-			result = END;
-			break;
-				 }
-	}
-	return result;
-}
-
-
-
 /*surcharge des opérateurs de flux des sf::Packet*/
-sf::Packet& operator<<(sf::Packet& packet, const SBoard& b){
+sf::Packet& operator<<(sf::Packet& packet, SBoard& b){
 	std::vector<sf::Vector2<int>> boxes = b.boxes;
 	std::vector<SBonus> bonus = b.bonus;
 	std::vector<SExplosive> explosive = b.explosives;
@@ -736,7 +610,7 @@ sf::Packet& operator<<(sf::Packet& packet, const SBoard& b){
 	return packet;
 }
 
-sf::Packet& operator<<(sf::Packet& packet, const SKeyPressed& key){
+sf::Packet& operator<<(sf::Packet& packet, SKeyPressed& key){
 	bool val;
 	for(int i=0;i<4;i++){
 		for(int j=0;j<7;j++){
@@ -764,7 +638,7 @@ sf::Packet& operator>>(sf::Packet& packet, SBoard& board){
 	for(int i=0;i<j;i++){
 		SBonus* bonus = new SBonus;
 		packet >> bonus->coords.x >> bonus->coords.y >> type;
-		bonus->type = NetworkManager::intToBonus(type);
+		bonus->type = (EGameBonus)type;
 		board.bonus.push_back(*bonus);
 	}
 
@@ -774,7 +648,7 @@ sf::Packet& operator>>(sf::Packet& packet, SBoard& board){
 	for(int i=0;i<j;i++){
 		SExplosive* explo = new SExplosive;
 		packet >> explo->coords.x >> explo->coords.y >> type;
-		explo->type = NetworkManager::intToExplosive(type);
+		explo->type = (EExplosiveType)type;
 		board.explosives.push_back(*explo);
 	}
 
@@ -784,8 +658,8 @@ sf::Packet& operator>>(sf::Packet& packet, SBoard& board){
 	for(int i=0;i<j;i++){
 		SPlayer* player = new SPlayer;
 		packet >> player->coords.x >> player->coords.y >> type >> player->number >> state >> player->step;
-		player->orientation = NetworkManager::intToOrientation(type);
-		player->state = NetworkManager::intToState(state);
+		player->orientation = (EOrientation)type;
+		player->state = (EPlayerState)state;
 		board.players.push_back(*player);
 	}
 
@@ -795,8 +669,8 @@ sf::Packet& operator>>(sf::Packet& packet, SBoard& board){
 	for(int i=0;i<j;i++){
 		SFlame* flame = new SFlame;
 		packet >> flame->coords.x >> flame->coords.y >> type >> flame->step >> location ;
-		flame->orientation = NetworkManager::intToOrientation(type);
-		flame->location = NetworkManager::intToLocation(location);
+		flame->orientation = (EOrientation)type;
+		flame->location = (EFlameLocation)location;
 		board.flames.push_back(*flame);
 	}
 
@@ -813,4 +687,3 @@ sf::Packet& operator>>(sf::Packet& packet, SKeyPressed& key){
 	}
 	return packet;
 }
-
