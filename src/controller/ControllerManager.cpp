@@ -312,6 +312,7 @@ bool ControllerManager::keyUsed(int key)
 	{
 		if(controllerAssignation[i].getController()->getControllerType() == KEYBOARD)
 		{
+			j = 0;
 			while(j<7 && !used)
 			{
 				if(key == controllerAssignation[i].getKeys((EGameKeys)(j)))

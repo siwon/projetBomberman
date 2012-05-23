@@ -10,16 +10,16 @@
 #include <SFML/Network.hpp>
 #include <list>
 
-#include "../SBoard.hpp"
-#include "../INetworkToGameInterface.hpp"
-#include "../INetworkToGameEngine.hpp"
-#include "../INetworkToMenu.hpp"
-#include "../IControllerToNetwork.hpp"
-#include "../IGameEngineToNetwork.hpp"
-#include "../SGameConfig.hpp"
-#include "DataPlayer.hpp"
-#include "../SKeyPressed.hpp"
-#include "../TSingleton.hpp"
+#include "SBoard.hpp"
+#include "INetworkToGameInterface.hpp"
+#include "INetworkToGameEngine.hpp"
+#include "INetworkToMenu.hpp"
+#include "IControllerToNetwork.hpp"
+#include "IGameEngineToNetwork.hpp"
+#include "SGameConfig.hpp"
+#include "network/DataPlayer.hpp"
+#include "SKeyPressed.hpp"
+#include "TSingleton.hpp"
 
 namespace PolyBomber
 {

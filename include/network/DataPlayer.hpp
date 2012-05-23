@@ -7,6 +7,8 @@
  * \author Brice GUILLERMIC
  */
 
+#include <string>
+
 #include <SFML/Network.hpp>
 
 namespace PolyBomber
@@ -19,8 +21,8 @@ namespace PolyBomber
 	{
 		private:
 			int id;
-			std::string name;
 			sf::IpAddress ip;
+			std::string name;
 
 		public:
 			/*!

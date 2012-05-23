@@ -14,21 +14,26 @@ namespace PolyBomber
 	KeyAssignMenu::KeyAssignMenu(unsigned int player) :
 		title("Configuration des touches", TITLEFONT, 50),
 		subtitle("Joueur 1", TITLEFONT, 100),
-		cancel("Annuler", 500, CONTROLLERSCONFIGMENU),
-		save("Valider", 500, CONTROLLERSCONFIGMENU),
+		errorKey("La touche est deja utilisee", TEXTFONT, 170),
+		cancel("Annuler", 550, CONTROLLERSCONFIGMENU),
+		save("Valider", 550, CONTROLLERSCONFIGMENU),
 		player(player)
 	{
 		ISkin* skin = PolyBomberApp::getISkin();	
 		title.setColor(skin->getColor(TITLECOLOR));
 		subtitle.setColor(skin->getColor(TEXTCOLOR));
+		errorKey.setColor(skin->getColor(ERRORCOLOR));
 
 		std::ostringstream text;
 		text << "Joueur " << player;
 
 		subtitle.setString(text.str());
 
+		this->errorXPos = errorKey.getPosition().x;
+
 		this->widgets.push_back(&title);
 		this->widgets.push_back(&subtitle);
+		this->widgets.push_back(&errorKey);
 		this->widgets.push_back(&cancel);
 		this->widgets.push_back(&save);
 
@@ -37,11 +42,11 @@ namespace PolyBomber
 
 		for (int i=0; i<7; i++)
 		{
-			actionText[i] = new TextWidget(actions[i], TEXTFONT, 170 + 45*i, RIGHT);
+			actionText[i] = new TextWidget(actions[i], TEXTFONT, 220 + 45*i, RIGHT);
 			actionText[i]->setColor(skin->getColor(TEXTCOLOR));	
 			actionText[i]->move(-420, 0);
 
-			keyText[i] = new LinkWidget("touche", 170 + 45*i, NONEMENU);
+			keyText[i] = new LinkWidget("touche", 220 + 45*i, NONEMENU);
 			keyText[i]->move(70, 0);
 
 			if (i > 0)
@@ -113,13 +118,18 @@ namespace PolyBomber
 			if (keyText[i]->getSelected())
 			{
 				keyText[i]->setString("...");
+				errorKey.setPosition(this->errorXPos, -100);
+
 				this->window->clear();
 				this->window->display(this->widgets);
 				
 				SKeysConfig k = controller->setPlayerKey(this->player, (EGameKeys)i);
 
-				for (int j=0; j<7; j++)
-					std::cout << k.errors[j] << std::endl;
+				for (int j=0; j<7; j++)					
+				{
+					if (k.errors[j].compare("") != 0)
+						errorKey.setPosition(this->errorXPos, 170);
+				}
 				
 				initKeys();
 			}
@@ -147,6 +157,8 @@ namespace PolyBomber
 	{
 		this->window = &window;
 
+		errorKey.setPosition(this->errorXPos, -100);
+		
 		initKeys();
 
 		return IMenuScreen::run(window, previous);

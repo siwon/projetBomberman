@@ -1,11 +1,11 @@
 CC=g++
 CFLAGS=-W -Wall -ansi -pedantic -I include/
-LDFLAGS=-lsfml-window -lsfml-graphics -lsfml-audio -lsfml-system -lwiicpp
+LDFLAGS=-lsfml-window -lsfml-graphics -lsfml-audio -lsfml-network -lsfml-system -lwiicpp
 EXEC=PolyBomber
 
 all: $(EXEC)
 
-PolyBomber: main.o PolyBomberApp.o PolyBomberException.o menu sound skin configFile controller
+PolyBomber: main.o PolyBomberApp.o PolyBomberException.o menu sound skin configFile controller network
 	$(CC) -o $@ bin/*.o $(LDFLAGS)
 
 build:
@@ -30,6 +30,9 @@ controller:
 	(cd src/$@ && $(MAKE))
 
 gameInterface:
+	(cd src/$@ && $(MAKE))
+
+network:
 	(cd src/$@ && $(MAKE))
 
 .PHONY: clean mrproper

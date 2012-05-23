@@ -1,15 +1,13 @@
-#ifndef _KEYASSIGNMENU
-#define _KEYASSIGNMENU
+#ifndef _CREATEGAMEMENU
+#define _CREATEGAMEMENU
 
 /*!
- * \file KeyAssignMenu.hpp
- * \brief Classe de gestion du menu d'assignation des touches
+ * \file CreateGameMenu.hpp
+ * \brief Classe de gestion du menu de création d'une partie
  * \author Maxime GUIHAL
  */
 
 #include "menu/IMenuScreen.hpp"
-
-#include "menu/MainWindow.hpp"
 
 #include "menu/TextWidget.hpp"
 #include "menu/LinkWidget.hpp"
@@ -18,22 +16,21 @@
 namespace PolyBomber
 {
 	/*!
-	 * \class KeyAssignMenu
-	 * \brief Classe de gestion du menu d'assignation des touches
+	 * \class CreateGameMenu
+	 * \brief Classe de gestion du menu de création d'une partie
 	 */
-	class KeyAssignMenu : public IMenuScreen
+	class CreateGameMenu : public IMenuScreen
 	{
 		public:
 			/*!
-			 * \brief Constructeur
-			 * \param player : Numéro du joueur (1-4)
+			 * Constructeur
 			 */
-			KeyAssignMenu(unsigned int player);
+			CreateGameMenu();
 
 			/*!
-			 * \brief Destructeur
+			 * Destructeur
 			 */
-			~KeyAssignMenu();
+			~CreateGameMenu() {}
 
 			/*!
 			 * \see IMenuScreen::downPressed
@@ -72,25 +69,11 @@ namespace PolyBomber
 
 		private:
 			TextWidget title;
-			TextWidget subtitle;
-			TextWidget errorKey;
-			TextWidget* actionText[7];
-			LinkWidget* keyText[7];
+			
 			LinkWidget cancel;
-			LinkWidget save;
-
-			unsigned int player; /*!< Numéro du joueur */
-			int errorXPos; /*!< Position du label d'erreur */
-
-			MainWindow* window; /*! Fenêtre du programme */
-
-			/*!
-			 * \brief Initialisation des touches
-			 */
-			void initKeys();
+			LinkWidget next;
 	};
 }
 
 #endif
-
 

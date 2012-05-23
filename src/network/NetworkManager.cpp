@@ -10,19 +10,19 @@
 //Headers
 #include <iostream>
 #include <vector>
-#include "../../include/network/NetworkManager.hpp"
-//#include "../../include/controller/ControllerManager.hpp"
-#include "../../include/SKeyPressed.hpp"
-#include "../../include/SBonus.hpp"
-#include "../../include/EGameBonus.hpp"
-#include "../../include/SExplosive.hpp"
-#include "../../include/EExplosiveType.hpp"
-#include "../../include/SPlayer.hpp"
-#include "../../include/EOrientation.hpp"
-#include "../../include/EPlayerState.hpp"
-#include "../../include/SFlame.hpp"
-#include "../../include/EGameKeys.hpp"
-//#include "../../include/PolyBomberApp.hpp"
+#include "network/NetworkManager.hpp"
+//#include "controller/ControllerManager.hpp"
+#include "SKeyPressed.hpp"
+#include "SBonus.hpp"
+#include "EGameBonus.hpp"
+#include "SExplosive.hpp"
+#include "EExplosiveType.hpp"
+#include "SPlayer.hpp"
+#include "EOrientation.hpp"
+#include "EPlayerState.hpp"
+#include "SFlame.hpp"
+#include "EGameKeys.hpp"
+//#include "PolyBomberApp.hpp"
 
 using namespace PolyBomber;
 
@@ -55,8 +55,8 @@ NetworkManager::~NetworkManager(){
 SKeyPressed NetworkManager::getKeysPressed(){
 	SKeyPressed keys;
 	if(this->server){
-		SKeyPressed keyPress = this->controller->getKeysPressed();
-		memcpy(&this->keyPressed.keys,&keyPress.keys, sizeof(SKeyPressed));
+		this->keyPressed = this->controller->getKeysPressed();
+		
 		// chercher le nombre de joueur sur le réseau
 		unsigned int nbPlayerDone =0;
 		for(unsigned int i=0;i<this->players.size();i++){
@@ -68,9 +68,13 @@ SKeyPressed NetworkManager::getKeysPressed(){
 			if(this->nbPlayerByIp[i]){ // s'il y a une adresse d'enregistrée
 				this->mutexClients.lock();
 				sf::TcpSocket& client = this->findSocket(this->ip[i]);
-				client.send(this->createPacket(3));
+				sf::Packet packet = this->createPacket(3);
+				
+				client.send(packet);
 				this->mutexClients.unlock();
-				std::list<sf::Packet>::iterator it2 = waitPacket(3, client.getRemoteAddress());
+
+				sf::IpAddress address = client.getRemoteAddress();
+				std::list<sf::Packet>::iterator it2 = waitPacket(3, address);
 				sf::Packet& thePacket =  *it2 ;
 				thePacket >> keys; // récupération des touches envoyées
 				//ajouter ses touches.
@@ -113,9 +117,14 @@ int NetworkManager::isPaused(){
 		this->mutexClients.lock();
 		std::list<sf::TcpSocket*>::iterator it1 = this->clients.begin();
 		sf::TcpSocket* client = *it1;
-		client->send(createPacket(7));
+
+		sf::Packet packet = this->createPacket(7);
+		client->send(packet);
+		
 		this->mutexClients.unlock();
-		std::list<sf::Packet>::iterator it2 = waitPacket(7, client->getRemoteAddress());
+
+		sf::IpAddress address = client->getRemoteAddress();
+		std::list<sf::Packet>::iterator it2 = waitPacket(7, address);
 		sf::Packet& thePacket = *it2;
 		int num;
 		std::string ip;
@@ -148,9 +157,14 @@ int NetworkManager::getFreeSlots(){
 		this->mutexClients.lock();
 		std::list<sf::TcpSocket*>::iterator it1 = this->clients.begin();
 		sf::TcpSocket* client = *it1;
-		client->send(createPacket(5));
+
+		sf::Packet packet = this->createPacket(5);
+		client->send(packet);
+		
 		this->mutexClients.unlock();
-		std::list<sf::Packet>::iterator it2 = waitPacket(5, client->getRemoteAddress());
+
+		sf::IpAddress address = client->getRemoteAddress();
+		std::list<sf::Packet>::iterator it2 = waitPacket(5, address);
 		sf::Packet& thePacket = *it2;
 		int num;
 		std::string ip;
@@ -178,7 +192,9 @@ void NetworkManager::setBookedSlots(unsigned int nb, sf::IpAddress ip){
 		this->mutexClients.lock();
 		std::list<sf::TcpSocket*>::iterator it = this->clients.begin();
 		sf::TcpSocket* client = *it;
-		client->send(createPacket(15,nb)); // pas besoin de réponse
+
+		sf::Packet packet = this->createPacket(15,nb);
+		client->send(packet); // pas besoin de réponse
 		this->mutexClients.unlock();
 	}
 }
@@ -214,9 +230,13 @@ int* NetworkManager::getScores(){
 		this->mutexClients.lock();
 		std::list<sf::TcpSocket*>::iterator it1 = this->clients.begin();
 		sf::TcpSocket* client = *it1;
-		client->send(createPacket(7));
+
+		sf::Packet packet = this->createPacket(7);
+		client->send(packet);
 		this->mutexClients.unlock();
-		std::list<sf::Packet>::iterator it2 = waitPacket(7, client->getRemoteAddress());
+
+		sf::IpAddress address = client->getRemoteAddress();
+		std::list<sf::Packet>::iterator it2 = waitPacket(7, address);
 		sf::Packet& thePacket = *it2;
 		int num;
 		std::string ip;
@@ -238,9 +258,13 @@ bool NetworkManager::isStarted(){
 			this->mutexClients.lock();
 			std::list<sf::TcpSocket*>::iterator it1 = this->clients.begin();
 			sf::TcpSocket* client = *it1;
-			client->send(createPacket(11));
+
+			sf::Packet packet = this->createPacket(11);
+			client->send(packet);
 			this->mutexClients.unlock();
-			std::list<sf::Packet>::iterator it2 = waitPacket(9, client->getRemoteAddress());
+
+			sf::IpAddress address = client->getRemoteAddress();
+			std::list<sf::Packet>::iterator it2 = waitPacket(11, address);
 			sf::Packet& thePacket = *it2;
 			int num;
 			std::string ip;
@@ -267,9 +291,9 @@ std::string NetworkManager::getIpAddress(){
 
 void NetworkManager::setGameConfig(SGameConfig& pGameConfig){
 	//this->gameEngine = PolyBomberApp::getIGameEngineToNetwork();
-	memcpy(&this->gameConfig,&pGameConfig, sizeof(SGameConfig));
-	memcpy(this->gameConfig.playersName,pGameConfig.playersName, sizeof(std::string)*4);
-	memcpy(this->gameConfig.nbBonus,pGameConfig.nbBonus, sizeof(unsigned int)*18);
+
+	this->gameConfig = pGameConfig;
+	
 	this->server=true;//l'ordinateur sera le serveur
 
 	this->gameEngine->setGameConfig(this->gameConfig);// on envoie également au gameEngine
@@ -286,9 +310,14 @@ SBoard NetworkManager::getBoard(){
 		this->mutexClients.lock();
 		std::list<sf::TcpSocket*>::iterator it1 = this->clients.begin();
 		sf::TcpSocket* client = *it1;
-		client->send(createPacket(1));
+
+		sf::Packet packet = this->createPacket(1);
+		client->send(packet);
+		
 		this->mutexClients.unlock();
-		std::list<sf::Packet>::iterator it2 = waitPacket(1, client->getRemoteAddress());
+
+		sf::IpAddress address = client->getRemoteAddress();
+		std::list<sf::Packet>::iterator it2 = waitPacket(1, address);
 		sf::Packet& thePacket = *it2;
 		SBoard aBoard;
 		thePacket >> aBoard;
@@ -307,9 +336,13 @@ int NetworkManager::isFinished(){
 		this->mutexClients.lock();
 		std::list<sf::TcpSocket*>::iterator it1 = this->clients.begin();
 		sf::TcpSocket* client = *it1;
-		client->send(createPacket(9));
+
+		sf::Packet packet = this->createPacket(9);
+		client->send(packet);
 		this->mutexClients.unlock();
-		std::list<sf::Packet>::iterator it2 = waitPacket(9, client->getRemoteAddress());
+
+		sf::IpAddress address = client->getRemoteAddress();
+		std::list<sf::Packet>::iterator it2 = waitPacket(9, address);
 		sf::Packet& thePacket = *it2;
 		int num;
 		std::string ip;
@@ -421,7 +454,8 @@ sf::Packet NetworkManager::createPacket(int i, int j){
 				 }
 		case 2 : { // envoi d'un SBoard
 			if(this->server){
-				packet <<  this->gameEngine->getBoard();
+				SBoard gameBoard = this->gameEngine->getBoard();
+				packet <<  gameBoard;
 			} else {
 				std::cerr << "le plateau ne peut être obtenu car un Client n'a pas accès à un GameEngine" << std::endl;
 			}
@@ -432,10 +466,13 @@ sf::Packet NetworkManager::createPacket(int i, int j){
 			break;
 				 }
 		case 4 : { // envoi d'un SKeyPressed
-			if(this->server)
-				packet << this->getKeysPressed();
-			else
-				packet << this->controller->getKeysPressed();
+			if(this->server){
+				SKeyPressed keys = this->getKeysPressed();
+				packet << keys;
+			} else {
+				SKeyPressed keys = this->controller->getKeysPressed();
+				packet << keys;
+			}
 			break;
 				 }
 		case 5 : { // demande des slots disponible
@@ -492,7 +529,7 @@ sf::Packet NetworkManager::createPacket(int i, int j){
 
 sf::TcpSocket& NetworkManager::findSocket(sf::IpAddress& ip){
 	bool find = false;
-	int i =0;
+
 	std::list<sf::TcpSocket*>::iterator it = clients.begin();
 	while( it != clients.end() && !find){
 		sf::TcpSocket& client = **it;
@@ -551,139 +588,142 @@ void NetworkManager::decryptPacket(sf::Packet& packet){
 	}
 }
 
+namespace PolyBomber
+{
+	/*surcharge des opérateurs de flux des sf::Packet*/
+	sf::Packet& operator<<(sf::Packet& packet, SBoard& b){
+		std::vector<sf::Vector2<int> > boxes = b.boxes;
+		std::vector<SBonus> bonus = b.bonus;
+		std::vector<SExplosive> explosive = b.explosives;
+		std::vector<SPlayer> player= b.players;
+		std::vector<SFlame> flame = b.flames;
 
-
-/*surcharge des opérateurs de flux des sf::Packet*/
-sf::Packet& operator<<(sf::Packet& packet, SBoard& b){
-	std::vector<sf::Vector2<int>> boxes = b.boxes;
-	std::vector<SBonus> bonus = b.bonus;
-	std::vector<SExplosive> explosive = b.explosives;
-	std::vector<SPlayer> player= b.players;
-	std::vector<SFlame> flame = b.flames;
-
-	/*Ajout des Boxes*/
-	packet << boxes.size();
-	for (unsigned int i=0;i<boxes.size();i++){
-		sf::Vector2<int> tempVect = boxes[i];
-		packet << tempVect.x << tempVect.y;
-	}
-
-	/*Ajout des Bonus*/
-	packet << bonus.size();
-	for(unsigned int i=0;i<bonus.size();i++){
-		sf::Vector2<int> tempCoord = bonus[i].coords;
-		int tempBonus = bonus[i].type;
-		packet << tempCoord.x << tempCoord.y << tempBonus;
-	}
-
-	/*Ajout des explosifs*/
-	packet << explosive.size();
-	for(unsigned int i=0;i<explosive.size();i++){
-		sf::Vector2<int> tempCoord = explosive[i].coords;
-		int tempExplo = explosive[i].type;
-		packet << tempCoord.x << tempCoord.y << tempExplo;
-	}
-
-	/*ajout des players*/
-	packet << player.size();
-	for (unsigned int i=0;i<player.size();i++){
-		sf::Vector2<int> tempCoord = player[i].coords;
-		int tempOrient = player[i].orientation;
-		unsigned int tempNum = player[i].number;
-		int tempState = player[i].state;
-		unsigned int tempStep = player[i].step;
-
-		packet << tempCoord.x << tempCoord.y << tempOrient << tempNum << tempState << tempStep;
-	}
-
-	/*Ajout des flames*/
-	packet << flame.size();
-	for(unsigned int i=0;i<flame.size();i++){
-		sf::Vector2<int> tempCoord = flame[i].coords;
-		int tempOrient = flame[i].orientation;
-		unsigned int tempStep = flame[i].step;
-		int tempLocat = flame[i].location;
-		
-		packet << tempCoord.x << tempCoord.y << tempStep << tempLocat;
-	}
-
-	return packet;
-}
-
-sf::Packet& operator<<(sf::Packet& packet, SKeyPressed& key){
-	bool val;
-	for(int i=0;i<4;i++){
-		for(int j=0;j<7;j++){
-			val = key.keys[i][j];
-			packet << val;
+		/*Ajout des Boxes*/
+		packet << boxes.size();
+		for (unsigned int i=0;i<boxes.size();i++){
+			sf::Vector2<int> tempVect = boxes[i];
+			packet << tempVect.x << tempVect.y;
 		}
-	}
-	return packet;
-}
 
-sf::Packet& operator>>(sf::Packet& packet, SBoard& board){
-
-	/*Ajout des Boxes*/
-	int j;
-	int type;
-	packet >> j;
-	for(int i=0;i<j;i++){
-		sf::Vector2<int>* coord = new sf::Vector2<int>;
-		packet >> coord->x >> coord->y;
-		board.boxes.push_back(*coord);
-	}
-
-	/*Ajout des Bonus*/
-	packet >> j;
-	for(int i=0;i<j;i++){
-		SBonus* bonus = new SBonus;
-		packet >> bonus->coords.x >> bonus->coords.y >> type;
-		bonus->type = (EGameBonus)type;
-		board.bonus.push_back(*bonus);
-	}
-
-
-	/*Ajout des explosifs}*/
-	packet >> j;
-	for(int i=0;i<j;i++){
-		SExplosive* explo = new SExplosive;
-		packet >> explo->coords.x >> explo->coords.y >> type;
-		explo->type = (EExplosiveType)type;
-		board.explosives.push_back(*explo);
-	}
-
-	/*ajout des players*/
-	packet >> j;
-	int state;
-	for(int i=0;i<j;i++){
-		SPlayer* player = new SPlayer;
-		packet >> player->coords.x >> player->coords.y >> type >> player->number >> state >> player->step;
-		player->orientation = (EOrientation)type;
-		player->state = (EPlayerState)state;
-		board.players.push_back(*player);
-	}
-
-	/*Ajout des flames*/
-	packet >> j;
-	int location;
-	for(int i=0;i<j;i++){
-		SFlame* flame = new SFlame;
-		packet >> flame->coords.x >> flame->coords.y >> type >> flame->step >> location ;
-		flame->orientation = (EOrientation)type;
-		flame->location = (EFlameLocation)location;
-		board.flames.push_back(*flame);
-	}
-
-	return packet;
-}
-
-sf::Packet& operator>>(sf::Packet& packet, SKeyPressed& key){
-	bool val;
-	for(int i=0;i<4;i++){
-		for(int j=0;j<7;i++){
-			packet >> val;
-			key.keys[i][j]=val;
+		/*Ajout des Bonus*/
+		packet << bonus.size();
+		for(unsigned int i=0;i<bonus.size();i++){
+			sf::Vector2<int> tempCoord = bonus[i].coords;
+			int tempBonus = bonus[i].type;
+			packet << tempCoord.x << tempCoord.y << tempBonus;
 		}
+
+		/*Ajout des explosifs*/
+		packet << explosive.size();
+		for(unsigned int i=0;i<explosive.size();i++){
+			sf::Vector2<int> tempCoord = explosive[i].coords;
+			int tempExplo = explosive[i].type;
+			packet << tempCoord.x << tempCoord.y << tempExplo;
+		}
+
+		/*ajout des players*/
+		packet << player.size();
+		for (unsigned int i=0;i<player.size();i++){
+			sf::Vector2<int> tempCoord = player[i].coords;
+			int tempOrient = player[i].orientation;
+			unsigned int tempNum = player[i].number;
+			int tempState = player[i].state;
+			unsigned int tempStep = player[i].step;
+
+			packet << tempCoord.x << tempCoord.y << tempOrient << tempNum << tempState << tempStep;
+		}
+
+		/*Ajout des flames*/
+		packet << flame.size();
+		for(unsigned int i=0;i<flame.size();i++){
+			sf::Vector2<int> tempCoord = flame[i].coords;
+			int tempOrient = flame[i].orientation;
+			unsigned int tempStep = flame[i].step;
+			int tempLocat = flame[i].location;
+			
+			packet << tempCoord.x << tempCoord.y << tempOrient << tempStep << tempLocat;
+		}
+
+		return packet;
 	}
-	return packet;
+
+	sf::Packet& operator<<(sf::Packet& packet, SKeyPressed& key){
+		bool val;
+		for(int i=0;i<4;i++){
+			for(int j=0;j<7;j++){
+				val = key.keys[i][j];
+				packet << val;
+			}
+		}
+		return packet;
+	}
+
+	sf::Packet& operator>>(sf::Packet& packet, SBoard& board){
+
+		/*Ajout des Boxes*/
+		int j;
+		int type;
+		packet >> j;
+		for(int i=0;i<j;i++){
+			sf::Vector2<int>* coord = new sf::Vector2<int>;
+			packet >> coord->x >> coord->y;
+			board.boxes.push_back(*coord);
+		}
+
+		/*Ajout des Bonus*/
+		packet >> j;
+		for(int i=0;i<j;i++){
+			SBonus* bonus = new SBonus;
+			packet >> bonus->coords.x >> bonus->coords.y >> type;
+			bonus->type = (EGameBonus)type;
+			board.bonus.push_back(*bonus);
+		}
+
+
+		/*Ajout des explosifs}*/
+		packet >> j;
+		for(int i=0;i<j;i++){
+			SExplosive* explo = new SExplosive;
+			packet >> explo->coords.x >> explo->coords.y >> type;
+			explo->type = (EExplosiveType)type;
+			board.explosives.push_back(*explo);
+		}
+
+		/*ajout des players*/
+		packet >> j;
+		int state;
+		for(int i=0;i<j;i++){
+			SPlayer* player = new SPlayer;
+			packet >> player->coords.x >> player->coords.y >> type >> player->number >> state >> player->step;
+			player->orientation = (EOrientation)type;
+			player->state = (EPlayerState)state;
+			board.players.push_back(*player);
+		}
+
+		/*Ajout des flames*/
+		packet >> j;
+		int location;
+		for(int i=0;i<j;i++){
+			SFlame* flame = new SFlame;
+			
+			packet >> flame->coords.x >> flame->coords.y >> type >> flame->step >> location ;
+			
+			flame->orientation = (EOrientation)type;
+			flame->location = (EFlameLocation)location;
+			board.flames.push_back(*flame);
+		}
+
+		return packet;
+	}
+
+	sf::Packet& operator>>(sf::Packet& packet, SKeyPressed& key){
+		bool val;
+		for(int i=0;i<4;i++){
+			for(int j=0;j<7;i++){
+				packet >> val;
+				key.keys[i][j]=val;
+			}
+		}
+		return packet;
+	}
 }

@@ -30,7 +30,8 @@ namespace PolyBomber {
 	struct SFlame {
 		sf::Vector2<int> coords;		/*! Coordonnées de la déflagration */
 		EOrientation orientation;	/*! Orientation de la déflagration */
-		EFlameLocation step;	/*!  */
+		EFlameLocation location;	/*! Position de la déflagration */
+		unsigned int step;
 	};
 }
 
