@@ -38,7 +38,7 @@ std::string Gamepad::getLabel(int key)
 
 void Gamepad::add(int player)
 {
-	if(sf::Joystick::isConnected(nbGamepad+1))
+	if(sf::Joystick::isConnected(nbGamepad))
 	{
 		nbGamepad++;
 		gamepadsAssignation.insert(std::pair<int,int>(player,nbGamepad));
@@ -79,6 +79,7 @@ EMenuKeys Gamepad::getMenuKey(sf::RenderWindow* window)
 		
 		if(event.type == sf::Event::JoystickButtonReleased)
 		{
+			std::cout << "Joystick " << event.joystickButton.joystickId << std::endl;
 			switch(event.joystickButton.button)
 			{
 				case 0 :
