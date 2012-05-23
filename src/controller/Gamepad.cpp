@@ -79,7 +79,7 @@ EMenuKeys Gamepad::getMenuKey(sf::RenderWindow* window)
 		
 		if(event.type == sf::Event::JoystickButtonReleased)
 		{
-			std::cout << "Joystick " << event.joystickButton.joystickId << std::endl;
+			//std::cout << "Joystick " << event.joystickButton.joystickId << std::endl;
 			switch(event.joystickButton.button)
 			{
 				case 0 :
