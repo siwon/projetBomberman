@@ -36,6 +36,8 @@ namespace PolyBomber {
     std::vector<SPlayer> players;		/*! Liste des joueurs du plateau de jeu */
     std::vector<SFlame> flames;		    /*! Liste des deflagrations du plateau de jeu */
 
+	SBoard& operator=(SBoard&);
+
   };
 }
 
