@@ -56,7 +56,7 @@ SKeyPressed NetworkManager::getKeysPressed(){
 	SKeyPressed keys;
 	if(this->server){
 		SKeyPressed keyPress = this->controller->getKeysPressed();
-		memcpy(&this->keyPressed.keys,&keyPress.keys, sizeof(SKeyPressed));
+		memcpy(&).keys,&keyPress.keys, sizeof(SKeyPressed));
 		// chercher le nombre de joueur sur le réseau
 		unsigned int nbPlayerDone =0;
 		for(unsigned int i=0;i<this->players.size();i++){

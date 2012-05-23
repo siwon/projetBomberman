@@ -12,7 +12,7 @@
 
 using namespace PolyBomber;
 
-DataPlayer::DataPlayer(int pId, sf::IpAddress pIp, std::string pName) : id(pId), ip(pId), name(pName){
+DataPlayer::DataPlayer(int pId, sf::IpAddress pIp, std::string pName) : id(pId), ip(pIp), name(pName){
 
 }
 
