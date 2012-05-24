@@ -17,8 +17,8 @@
 
 
 // Headers
-#include "gameEngine/RemoteBomb.hpp"
-#include "gameEngine/DefineAndFunction.hpp"
+#include "../../include/gameEngine/RemoteBomb.hpp"
+#include "../../include/gameEngine/DefineAndFunction.hpp"
 
 namespace PolyBomber {
 	

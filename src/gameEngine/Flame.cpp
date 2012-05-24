@@ -16,11 +16,11 @@
 
 
 // Headers
-#include "gameEngine/Flame.hpp"
+#include "../../include/gameEngine/Flame.hpp"
 
 namespace PolyBomber {
 	
-	Flame::Flame(float x, float y, EOrientation orientation, EFlameLocation step, int date) : Location(x,y) {
+	Flame::Flame(int x, int y, EOrientation orientation, EFlameLocation step, int date) : Location(x,y) {
 		this->orientation=orientation;
 		this->step=step;
 		this->dateDebutFlame=date;

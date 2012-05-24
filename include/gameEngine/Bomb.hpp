@@ -10,9 +10,9 @@
 #include <SFML/System/Time.hpp>
 #include <SFML/System/Clock.hpp>
 
-#include "gameEngine/Explosive.hpp"
+#include "Explosive.hpp"
 
-#include "gameEngine/DefineAndFunction.hpp"
+#include "DefineAndFunction.hpp"
 
 namespace PolyBomber {
 	/*!
@@ -23,13 +23,13 @@ namespace PolyBomber {
     protected:
 		int timeOfExplosion; /*! Seconde ou doit exploser la bombe */
 	public:
-		Bomb(sf::Clock horloge, const Player& player);
-		Bomb(const Bomb& bombe);
-		//operateur par recopie
+		Bomb(sf::Clock, const Player&);
+		Bomb(const Bomb&);
+		Bomb& operator=(Bomb&);
 		~Bomb();
 		
-		int getTimeOfExplosion() const {return this->timeOfExplosion;}
-		void decalerExplosion(int nbSecondes) {this->timeOfExplosion=this->timeOfExplosion+nbSecondes;}
+		inline int getTimeOfExplosion() const {return this->timeOfExplosion;}
+		inline void decalerExplosion(int nbSecondes) {this->timeOfExplosion=this->timeOfExplosion+nbSecondes;}
 	};
 }
 

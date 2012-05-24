@@ -16,11 +16,11 @@
 
 
 // Headers
-#include "gameEngine/Player.hpp"
+#include "../../include/gameEngine/Player.hpp"
 
 namespace PolyBomber {
 	
-	Player::Player(float x, float y, int id) : Location(x,y) {
+	Player::Player(int x, int y, int id) : Location(x,y) {
 		this->id=id;
 		this->speed=VITESSEPARDEFAUT;
 		this->capacity=NOMBREBOMBEDEFAUT;
@@ -30,7 +30,6 @@ namespace PolyBomber {
 		this->step=0;
 		
 		this->bombBonus=std::vector<Bonus>();
-		this->infection=std::vector<Bonus>();
 	}
 	
 	Player::Player(const Player& pl) : Location(pl.getLocationX(),pl.getLocationY()) {
@@ -43,12 +42,107 @@ namespace PolyBomber {
 		this->step=getStep();
 		
 		this->bombBonus=std::vector<Bonus>();
-		this->infection=std::vector<Bonus>();
 	}
 	
 	Player::~Player() {
-		this->bombBonus.~vector();
-		this->infection.~vector();
 	}
 	
+	void Player::removeInfection() {
+		this->infection.~Bonus();
+	}
+	
+	void Player::addBonus(Bonus bonus) {
+		removeInfection();
+		switch (bonus.getType()) {
+			case SPEEDUP:
+				speed=speed+PASVITESSE;
+				if (speed>VITESSEMAX) {
+					speed=VITESSEMAX;
+				}
+				break;
+				
+			case SPEEDDOWN:
+				speed=speed-PASVITESSE;
+				if (speed<VITESSEMIN) {
+					speed=VITESSEMIN;
+				}
+				break;
+				
+			case BOMBLINE:
+				bombBonus.push_back(bonus);
+				break;
+				
+			case DETONATOR:
+				bombBonus.push_back(bonus);
+				break;
+				
+			case BOMBUP:
+				capacity++;
+				break;
+				
+			case BOMBDOWN:
+				capacity--;
+				if (capacity<1) {
+					capacity=1;
+				}
+				break;
+				
+			case RANGEUP:
+				range=range+PASRANGE;
+				if (range>RANGEMAX) {
+					range=RANGEMAX;
+				}
+				break;
+				
+			case RANGEDOWN:
+				range=range-PASRANGE;
+				if (range<RANGEMIN) {
+					range=RANGEMIN;
+				}
+				break;
+				
+			case RANGEUPMAX:
+				range=RANGEMAX;
+				break;
+				
+			case MINE:
+				bombBonus.push_back(bonus);
+				break;
+				
+			case INFINITYBOMB:
+				bombBonus.push_back(bonus);
+				break;
+				
+			case ATOMICBOMB:
+				bombBonus.push_back(bonus);
+				break;
+				
+			case CRANE:
+				infection=bonus;
+				break;
+				
+			case HELL:
+				infection=bonus;
+				break;
+				
+			case CONFUSION:
+				infection=bonus;
+				break;
+				
+			case SPASME:
+				infection=bonus;
+				break;
+				
+			case DILATATION:
+				infection=bonus;
+				break;
+				
+			case RAGE:
+				infection=bonus;
+				break;
+				
+			default:
+				break;
+		}
+	}
 }

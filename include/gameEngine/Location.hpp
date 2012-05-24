@@ -8,7 +8,7 @@
  */
 #include <SFML/System/Vector2.hpp>
 
-#include "gameEngine/DefineAndFunction.hpp"
+#include "DefineAndFunction.hpp"
 
 namespace PolyBomber {
 	/*!
@@ -17,17 +17,17 @@ namespace PolyBomber {
 	 */
 	class Location {
     protected:
-		sf::Vector2f location;
+		sf::Vector2<int> location;
 		
 	public:
-		Location(float x, float y);
-		Location(const Location& loc);
-		//operateur d affectation
+		Location(int, int);
+		Location(const Location&);
+		Location& operator=(Location&);
 		~Location();
 		
-		float getLocationX() const {return location.x;}
-		float getLocationY() const {return location.y;}
-		sf::Vector2f getLocation() const {return location;}
+		inline int getLocationX() const {return location.x;}
+		inline int getLocationY() const {return location.y;}
+		inline sf::Vector2<int> getLocation() const {return location;}
 	};
 }
 

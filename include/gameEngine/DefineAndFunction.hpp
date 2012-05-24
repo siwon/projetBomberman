@@ -21,6 +21,6 @@
 #define NOMBREBOX 20
 #define DUREEFLAMME 1
 
-#define LARGEUR 40
+#define LARGEUR 35
 
 #endif

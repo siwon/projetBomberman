@@ -12,9 +12,9 @@
 #include "Bonus.hpp"
 #include "Location.hpp"
 
-#include "EOrientation.hpp"
+#include "../EOrientation.hpp"
 
-#include "gameEngine/DefineAndFunction.hpp"
+#include "../gameEngine/DefineAndFunction.hpp"
 
 namespace PolyBomber {
 	/*!
@@ -32,27 +32,29 @@ namespace PolyBomber {
 		int range;
 		//Bonus du joueur
 		std::vector<Bonus> bombBonus;
-		std::vector<Bonus> infection;
+		Bonus infection;
 		
+	private:
+		void removeInfection();
 		
-    public:
-		Player(float x, float y, int id);
+	public:	
+		Player(int, int, int);
 		Player(const Player& pl);
-		//operateur d affectation
+		Player& operator=(Player&);
 		~Player();
-				
-		int getId() const {return this->id;}
-		int getSpeed() const {return this->speed;}
-		int getCapacity() const {return this->capacity;}
-		EOrientation getOrientation() const {return this->orientation;}
-		bool getAlive() const {return this->alive;}
-		int getStep() const {return this->step;}
-		int getRange() const {return this->range;}
-		std::vector<Bonus> getBombBonus(){return this->bombBonus;}
-		std::vector<Bonus> getInfection(){return this->infection;}
+
+		inline int getId() const {return this->id;}
+		inline int getSpeed() const {return this->speed;}
+		inline int getCapacity() const {return this->capacity;}
+		inline EOrientation getOrientation() const {return this->orientation;}
+		inline bool getAlive() const {return this->alive;}
+		inline int getStep() const {return this->step;}
+		inline int getRange() const {return this->range;}
+		inline std::vector<Bonus> getBombBonus(){return this->bombBonus;}
+		inline Bonus getInfection(){return this->infection;}
 		
-		void killPlayer() {this->alive=false;}
-		void addBonus(Bonus bonus);//TODO
+		inline void killPlayer() {this->alive=false;}
+		void addBonus(Bonus bonus);
 	};
 }
 

@@ -17,22 +17,17 @@
 
 // Headers
 
-#include "gameEngine/GameEngineManager.hpp"
+#include "../../include/gameEngine/GameEngineManager.hpp"
+#include "../../include/gameEngine/DefineAndFunction.hpp"
 
 namespace PolyBomber {
 	
-	GameEngineManager::GameEngineManager() : IGameEngineToNetwork(), INetworkToGameEngine() {
+	GameEngineManager::GameEngineManager() {
 		this->board=Board();
 		this->gameConfigIsSet=false;
 		this->horloge=sf::Clock();
 		this->debutPause=0;
-	}
-	
-	GameEngineManager::GameEngineManager(const GameEngineManager& b) : IGameEngineToNetwork(), INetworkToGameEngine() {
-		this->board=Board();
-		this->gameConfigIsSet=false;
-		this->horloge=sf::Clock();
-		this->debutPause=0;
+		srand(time(NULL));
 	}
 	
 	GameEngineManager::~GameEngineManager() {
@@ -43,8 +38,8 @@ namespace PolyBomber {
 	void GameEngineManager::generateWall() {
 		for (int i=0; i<19; i++) {
 			for (int j=0; j<13; j++) {
-				if (i%2==1 && j%2==1) {
-					board.addWall(Wall(Board::caseToPixel(i),Board::caseToPixel(j)));
+				if (i%2==1 && j%2==1) { // case impaire
+					board.addWall(Wall(i,j));
 				}
 			}
 		}
@@ -53,21 +48,21 @@ namespace PolyBomber {
 	void GameEngineManager::generatePlayer(int nbPlayer) {
 		switch (nbPlayer) {
 			case 2:
-				board.addPlayer(Player(Board::caseToPixel(0),Board::caseToPixel(0),0));
-				board.addPlayer(Player(Board::caseToPixel(18),Board::caseToPixel(12),1));
+				board.addPlayer(Player(3,3,0));
+				board.addPlayer(Player(87,62,1));
 				break;
 				
 			case 3:
-				board.addPlayer(Player(Board::caseToPixel(0),Board::caseToPixel(0),0));
-				board.addPlayer(Player(Board::caseToPixel(18),Board::caseToPixel(0),1));
-				board.addPlayer(Player(Board::caseToPixel(9),Board::caseToPixel(12),2));
+				board.addPlayer(Player(3,3,0));
+				board.addPlayer(Player(87,3,1));
+				board.addPlayer(Player(45,62,2));
 				break;
 				
 			case 4:
-				board.addPlayer(Player(Board::caseToPixel(0),Board::caseToPixel(0),0));
-				board.addPlayer(Player(Board::caseToPixel(18),Board::caseToPixel(0),1));
-				board.addPlayer(Player(Board::caseToPixel(18),Board::caseToPixel(12),2));
-				board.addPlayer(Player(Board::caseToPixel(0),Board::caseToPixel(12),3));
+				board.addPlayer(Player(3,3,0));
+				board.addPlayer(Player(87,3,1));
+				board.addPlayer(Player(87,62,2));
+				board.addPlayer(Player(3,62,3));
 				break;
 				
 			default:
@@ -75,90 +70,21 @@ namespace PolyBomber {
 		}
 	}
 	
-	void GameEngineManager::generateBox() {
-		int x=0;
-		int y=0;
-		for (int i=0;i<NOMBREBOX;i++) {
-			while (!board.caseIsFreeInitialisation(Board::caseToPixel(x),Board::caseToPixel(y))) {
+	void GameEngineManager::generateBox(int nbBox) {
+		int x=rand()%18;
+		int y=rand()%13;
+
+		for (int i=0;i<nbBox;i++) {
+			while (!board.caseIsFreeInitialisation(x,y)) {
 				x=rand()%18;
 				y=rand()%13;
 			}
-			board.addBox(Box(Board::caseToPixel(x),Board::caseToPixel(y),false));
+			board.addBox(Box(x,y));
 		}
 	}
 	
 	void GameEngineManager::generateFlame(int origineX, int origineY, int range, int date) {
-		board.addFlame(Flame(Board::caseToPixel(origineX),Board::caseToPixel(origineY),ORIENTATION_UP,ORIGIN,date));
-		int x;
-		int y;
-		
-		//propagation vers la droite
-		x=origineX+1;
-		y=origineY;
-		while (!board.isAWallInThisCase(x,y) && x-origineX<range && x<18) { 
-			board.addFlame(Flame(Board::caseToPixel(x),Board::caseToPixel(y),ORIENTATION_RIGHT,MIDDLE,date));
-			x=x+1;
-		}
-		if (x==origineX+range && !board.isAWallInThisCase(x,y) && x<18) {
-			board.addFlame(Flame(Board::caseToPixel(x),Board::caseToPixel(y),ORIENTATION_RIGHT,END,date));
-		}
-		
-		//propagation vers la gauche
-		x=origineX-1;
-		y=origineY;
-		while (!board.isAWallInThisCase(x,y) && origineX-x<range && x>0) { 
-			board.addFlame(Flame(Board::caseToPixel(x),Board::caseToPixel(y),ORIENTATION_LEFT,MIDDLE,date));
-			x=x-1;
-		}
-		if (x==origineX-range && !board.isAWallInThisCase(x,y) && x>0) {
-			board.addFlame(Flame(Board::caseToPixel(x),Board::caseToPixel(y),ORIENTATION_LEFT,END,date));
-		}
-		
-		//propagation vers le haut
-		x=origineX;
-		y=origineY-1;
-		while (!board.isAWallInThisCase(x,y) && origineY-y<range && y>0) {
-			board.addFlame(Flame(Board::caseToPixel(x),Board::caseToPixel(y),ORIENTATION_UP,MIDDLE,date));
-			y=y-1;
-		}
-		if (y==origineY-range && !board.isAWallInThisCase(x,y) && y>0) {
-			board.addFlame(Flame(Board::caseToPixel(x),Board::caseToPixel(y),ORIENTATION_UP,END,date));
-		}
-		
-		//propagation vers le bas
-		x=origineX;
-		y=origineY+1;
-		while (!board.isAWallInThisCase(x,y) && y-origineY<range && y<13) {
-			board.addFlame(Flame(Board::caseToPixel(x),Board::caseToPixel(y),ORIENTATION_DOWN,MIDDLE,date));
-			y=y+1;
-		}
-		if (y==origineY+range && !board.isAWallInThisCase(x,y) && y<13) {
-			board.addFlame(Flame(Board::caseToPixel(x),Board::caseToPixel(y),ORIENTATION_DOWN,END,date));
-		}
-	}
-	
-	void GameEngineManager::actionToucheHaut(int player) {
-		// TODO : a faire
-	}
-	
-	void GameEngineManager::actionToucheBas(int player) {
-		// TODO : a faire
-	}
-	
-	void GameEngineManager::actionToucheGauche(int player) {
-		// TODO : a faire
-	}
-	
-	void GameEngineManager::actionToucheDroite(int player) {
-		// TODO : a faire
-	}
-	
-	void GameEngineManager::actionToucheAction1(int player) {
-		// TODO : a faire
-	}
-	
-	void GameEngineManager::actionToucheAction2(int player) {
-		// TODO : a faire
+		board.generateFlame(origineX, origineY, range, date);
 	}
 	
 	void GameEngineManager::decalageHoraire(int secondes) {
@@ -169,8 +95,9 @@ namespace PolyBomber {
 	void GameEngineManager::setGameConfig(SGameConfig gameConfig) {
 		int nbPlayer = gameConfig.nbPlayers;
 		int nbBonusTemp;
-		int x=0;
-		int y=0;
+		int x=rand()%18;
+		int y=rand()%13;
+		int nbBonus=0;
 		
 		//generation des joueurs
 		generatePlayer(nbPlayer);
@@ -179,20 +106,20 @@ namespace PolyBomber {
 		generateWall();
 		
 		//generation des bonus
-		for (int i=0;i<17;i++) {
+		for (int i=0;i<18;i++) {
 			nbBonusTemp = gameConfig.nbBonus[i];
 			for (int j=0; j<nbBonusTemp; j++) {
-				while (!board.caseIsFreeInitialisation(Board::caseToPixel(x),Board::caseToPixel(y))) {
+				while (!board.caseIsFreeInitialisation(x,y)) {
 					x=rand()%18;
 					y=rand()%13;
 				}
-				board.addBonus(Bonus(Board::caseToPixel(x),Board::caseToPixel(y),Board::intToEGameBonus(i),false));
-				board.addBox(Box(Board::caseToPixel(x),Board::caseToPixel(y),true));
+				board.addBonus(Bonus(x,y,(EGameBonus)i,false));
 			}
+			nbBonus=nbBonus+nbBonusTemp;
 		}
 		
 		//generation des caisses
-		generateBox();
+		generateBox(NOMBREBOX-nbBonus);
 		
 	}
 	
@@ -209,32 +136,32 @@ namespace PolyBomber {
 				debutPause=0;
 			}
 			
-			board.checkPosition();
+			board.checkPosition(horloge.getElapsedTime().asSeconds());
 			
 			//supprimer les flammes
-			board.removeObseleteFlame(this->horloge);
+			board.removeObseleteFlame(horloge.getElapsedTime().asSeconds());
 			//déclencher les bombes
-			board.explodeBomb();
+			board.explodeAllBomb(horloge.getElapsedTime().asSeconds());
 			
 			//gestion des touches
 			for (int i=0; i<board.getNbPlayer(); i++) { //pour chaque zoueur
 				if (sKeyPressed.keys[i][0]=true) {//touche haut
-					actionToucheHaut(i);
+					board.actionToucheHaut(i);
 				}
 				if (sKeyPressed.keys[i][1]=true) {//touche bas
-					actionToucheBas(i);
+					board.actionToucheBas(i);
 				}
 				if (sKeyPressed.keys[i][2]=true) {//touche gauche
-					actionToucheGauche(i);
+					board.actionToucheGauche(i);
 				}
 				if (sKeyPressed.keys[i][3]=true) {//touche droite
-					actionToucheDroite(i);
+					board.actionToucheDroite(i);
 				}
 				if (sKeyPressed.keys[i][4]=true) {//touche action1
-					actionToucheAction1(i);
+					board.actionToucheAction1(i);
 				}
 				if (sKeyPressed.keys[i][5]=true) {//touche action2
-					actionToucheAction2(i);
+					board.actionToucheAction2(i);
 				}
 			}
 		}
@@ -242,7 +169,8 @@ namespace PolyBomber {
 	
 	//IGameEngineToGameInterface
 	SBoard GameEngineManager::getBoard() {
-		return this->board.boardToSBoard();
+		SBoard gameboard = this->board.boardToSBoard();
+		return gameboard;
 	}
 	
 	int GameEngineManager::isFinished() {

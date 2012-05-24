@@ -7,7 +7,7 @@
  * \author Simon ROUSSEAU
  */
 
-#include "gameEngine/Location.hpp"
+#include "Location.hpp"
 
 #include "gameEngine/DefineAndFunction.hpp"
 
@@ -18,17 +18,12 @@ namespace PolyBomber {
 	 */
 	
 	class Box : public Location {
-    private:
-		bool bonus;
 		
 	public:
-		Box(float x, float y, bool bonus);
-		Box(const Box& boite);
-		//operateur par recopie
+		Box(int, int);
+		Box(const Box&);
+		Box& operator=(Box&);
 		~Box();
-		
-		bool getBonus() const {return this->bonus;}
-		
 	};
 }
 

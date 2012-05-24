@@ -7,28 +7,30 @@
  * \author Simon Rousseau
  */
 
-#include <stdio.h>
-#include <stdlib.h>
+//#include <stdio.h>
+//#include <stdlib.h>
 #include <time.h>
 
-#include "gameEngine/Board.hpp"
+#include "Board.hpp"
 
 #include <SFML/System/Time.hpp>
 #include <SFML/System/Clock.hpp>
 
-#include "IGameEngineToNetwork.hpp"
-#include "IGameEngineToGameInterface.hpp"
-#include "INetworkToGameEngine.hpp"
+#include "../IGameEngineToNetwork.hpp"
+#include "../IGameEngineToGameInterface.hpp"
+#include "../INetworkToGameEngine.hpp"
+#include "../TSingleton.hpp"
 
-#include "gameEngine/DefineAndFunction.hpp"
+#include "DefineAndFunction.hpp"
+
 
 namespace PolyBomber {
 	/*!
 	 * \class ControllerManager
 	 * \brief Classe de gestion du moteur de jeu
 	 */
-	class GameEngineManager : public IGameEngineToNetwork, public INetworkToGameEngine {
-		// TODO : faire en sorte que ce soit un singleton !!!
+	class GameEngineManager : public IGameEngineToNetwork, public INetworkToGameEngine, public Singleton<GameEngineManager> {
+
 	protected:
 		Board board; /*! Objet stockant le plateau de jeu */
 		bool gameConfigIsSet;
@@ -36,31 +38,21 @@ namespace PolyBomber {
 		int debutPause;
 		
 	private:
+		GameEngineManager();
+		~GameEngineManager();
+
 		//generation de la map
 		void generateWall();
-		void generatePlayer(int nbPlayer);
-		void generateBox();
-		void generateFlame(int x, int y, int range, int date);
-		
-		//gestion des touches
-		void actionToucheHaut(int player); //TODO
-		void actionToucheBas(int player); //TODO
-		void actionToucheGauche(int player); //TODO
-		void actionToucheDroite(int player); //TODO
-		void actionToucheAction1(int player); //TODO
-		void actionToucheAction2(int player); //TODO
+		void generatePlayer(int);
+		void generateBox(int);
+		void generateFlame(int, int, int, int);
 		
 		//decalageHoraire
-		void decalageHoraire(int secondes);
-		
+		void decalageHoraire(int);
+			
     public:
-		GameEngineManager();
-		GameEngineManager(const GameEngineManager& b);
-		//operateur d affectation
-		~GameEngineManager();
-		
 		//IGameEngineToNetwork
-		void setGameConfig(SGameConfig gameConfig);
+		void setGameConfig(SGameConfig);
 		void run();
 		
 		//IGameEngineToGameInterface
