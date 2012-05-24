@@ -6,7 +6,7 @@
 
 #include "menu/SplashScreen.hpp"
 #include "PolyBomberApp.hpp"
-
+#include "controller/ControllerManager.hpp"
 #include "menu/ImageWidget.hpp"
 
 namespace PolyBomber
@@ -15,6 +15,7 @@ namespace PolyBomber
 	{
 		ISkin* skin = PolyBomberApp::getISkin();
 		splash.setImage(skin->loadImage(SPLASH));;
+		wiiScreen.setImage(skin->loadImage(WIISCREEN));;
 		this->widgets.push_back(&splash);
 	}
 
@@ -22,17 +23,42 @@ namespace PolyBomber
 	{
 		sf::Clock clock;
 
-		while (true)
+		bool next = false;
+		
+		while (!next)
 		{
 			sf::Time elapsed = clock.getElapsedTime();
 
 			// Fondu de sortie
 			if (elapsed.asSeconds() > 2.f)
 				splash.setColor(sf::Color(255,255,255, 765 - 255 * elapsed.asSeconds()));
+			
+			if (elapsed.asSeconds() > 3)
+			{
+				next = true;
+				this->widgets.pop_back();
+				this->widgets.push_back(&wiiScreen);
+			}
+			window.clear();
+			window.display(this->widgets);
+		}
+		
+		ControllerManager* controllerManager = ControllerManager::getInstance();
+		controllerManager->setWii();
+		
+		clock.restart();
+		
+		while (true)
+		{
+			sf::Time elapsed = clock.getElapsedTime();
 
+			// Fondu de sortie
 			if (elapsed.asSeconds() > 3.f)
+				wiiScreen.setColor(sf::Color(255,255,255, 765 - 255 * elapsed.asSeconds()));
+
+			if (elapsed.asSeconds() > 4)
 				return MAINMENU;
-				
+			
 			window.clear();
 			window.display(this->widgets);
 		}

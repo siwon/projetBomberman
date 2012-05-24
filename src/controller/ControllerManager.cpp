@@ -148,10 +148,8 @@ ControllerManager::ControllerManager()
 	keyboard = new Keyboard();
 	
 	wii = NULL;
-	setWii();
-	gamepad = new Gamepad();
 	
-	reloadConfig(); // Chargement de la configuration des joueurs
+	gamepad = new Gamepad();
 	
 	window = NULL;
 }
@@ -159,6 +157,7 @@ ControllerManager::ControllerManager()
 void ControllerManager::setWii()
 {
 	wii = new Wii();
+	reloadConfig();
 }
 
 void ControllerManager::reloadConfig()

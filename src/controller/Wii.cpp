@@ -42,7 +42,7 @@ Wii::Wii()
 	this->nbWiimotes = 0;
 	
 	cout << "Recherche des périphériques wiimotes....... Allumez les !" << endl;
-	this->numFound = wii->Find(2);
+	this->numFound = wii->Find(3);
 	
 	wiimotes = wii->Connect();
 

@@ -35,6 +35,7 @@ namespace PolyBomber
 
 		private:
 			ImageWidget splash;
+			ImageWidget wiiScreen;
 	};
 }
 

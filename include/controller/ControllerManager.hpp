@@ -151,12 +151,12 @@ namespace PolyBomber
 		 */
 		bool keyUsed(int key, int player);
 		
+	public:
+		
 		/*!
 		 * \brief Instancie le controleur wii
 		 */
 		void setWii();
-		
-	public:
 		
 		/* Méthodes de l'interface IControllerToMenu */
 		

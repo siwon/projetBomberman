@@ -16,8 +16,8 @@ namespace PolyBomber
 	enum EImage
 	{
 		SPLASH, /*!< Ecran d'accueil du programme */
-		MENU_BACKGROUND /*!< Fond du menu */
-
+		MENU_BACKGROUND, /*!< Fond du menu */
+		WIISCREEN /*!< Ecran recherche des wiimotes */
 		// TODO: Remplir avec les autres libellés des images
 	};
 }
