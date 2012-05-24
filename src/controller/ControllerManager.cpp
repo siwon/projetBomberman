@@ -290,13 +290,13 @@ SKeysConfig ControllerManager::getConfig(int player)
 SKeysConfig ControllerManager::setPlayerKey(int player, EGameKeys key)
 {
 	SKeysConfig sKeysConfig = this->getConfig(player);
-	
-	int keyPressed = controllerAssignation[player-1].getController()->getKeyPressed(player,window);
 
-	while( keyPressed == -1)
+	int keyPressed;
+	
+	do
 	{
 		keyPressed = controllerAssignation[player-1].getController()->getKeyPressed(player,window);
-	}
+	}while( keyPressed == -1);
 
 	if(keyUsed(keyPressed,player))
 	{
@@ -577,7 +577,6 @@ void ControllerManager::printConfig(int player)
 		if(controllerAssignation[player-1].getController() != NULL)
 			std::cout << controllerAssignation[player-1].getController()->getLabel(controllerAssignation[player-1].getKeys((EGameKeys)(j))) << std::endl;
 	}
-
 }
 
 

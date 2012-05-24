@@ -174,115 +174,37 @@ char Gamepad::getCharPressed()
 
 int Gamepad::getKeyPressed(int player,sf::RenderWindow* window)
 {
-
-	if(window != NULL)
-	{
-			sf::Event event;
-		
-			window->pollEvent(event);
-			
-			if(event.type == sf::Event::JoystickButtonReleased)
-			{
-				if(event.joystickButton.joystickId == gamepadsAssignation[player])
-				{
-					switch(event.joystickButton.button)
-					{
-						case 0 :
-							return BUT1;
-						case 1 :
-							return BUT2;
-						case 2 :
-							return BUT3;
-						case 3 :
-							return BUT4;
-						case 4 :
-							return BUT5;
-						case 5 :
-							return BUT6;
-						case 6 :
-							return BUT7;
-						case 7 :
-							return BUT8;
-						case 8 :
-							return BUT9;
-						case 9 :
-							return BUT10;
-						default :
-							break;
-					}
-				}
-			}
-			else if(event.type == sf::Event::JoystickMoved)
-			{
-				switch(event.joystickMove.axis)
-				{
-					if(event.joystickButton.joystickId == gamepadsAssignation[player])
-					{
-						case sf::Joystick::X :
-							if(event.joystickMove.position < -50)
-								return X_LEFT;
-							else if(event.joystickMove.position > 50)
-								return X_RIGHT;
-							break;
-					
-						case sf::Joystick::Y :
-							if(event.joystickMove.position > 50)
-								return Y_DOWN;
-							else if(event.joystickMove.position < -50)
-								return Y_UP;
-							break;
-					
-						default :
-							break;
-					}
-				}
-			}
-			else if(event.type == sf::Event::Closed)
-				window->close();
-		}
-		return -1;
-}/*
-	if(sf::Joystick::getAxisPosition(gamepadsAssignation[player], sf::Joystick::X) < -50)
-		return X_LEFT;
-
-	if(sf::Joystick::getAxisPosition(gamepadsAssignation[player], sf::Joystick::X) > 50)
-		return X_RIGHT;
-
-	if(sf::Joystick::getAxisPosition(gamepadsAssignation[player], sf::Joystick::Y) > 50)
-		return Y_UP;
-
-	if(sf::Joystick::getAxisPosition(gamepadsAssignation[player], sf::Joystick::Y) < -50)
-		return Y_DOWN;
+	sf::Event event;
+	window->pollEvent(event);
 	
 	if(sf::Joystick::isButtonPressed(gamepadsAssignation[player], 0))
 		return BUT1;
-	
 	if(sf::Joystick::isButtonPressed(gamepadsAssignation[player], 1))
 		return BUT2;
-		
 	if(sf::Joystick::isButtonPressed(gamepadsAssignation[player], 2))
 		return BUT3;
-		
 	if(sf::Joystick::isButtonPressed(gamepadsAssignation[player], 3))
 		return BUT4;
-		
 	if(sf::Joystick::isButtonPressed(gamepadsAssignation[player], 4))
 		return BUT5;
-		
 	if(sf::Joystick::isButtonPressed(gamepadsAssignation[player], 5))
 		return BUT6;
-	
 	if(sf::Joystick::isButtonPressed(gamepadsAssignation[player], 6))
 		return BUT7;
-	
 	if(sf::Joystick::isButtonPressed(gamepadsAssignation[player], 7))
 		return BUT8;
-		
 	if(sf::Joystick::isButtonPressed(gamepadsAssignation[player], 8))
 		return BUT9;
-		
 	if(sf::Joystick::isButtonPressed(gamepadsAssignation[player], 9))
 		return BUT10;
-		
+	if(sf::Joystick::getAxisPosition(gamepadsAssignation[player], sf::Joystick::X) < -50)
+		return X_LEFT;
+	if(sf::Joystick::getAxisPosition(gamepadsAssignation[player], sf::Joystick::X) > 50)
+		return X_RIGHT;
+	if(sf::Joystick::getAxisPosition(gamepadsAssignation[player], sf::Joystick::Y) < -50)
+		return Y_UP;
+	if(sf::Joystick::getAxisPosition(gamepadsAssignation[player], sf::Joystick::Y) > 50)
+		return Y_DOWN;
+	
 	return -1;
-}*/
+}
