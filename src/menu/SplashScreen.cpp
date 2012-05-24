@@ -23,9 +23,9 @@ namespace PolyBomber
 	EMenuScreen SplashScreen::run(MainWindow& window, EMenuScreen previous)
 	{
 		sf::Clock clock;
+		bool wiiSearch = false;
 		
-		ControllerManager* controllerManager = ControllerManager::getInstance();
-		controllerManager->setWii();
+		ControllerManager* controllerManager = ControllerManager::getInstance();		
 		
 		clock.restart();
 		
@@ -37,10 +37,17 @@ namespace PolyBomber
 			if (elapsed.asSeconds() > 3.f && elapsed.asSeconds() <= 4.f)
 				splash.setColor(sf::Color(255,255,255, 765 - 255 * elapsed.asSeconds()));
 
-			if (elapsed.asSeconds() > 6.f && elapsed.asSeconds() <= 7.f)
-				wiiScreen.setColor(sf::Color(255,255,255, 1785 - 255 * elapsed.asSeconds()));
+			if (elapsed.asSeconds() > 7.f && elapsed.asSeconds() <= 8.f)
+				wiiScreen.setColor(sf::Color(255,255,255, 2040 - 255 * elapsed.asSeconds()));
 
-			if (elapsed.asSeconds() > 7.f)
+			// Recherche des Wii
+			if (elapsed.asSeconds() > 4.f && !wiiSearch)
+			{
+				controllerManager->setWii();
+				wiiSearch = true;
+			}
+
+			if (elapsed.asSeconds() > 8.f)
 				return MAINMENU;
 			
 			window.clear();
