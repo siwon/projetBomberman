@@ -69,6 +69,13 @@ namespace PolyBomber
 
 		private:
 			TextWidget title;
+			TextWidget typeText;
+			TextWidget playersText;
+
+			SelectionWidget type;
+			SelectionWidget players;
+
+			LinkWidget options;
 			
 			LinkWidget cancel;
 			LinkWidget next;
