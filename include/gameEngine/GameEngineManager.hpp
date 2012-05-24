@@ -42,14 +42,6 @@ namespace PolyBomber {
 		void generateBox();
 		void generateFlame(int x, int y, int range, int date);
 		
-		//gestion des touches
-		void actionToucheHaut(int player); //TODO
-		void actionToucheBas(int player); //TODO
-		void actionToucheGauche(int player); //TODO
-		void actionToucheDroite(int player); //TODO
-		void actionToucheAction1(int player); //TODO
-		void actionToucheAction2(int player); //TODO
-		
 		//decalageHoraire
 		void decalageHoraire(int secondes);
 		

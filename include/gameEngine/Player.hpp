@@ -34,13 +34,16 @@ namespace PolyBomber {
 		std::vector<Bonus> bombBonus;
 		std::vector<Bonus> infection;
 		
-		
     public:
 		Player(float x, float y, int id);
 		Player(const Player& pl);
 		//operateur d affectation
 		~Player();
-				
+		
+	private:
+		void removeInfection();
+		
+	public:		
 		int getId() const {return this->id;}
 		int getSpeed() const {return this->speed;}
 		int getCapacity() const {return this->capacity;}
@@ -52,7 +55,7 @@ namespace PolyBomber {
 		std::vector<Bonus> getInfection(){return this->infection;}
 		
 		void killPlayer() {this->alive=false;}
-		void addBonus(Bonus bonus);//TODO
+		void addBonus(Bonus bonus);
 	};
 }
 

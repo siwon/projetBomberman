@@ -52,34 +52,47 @@ namespace PolyBomber {
 		
 		SBoard boardToSBoard();
 		
+		//gestion des touches
+		void actionToucheHaut(int player); //TODO
+		void actionToucheBas(int player); //TODO
+		void actionToucheGauche(int player); //TODO
+		void actionToucheDroite(int player); //TODO
+		void actionToucheAction1(int player); //TODO
+		void actionToucheAction2(int player); //TODO
+		
 		void addPlayer(Player pl) {player.push_back(pl);}
 		void addWall(Wall w) {wall.push_back(w);}
 		void addBonus(Bonus b) {bonus.push_back(b);}
 		void addBox(Box b) {box.push_back(b);}
 		void addFlame(Flame f) {flame.push_back(f);}
 		
-		void removeBox(int i);//TODO
+		void removeBox(int i);
 		
 		bool caseIsFreeInitialisation(float x, float y);
-		bool caseIsFree(float x, float y);//TOCORRECT
+		bool caseIsFree(float x, float y);
 		bool isAWallInThisCase(int x, int y);//vérifie si il y a un mur dans la case sélectionnée
 		bool isAFlameInThisCase(int x, int y);
 		bool isABonusInThisCase(int x, int y);
+		bool isAMineInThisCase(int x, int y);
 		
 		
 		int nbSurvivant();
 		int getIdSurvivant();
-		void applyBonus(int pl, Bonus b);//TODO
+		void applyBonus(int pl, Bonus b);
 		void effectuerDecalage(int nbSecondes);
-		void explodeBomb(int x, int y);//TODO
-		void explodeBomb(int indice);//TODO
-		Bonus getBonusByCoord(int x, int y);//TODO
-		Bonus getBonusByIndice(unsigned int indice){return this->bonus[indice];}//TODO
-		unsigned int getIndiceBonus(int x, int y);//TODO
+		void explodeBomb(int x, int y);
+		void explodeBomb(unsigned int indice);
+		void explodeMine(int x, int y, int date);
+		void explodeMine(unsigned int indice, int date);
+		void generateFlame(int x, int y, int range, int date);
+		Bonus getBonusByCoord(int x, int y);
+		Bonus getBonusByIndice(unsigned int indice){return this->bonus[indice];}
+		unsigned int getIndiceBonus(int x, int y);
+		unsigned int getIndiceMineByCoord(int x, int y);
 		
-		void checkPosition();//A VERIFIER
-		void removeObseleteFlame(sf::Clock clock);//TODO
-		void explodeBomb(); //TODO
+		void checkPosition(int date);//A VERIFIER
+		void removeObseleteFlame(int date);
+		void explodeAllBomb(int date);
 		
 		static float caseToPixel(float i) {return i*LARGEUR;}
 		static int pixelToCase(float i) {return i/LARGEUR;}

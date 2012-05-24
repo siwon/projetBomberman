@@ -51,4 +51,102 @@ namespace PolyBomber {
 		this->infection.~vector();
 	}
 	
+	void Player::removeInfection() {
+		infection.clear();
+	}
+	
+	void Player::addBonus(Bonus bonus) {
+		removeInfection();
+		switch (bonus.getType()) {
+			case SPEEDUP:
+				speed=speed+PASVITESSE;
+				if (speed>VITESSEMAX) {
+					speed=VITESSEMAX;
+				}
+				break;
+				
+			case SPEEDDOWN:
+				speed=speed-PASVITESSE;
+				if (speed<VITESSEMIN) {
+					speed=VITESSEMIN;
+				}
+				break;
+				
+			case BOMBLINE:
+				bombBonus.push_back(bonus);
+				break;
+				
+			case DETONATOR:
+				bombBonus.push_back(bonus);
+				break;
+				
+			case BOMBUP:
+				capacity++;
+				break;
+				
+			case BOMBDOWN:
+				capacity--;
+				if (capacity<1) {
+					capacity=1;
+				}
+				break;
+				
+			case RANGEUP:
+				range=range+PASRANGE;
+				if (range>RANGEMAX) {
+					range=RANGEMAX;
+				}
+				break;
+				
+			case RANGEDOWN:
+				range=range-PASRANGE;
+				if (range<RANGEMIN) {
+					range=RANGEMIN;
+				}
+				break;
+				
+			case RANGEUPMAX:
+				range=RANGEMAX;
+				break;
+				
+			case MINE:
+				bombBonus.push_back(bonus);
+				break;
+				
+			case INFINITYBOMB:
+				bombBonus.push_back(bonus);
+				break;
+				
+			case ATOMICBOMB:
+				bombBonus.push_back(bonus);
+				break;
+				
+			case CRANE:
+				infection.push_back(bonus);
+				break;
+				
+			case HELL:
+				infection.push_back(bonus);
+				break;
+				
+			case CONFUSION:
+				infection.push_back(bonus);
+				break;
+				
+			case SPASME:
+				infection.push_back(bonus);
+				break;
+				
+			case DILATATION:
+				infection.push_back(bonus);
+				break;
+				
+			case RAGE:
+				infection.push_back(bonus);
+				break;
+				
+			default:
+				break;
+		}
+	}
 }

@@ -88,77 +88,7 @@ namespace PolyBomber {
 	}
 	
 	void GameEngineManager::generateFlame(int origineX, int origineY, int range, int date) {
-		board.addFlame(Flame(Board::caseToPixel(origineX),Board::caseToPixel(origineY),ORIENTATION_UP,ORIGIN,date));
-		int x;
-		int y;
-		
-		//propagation vers la droite
-		x=origineX+1;
-		y=origineY;
-		while (!board.isAWallInThisCase(x,y) && x-origineX<range && x<18) { 
-			board.addFlame(Flame(Board::caseToPixel(x),Board::caseToPixel(y),ORIENTATION_RIGHT,MIDDLE,date));
-			x=x+1;
-		}
-		if (x==origineX+range && !board.isAWallInThisCase(x,y) && x<18) {
-			board.addFlame(Flame(Board::caseToPixel(x),Board::caseToPixel(y),ORIENTATION_RIGHT,END,date));
-		}
-		
-		//propagation vers la gauche
-		x=origineX-1;
-		y=origineY;
-		while (!board.isAWallInThisCase(x,y) && origineX-x<range && x>0) { 
-			board.addFlame(Flame(Board::caseToPixel(x),Board::caseToPixel(y),ORIENTATION_LEFT,MIDDLE,date));
-			x=x-1;
-		}
-		if (x==origineX-range && !board.isAWallInThisCase(x,y) && x>0) {
-			board.addFlame(Flame(Board::caseToPixel(x),Board::caseToPixel(y),ORIENTATION_LEFT,END,date));
-		}
-		
-		//propagation vers le haut
-		x=origineX;
-		y=origineY-1;
-		while (!board.isAWallInThisCase(x,y) && origineY-y<range && y>0) {
-			board.addFlame(Flame(Board::caseToPixel(x),Board::caseToPixel(y),ORIENTATION_UP,MIDDLE,date));
-			y=y-1;
-		}
-		if (y==origineY-range && !board.isAWallInThisCase(x,y) && y>0) {
-			board.addFlame(Flame(Board::caseToPixel(x),Board::caseToPixel(y),ORIENTATION_UP,END,date));
-		}
-		
-		//propagation vers le bas
-		x=origineX;
-		y=origineY+1;
-		while (!board.isAWallInThisCase(x,y) && y-origineY<range && y<13) {
-			board.addFlame(Flame(Board::caseToPixel(x),Board::caseToPixel(y),ORIENTATION_DOWN,MIDDLE,date));
-			y=y+1;
-		}
-		if (y==origineY+range && !board.isAWallInThisCase(x,y) && y<13) {
-			board.addFlame(Flame(Board::caseToPixel(x),Board::caseToPixel(y),ORIENTATION_DOWN,END,date));
-		}
-	}
-	
-	void GameEngineManager::actionToucheHaut(int player) {
-		// TODO : a faire
-	}
-	
-	void GameEngineManager::actionToucheBas(int player) {
-		// TODO : a faire
-	}
-	
-	void GameEngineManager::actionToucheGauche(int player) {
-		// TODO : a faire
-	}
-	
-	void GameEngineManager::actionToucheDroite(int player) {
-		// TODO : a faire
-	}
-	
-	void GameEngineManager::actionToucheAction1(int player) {
-		// TODO : a faire
-	}
-	
-	void GameEngineManager::actionToucheAction2(int player) {
-		// TODO : a faire
+		board.generateFlame(origineX, origineY, range, date);
 	}
 	
 	void GameEngineManager::decalageHoraire(int secondes) {
@@ -209,32 +139,32 @@ namespace PolyBomber {
 				debutPause=0;
 			}
 			
-			board.checkPosition();
+			board.checkPosition(horloge.getElapsedTime().asSeconds());
 			
 			//supprimer les flammes
-			board.removeObseleteFlame(this->horloge);
+			board.removeObseleteFlame(horloge.getElapsedTime().asSeconds());
 			//déclencher les bombes
-			board.explodeBomb();
+			board.explodeAllBomb(horloge.getElapsedTime().asSeconds());
 			
 			//gestion des touches
 			for (int i=0; i<board.getNbPlayer(); i++) { //pour chaque zoueur
 				if (sKeyPressed.keys[i][0]=true) {//touche haut
-					actionToucheHaut(i);
+					board.actionToucheHaut(i);
 				}
 				if (sKeyPressed.keys[i][1]=true) {//touche bas
-					actionToucheBas(i);
+					board.actionToucheBas(i);
 				}
 				if (sKeyPressed.keys[i][2]=true) {//touche gauche
-					actionToucheGauche(i);
+					board.actionToucheGauche(i);
 				}
 				if (sKeyPressed.keys[i][3]=true) {//touche droite
-					actionToucheDroite(i);
+					board.actionToucheDroite(i);
 				}
 				if (sKeyPressed.keys[i][4]=true) {//touche action1
-					actionToucheAction1(i);
+					board.actionToucheAction1(i);
 				}
 				if (sKeyPressed.keys[i][5]=true) {//touche action2
-					actionToucheAction2(i);
+					board.actionToucheAction2(i);
 				}
 			}
 		}

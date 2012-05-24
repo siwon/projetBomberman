@@ -125,7 +125,7 @@ namespace PolyBomber {
 		
 		for (unsigned int i=0; i<player.size(); i++) {//player
 			SPlayer p;
-			p.coords=sf::Vector2f(player[i].getLocationX(),player[i].getLocationY());
+			p.coords=sf::Vector2<int>(player[i].getLocationX(),player[i].getLocationY());
 			p.orientation=player[i].getOrientation();
 			p.number=player[i].getId();
 			if (player[i].getAlive()) {
@@ -159,6 +159,37 @@ namespace PolyBomber {
 		}
 		
 		return toReturn;
+	}
+	
+	void Board::actionToucheHaut(int player) {
+		// TODO : a faire
+		//tester si il y a une maladie
+		//tester si le mouvement est possible
+	}
+	
+	void Board::actionToucheBas(int player) {
+		// TODO : a faire
+	}
+	
+	void Board::actionToucheGauche(int player) {
+		// TODO : a faire
+	}
+	
+	void Board::actionToucheDroite(int player) {
+		// TODO : a faire
+	}
+	
+	void Board::actionToucheAction1(int player) {
+		// TODO : a faire
+	}
+	
+	void Board::actionToucheAction2(int player) {
+		// TODO : a faire
+	}
+	
+	void Board::removeBox(int i) {
+		//box[i].~Box();
+		box.erase(box.begin()+i);
 	}
 	
 	bool Board::caseIsFreeInitialisation(float x, float y) {
@@ -203,12 +234,19 @@ namespace PolyBomber {
 			i++;
 		}
 		i=0;
-		/*while (toReturn && i<explosive.size()) {//explosive
-			if (pixelToCase(x)==pixelToCase(explosive[i].getLocationX()) && pixelToCase(y)==pixelToCase(explosive[i].getLocationY())) {
+		while (toReturn && i<bomb.size()) {//bomb
+			if (pixelToCase(x)==pixelToCase(bomb[i].getLocationX()) && pixelToCase(y)==pixelToCase(bomb[i].getLocationY())) {
 				toReturn=false;
 			}
 			i++;
-		}*/
+		}
+		i=0;
+		while (toReturn && i<remoteBomb.size()) {//remote
+			if (pixelToCase(x)==pixelToCase(remoteBomb[i].getLocationX()) && pixelToCase(y)==pixelToCase(remoteBomb[i].getLocationY())) {
+				toReturn=false;
+			}
+			i++;
+		}
 		i=0;
 		while (toReturn && i<wall.size()) {//wall
 			if (pixelToCase(x)==pixelToCase(wall[i].getLocationX()) && pixelToCase(y)==pixelToCase(wall[i].getLocationY())) {
@@ -232,13 +270,39 @@ namespace PolyBomber {
 	}
 	
 	bool Board::isAFlameInThisCase(int x, int y) {
-		//TODO
-		return true;
+		bool toReturn=false;
+		float xPixel = Board::caseToPixel(x);
+		float yPixel = Board::caseToPixel(y);
+		for (unsigned int i=0; i<flame.size(); i++) {
+			if (flame[i].getLocationX()==xPixel && flame[i].getLocationY()==yPixel) {
+				toReturn=true;
+			}
+		}
+		return toReturn;
 	}
 	
 	bool Board::isABonusInThisCase(int x, int y) {
-		//TODO
-		return true;
+		bool toReturn=false;
+		float xPixel = Board::caseToPixel(x);
+		float yPixel = Board::caseToPixel(y);
+		for (unsigned int i=0; i<bonus.size(); i++) {
+			if (bonus[i].getLocationX()==xPixel && bonus[i].getLocationY()==yPixel) {
+				toReturn=true;
+			}
+		}
+		return toReturn;
+	}
+	
+	bool Board::isAMineInThisCase(int x, int y) {
+		bool toReturn=false;
+		float xPixel = Board::caseToPixel(x);
+		float yPixel = Board::caseToPixel(y);
+		for (unsigned int i=0; i<mine.size(); i++) {
+			if (mine[i].getLocationX()==xPixel && mine[i].getLocationY()==yPixel) {
+				toReturn=true;
+			}
+		}
+		return toReturn;
 	}
 	
 	int Board::nbSurvivant() {
@@ -267,7 +331,7 @@ namespace PolyBomber {
 	}
 	
 	void Board::applyBonus(int pl, Bonus b) {
-		//TODO
+		player[pl].addBonus(b);
 	}
 	
 	void Board::effectuerDecalage(int nbSecondes) {
@@ -279,7 +343,117 @@ namespace PolyBomber {
 		}
 	}
 	
-	void Board::checkPosition() {
+	void Board::explodeBomb(int x, int y) {
+		float xPixel = Board::caseToPixel(x);
+		float yPixel = Board::caseToPixel(y);
+		for (unsigned int i=0; i<bomb.size(); i++) {
+			if (bomb[i].getLocationX()==xPixel && bomb[i].getLocationY()==yPixel) {
+				explodeBomb(i);
+			}
+		}
+	}
+	
+	void Board::explodeBomb(unsigned int indice) {
+		generateFlame(pixelToCase(bomb[indice].getLocationX()),pixelToCase(bomb[indice].getLocationY()),bomb[indice].getRange(),bomb[indice].getTimeOfExplosion()+DUREEFLAMME);
+		//bomb[indice].~Bomb();
+		bomb.erase(bomb.begin()+indice);
+	}
+	
+	void Board::explodeMine(int x, int y, int date) {
+		float xPixel = Board::caseToPixel(x);
+		float yPixel = Board::caseToPixel(y);
+		for (unsigned int i=0; i<mine.size(); i++) {
+			if (mine[i].getLocationX()==xPixel && mine[i].getLocationY()==yPixel) {
+				explodeMine(i,date);
+			}
+		}
+	}
+	
+	void Board::explodeMine(unsigned int indice, int date) {
+		generateFlame(pixelToCase(mine[indice].getLocationX()),pixelToCase(mine[indice].getLocationY()),mine[indice].getRange(),date+DUREEFLAMME);
+		//mine[indice].~Mine();
+		mine.erase(mine.begin()+indice);
+	}
+	
+	void Board::generateFlame(int origineX, int origineY, int range, int date) {
+		addFlame(Flame(Board::caseToPixel(origineX),Board::caseToPixel(origineY),ORIENTATION_UP,ORIGIN,date));
+		int x;
+		int y;
+		
+		//propagation vers la droite
+		x=origineX+1;
+		y=origineY;
+		while (!isAWallInThisCase(x,y) && x-origineX<range && x<18) { 
+			addFlame(Flame(caseToPixel(x),caseToPixel(y),ORIENTATION_RIGHT,MIDDLE,date));
+			x=x+1;
+		}
+		if (x==origineX+range && !isAWallInThisCase(x,y) && x<18) {
+			addFlame(Flame(caseToPixel(x),caseToPixel(y),ORIENTATION_RIGHT,END,date));
+		}
+		
+		//propagation vers la gauche
+		x=origineX-1;
+		y=origineY;
+		while (!isAWallInThisCase(x,y) && origineX-x<range && x>0) { 
+			addFlame(Flame(caseToPixel(x),caseToPixel(y),ORIENTATION_LEFT,MIDDLE,date));
+			x=x-1;
+		}
+		if (x==origineX-range && !isAWallInThisCase(x,y) && x>0) {
+			addFlame(Flame(caseToPixel(x),caseToPixel(y),ORIENTATION_LEFT,END,date));
+		}
+		
+		//propagation vers le haut
+		x=origineX;
+		y=origineY-1;
+		while (!isAWallInThisCase(x,y) && origineY-y<range && y>0) {
+			addFlame(Flame(caseToPixel(x),caseToPixel(y),ORIENTATION_UP,MIDDLE,date));
+			y=y-1;
+		}
+		if (y==origineY-range && !isAWallInThisCase(x,y) && y>0) {
+			addFlame(Flame(caseToPixel(x),caseToPixel(y),ORIENTATION_UP,END,date));
+		}
+		
+		//propagation vers le bas
+		x=origineX;
+		y=origineY+1;
+		while (!isAWallInThisCase(x,y) && y-origineY<range && y<13) {
+			addFlame(Flame(caseToPixel(x),caseToPixel(y),ORIENTATION_DOWN,MIDDLE,date));
+			y=y+1;
+		}
+		if (y==origineY+range && !isAWallInThisCase(x,y) && y<13) {
+			addFlame(Flame(caseToPixel(x),caseToPixel(y),ORIENTATION_DOWN,END,date));
+		}
+	}
+	
+	Bonus Board::getBonusByCoord(int x, int y) {//on suppose que le bonus existe
+		return bonus[getIndiceBonus(x,y)];
+	}
+	
+	unsigned int Board::getIndiceBonus(int x, int y) {
+		unsigned int toReturn;
+		float xPixel = Board::caseToPixel(x);
+		float yPixel = Board::caseToPixel(y);
+		for (unsigned int i=0; i<bonus.size(); i++) {
+			if (bonus[i].getLocationX()==xPixel && bonus[i].getLocationY()==yPixel) {
+				toReturn=i;
+			}
+		}
+		return toReturn;
+	}
+	
+	unsigned int Board::getIndiceMineByCoord(int x, int y) {
+		unsigned int toReturn;
+		float xPixel = Board::caseToPixel(x);
+		float yPixel = Board::caseToPixel(y);
+		for (unsigned int i=0; i<mine.size(); i++) {
+			if (mine[i].getLocationX()==xPixel && mine[i].getLocationY()==yPixel) {
+				toReturn=i;
+			}
+		}
+		return toReturn;
+	}
+	
+	void Board::checkPosition(int date) {
 		//faire la vérification des toutes les positions
 		//faire la vérification des joueurs (flammes, bonus)
 		for (unsigned int i=0; i<player.size(); i++) {
@@ -292,11 +466,19 @@ namespace PolyBomber {
 				//suppression du bonus sur la carte
 				bonus.erase(bonus.begin()+getIndiceBonus(Board::pixelToCase(player[i].getLocationX()),Board::pixelToCase(player[i].getLocationY())));
 			}
+			if (isAMineInThisCase(Board::pixelToCase(player[i].getLocationX()),Board::pixelToCase(player[i].getLocationY()))) {
+				int indiceMine = getIndiceMineByCoord(Board::pixelToCase(player[i].getLocationX()),Board::pixelToCase(player[i].getLocationY()));
+				//création de la flamme
+				generateFlame(Board::pixelToCase(mine[indiceMine].getLocationX()),Board::pixelToCase(mine[indiceMine].getLocationY()),mine[indiceMine].getRange(),date+DUREEFLAMME);
+				//suppression dans la liste des bombes
+				//mine[indiceMine].~Mine();
+				mine.erase(mine.begin()+indiceMine);
+			}
 		}
 		//faire la vérification des caisses (flammes)
 		for (unsigned int i=0; i<box.size(); i++) {
 			if (isAFlameInThisCase(Board::pixelToCase(box[i].getLocationX()),Board::pixelToCase(box[i].getLocationY()))) {
-				box[i].~Box();
+				//box[i].~Box();
 				box.erase(box.begin()+i);
 			}
 		}
@@ -310,6 +492,23 @@ namespace PolyBomber {
 		for (unsigned int i=0; i<bomb.size(); i++) {
 			if (isAFlameInThisCase(Board::pixelToCase(bomb[i].getLocationX()),Board::pixelToCase(bomb[i].getLocationY()))) {
 				explodeBomb(Board::pixelToCase(bomb[i].getLocationX()),Board::pixelToCase(bomb[i].getLocationY()));
+			}
+		}
+	}
+	
+	void Board::removeObseleteFlame(int date) {
+		for (unsigned int i=0; i<flame.size(); i++) {
+			if (flame[i].getDateDebutFlame()+DUREEFLAMME<date) {
+				//flame[i].~Flame();
+				flame.erase(flame.begin()+i);
+			}
+		}
+	}
+	
+	void Board::explodeAllBomb(int date) {
+		for (unsigned int i =0; i<bomb.size(); i++) {
+			if (bomb[i].getTimeOfExplosion()>date) {
+				explodeBomb(i);
 			}
 		}
 	}
