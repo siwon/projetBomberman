@@ -16,12 +16,12 @@
 
 
 // Headers
-#include "gameEngine/Wall.hpp"
-#include "gameEngine/DefineAndFunction.hpp"
+#include "../../include/gameEngine/Wall.hpp"
+#include "../../include/gameEngine/DefineAndFunction.hpp"
 
 namespace PolyBomber {
 	
-	Wall::Wall(float x, float y) : Location(x,y) {
+	Wall::Wall(int x, int y) : Location(x,y) {
 		
 	}
 	

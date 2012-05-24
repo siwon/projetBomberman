@@ -7,12 +7,12 @@
  * \author Simon ROUSSEAU
  */
 
-#include "gameEngine/Location.hpp"
+#include "Location.hpp"
 
-#include "EOrientation.hpp"
-#include "EFlameLocation.hpp"
+#include "../EOrientation.hpp"
+#include "../EFlameLocation.hpp"
 
-#include "gameEngine/DefineAndFunction.hpp"
+#include "DefineAndFunction.hpp"
 
 namespace PolyBomber {
 	/*!
@@ -27,15 +27,15 @@ namespace PolyBomber {
 		int dateDebutFlame;
 		
 	public:
-		Flame(float x, float y, EOrientation orientation, EFlameLocation step, int date);
-		Flame(const Flame& flamme);
-		//operateur d affectation
+		Flame(int, int, EOrientation, EFlameLocation, int);
+		Flame(const Flame&);
+		Flame& operator=(Flame&);
 		~Flame();
 		
-		EOrientation getOrientation() const {return this->orientation;}
-		EFlameLocation getStep() const {return this->step;}
-		int getDateDebutFlame() const {return this->dateDebutFlame;}
-		void decalerDebutFlame(int nbSecondes) {this->dateDebutFlame=this->dateDebutFlame+nbSecondes;}
+		inline EOrientation getOrientation() const {return this->orientation;}
+		inline EFlameLocation getStep() const {return this->step;}
+		inline int getDateDebutFlame() const {return this->dateDebutFlame;}
+		inline void decalerDebutFlame(int nbSecondes) {this->dateDebutFlame=this->dateDebutFlame+nbSecondes;}
 	};
 }
 

@@ -17,22 +17,17 @@
 
 // Headers
 
-#include "gameEngine/GameEngineManager.hpp"
+#include "../../include/gameEngine/GameEngineManager.hpp"
+#include "../../include/gameEngine/DefineAndFunction.hpp"
 
 namespace PolyBomber {
 	
-	GameEngineManager::GameEngineManager() : IGameEngineToNetwork(), INetworkToGameEngine() {
+	GameEngineManager::GameEngineManager() {
 		this->board=Board();
 		this->gameConfigIsSet=false;
 		this->horloge=sf::Clock();
 		this->debutPause=0;
-	}
-	
-	GameEngineManager::GameEngineManager(const GameEngineManager& b) : IGameEngineToNetwork(), INetworkToGameEngine() {
-		this->board=Board();
-		this->gameConfigIsSet=false;
-		this->horloge=sf::Clock();
-		this->debutPause=0;
+		srand(time(NULL));
 	}
 	
 	GameEngineManager::~GameEngineManager() {
@@ -43,8 +38,8 @@ namespace PolyBomber {
 	void GameEngineManager::generateWall() {
 		for (int i=0; i<19; i++) {
 			for (int j=0; j<13; j++) {
-				if (i%2==1 && j%2==1) {
-					board.addWall(Wall(Board::caseToPixel(i),Board::caseToPixel(j)));
+				if (i%2==1 && j%2==1) { // case impaire
+					board.addWall(Wall(i,j));
 				}
 			}
 		}
@@ -53,21 +48,21 @@ namespace PolyBomber {
 	void GameEngineManager::generatePlayer(int nbPlayer) {
 		switch (nbPlayer) {
 			case 2:
-				board.addPlayer(Player(Board::caseToPixel(0),Board::caseToPixel(0),0));
-				board.addPlayer(Player(Board::caseToPixel(18),Board::caseToPixel(12),1));
+				board.addPlayer(Player(3,3,0));
+				board.addPlayer(Player(87,62,1));
 				break;
 				
 			case 3:
-				board.addPlayer(Player(Board::caseToPixel(0),Board::caseToPixel(0),0));
-				board.addPlayer(Player(Board::caseToPixel(18),Board::caseToPixel(0),1));
-				board.addPlayer(Player(Board::caseToPixel(9),Board::caseToPixel(12),2));
+				board.addPlayer(Player(3,3,0));
+				board.addPlayer(Player(87,3,1));
+				board.addPlayer(Player(45,62,2));
 				break;
 				
 			case 4:
-				board.addPlayer(Player(Board::caseToPixel(0),Board::caseToPixel(0),0));
-				board.addPlayer(Player(Board::caseToPixel(18),Board::caseToPixel(0),1));
-				board.addPlayer(Player(Board::caseToPixel(18),Board::caseToPixel(12),2));
-				board.addPlayer(Player(Board::caseToPixel(0),Board::caseToPixel(12),3));
+				board.addPlayer(Player(3,3,0));
+				board.addPlayer(Player(87,3,1));
+				board.addPlayer(Player(87,62,2));
+				board.addPlayer(Player(3,62,3));
 				break;
 				
 			default:
@@ -75,15 +70,16 @@ namespace PolyBomber {
 		}
 	}
 	
-	void GameEngineManager::generateBox() {
-		int x=0;
-		int y=0;
-		for (int i=0;i<NOMBREBOX;i++) {
-			while (!board.caseIsFreeInitialisation(Board::caseToPixel(x),Board::caseToPixel(y))) {
+	void GameEngineManager::generateBox(int nbBox) {
+		int x=rand()%18;
+		int y=rand()%13;
+
+		for (int i=0;i<nbBox;i++) {
+			while (!board.caseIsFreeInitialisation(x,y)) {
 				x=rand()%18;
 				y=rand()%13;
 			}
-			board.addBox(Box(Board::caseToPixel(x),Board::caseToPixel(y),false));
+			board.addBox(Box(x,y));
 		}
 	}
 	
@@ -99,8 +95,9 @@ namespace PolyBomber {
 	void GameEngineManager::setGameConfig(SGameConfig gameConfig) {
 		int nbPlayer = gameConfig.nbPlayers;
 		int nbBonusTemp;
-		int x=0;
-		int y=0;
+		int x=rand()%18;
+		int y=rand()%13;
+		int nbBonus=0;
 		
 		//generation des joueurs
 		generatePlayer(nbPlayer);
@@ -109,20 +106,20 @@ namespace PolyBomber {
 		generateWall();
 		
 		//generation des bonus
-		for (int i=0;i<17;i++) {
+		for (int i=0;i<18;i++) {
 			nbBonusTemp = gameConfig.nbBonus[i];
 			for (int j=0; j<nbBonusTemp; j++) {
-				while (!board.caseIsFreeInitialisation(Board::caseToPixel(x),Board::caseToPixel(y))) {
+				while (!board.caseIsFreeInitialisation(x,y)) {
 					x=rand()%18;
 					y=rand()%13;
 				}
-				board.addBonus(Bonus(Board::caseToPixel(x),Board::caseToPixel(y),Board::intToEGameBonus(i),false));
-				board.addBox(Box(Board::caseToPixel(x),Board::caseToPixel(y),true));
+				board.addBonus(Bonus(x,y,(EGameBonus)i,false));
 			}
+			nbBonus=nbBonus+nbBonusTemp;
 		}
 		
 		//generation des caisses
-		generateBox();
+		generateBox(NOMBREBOX-nbBonus);
 		
 	}
 	
@@ -172,7 +169,8 @@ namespace PolyBomber {
 	
 	//IGameEngineToGameInterface
 	SBoard GameEngineManager::getBoard() {
-		return this->board.boardToSBoard();
+		SBoard gameboard = this->board.boardToSBoard();
+		return gameboard;
 	}
 	
 	int GameEngineManager::isFinished() {

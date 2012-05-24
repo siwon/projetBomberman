@@ -16,16 +16,14 @@
 
 
 // Headers
-#include "gameEngine/Box.hpp"
+#include "../../include/gameEngine/Box.hpp"
 
 namespace PolyBomber {
 	
-	Box::Box(float x, float y, bool bonus) : Location(x,y) {
-		this->bonus=bonus;
+	Box::Box(int x, int y) : Location(x,y) {
 	}
 	
 	Box::Box(const Box& boite) : Location(boite.getLocationX(),boite.getLocationY()) {
-		this->bonus=boite.getBonus();
 	}
 	
 	Box::~Box() {

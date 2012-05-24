@@ -9,18 +9,18 @@
  
 #include <vector>
 
-#include "gameEngine/Flame.hpp"
-#include "gameEngine/Bonus.hpp"
-#include "gameEngine/Box.hpp"
-#include "gameEngine/RemoteBomb.hpp"
-#include "gameEngine/Bomb.hpp"
-#include "gameEngine/Mine.hpp"
-#include "gameEngine/Player.hpp"
-#include "gameEngine/Wall.hpp"
+#include "Flame.hpp"
+#include "Bonus.hpp"
+#include "Box.hpp"
+#include "RemoteBomb.hpp"
+#include "Bomb.hpp"
+#include "Mine.hpp"
+#include "Player.hpp"
+#include "Wall.hpp"
 
-#include "SBoard.hpp"
+#include "../SBoard.hpp"
 
-#include "gameEngine/DefineAndFunction.hpp"
+#include "DefineAndFunction.hpp"
 
 
 namespace PolyBomber {
@@ -29,7 +29,6 @@ namespace PolyBomber {
 	 * \brief Classe Board
 	 */
 	class Board {
-		// TODO : faire en sorte que ce soit un singleton !!!
     protected:
 		std::vector<Bonus> bonus;
 		std::vector<Flame> flame;
@@ -40,15 +39,15 @@ namespace PolyBomber {
 		std::vector<Mine> mine;
 		std::vector<Wall> wall;
 		
-		Player getPlayerById(int id);
+		Player getPlayerById(int);
 		
 	public:
 		Board();
-		Board(const Board& b);
-		//operateur d affectation
+		Board(const Board&);
+		Board& operator=(Board&);
 		~Board();
 		
-		int getNbPlayer() {return this->player.size();}
+		inline int getNbPlayer() {return this->player.size();}
 		
 		SBoard boardToSBoard();
 		
@@ -60,43 +59,45 @@ namespace PolyBomber {
 		void actionToucheAction1(int player); //TODO
 		void actionToucheAction2(int player); //TODO
 		
-		void addPlayer(Player pl) {player.push_back(pl);}
-		void addWall(Wall w) {wall.push_back(w);}
-		void addBonus(Bonus b) {bonus.push_back(b);}
-		void addBox(Box b) {box.push_back(b);}
-		void addFlame(Flame f) {flame.push_back(f);}
+		inline void addPlayer(Player pl) {player.push_back(pl);}
+		inline void addWall(Wall w) {wall.push_back(w);}
+		inline void addBonus(Bonus b) {bonus.push_back(b);}
+		inline void addBox(Box b) {box.push_back(b);}
+		inline void addFlame(Flame f) {flame.push_back(f);}
 		
 		void removeBox(int i);
 		
-		bool caseIsFreeInitialisation(float x, float y);
-		bool caseIsFree(float x, float y);
-		bool isAWallInThisCase(int x, int y);//vérifie si il y a un mur dans la case sélectionnée
-		bool isAFlameInThisCase(int x, int y);
-		bool isABonusInThisCase(int x, int y);
-		bool isAMineInThisCase(int x, int y);
+		bool caseIsFreeInitialisation(int, int);
+		bool caseIsFree(int, int);
+		bool isAWallInThisCase(int, int);//vérifie si il y a un mur dans la case sélectionnée
+		bool isAFlameInThisCase(int, int);
+		bool isABonusInThisCase(int, int);
+		bool isAMineInThisCase(int, int);
 		
 		
 		int nbSurvivant();
 		int getIdSurvivant();
-		void applyBonus(int pl, Bonus b);
-		void effectuerDecalage(int nbSecondes);
-		void explodeBomb(int x, int y);
-		void explodeBomb(unsigned int indice);
-		void explodeMine(int x, int y, int date);
-		void explodeMine(unsigned int indice, int date);
-		void generateFlame(int x, int y, int range, int date);
-		Bonus getBonusByCoord(int x, int y);
-		Bonus getBonusByIndice(unsigned int indice){return this->bonus[indice];}
-		unsigned int getIndiceBonus(int x, int y);
-		unsigned int getIndiceMineByCoord(int x, int y);
+		void applyBonus(int, Bonus);
+		void effectuerDecalage(int);
+		void explodeBomb(int, int);
+		void explodeBomb(unsigned int);
+		void explodeMine(int, int, int);
+		void explodeMine(unsigned int, int);
+		void generateFlame(int, int, int, int);
+		Bonus getBonusByCoord(int, int);
+		inline Bonus getBonusByIndice(unsigned int indice){return this->bonus[indice];}
+		unsigned int getIndiceBonus(int, int);
+		unsigned int getIndiceMineByCoord(int, int);
 		
-		void checkPosition(int date);//A VERIFIER
-		void removeObseleteFlame(int date);
-		void explodeAllBomb(int date);
+		void checkPosition(int);//A VERIFIER
+		void removeObseleteFlame(int);
+		void explodeAllBomb(int);
 		
-		static float caseToPixel(float i) {return i*LARGEUR;}
-		static int pixelToCase(float i) {return i/LARGEUR;}
-		static EGameBonus intToEGameBonus(int i);
+		static int caseToPixel(int i) {return i*LARGEUR;}
+		static int pixelToCase(int i) {return i/LARGEUR;}
+		static int cranToPixel(int i) {return i*7+4;}
+		static int cranToCase(int i) {return (i-(i%5))/5;}
+		//static EGameBonus intToEGameBonus(int);
 		
 		
 	};

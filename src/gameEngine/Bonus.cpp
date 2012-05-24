@@ -16,12 +16,12 @@
 
 
 // Headers
-#include "gameEngine/Bonus.hpp"
+#include "../../include/gameEngine/Bonus.hpp"
 
 
 namespace PolyBomber {
 	
-	Bonus::Bonus(float x, float y, EGameBonus type, bool visible) : Location(x,y) {
+	Bonus::Bonus(int x, int y, EGameBonus type, bool visible) : Location(x,y) {
 		this->type=type;
 		this->visible=visible;
 	}

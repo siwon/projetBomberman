@@ -16,11 +16,11 @@
 
 
 // Headers
-#include "gameEngine/Player.hpp"
+#include "../../include/gameEngine/Player.hpp"
 
 namespace PolyBomber {
 	
-	Player::Player(float x, float y, int id) : Location(x,y) {
+	Player::Player(int x, int y, int id) : Location(x,y) {
 		this->id=id;
 		this->speed=VITESSEPARDEFAUT;
 		this->capacity=NOMBREBOMBEDEFAUT;
@@ -30,7 +30,6 @@ namespace PolyBomber {
 		this->step=0;
 		
 		this->bombBonus=std::vector<Bonus>();
-		this->infection=std::vector<Bonus>();
 	}
 	
 	Player::Player(const Player& pl) : Location(pl.getLocationX(),pl.getLocationY()) {
@@ -43,16 +42,13 @@ namespace PolyBomber {
 		this->step=getStep();
 		
 		this->bombBonus=std::vector<Bonus>();
-		this->infection=std::vector<Bonus>();
 	}
 	
 	Player::~Player() {
-		this->bombBonus.~vector();
-		this->infection.~vector();
 	}
 	
 	void Player::removeInfection() {
-		infection.clear();
+		this->infection.~Bonus();
 	}
 	
 	void Player::addBonus(Bonus bonus) {
@@ -122,27 +118,27 @@ namespace PolyBomber {
 				break;
 				
 			case CRANE:
-				infection.push_back(bonus);
+				infection=bonus;
 				break;
 				
 			case HELL:
-				infection.push_back(bonus);
+				infection=bonus;
 				break;
 				
 			case CONFUSION:
-				infection.push_back(bonus);
+				infection=bonus;
 				break;
 				
 			case SPASME:
-				infection.push_back(bonus);
+				infection=bonus;
 				break;
 				
 			case DILATATION:
-				infection.push_back(bonus);
+				infection=bonus;
 				break;
 				
 			case RAGE:
-				infection.push_back(bonus);
+				infection=bonus;
 				break;
 				
 			default:

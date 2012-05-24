@@ -7,10 +7,10 @@
  * \author Simon ROUSSEAU
  */
 
-#include "gameEngine/Player.hpp"
-#include "gameEngine/Location.hpp"
+#include "Player.hpp"
+#include "Location.hpp"
 
-#include "gameEngine/DefineAndFunction.hpp"
+#include "DefineAndFunction.hpp"
 
 namespace PolyBomber {
 	/*!
@@ -22,16 +22,16 @@ namespace PolyBomber {
 		int range;		/*! Portee de la bombe */
 		int player;	/*! Joueur qui possede la bombe */
 		
-		Explosive(int player, int range, float x, float y);
+		Explosive(int, int, int, int);
 		
     public:
-		Explosive(const Player& player);
-		Explosive(const Explosive& expl);
+		Explosive(const Player&);
+		Explosive(const Explosive&);
 		//operateur d affectation
 		~Explosive();
 		
-		int getRange() const {return this->range;}
-		int getPlayer() const {return this->player;}
+		inline int getRange() const {return this->range;}
+		inline int getPlayer() const {return this->player;}
 	};
 }
 

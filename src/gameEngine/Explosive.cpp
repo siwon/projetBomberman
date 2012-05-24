@@ -16,12 +16,12 @@
 
 
 // Headers
-#include "gameEngine/Explosive.hpp"
+#include "../../include/gameEngine/Explosive.hpp"
 
 
 namespace PolyBomber {
 	
-	Explosive::Explosive(int player, int range, float x, float y) : Location(x,y) {
+	Explosive::Explosive(int player, int range, int x, int y) : Location(x,y) {
 		this->player=player;
 		this->range=range;
 	}
