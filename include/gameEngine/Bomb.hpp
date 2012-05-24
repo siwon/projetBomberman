@@ -22,8 +22,9 @@ namespace PolyBomber {
 	class Bomb : public Explosive {
     protected:
 		int timeOfExplosion; /*! Seconde ou doit exploser la bombe */
+		int type;
 	public:
-		Bomb(sf::Clock, const Player&);
+		Bomb(int, const Player&, int=0);
 		Bomb(const Bomb&);
 		Bomb& operator=(Bomb&);
 		~Bomb();

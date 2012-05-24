@@ -30,6 +30,7 @@ namespace PolyBomber {
 		bool alive;	/*! Statut du joueur */
 		int step;			/*! Etat de la jambe du joueur */
 		int range;
+		bool detonator;
 		//Bonus du joueur
 		std::vector<Bonus> bombBonus;
 		Bonus infection;
@@ -50,11 +51,15 @@ namespace PolyBomber {
 		inline bool getAlive() const {return this->alive;}
 		inline int getStep() const {return this->step;}
 		inline int getRange() const {return this->range;}
+		inline bool getDetonator() const {return this->detonator;}
 		inline std::vector<Bonus> getBombBonus(){return this->bombBonus;}
 		inline Bonus getInfection(){return this->infection;}
 		
 		inline void killPlayer() {this->alive=false;}
 		void addBonus(Bonus bonus);
+		void move(int, int);
+		void centrerPlayerSurAxeHorizontal();
+		void centrerPlayerSurAxeVertical();
 	};
 }
 

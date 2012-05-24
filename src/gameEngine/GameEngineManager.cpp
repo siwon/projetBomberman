@@ -158,10 +158,10 @@ namespace PolyBomber {
 					board.actionToucheDroite(i);
 				}
 				if (sKeyPressed.keys[i][4]=true) {//touche action1
-					board.actionToucheAction1(i);
+					board.actionToucheAction1(i,horloge.getElapsedTime().asSeconds());
 				}
 				if (sKeyPressed.keys[i][5]=true) {//touche action2
-					board.actionToucheAction2(i);
+					board.actionToucheAction2(i,horloge.getElapsedTime().asSeconds());
 				}
 			}
 		}

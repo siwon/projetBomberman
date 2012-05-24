@@ -30,6 +30,7 @@ namespace PolyBomber {
 		this->step=0;
 		
 		this->bombBonus=std::vector<Bonus>();
+		
 	}
 	
 	Player::Player(const Player& pl) : Location(pl.getLocationX(),pl.getLocationY()) {
@@ -73,7 +74,7 @@ namespace PolyBomber {
 				break;
 				
 			case DETONATOR:
-				bombBonus.push_back(bonus);
+				detonator=true;
 				break;
 				
 			case BOMBUP:
@@ -144,5 +145,21 @@ namespace PolyBomber {
 			default:
 				break;
 		}
+	}
+
+	void Player::move(int x, int y) {
+		this->setLocation(x,y);
+	}
+
+	void Player::centrerPlayerSurAxeHorizontal() {
+		int newX=this->getLocationX()-(this->getLocationX()%5)+2;
+		int newY=this->getLocationY();
+		this->setLocation(newX,newY);
+	}
+
+	void Player::centrerPlayerSurAxeVertical() {
+		int newX=this->getLocationX();
+		int newY=this->getLocationY()-(this->getLocationY()%5)+2;
+		this->setLocation(newX,newY);
 	}
 }

@@ -52,12 +52,12 @@ namespace PolyBomber {
 		SBoard boardToSBoard();
 		
 		//gestion des touches
-		void actionToucheHaut(int player); //TODO
-		void actionToucheBas(int player); //TODO
-		void actionToucheGauche(int player); //TODO
-		void actionToucheDroite(int player); //TODO
-		void actionToucheAction1(int player); //TODO
-		void actionToucheAction2(int player); //TODO
+		void actionToucheHaut(int);
+		void actionToucheBas(int);
+		void actionToucheGauche(int);
+		void actionToucheDroite(int);
+		void actionToucheAction1(int, int);
+		void actionToucheAction2(int, int); //TODO
 		
 		inline void addPlayer(Player pl) {player.push_back(pl);}
 		inline void addWall(Wall w) {wall.push_back(w);}
@@ -81,6 +81,7 @@ namespace PolyBomber {
 		void effectuerDecalage(int);
 		void explodeBomb(int, int);
 		void explodeBomb(unsigned int);
+		void explodeRemoteBomb(unsigned int, int);
 		void explodeMine(int, int, int);
 		void explodeMine(unsigned int, int);
 		void generateFlame(int, int, int, int);
@@ -97,9 +98,7 @@ namespace PolyBomber {
 		static int pixelToCase(int i) {return i/LARGEUR;}
 		static int cranToPixel(int i) {return i*7+4;}
 		static int cranToCase(int i) {return (i-(i%5))/5;}
-		//static EGameBonus intToEGameBonus(int);
-		
-		
+		static bool distanceDesAutresJoueursValide(int, int, int); //TODO
 	};
 }
 
