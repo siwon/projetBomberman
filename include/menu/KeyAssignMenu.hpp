@@ -80,7 +80,6 @@ namespace PolyBomber
 			LinkWidget save;
 
 			unsigned int player; /*!< Numéro du joueur */
-			int errorXPos; /*!< Position du label d'erreur */
 
 			MainWindow* window; /*! Fenêtre du programme */
 

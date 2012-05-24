@@ -26,7 +26,7 @@ namespace PolyBomber
 		this->widgets.push_back(&cancel);
 		this->widgets.push_back(&save);
 
-		this->errorXPos = error.getPosition().x;
+		error.setVisible(false);
 
 		for (int i=0; i<4; i++)
 		{
@@ -82,7 +82,7 @@ namespace PolyBomber
 		for (int i=3; i>=0; i--)
 			playerController[i]->goNext();
 
-		error.setPosition(this->errorXPos, -100);
+		error.setVisible(false);
 	}
 
 	void ControllersConfigMenu::upPressed()
@@ -93,17 +93,19 @@ namespace PolyBomber
 		cancel.goPrevious();
 		save.goPrevious();
 
-		error.setPosition(this->errorXPos, -100);
+		error.setVisible(false);
 	}
 
 	void ControllersConfigMenu::leftPressed()
 	{
+		error.setVisible(false);
 		changeController(false);
-		save.goNext();
+		save.goNext();		
 	}
 
 	void ControllersConfigMenu::rightPressed()
 	{
+		error.setVisible(false);
 		changeController(true);
 		cancel.goNext();
 	}
@@ -115,9 +117,7 @@ namespace PolyBomber
 		for (int i=0; i<4; i++)
 		{
 			if (playerController[i]->getSelected())
-			{
 				*nextScreen = static_cast<EMenuScreen>((int)KEYASSIGNMENU1 + i);
-			}
 		}
 
 		if (cancel.getSelected())
@@ -141,8 +141,6 @@ namespace PolyBomber
 	EMenuScreen ControllersConfigMenu::run(MainWindow& window, EMenuScreen previous)
 	{
 		initControllers();
-		error.setPosition(this->errorXPos, -100);
-
 		return IMenuScreen::run(window, previous);
 	}
 
@@ -175,7 +173,19 @@ namespace PolyBomber
 		}
 		catch (...)
 		{
-			error.setPosition(this->errorXPos, 200);
+			error.setVisible(true);
+
+			// On inverse la sélection
+			for (int i=0; i<4; i++)
+			{
+				if (playerController[i]->getSelected())
+				{
+					if (!next)
+						playerController[i]->goNextItem();
+					else
+						playerController[i]->goPreviousItem();
+				}
+			}
 		}
 	}
 }

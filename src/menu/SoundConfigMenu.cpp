@@ -138,6 +138,6 @@ namespace PolyBomber
 
 		soundVolume.setCurrentItem(sound->getSoundVolume()/10);
 		musicVolume.setCurrentItem(sound->getMusicVolume()/10);
-		IMenuScreen::run(window, previous);
+		return IMenuScreen::run(window, previous);
 	}
 }

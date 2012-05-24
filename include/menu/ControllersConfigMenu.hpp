@@ -75,8 +75,6 @@ namespace PolyBomber
 			LinkWidget cancel;
 			LinkWidget save;
 
-			int errorXPos; /*!< Position X du label d'erreur */
-
 			/*!
 			 * \brief Initialisation des contrôleurs
 			 */
