@@ -53,7 +53,7 @@ namespace PolyBomber
 		 * \param player : numéro de joueur pour la détermination de la wiimote
 		 * \return Touche / bouton pressé
 		 */
-		virtual int getKeyPressed(int player) = 0;
+		virtual int getKeyPressed(int player,sf::RenderWindow* window) = 0;
 		
 		/*!
 		 * \brief Récupération du type de contrôleur

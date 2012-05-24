@@ -53,9 +53,9 @@ int main()
 	// The main loop - ends as soon as the window is closed
 	while (window.isOpen())
 	{
-		controllerManager->getKeyPressed();
+		//controllerManager->getKeyPressed();
 		//controllerManager->getCharPressed();
-		//controllerManager->getKeysPressed();
+		controllerManager->getKeysPressed();
 
 		// Event processing
 		sf::Event event;

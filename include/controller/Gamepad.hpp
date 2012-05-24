@@ -34,23 +34,32 @@ namespace PolyBomber
 		 */
 		enum Keys
 		{
-			X = sf::Joystick::X,
-			Y = sf::Joystick::Y,
-			But1,
-			But2,
-			But3,
-			But4,
-			But5,
-			But6
+			Y_UP,
+			Y_DOWN,
+			X_LEFT,
+			X_RIGHT,
+			BUT1,
+			BUT2,
+			BUT3,
+			BUT4,
+			BUT5,
+			BUT6,
+			BUT7,
+			BUT8,
+			BUT9,
+			BUT10
 		};
 		static const std::string keysLabel[];
 		
 		
 	private :
 		std::map<int,int> gamepadsAssignation; /*!< Tableau d'assignation des joysticks aux différents joueurs */
+		int nbGamepad;
+		
+		bool gamepadUsed(int numGamepad);
 		
 	public :
-		static int nbGamepad;
+		
 		/*!
 		 * \brief Constructeur de la classe Gamepad
 		 */
@@ -69,7 +78,7 @@ namespace PolyBomber
 		
 		virtual char getCharPressed(); /* Non disponible pour les joystick */
 		
-		virtual int getKeyPressed(int player);
+		virtual int getKeyPressed(int player,sf::RenderWindow* window);
 		
 		virtual std::string getLabel(int key);
 		

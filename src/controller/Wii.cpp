@@ -148,7 +148,7 @@ char Wii::getCharPressed()
 	return '\0';
 }
 
-int Wii::getKeyPressed(int player)
+int Wii::getKeyPressed(int player,sf::RenderWindow* window)
 {
 	if(wii->Poll())
 	{
@@ -216,10 +216,7 @@ void Wii::setupWiimotes()
 
 void Wii::reload()
 {
-	cout << "Searching for wiimotes... Turn them on!" << endl;
-	this->numFound = wii->Find(5);
-	wiimotes = wii->Connect();
-     // wiimotes = wii->GetWiimotes();
+     wiimotes = wii->GetWiimotes();
 }
 
 void Wii::add(int player)
@@ -232,7 +229,7 @@ void Wii::add(int player)
 	else
 	{
 		this->reload();
-		this->setupWiimotes();
+		//this->setupWiimotes();
 		if(numFound > nbWiimotes)
 		{
 			wiimotesAssignation.insert(std::pair<int,CWiimote*>(player,&wiimotes[nbWiimotes]));

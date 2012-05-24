@@ -78,13 +78,13 @@ void ControllerManager::ControllerAssignation::setDefaultWiimoteConfig()
 
 void ControllerManager::ControllerAssignation::setDefaultGamepadConfig()
 {
-	this->keys[GAME_UP] = Gamepad::Y;
-	this->keys[GAME_DOWN] = Gamepad::Y;
-	this->keys[GAME_LEFT] = Gamepad::Y;
-	this->keys[GAME_RIGHT] = Gamepad::X;
-	this->keys[GAME_ACTION1] = Gamepad::But1;
-	this->keys[GAME_ACTION2] = Gamepad::But2;
-	this->keys[GAME_PAUSE] = Gamepad::But3;
+	this->keys[GAME_UP] = Gamepad::Y_UP;
+	this->keys[GAME_DOWN] = Gamepad::Y_DOWN;
+	this->keys[GAME_LEFT] = Gamepad::X_LEFT;
+	this->keys[GAME_RIGHT] = Gamepad::X_RIGHT;
+	this->keys[GAME_ACTION1] = Gamepad::BUT1;
+	this->keys[GAME_ACTION2] = Gamepad::BUT2;
+	this->keys[GAME_PAUSE] = Gamepad::BUT10;
 }
 
 void ControllerManager::ControllerAssignation::setDefaultKeyboardConfig(int player)
@@ -147,13 +147,18 @@ ControllerManager::ControllerManager()
 	
 	keyboard = new Keyboard();
 	
-	wii = new Wii();
-		
+	wii = NULL;
+	setWii();
 	gamepad = new Gamepad();
 	
 	reloadConfig(); // Chargement de la configuration des joueurs
 	
 	window = NULL;
+}
+
+void ControllerManager::setWii()
+{
+	wii = new Wii();
 }
 
 void ControllerManager::reloadConfig()
@@ -176,11 +181,14 @@ void ControllerManager::reloadConfig()
 					break;
 					
 				case GAMEPAD :
+					sf::Joystick::update();
 					gamepad->add(i+1);
 					controllerAssignation[i].setController(gamepad);
 					break;
 				
 				case WII :
+						if(wii == NULL)
+							throw new PolyBomberException("");
 						wii->add(i+1);
 						controllerAssignation[i].setController(wii);
 					break;
@@ -191,6 +199,7 @@ void ControllerManager::reloadConfig()
 			controllerAssignation[i].setController(keyboard);
 			configFileManager->setDefaultKeyboardConfig(i+1);
 			std::cout << e->what() << std::flush;
+			delete e;
 		}
 		
 		ss.str("");
@@ -282,19 +291,17 @@ SKeysConfig ControllerManager::getConfig(int player)
 SKeysConfig ControllerManager::setPlayerKey(int player, EGameKeys key)
 {
 	SKeysConfig sKeysConfig = this->getConfig(player);
-	std::cout << "Appuyer sur une touche / bouton" << std::endl;
-	int keyPressed = controllerAssignation[player-1].getController()->getKeyPressed(player);
+	
+	int keyPressed = controllerAssignation[player-1].getController()->getKeyPressed(player,window);
+
 	while( keyPressed == -1)
 	{
-		keyPressed = controllerAssignation[player-1].getController()->getKeyPressed(player);
+		keyPressed = controllerAssignation[player-1].getController()->getKeyPressed(player,window);
 	}
-	/* Si le controleur est de type clavier, on vérifie que la touche voulu n'est pas déjà utilisée par autre joueur ou par lui-même */
-	if(controllerAssignation[player-1].getController()->getControllerType() == KEYBOARD && keyUsed(keyPressed))
+
+	if(keyUsed(keyPressed,player))
 	{
-		sKeysConfig.errors[key] = "Touche déjà utilisée.";
-		#if DEBUG
-			std::cout << sKeysConfig.errors[key] << std::endl;
-		#endif
+		sKeysConfig.errors[key] = "Touche/Bouton déjà utilisée.";
 		return sKeysConfig;
 	}
 	
@@ -303,24 +310,43 @@ SKeysConfig ControllerManager::setPlayerKey(int player, EGameKeys key)
 		
 }
 
-bool ControllerManager::keyUsed(int key)
+bool ControllerManager::keyUsed(int key, int player)
 {
+	bool used = false;
 	int i=0;
 	int j=0;
-	bool used = false;
-	while(i<4 && !used)
+	switch(controllerAssignation[player-1].getController()->getControllerType())
 	{
-		if(controllerAssignation[i].getController()->getControllerType() == KEYBOARD)
-		{
+		case KEYBOARD :
+			/* Si c'est le clavier, on regarde si aucun autre joueur clavier n'utilise déjà la touche */
+			while(i<4 && !used)
+			{
+				if(controllerAssignation[i].getController()->getControllerType() == KEYBOARD)
+				{
+					j = 0;
+					while(j<7 && !used)
+					{
+						if(key == controllerAssignation[i].getKeys((EGameKeys)(j)))
+							used = true;
+						j++;
+					}
+				}
+				i++;
+			}
+			break;
+		case GAMEPAD :
+		case WII :
 			j = 0;
+			/* Si  c'est un joystick ou une wiimote, on regarde si le joueur n'utilise pas déjà cette touche */
 			while(j<7 && !used)
 			{
-				if(key == controllerAssignation[i].getKeys((EGameKeys)(j)))
+				if(key == controllerAssignation[player-1].getKeys((EGameKeys)(j)))
 					used = true;
 				j++;
 			}
-		}
-		i++;
+			break;
+		default :
+			break;
 	}
 	return used;
 }
@@ -349,6 +375,7 @@ SKeysConfig ControllerManager::setPlayerController(int player, EControllerType t
 			case GAMEPAD:
 				try
 				{
+					sf::Joystick::update();
 					gamepad->add(player);
 					if(controllerType == WII)
 					{
@@ -362,6 +389,8 @@ SKeysConfig ControllerManager::setPlayerController(int player, EControllerType t
 					#if DEBUG
 						std::cout << e->what();
 					#endif
+					delete e;
+					throw PolyBomberException("Aucun joystick n'est disponible.");
 				}	
 				break;
 			
@@ -381,6 +410,8 @@ SKeysConfig ControllerManager::setPlayerController(int player, EControllerType t
 					#if DEBUG
 						std::cout << e->what();
 					#endif
+					delete e;
+					throw PolyBomberException("Aucune wiimote n'est disponible.");
 				}
 				break;
 				
@@ -458,7 +489,7 @@ SKeyPressed ControllerManager::getKeysPressed()
 		controller = controllerAssignation[i].getController();
 		if(controller != NULL)
 		{
-			gameKeys = getAction(controller->getKeyPressed(i+1),i+1);
+			gameKeys = getAction(controller->getKeyPressed(i+1,window),i+1);
 			
 			switch(gameKeys)
 			{

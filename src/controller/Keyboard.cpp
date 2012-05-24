@@ -167,7 +167,7 @@ EControllerType Keyboard::getControllerType()
 	return KEYBOARD;
 }
 
-int Keyboard::getKeyPressed(int player)
+int Keyboard::getKeyPressed(int player,sf::RenderWindow* window)
 {
 	int k = (int)(sf::Keyboard::A);
 	

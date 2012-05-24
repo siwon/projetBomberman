@@ -12,6 +12,9 @@
 // Bibliothèques standards 
 #include <map>
 
+// Bibliothèques SFML
+#include <SFML/Window.hpp>
+
 // Headers
 #include "Controller.hpp"
 #include "../EMenuKeys.hpp"
@@ -59,7 +62,7 @@ namespace PolyBomber
 		
 		virtual EControllerType getControllerType();
 		
-		virtual int getKeyPressed(int player);
+		virtual int getKeyPressed(int player,sf::RenderWindow* window);
 		
 		virtual std::string getLabel(int key);
 

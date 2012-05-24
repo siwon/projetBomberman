@@ -13,6 +13,7 @@
 #include <map>
 
 // Bibliothèques SFML
+#include <SFML/Window.hpp>
 
 // Headers
 #include "Controller.hpp"
@@ -74,7 +75,7 @@ namespace PolyBomber
 
 		virtual char getCharPressed(); /* Non disponible pour les wiimotes*/
 
-		virtual int getKeyPressed(int player);
+		virtual int getKeyPressed(int player,sf::RenderWindow* window);
 
 		virtual std::string getLabel(int key);
 		

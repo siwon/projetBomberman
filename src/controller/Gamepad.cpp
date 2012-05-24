@@ -27,27 +27,47 @@
 
 using namespace PolyBomber;
 
-int Gamepad::nbGamepad = 0;
-
-const std::string Gamepad::keysLabel[] = {"Axe X", "Axe Y", "Bouton 1", "Bouton 2", "Bouton 3", "Bouton 4", "Bouton 5", "Bouton 6"};
+const std::string Gamepad::keysLabel[] = {"Haut", "Bas", "Gauche", "Droite", "Bouton 1", "Bouton 2", "Bouton 3", "Bouton 4", "Bouton 5", "Bouton 6", "Bouton 7", "Bouton 8", "Bouton 9", "Bouton 10"};
 
 std::string Gamepad::getLabel(int key)
 {
 	return keysLabel[key];
 }
 
+bool Gamepad::gamepadUsed(int numGamepad)
+{
+	int i = 0;
+	bool find = false;
+	
+	while (i<gamepadsAssignation.size() && !find)
+	{
+		if(gamepadsAssignation[i] == numGamepad)
+			find = true;
+		i++;
+	}
+	
+	return find;
+}
+
 void Gamepad::add(int player)
 {
-	if(sf::Joystick::isConnected(nbGamepad))
+	bool assignated = false;
+	int i = 0;
+	while( i < sf::Joystick::Count && !assignated )
 	{
-		nbGamepad++;
-		gamepadsAssignation.insert(std::pair<int,int>(player,nbGamepad));
+		if(!gamepadUsed(i) && sf::Joystick::isConnected(i))
+		{
+			gamepadsAssignation.insert(std::pair<int,int>(player,nbGamepad));
+			nbGamepad++;
+			assignated = true;
+		}
+		i++;
 	}
-	else
+	if(!assignated)
 	{
 		std::stringstream ss;
 		ss << "Aucun Joystick n'est disponible." << std::endl;
-		
+	
 		throw new PolyBomberException(ss.str());
 	}
 }
@@ -60,7 +80,7 @@ void Gamepad::disconnect(int player)
 
 Gamepad::Gamepad()
 {
-	
+	nbGamepad = 0;
 }
 
 Gamepad::~Gamepad()
@@ -79,7 +99,6 @@ EMenuKeys Gamepad::getMenuKey(sf::RenderWindow* window)
 		
 		if(event.type == sf::Event::JoystickButtonReleased)
 		{
-			//std::cout << "Joystick " << event.joystickButton.joystickId << std::endl;
 			switch(event.joystickButton.button)
 			{
 				case 0 :
@@ -153,39 +172,117 @@ char Gamepad::getCharPressed()
 	return '\0';
 }
 
-int Gamepad::getKeyPressed(int player)
+int Gamepad::getKeyPressed(int player,sf::RenderWindow* window)
 {
-	
-	if(sf::Joystick::getAxisPosition(gamepadsAssignation[player], sf::Joystick::X) < -10)
-		return GAME_LEFT;
 
-	if(sf::Joystick::getAxisPosition(gamepadsAssignation[player], sf::Joystick::X) > 10)
-		return GAME_RIGHT;
-
-	if(sf::Joystick::getAxisPosition(gamepadsAssignation[player], sf::Joystick::Y) > 10)
-		return GAME_UP;
-
-	if(sf::Joystick::getAxisPosition(gamepadsAssignation[player], sf::Joystick::Y) < -10)
-		return GAME_DOWN;
-	
-	unsigned int k = 0;
-	
-	bool buttonPressed = false;
-
-	while(k < sf::Joystick::getButtonCount(gamepadsAssignation[player]) && !buttonPressed)
+	if(window != NULL)
 	{
-		if( sf::Joystick::isButtonPressed(gamepadsAssignation[player], k) )
-		{
-			buttonPressed = true;
-		}
-		else
-		{
-			k++;
-		}
+			sf::Event event;
 		
-	}
-	if( k == sf::Joystick::getButtonCount(gamepadsAssignation[player]))
-		k = -1;
+			window->pollEvent(event);
+			
+			if(event.type == sf::Event::JoystickButtonReleased)
+			{
+				if(event.joystickButton.joystickId == gamepadsAssignation[player])
+				{
+					switch(event.joystickButton.button)
+					{
+						case 0 :
+							return BUT1;
+						case 1 :
+							return BUT2;
+						case 2 :
+							return BUT3;
+						case 3 :
+							return BUT4;
+						case 4 :
+							return BUT5;
+						case 5 :
+							return BUT6;
+						case 6 :
+							return BUT7;
+						case 7 :
+							return BUT8;
+						case 8 :
+							return BUT9;
+						case 9 :
+							return BUT10;
+						default :
+							break;
+					}
+				}
+			}
+			else if(event.type == sf::Event::JoystickMoved)
+			{
+				switch(event.joystickMove.axis)
+				{
+					if(event.joystickButton.joystickId == gamepadsAssignation[player])
+					{
+						case sf::Joystick::X :
+							if(event.joystickMove.position < -50)
+								return X_LEFT;
+							else if(event.joystickMove.position > 50)
+								return X_RIGHT;
+							break;
+					
+						case sf::Joystick::Y :
+							if(event.joystickMove.position > 50)
+								return Y_DOWN;
+							else if(event.joystickMove.position < -50)
+								return Y_UP;
+							break;
+					
+						default :
+							break;
+					}
+				}
+			}
+			else if(event.type == sf::Event::Closed)
+				window->close();
+		}
+		return -1;
+}/*
+	if(sf::Joystick::getAxisPosition(gamepadsAssignation[player], sf::Joystick::X) < -50)
+		return X_LEFT;
+
+	if(sf::Joystick::getAxisPosition(gamepadsAssignation[player], sf::Joystick::X) > 50)
+		return X_RIGHT;
+
+	if(sf::Joystick::getAxisPosition(gamepadsAssignation[player], sf::Joystick::Y) > 50)
+		return Y_UP;
+
+	if(sf::Joystick::getAxisPosition(gamepadsAssignation[player], sf::Joystick::Y) < -50)
+		return Y_DOWN;
 	
-	return k;
-}
+	if(sf::Joystick::isButtonPressed(gamepadsAssignation[player], 0))
+		return BUT1;
+	
+	if(sf::Joystick::isButtonPressed(gamepadsAssignation[player], 1))
+		return BUT2;
+		
+	if(sf::Joystick::isButtonPressed(gamepadsAssignation[player], 2))
+		return BUT3;
+		
+	if(sf::Joystick::isButtonPressed(gamepadsAssignation[player], 3))
+		return BUT4;
+		
+	if(sf::Joystick::isButtonPressed(gamepadsAssignation[player], 4))
+		return BUT5;
+		
+	if(sf::Joystick::isButtonPressed(gamepadsAssignation[player], 5))
+		return BUT6;
+	
+	if(sf::Joystick::isButtonPressed(gamepadsAssignation[player], 6))
+		return BUT7;
+	
+	if(sf::Joystick::isButtonPressed(gamepadsAssignation[player], 7))
+		return BUT8;
+		
+	if(sf::Joystick::isButtonPressed(gamepadsAssignation[player], 8))
+		return BUT9;
+		
+	if(sf::Joystick::isButtonPressed(gamepadsAssignation[player], 9))
+		return BUT10;
+		
+	return -1;
+}*/

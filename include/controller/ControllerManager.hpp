@@ -90,22 +90,34 @@ namespace PolyBomber
 				*/
 				int getKeys(EGameKeys key);
 				
+				/*!
+				 * \brief Assigne la configuration par défaut pour une wiimote
+				 */
 				void setDefaultWiimoteConfig();
+				
+				/*!
+				 * \brief Assigne la configuration par défaut pour un joystick
+				 */
 				void setDefaultGamepadConfig();
+				
+				/*!
+				 * \brief Assigne la configuration par défaut clavier pour un joueur donné
+				 */
 				void setDefaultKeyboardConfig(int player);
+				
 		};
 	
-		Controller* keyboard; /*!< Controleur de type clavier toujours instancié */
+		Controller* keyboard; /*!< Controleur de type clavier */
 		
-		Controller* wii;
+		Controller* wii; /*!< Controleurs de type wiimote */
 		
-		Controller* gamepad;
+		Controller* gamepad; /*!< Controleurs de type joystick */
 		
 		ControllerAssignation* controllerAssignation; /*!< Tableau des controleur assigné pour chaque joueur */
 		
 		ConfigFileManager* configFileManager; /*!< Gestion du fichier de configuration */
 		
-		sf::RenderWindow* window;
+		sf::RenderWindow* window; /*!< Fenetre SFML pour gérer les événements */
 		
 		/*!
 		 * \brief Constructeur de la classe ControllerManager
@@ -134,9 +146,15 @@ namespace PolyBomber
 		/*!
 		 * \brief Vérifie si une touche n'est pas déjà assignée
 		 * \param key : code touche
+		 * \param player : joueur demandant l'assignation de la touche
 		 * \return Vrai si la touche est déjà utilisée, faux sinon.
 		 */
-		bool keyUsed(int key);
+		bool keyUsed(int key, int player);
+		
+		/*!
+		 * \brief Instancie le controleur wii
+		 */
+		void setWii();
 		
 	public:
 		
