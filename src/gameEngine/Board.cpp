@@ -105,29 +105,224 @@ namespace PolyBomber {
 	}
 	
 	void Board::actionToucheHaut(int player) {
-		// TODO : a faire
-		//tester si il y a une maladie
-		//tester si le mouvement est possible
+		Player pl = getPlayerById(player);
+		int x = pl.getLocationX();//position en cran
+		int y = pl.getLocationY();//position en cran
+		int xCase = cranToCase(x);
+		int yCase = cranToCase(y);
+		if (pl.getInfection().getType()==CONFUSION) {
+			//inversion des touches directionnelles
+			if (caseIsFree(xCase,yCase+1)) {
+				if (distanceDesAutresJoueursValide(player,x,y+1)) {
+					pl.move(x,y+1);
+					if (y+1%5!=2) {
+						pl.centrerPlayerSurAxeHorizontal();
+					}
+				}
+			} else {
+				if (y+1%5<=2) {
+					pl.move(x,y+1);
+					if (y+1%5!=2) {
+						pl.centrerPlayerSurAxeHorizontal();
+					}
+				} else {
+					pl.centrerPlayerSurAxeVertical();
+				}
+				
+			}
+		} else {
+			//test si la case suivante est libre
+			if (caseIsFree(xCase,yCase-1)) {
+				if (distanceDesAutresJoueursValide(player,x,y-1)) {
+					pl.move(x,y-1);
+					if (y-1%5!=2) {//si on est pas centré sur la case, alors la position est corrigée
+						pl.centrerPlayerSurAxeHorizontal();
+					}
+				}
+			} else {
+				if (y-1%5>=2) {
+					pl.move(x,y-1);
+					if (y-1%5!=2) {//si on est pas centré sur la case, alors la position est corrigée
+						pl.centrerPlayerSurAxeHorizontal();
+					}
+				} else {
+					pl.centrerPlayerSurAxeVertical();
+				}
+			}
+		}
 	}
 	
 	void Board::actionToucheBas(int player) {
-		// TODO : a faire
+		Player pl = getPlayerById(player);
+		int x = pl.getLocationX();//position en cran
+		int y = pl.getLocationY();//position en cran
+		int xCase = cranToCase(x);
+		int yCase = cranToCase(y);
+		if (pl.getInfection().getType()==CONFUSION) {
+			//inversion des touches directionnelles
+			if (caseIsFree(xCase,yCase-1)) {
+				if (distanceDesAutresJoueursValide(player,x,y-1)) {
+					pl.move(x,y-1);
+					if (y-1%5!=2) {//si on est pas centré sur la case, alors la position est corrigée
+						pl.centrerPlayerSurAxeHorizontal();
+					}
+				}
+			} else {
+				if (y-1%5>=2) {
+					pl.move(x,y-1);
+					if (y-1%5!=2) {//si on est pas centré sur la case, alors la position est corrigée
+						pl.centrerPlayerSurAxeHorizontal();
+					}
+				} else {
+					pl.centrerPlayerSurAxeVertical();
+				}
+			}
+		} else {
+			//test si la case suivante est libre
+			if (caseIsFree(xCase,yCase+1)) {
+				if (distanceDesAutresJoueursValide(player,x,y+1)) {
+					pl.move(x,y+1);
+					if (y+1%5!=2) {
+						pl.centrerPlayerSurAxeHorizontal();
+					}
+				}
+			} else {
+				if (y+1%5<=2) {
+					pl.move(x,y+1);
+					if (y+1%5!=2) {
+						pl.centrerPlayerSurAxeHorizontal();
+					}
+				} else {
+					pl.centrerPlayerSurAxeVertical();
+				}
+				
+			}
+		}
 	}
 	
 	void Board::actionToucheGauche(int player) {
-		// TODO : a faire
+		Player pl = getPlayerById(player);
+		int x = pl.getLocationX();//position en cran
+		int y = pl.getLocationY();//position en cran
+		int xCase = cranToCase(x);
+		int yCase = cranToCase(y);
+		if (pl.getInfection().getType()==CONFUSION) {
+			//inversion des touches directionnelles
+			if (caseIsFree(xCase+1,yCase)) {
+				if (distanceDesAutresJoueursValide(player,x+1,y)) {
+					pl.move(x+1,y);
+					if (x+1%5!=2) {
+						pl.centrerPlayerSurAxeVertical();
+					}
+				}
+			} else {
+				if (x+1%5>=2) {
+					pl.move(x+1,y);
+					if (x+1%5!=2) {
+						pl.centrerPlayerSurAxeVertical();
+					}
+				} else {
+					pl.centrerPlayerSurAxeHorizontal();
+				}
+			}
+		} else {
+			//test si la case suivante est libre
+			if (caseIsFree(xCase-1,yCase)) {
+				if (distanceDesAutresJoueursValide(player,x-1,y)) {
+					pl.move(x-1,y);
+					if (x-1%5!=2) {
+						pl.centrerPlayerSurAxeVertical();
+					}
+				}
+			} else {
+				if (x-1%5<=2) {
+					pl.move(x-1,y);
+					if (x-1%5!=2) {
+						pl.centrerPlayerSurAxeVertical();
+					}
+				} else {
+					pl.centrerPlayerSurAxeHorizontal();
+				}
+			}
+		}
 	}
 	
 	void Board::actionToucheDroite(int player) {
-		// TODO : a faire
+		Player pl = getPlayerById(player);
+		int x = pl.getLocationX();//position en cran
+		int y = pl.getLocationY();//position en cran
+		int xCase = cranToCase(x);
+		int yCase = cranToCase(y);
+		if (pl.getInfection().getType()==CONFUSION) {
+			//inversion des touches directionnelles
+			if (caseIsFree(xCase-1,yCase)) {
+				if (distanceDesAutresJoueursValide(player,x-1,y)) {
+					pl.move(x-1,y);
+					if (x-1%5!=2) {
+						pl.centrerPlayerSurAxeVertical();
+					}
+				}
+			} else {
+				if (x-1%5<=2) {
+					pl.move(x-1,y);
+					if (x-1%5!=2) {
+						pl.centrerPlayerSurAxeVertical();
+					}
+				} else {
+					pl.centrerPlayerSurAxeHorizontal();
+				}
+			}
+		} else {
+			//test si la case suivante est libre
+			if (caseIsFree(xCase+1,yCase)) {
+				if (distanceDesAutresJoueursValide(player,x+1,y)) {
+					pl.move(x+1,y);
+					if (x+1%5!=2) {
+						pl.centrerPlayerSurAxeVertical();
+					}
+				}
+			} else {
+				if (x+1%5>=2) {
+					pl.move(x+1,y);
+					if (x+1%5!=2) {
+						pl.centrerPlayerSurAxeVertical();
+					}
+				} else {
+					pl.centrerPlayerSurAxeHorizontal();
+				}
+			}
+		}
 	}
 	
-	void Board::actionToucheAction1(int player) {
-		// TODO : a faire
+	void Board::actionToucheAction1(int player, int date) {
+		Player pl = getPlayerById(player);
+		if (pl.getCapacity()>0) {//le joueur peut poser une bombe
+			bomb.push_back(Bomb(date,pl));
+		}
 	}
 	
-	void Board::actionToucheAction2(int player) {
+	void Board::actionToucheAction2(int player, int date) {
 		// TODO : a faire
+		Player pl = getPlayerById(player);
+		if (pl.getBombBonus().size()>0) {
+			//utiliser le 1er bonus puis le supprimer de la liste
+		} else {
+			if (pl.getDetonator()) {
+				bool remoteBombDejaPosee=false;
+				int indiceRemoteBomb;
+				for (unsigned int i=0;i<remoteBomb.size();i++) {
+					if (remoteBomb[i].getPlayer()==player) {
+						remoteBombDejaPosee=true;
+						indiceRemoteBomb=i;
+					}
+				}
+				if (remoteBombDejaPosee) {
+					explodeRemoteBomb(indiceRemoteBomb, date);
+				} else {
+					remoteBomb.push_back(RemoteBomb(pl));
+				}
+			}
+		}
 	}
 	
 	void Board::removeBox(int i) {
@@ -290,6 +485,11 @@ namespace PolyBomber {
 		generateFlame(bomb[indice].getLocationX(),bomb[indice].getLocationY(),bomb[indice].getRange(),bomb[indice].getTimeOfExplosion()+DUREEFLAMME);
 		bomb.erase(bomb.begin()+indice);
 	}
+
+	void Board::explodeRemoteBomb(unsigned int indice, int date) {
+		generateFlame(remoteBomb[indice].getLocationX(),remoteBomb[indice].getLocationY(),remoteBomb[indice].getRange(),date+DUREEFLAMME);
+		remoteBomb.erase(remoteBomb.begin()+indice);
+	}
 	
 	void Board::explodeMine(int x, int y, int date) {
 		for (unsigned int i=0; i<mine.size(); i++) {
@@ -389,10 +589,56 @@ namespace PolyBomber {
 				player[i].killPlayer();
 			}
 			if (isABonusInThisCase(x,y)) {
-				//ajout du bonus au joueur
-				player[i].addBonus(getBonusByCoord(x,y));
-				//suppression du bonus sur la carte
-				bonus.erase(bonus.begin()+getIndiceBonus(x,y));
+				Bonus bon = getBonusByCoord(x,y);
+				if (bon.getType()==HELL) {
+					int alea=rand()%4;
+					for (unsigned int j=0;j<player.size();j++) {
+						switch(alea) {
+						case 0 :
+							player[j].addBonus(Bonus(player[j].getLocationX(),player[j].getLocationY(),CONFUSION,true));
+							break;
+
+						case 1 :
+							player[j].addBonus(Bonus(player[j].getLocationX(),player[j].getLocationY(),SPASME,true));
+							break;
+
+						case 2 :
+							player[j].addBonus(Bonus(player[j].getLocationX(),player[j].getLocationY(),DILATATION,true));
+							break;
+
+						case 3 :
+							player[j].addBonus(Bonus(player[j].getLocationX(),player[j].getLocationY(),RAGE,true));
+							break;
+
+						default :
+							break;
+						}
+					}
+				} else if (bon.getType()==CRANE) {
+					int alea=rand()%4;
+					switch(alea) {
+					case 0 :
+						player[i].addBonus(Bonus(player[i].getLocationX(),player[i].getLocationY(),CONFUSION,true));
+						break;
+
+					case 1 :
+						player[i].addBonus(Bonus(player[i].getLocationX(),player[i].getLocationY(),SPASME,true));
+						break;
+
+					case 2 :
+						player[i].addBonus(Bonus(player[i].getLocationX(),player[i].getLocationY(),DILATATION,true));
+						break;
+
+					case 3 :
+						player[i].addBonus(Bonus(player[i].getLocationX(),player[i].getLocationY(),RAGE,true));
+						break;
+
+					default :
+						break;
+					}
+				} else {
+
+				}
 			}
 			if (isAMineInThisCase(x,y)) {
 				int indiceMine = getIndiceMineByCoord(x,y);
@@ -437,86 +683,4 @@ namespace PolyBomber {
 			}
 		}
 	}
-	
-	/*static EGameBonus intToEGameBonus(int i) {
-		EGameBonus toReturn;
-		switch (i) {
-			case 0:
-				toReturn=SPEEDUP;
-				break;
-				
-			case 1:
-				toReturn=SPEEDDOWN;
-				break;
-				
-			case 2:
-				toReturn=BOMBLINE;
-				break;
-				
-			case 3:
-				toReturn=DETONATOR;
-				break;
-				
-			case 4:
-				toReturn=BOMBUP;
-				break;
-				
-			case 5:
-				toReturn=BOMBDOWN;
-				break;
-				
-			case 6:
-				toReturn=RANGEUP;
-				break;
-				
-			case 7:
-				toReturn=RANGEDOWN;
-				break;
-				
-			case 8:
-				toReturn=RANGEUPMAX;
-				break;
-				
-			case 9:
-				toReturn=MINE;
-				break;
-				
-			case 10:
-				toReturn=INFINITYBOMB;
-				break;
-				
-			case 11:
-				toReturn=ATOMICBOMB;
-				break;
-				
-			case 12:
-				toReturn=CRANE;
-				break;
-				
-			case 13:
-				toReturn=HELL;
-				break;
-				
-			case 14:
-				toReturn=CONFUSION;
-				break;
-				
-			case 15:
-				toReturn=SPASME;
-				break;
-				
-			case 16:
-				toReturn=DILATATION;
-				break;
-				
-			case 17:
-				toReturn=RAGE;
-				break;
-				
-			default:
-				//erreur
-				break;
-		}
-	}*/
-	
 }

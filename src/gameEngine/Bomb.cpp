@@ -20,8 +20,9 @@
 
 namespace PolyBomber {
 	
-	Bomb::Bomb(sf::Clock horloge, const Player& player) : Explosive(player) {
-		this->timeOfExplosion=horloge.getElapsedTime().asSeconds()+BOMBTIMESTAMP;
+	Bomb::Bomb(int date, const Player& player, int type) : Explosive(player) {
+		this->timeOfExplosion=date+BOMBTIMESTAMP;
+		this->type=type;
 	}
 	
 	Bomb::Bomb(const Bomb& bombe) : Explosive(bombe.getPlayer(), bombe.getRange(), bombe.getLocationX(), bombe.getLocationY()) {

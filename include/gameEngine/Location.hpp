@@ -28,6 +28,8 @@ namespace PolyBomber {
 		inline int getLocationX() const {return location.x;}
 		inline int getLocationY() const {return location.y;}
 		inline sf::Vector2<int> getLocation() const {return location;}
+
+		void setLocation(int x, int y);
 	};
 }
 
