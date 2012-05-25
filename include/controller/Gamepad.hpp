@@ -34,7 +34,7 @@ namespace PolyBomber
 		 */
 		enum Keys
 		{
-			Y_UP,
+			Y_UP = 0,
 			Y_DOWN,
 			X_LEFT,
 			X_RIGHT,

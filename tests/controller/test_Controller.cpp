@@ -35,15 +35,16 @@ int main()
 	
 	ControllerManager* controllerManager = ControllerManager::getInstance();
 
-
+	controllerManager->setWii();
 	// Limit the framerate to 1 frames per second (this step is optional)
 	window.setFramerateLimit(1000);
 	
 	controllerManager->setWindow(&window);
-	//controllerManager->setPlayerKey(2,GAME_UP);
+	
 
 	//controllerManager->printConfig(1);
 	controllerManager->setPlayerController(2,GAMEPAD);
+	controllerManager->setPlayerKey(2,GAME_UP);
 	//controllerManager->setPlayerController(3,WII);
 	controllerManager->printConfig(2);
 	//controllerManager->printConfig(3);
@@ -56,7 +57,7 @@ int main()
 		//controllerManager->getKeyPressed();
 		//controllerManager->getCharPressed();
 		controllerManager->getKeysPressed();
-
+		//controllerManager->printConfig(2);
 		// Event processing
 		sf::Event event;
 		while (window.pollEvent(event))

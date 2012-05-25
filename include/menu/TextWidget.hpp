@@ -55,6 +55,18 @@ namespace PolyBomber
 			 */
 			void setY(unsigned int y);
 
+			/*!
+			 * Indique si le texte est visible ou non
+			 * \return True si le texte est visible
+			 */
+			inline bool isVisible() {return this->visible;}
+
+			/*!
+			 * Permet de définir la visibilité du widget
+			 * \param visible : True si le widget est visible
+			 */
+			void setVisible(bool visible);
+
 		protected:
 			std::map<ETextFont, std::string> fontFiles; /*!< Liste des fichiers de police */
 			std::map<ETextFont, unsigned int> sizes; /*!< Liste des tailles de police */
@@ -64,6 +76,8 @@ namespace PolyBomber
 
 			sf::Font font; /*!< Police du texte */
 			ETextFont fontStyle; /*!< Style de la police */
+
+			bool visible; /*!< Indique si le texte est visible */
 
 			/*!
 			 * \brief Méthode d'initialisation

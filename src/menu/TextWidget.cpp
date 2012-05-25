@@ -13,7 +13,8 @@ namespace PolyBomber
 			sf::Text(text),
 			PATH("resources/fonts/"),
 			WIDTH(800),
-			fontStyle(font)
+			fontStyle(font),
+			visible(true)
 	{
 		init();
 
@@ -71,6 +72,19 @@ namespace PolyBomber
 		
 		this->setFont(this->font);
 		this->setCharacterSize(this->sizes[this->fontStyle]);
+	}
+
+	void TextWidget::setVisible(bool visible)
+	{
+		this->visible = visible;
+		sf::Color color = this->getColor();
+
+		if (visible)
+			color.a = 255;
+		else
+			color.a = 0;
+
+		this->setColor(color);
 	}
 }
 

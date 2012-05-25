@@ -185,7 +185,7 @@ int Keyboard::getKeyPressed(int player,sf::RenderWindow* window)
 		}
 		
 	}
-	if( k == (int)(sf::Keyboard::KeyCount) )
+	if( !keyPressed )
 		k = -1;
 	
 	return k;

@@ -29,7 +29,7 @@ namespace PolyBomber
 
 		subtitle.setString(text.str());
 
-		this->errorXPos = errorKey.getPosition().x;
+		errorKey.setVisible(false);
 
 		this->widgets.push_back(&title);
 		this->widgets.push_back(&subtitle);
@@ -88,6 +88,8 @@ namespace PolyBomber
 	{
 		for (int i=6; i>=0; i--)
 			keyText[i]->goNext();
+
+		errorKey.setVisible(false);
 	}
 
 	void KeyAssignMenu::upPressed()
@@ -97,6 +99,8 @@ namespace PolyBomber
 
 		cancel.goPrevious();
 		save.goPrevious();
+
+		errorKey.setVisible(false);
 	}
 
 	void KeyAssignMenu::leftPressed()
@@ -118,7 +122,7 @@ namespace PolyBomber
 			if (keyText[i]->getSelected())
 			{
 				keyText[i]->setString("...");
-				errorKey.setPosition(this->errorXPos, -100);
+				errorKey.setVisible(false);
 
 				this->window->clear();
 				this->window->display(this->widgets);
@@ -128,7 +132,7 @@ namespace PolyBomber
 				for (int j=0; j<7; j++)					
 				{
 					if (k.errors[j].compare("") != 0)
-						errorKey.setPosition(this->errorXPos, 170);
+						errorKey.setVisible(true);
 				}
 				
 				initKeys();
@@ -157,7 +161,7 @@ namespace PolyBomber
 	{
 		this->window = &window;
 
-		errorKey.setPosition(this->errorXPos, -100);
+		errorKey.setVisible(false);
 		
 		initKeys();
 
