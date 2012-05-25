@@ -22,6 +22,8 @@ namespace PolyBomber
 		this->colors[LINKCOLOR] = "link";
 		this->colors[SELECTEDCOLOR] = "selected";
 		this->colors[ERRORCOLOR] = "error";
+		this->colors[BGCOLOR] = "bg";
+		this->colors[SELECTEDBGCOLOR] = "selectedbg";
 
 		reloadConfig();
 	}

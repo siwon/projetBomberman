@@ -19,9 +19,9 @@ namespace PolyBomber
 		TITLECOLOR,
 		LINKCOLOR,
 		SELECTEDCOLOR,
-		ERRORCOLOR
-
-		// TODO: Remplir avec les autres libellés de couleur
+		ERRORCOLOR,
+		BGCOLOR,
+		SELECTEDBGCOLOR
 	};
 }
 
