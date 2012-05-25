@@ -22,7 +22,7 @@ namespace PolyBomber {
 	public:
 		Box(int, int);
 		Box(const Box&);
-		Box& operator=(Box&);
+		//Box& operator=(Box&);
 		~Box();
 	};
 }

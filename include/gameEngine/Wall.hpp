@@ -19,7 +19,7 @@ namespace PolyBomber {
 	public:
 		Wall(int, int);
 		Wall(const Wall&);
-		Wall& operator=(Wall&);
+		//Wall& operator=(Wall&);
 		~Wall();
 	};
 }

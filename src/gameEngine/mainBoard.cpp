@@ -52,7 +52,7 @@ int main()
 	//b.generateBoard(nbPlayer,nbBonus,nbBox);
 	//b.toString();
 	
-	GameEngineManager g = GameEngineManager();
+	//GameEngineManager g = GameEngineManager();
 	
     return 0;
 }

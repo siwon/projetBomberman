@@ -110,7 +110,7 @@ namespace PolyBomber {
 		int y = pl.getLocationY();//position en cran
 		int xCase = cranToCase(x);
 		int yCase = cranToCase(y);
-		if (pl.getInfection().getType()==CONFUSION) {
+		if (pl.getInfection()==1) {
 			//inversion des touches directionnelles
 			if (caseIsFree(xCase,yCase+1)) {
 				if (distanceDesAutresJoueursValide(player,x,y+1)) {
@@ -158,7 +158,7 @@ namespace PolyBomber {
 		int y = pl.getLocationY();//position en cran
 		int xCase = cranToCase(x);
 		int yCase = cranToCase(y);
-		if (pl.getInfection().getType()==CONFUSION) {
+		if (pl.getInfection()==1) {
 			//inversion des touches directionnelles
 			if (caseIsFree(xCase,yCase-1)) {
 				if (distanceDesAutresJoueursValide(player,x,y-1)) {
@@ -206,7 +206,7 @@ namespace PolyBomber {
 		int y = pl.getLocationY();//position en cran
 		int xCase = cranToCase(x);
 		int yCase = cranToCase(y);
-		if (pl.getInfection().getType()==CONFUSION) {
+		if (pl.getInfection()==1) {
 			//inversion des touches directionnelles
 			if (caseIsFree(xCase+1,yCase)) {
 				if (distanceDesAutresJoueursValide(player,x+1,y)) {
@@ -253,7 +253,7 @@ namespace PolyBomber {
 		int y = pl.getLocationY();//position en cran
 		int xCase = cranToCase(x);
 		int yCase = cranToCase(y);
-		if (pl.getInfection().getType()==CONFUSION) {
+		if (pl.getInfection()==1) {
 			//inversion des touches directionnelles
 			if (caseIsFree(xCase-1,yCase)) {
 				if (distanceDesAutresJoueursValide(player,x-1,y)) {
@@ -306,6 +306,14 @@ namespace PolyBomber {
 		Player pl = getPlayerById(player);
 		if (pl.getBombBonus().size()>0) {
 			//utiliser le 1er bonus puis le supprimer de la liste
+			if (pl.getFirstBombBonus()==INFINITYBOMB) {
+				bomb.push_back(Bomb(date,pl,1));
+			} else if (pl.getFirstBombBonus()==ATOMICBOMB) {
+				bomb.push_back(Bomb(date,pl,2));
+			} else {
+				bomb.push_back(Bomb(date,pl,3));
+			}
+			bomb.erase(bomb.begin());
 		} else {
 			if (pl.getDetonator()) {
 				bool remoteBombDejaPosee=false;

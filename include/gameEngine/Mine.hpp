@@ -20,7 +20,7 @@ namespace PolyBomber {
 	public:
 		Mine(const Player&);
 		Mine(const Mine&);
-		Mine& operator=(Mine&);
+		//Mine& operator=(Mine&);
 		~Mine();
 	};
 }

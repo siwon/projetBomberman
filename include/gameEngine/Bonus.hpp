@@ -26,7 +26,7 @@ namespace PolyBomber {
 	public :
 		Bonus(int, int, EGameBonus, bool);
 		Bonus(const Bonus&);
-		Bonus& operator=(const Bonus&);
+		//Bonus& operator=(const Bonus&);
 		~Bonus();
 		
 		inline EGameBonus getType() const {return this->type;}
