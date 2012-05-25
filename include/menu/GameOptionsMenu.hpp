@@ -1,9 +1,9 @@
-#ifndef _CREATEGAMEMENU
-#define _CREATEGAMEMENU
+#ifndef _GAMEOPTIONSMENU
+#define _GAMEOPTIONSMENU
 
 /*!
- * \file CreateGameMenu.hpp
- * \brief Classe de gestion du menu de création d'une partie
+ * \file GameOptionsMenu.hpp
+ * \brief Classe de gestion du menu d'options d'une partie
  * \author Maxime GUIHAL
  */
 
@@ -18,21 +18,21 @@
 namespace PolyBomber
 {
 	/*!
-	 * \class CreateGameMenu
-	 * \brief Classe de gestion du menu de création d'une partie
+	 * \class GameOptionsMenu
+	 * \brief Classe de gestion du menu d'options d'une partie
 	 */
-	class CreateGameMenu : public IMenuScreen
+	class GameOptionsMenu : public IMenuScreen
 	{
 		public:
 			/*!
 			 * Constructeur
 			 */
-			CreateGameMenu(SGameConfig* gameConfig);
+			GameOptionsMenu(SGameConfig* gameConfig);
 
 			/*!
 			 * Destructeur
 			 */
-			~CreateGameMenu() {}
+			~GameOptionsMenu();
 
 			/*!
 			 * \see IMenuScreen::run
@@ -71,33 +71,30 @@ namespace PolyBomber
 
 		private:
 			TextWidget title;
-			TextWidget typeText;
-			TextWidget playersText;
+			SelectionWidget category;
 
-			SelectionWidget type;
-			SelectionWidget players;
-
-			LinkWidget options;
-			
+			TextWidget* texts[18];
+			SelectionWidget* bonus[18];
+						
 			LinkWidget cancel;
-			LinkWidget next;
+			LinkWidget save;
 
 			SGameConfig* gameConfig;
 
 			/*!
-			 * \brief Méthode pour changer le nombre de joueurs locaux maximal
+			 * \brief Procédure d'initialisation des bonus
 			 */
-			void changePlayers();
+			void initBonus();
 
 			/*!
-			 * \brief Méthode pour initialiser la configuration du jeu
+			 * \brief Procédure pour changer de catégorie
 			 */
-			void initGameConfig();
+			void setCategory();
 
 			/*!
-			 * \brief Méthode pour initialiser les widgets
+			 * \brief Procédure pour recharger le nombre de bonus
 			 */
-			void initWidgets();
+			void reloadBonus();
 	};
 }
 

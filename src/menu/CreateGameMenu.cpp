@@ -9,7 +9,7 @@
 
 namespace PolyBomber
 {
-	CreateGameMenu::CreateGameMenu() :
+	CreateGameMenu::CreateGameMenu(SGameConfig* gameConfig) :
 		title("Creation d'une partie", TITLEFONT, 100),
 		typeText("Type de la partie : ", TEXTFONT, 225, RIGHT),
 		playersText("Nombre de joueurs sur cet ordinateur : ", TEXTFONT, 300, RIGHT),
@@ -17,7 +17,8 @@ namespace PolyBomber
 		players(TEXTFONT, 300),
 		options("Options de la partie", 375, GAMEOPTIONSMENU),
 		cancel("Annuler", 450, GAMEMENU),
-		next("Suivant", 450, SELECTNAMEMENU)
+		next("Suivant", 450, SELECTNAMEMENU),
+		gameConfig(gameConfig)
 	{
 		ISkin* skin = PolyBomberApp::getISkin();
 		
@@ -64,6 +65,8 @@ namespace PolyBomber
 		this->widgets.push_back(&options);
 		this->widgets.push_back(&cancel);
 		this->widgets.push_back(&next);
+
+		initGameConfig();
 	}
 
 	void CreateGameMenu::downPressed()
@@ -86,6 +89,8 @@ namespace PolyBomber
 		type.goPreviousItem();
 		players.goPreviousItem();
 		next.goNext();
+
+		changePlayers();
 	}
 
 	void CreateGameMenu::rightPressed()
@@ -93,12 +98,17 @@ namespace PolyBomber
 		type.goNextItem();
 		players.goNextItem();
 		cancel.goNext();
+
+		changePlayers();
 	}
 
 	void CreateGameMenu::validPressed(EMenuScreen* nextScreen)
 	{
 		if (cancel.getSelected())
+		{
 			*nextScreen = cancel.activate();
+			initGameConfig();
+		}
 
 		if (options.getSelected())
 			*nextScreen = options.activate();
@@ -116,6 +126,46 @@ namespace PolyBomber
 
 	EMenuScreen CreateGameMenu::run(MainWindow& window, EMenuScreen previous)
 	{
+		initWidgets();
 		return IMenuScreen::run(window, previous);
+	}
+
+	void CreateGameMenu::changePlayers()
+	{
+		if (type.getSelected())
+		{
+			players.clear();
+			players.push_back("1");
+			players.push_back("2");
+			players.push_back("3");
+			
+			if (!type.getCurrentItem())
+				players.push_back("4");
+		}
+
+		this->gameConfig->isLocal = !type.getCurrentItem();
+		this->gameConfig->nbPlayers = players.getCurrentItem() + 1;
+	}
+
+	void CreateGameMenu::initGameConfig()
+	{
+		int nbBonus[18] = {5,3,5,3,1,4,4,1,   7,4,3,2,   3,1,2,2,2,2};
+		int i;
+
+		this->gameConfig->isLocal = true;
+		this->gameConfig->nbPlayers = 1;
+
+		for (i=0; i<4; i++)
+			this->gameConfig->playersName[i] = "";
+
+		for (i=0; i<18; i++)
+			this->gameConfig->nbBonus[i] = nbBonus[i];
+	}
+
+	void CreateGameMenu::initWidgets()
+	{
+		type.setCurrentItem(!this->gameConfig->isLocal);
+		changePlayers();
+		players.setCurrentItem(this->gameConfig->nbPlayers - 1);
 	}
 }

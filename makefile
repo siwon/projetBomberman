@@ -35,6 +35,9 @@ gameInterface:
 network:
 	(cd src/$@ && $(MAKE))
 
+gameEngine:
+	(cd src/$@ && $(MAKE))
+
 .PHONY: clean mrproper
 
 clean:

@@ -15,6 +15,8 @@
 #include "menu/ControllersConfigMenu.hpp"
 #include "menu/KeyAssignMenu.hpp"
 #include "menu/CreateGameMenu.hpp"
+#include "menu/GameOptionsMenu.hpp"
+#include "menu/SelectNameMenu.hpp"
 
 #include "PolyBomberApp.hpp"
 
@@ -27,16 +29,19 @@ namespace PolyBomber
 		// Ajout des menus
 		this->menuScreens[SPLASHSCREEN] = new SplashScreen();
 		this->menuScreens[MAINMENU] = new MainMenu();
-		this->menuScreens[GAMEMENU] = new GameMenu();
-		this->menuScreens[CONFIGMENU] = new ConfigMenu();
-		this->menuScreens[GRAPHICSCONFIGMENU] = new GraphicsConfigMenu();
-		this->menuScreens[SOUNDCONFIGMENU] = new SoundConfigMenu();
-		this->menuScreens[CONTROLLERSCONFIGMENU] = new ControllersConfigMenu();
-		this->menuScreens[KEYASSIGNMENU1] = new KeyAssignMenu(1);
-		this->menuScreens[KEYASSIGNMENU2] = new KeyAssignMenu(2);
-		this->menuScreens[KEYASSIGNMENU3] = new KeyAssignMenu(3);
-		this->menuScreens[KEYASSIGNMENU4] = new KeyAssignMenu(4);
-		this->menuScreens[CREATEGAMEMENU] = new CreateGameMenu();
+			this->menuScreens[GAMEMENU] = new GameMenu();
+				this->menuScreens[CREATEGAMEMENU] = new CreateGameMenu(&gameConfig);
+					this->menuScreens[GAMEOPTIONSMENU] = new GameOptionsMenu(&gameConfig);
+					this->menuScreens[SELECTNAMEMENU] = new SelectNameMenu(&gameConfig);
+				
+			this->menuScreens[CONFIGMENU] = new ConfigMenu();
+				this->menuScreens[GRAPHICSCONFIGMENU] = new GraphicsConfigMenu();
+				this->menuScreens[SOUNDCONFIGMENU] = new SoundConfigMenu();
+				this->menuScreens[CONTROLLERSCONFIGMENU] = new ControllersConfigMenu();
+					this->menuScreens[KEYASSIGNMENU1] = new KeyAssignMenu(1);
+					this->menuScreens[KEYASSIGNMENU2] = new KeyAssignMenu(2);
+					this->menuScreens[KEYASSIGNMENU3] = new KeyAssignMenu(3);
+					this->menuScreens[KEYASSIGNMENU4] = new KeyAssignMenu(4);
 	}
 
 	MenuManager::~MenuManager()

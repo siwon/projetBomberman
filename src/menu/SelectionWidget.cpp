@@ -147,5 +147,36 @@ namespace PolyBomber
 				(*it).setColor(skin->getColor(TEXTCOLOR));
 		}					
 	}
+
+	void SelectionWidget::setVisible(bool visible)
+	{
+		this->visible = visible;
+		sf::Color arrowColor = this->leftArrow.getColor();
+		sf::Color itemColor = this->list[0].getColor();
+
+		if (visible)
+		{
+			arrowColor.a = 255;
+			itemColor.a = 255;
+		}
+		else
+		{
+			arrowColor.a = 0;
+			itemColor.a = 0;
+		}
+
+		this->leftArrow.setColor(arrowColor);
+		this->rightArrow.setColor(arrowColor);
+
+		std::vector<TextWidget>::iterator it;
+		for (it = this->list.begin(); it != this->list.end(); it++)
+			(*it).setColor(itemColor);
+	}
+
+	void SelectionWidget::clear()
+	{
+		this->list.clear();
+		this->selectedItem = 0;
+	}
 }
 

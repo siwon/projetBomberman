@@ -11,6 +11,7 @@
 
 #include "IMenuToMain.hpp"
 #include "IMenuToGameInterface.hpp"
+#include "SGameConfig.hpp"
 #include "TSingleton.hpp"
 
 #include "menu/MainWindow.hpp"
@@ -52,6 +53,8 @@ namespace PolyBomber
 
 			MainWindow window; /*!< Fenêtre du programme */
 			std::map<EMenuScreen, IMenuScreen*> menuScreens; /*!< Liste des différents menus du jeu */
+
+			SGameConfig gameConfig; /*!< Configuration des parties */
 	};
 }
 

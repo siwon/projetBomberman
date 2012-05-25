@@ -43,12 +43,6 @@ namespace PolyBomber
 			MainWindow& operator=(const MainWindow& obj);
 
 			/*!
-			 * \brief Méthode pour gérer la fermeture de la fenêtre
-			 *  \return True si la fenêtre doit être fermée
-			 */
-			bool listenCloseButton(); 
-
-			/*!
 			 * \brief Méthode pour effacer la fenêtre
 			 */
 			void clear();
@@ -82,6 +76,12 @@ namespace PolyBomber
 			 * \return False si le plein ecran est impossible
 			 */
 			bool canFullScreen();
+
+			/*!
+			 * \brief Renvoie l'etat d'ouverture de la fenêtre
+			 * \return True si la fenêtre est ouverte
+			 */
+			bool isOpen();
 
 		private:
 			static sf::RenderWindow window; /*!< Fenetre du programme */
