@@ -30,7 +30,14 @@ namespace PolyBomber {
 		this->step=0;
 		
 		this->bombBonus=std::vector<Bonus>();
-		
+		this->infection=0;
+		/*
+		 * 0 => rien
+		 * 1 => CONFUSION
+		 * 2 => SPASME
+		 * 3 => DILATATION
+		 * 4 => RAGE
+		 */
 	}
 	
 	Player::Player(const Player& pl) : Location(pl.getLocationX(),pl.getLocationY()) {
@@ -39,17 +46,18 @@ namespace PolyBomber {
 		this->capacity=pl.getCapacity();
 		this->orientation=pl.getOrientation();
 		this->range=pl.getRange();
-		this->alive=getAlive();
-		this->step=getStep();
+		this->alive=pl.getAlive();
+		this->step=pl.getStep();
 		
 		this->bombBonus=std::vector<Bonus>();
+		this->infection=pl.getInfection();
 	}
 	
 	Player::~Player() {
 	}
 	
 	void Player::removeInfection() {
-		this->infection.~Bonus();
+		this->infection=0;
 	}
 	
 	void Player::addBonus(Bonus bonus) {
@@ -119,27 +127,29 @@ namespace PolyBomber {
 				break;
 				
 			case CRANE:
-				infection=bonus;
+				//donner une infection à chaque joueur
+				//infection=bonus;
 				break;
 				
 			case HELL:
-				infection=bonus;
+				//donner une infection à chaque joueur
+				//infection=bonus;
 				break;
 				
 			case CONFUSION:
-				infection=bonus;
+				infection=1;
 				break;
 				
 			case SPASME:
-				infection=bonus;
+				infection=2;
 				break;
 				
 			case DILATATION:
-				infection=bonus;
+				infection=3;
 				break;
 				
 			case RAGE:
-				infection=bonus;
+				infection=4;
 				break;
 				
 			default:

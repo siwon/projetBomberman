@@ -44,7 +44,7 @@ namespace PolyBomber {
 	public:
 		Board();
 		Board(const Board&);
-		Board& operator=(Board&);
+		//Board& operator=(Board&);
 		~Board();
 		
 		inline int getNbPlayer() {return this->player.size();}
