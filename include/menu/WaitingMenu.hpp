@@ -11,7 +11,6 @@
 
 #include "menu/TextWidget.hpp"
 #include "menu/LinkWidget.hpp"
-#include "menu/SelectionWidget.hpp"
 
 namespace PolyBomber
 {

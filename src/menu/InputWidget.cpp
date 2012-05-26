@@ -12,6 +12,7 @@ namespace PolyBomber
 	InputWidget::InputWidget(ETextFont font, unsigned int y, ETextPosition position, unsigned int width) :
 		ClickableWidget(),
 		text("", font, 0, LEFT),
+		maxLength(10),
 		WIDTH(800)
 	{
 		ISkin* skin = PolyBomberApp::getISkin();
@@ -37,6 +38,7 @@ namespace PolyBomber
 		ClickableWidget(),
 		text(obj.text),
 		area(obj.area),
+		maxLength(obj.maxLength),
 		WIDTH(800)	
 	{}
 
@@ -45,6 +47,7 @@ namespace PolyBomber
 		this->visible = obj.visible;
 		this->area = obj.area;
 		this->text = obj.text;
+		this->maxLength = obj.maxLength;
 		return *this;
 	}
 			
@@ -116,7 +119,7 @@ namespace PolyBomber
 			{
 				std::string s = text.getString() + c;
 
-				if (s.size() < 11)
+				if (s.size() < this->maxLength + 1)
 					text.setString(s);
 			}
 			else if (c == 2) // retour arrière

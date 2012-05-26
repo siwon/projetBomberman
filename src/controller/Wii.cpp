@@ -67,7 +67,7 @@ Wii::~Wii()
 }
 
 
-EMenuKeys Wii::getMenuKey(sf::RenderWindow* window)
+EMenuKeys Wii::getMenuKey(sf::RenderWindow*)
 {
 	std::vector<CWiimote>::iterator i;
 	if(wii->Poll())
@@ -143,12 +143,12 @@ EControllerType Wii::getControllerType()
 	return WII;
 }
 
-char Wii::getCharPressed(sf::RenderWindow* window)
+char Wii::getCharPressed(sf::RenderWindow*)
 {
 	return '\0';
 }
 
-int Wii::getKeyPressed(int player,sf::RenderWindow* window)
+int Wii::getKeyPressed(int player,sf::RenderWindow*)
 {
 	if(wii->Poll())
 	{

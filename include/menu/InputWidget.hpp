@@ -89,6 +89,20 @@ namespace PolyBomber
 			 */
 			inline void setString(std::string text) {this->text.setString(text);}
 
+			/*!
+			 * \brief Méthode pour savoir la longueur maximale du texte
+			 * saisi
+			 * \return La longueur maximale
+			 */
+			inline unsigned int getMaxLength() {return this->maxLength;}
+
+			/*!
+			 * \brief Méthode pour déterminer la longueur maximale du texte
+			 * saisi
+			 * \param length : Longueur maximale
+			 */
+			inline void setMaxLength(unsigned int length) {this->maxLength = length;}
+
 		private:
 			/*!
 			 * \brief Méthode de dessin
@@ -97,10 +111,12 @@ namespace PolyBomber
 			 */
 			virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 
-			sf::RectangleShape area;
 			TextWidget text;
+			sf::RectangleShape area;
 
 			bool visible; /*!< Indique si le widget est visible */
+
+			unsigned int maxLength; /*!< Longueur maximale du texte saisi */
 			
 			const unsigned int WIDTH; /*!< Largeur de la fenêtre */
 	};

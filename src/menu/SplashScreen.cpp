@@ -20,7 +20,7 @@ namespace PolyBomber
 		this->widgets.push_back(&splash);
 	}
 
-	EMenuScreen SplashScreen::run(MainWindow& window, EMenuScreen previous)
+	EMenuScreen SplashScreen::run(MainWindow& window, EMenuScreen)
 	{
 		sf::Clock clock;
 		bool wiiSearch = false;

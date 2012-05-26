@@ -64,14 +64,15 @@ namespace PolyBomber
 
 			/*!
 			 * \brief Appui sur la touche Valider
-			 * \param nextScreen Ecran suivant
+			 * \param Ecran suivant
 			 */
-			virtual void validPressed(EMenuScreen* nextScreen) {}
+			virtual void validPressed(EMenuScreen*) {}
 
 			/*!
 			 * \brief Appui sur la touche Retour
+			 * \param Ecran suivant
 			 */
-			virtual void backPressed(EMenuScreen* nextScreen) {}
+			virtual void backPressed(EMenuScreen*) {}
 
 			/*!
 			 * \brief Constructeur général

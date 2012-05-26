@@ -16,7 +16,7 @@ namespace PolyBomber
 		this->widgets.push_back(&background);
 	}
 
-	EMenuScreen IMenuScreen::run(MainWindow& window, EMenuScreen previous)
+	EMenuScreen IMenuScreen::run(MainWindow& window, EMenuScreen)
 	{		
 		IControllerToMenu* controller = PolyBomberApp::getIControllerToMenu();
 
