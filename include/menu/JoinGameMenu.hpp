@@ -69,6 +69,7 @@ namespace PolyBomber
 
 		private:
 			TextWidget title;
+			TextWidget error;
 			
 			TextWidget ipText;
 			InputWidget ipInput;

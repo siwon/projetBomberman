@@ -32,6 +32,10 @@ NetworkManager::NetworkManager(){
 }
 
 NetworkManager::~NetworkManager(){
+	this->mutexConnect.lock();
+	this->connect = false;
+	this->mutexConnect.unlock();
+	
 	if(this->threadClient != NULL)
 		delete this->threadClient;
 	if(this->threadRun != NULL)
@@ -56,7 +60,7 @@ void NetworkManager::initialize(){
 		}
 	}
 
-	//this->controller = PolyBomberApp::getIControllerToNetwork();
+	//FIXME: this->controller = PolyBomberApp::getIControllerToNetwork();
 	this->gameEngine = NULL;
 	this->threadClient = NULL;
 	this->threadRun =NULL;
@@ -173,13 +177,16 @@ void NetworkManager::cancel(){
 	sf::Packet packet;
 	packet = createPacket(-1);
 	if(this->server){ // on prévient les clients
-		this->mutexClients.lock();
-		for(unsigned int i=0;i<this->clients.size();i++){
-			if(this->clients[i]->send(packet) != sf::TcpSocket::Done){
-				std::cerr << ("Le client "+this->clients[i]->getRemoteAddress().toString() +" n'a pas pu être contacté pour appeler sa méthode Cancel")<< std::endl;
+		if (!this->gameConfig.isLocal)
+		{
+			this->mutexClients.lock();
+			for(unsigned int i=0;i<this->clients.size();i++){
+				if(this->clients[i]->send(packet) != sf::TcpSocket::Done){
+					std::cerr << ("Le client "+this->clients[i]->getRemoteAddress().toString() +" n'a pas pu être contacté pour appeler sa méthode Cancel")<< std::endl;
+				}
 			}
+			this->mutexClients.unlock();
 		}
-		this->mutexClients.unlock();
 	} else { // on prévient le serveur
 		if(this->clients[0]->send(packet) != sf::TcpSocket::Done){
 				std::cerr << ("Le serveur "+this->clients[0]->getRemoteAddress().toString() +" n'a pas pu être contacté pour le prévenir d'un Cancel")<< std::endl;
@@ -187,7 +194,7 @@ void NetworkManager::cancel(){
 	}
 
 	//terminer les threads 
-	this->gameEngine->resetConfig(); // stop le thread run() s'il est commencé
+	// FIXME: this->gameEngine->resetConfig(); // stop le thread run() s'il est commencé
 	this->mutexConnect.lock();
 	this->connect=false; // stop le thread d'écoute du réseau;
 	this->mutexConnect.unlock();
@@ -348,13 +355,13 @@ std::string NetworkManager::getIpAddress(){
 }
 
 void NetworkManager::setGameConfig(SGameConfig& pGameConfig){
-	//this->gameEngine = PolyBomberApp::getIGameEngineToNetwork();
+	//FIXME: this->gameEngine = PolyBomberApp::getIGameEngineToNetwork();
 
 	this->gameConfig = pGameConfig;
 	
 	this->server=true; //l'ordinateur sera le serveur
 
-	//this->gameEngine->setGameConfig(this->gameConfig);// on envoie également au gameEngine
+	//FIXME: this->gameEngine->setGameConfig(this->gameConfig);// on envoie également au gameEngine
 	// création du listener qui écoute tous les clients
 	if(!this->gameConfig.isLocal) {
 		threadServer = new sf::Thread(&NetworkManager::createServerSocket, this);
@@ -410,7 +417,7 @@ void NetworkManager::createServerSocket(){
 	while (this->isConnected())
 	 {
 		 // Make the selector wait for data on any socket
-		 if (selector.wait())
+		 if (selector.wait(sf::milliseconds(100)))
 		 {
 			 // Test the listener
 			 if (selector.isReady(listener))
@@ -609,7 +616,6 @@ void NetworkManager::decryptPacket(sf::Packet& packet){
 	switch(num){
 	case -1 :
 		if(this->server){
-			this->erasePlayer(ip);
 			throw PolyBomberException("le client "+ip+" vient de se déconnecter");
 		} else {
 			this->mutexConnect.lock();

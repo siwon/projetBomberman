@@ -9,19 +9,20 @@
 
 namespace PolyBomber
 {
-	WaitingMenu::WaitingMenu() :
+	WaitingMenu::WaitingMenu(SGameConfig* gameConfig) :
 		title("Resume de la partie", TITLEFONT, 50),
 		ip("Adresse IP du serveur : ", TEXTFONT, 150),
 		cancel("Annuler", 500, SELECTNAMEMENU),
-		start("Jouer !", 500, RUNGAME)
+		start("Jouer !", 500, RUNGAME),
+		gameConfig(gameConfig)
 	{
 		ISkin* skin = PolyBomberApp::getISkin();
 		
 		title.setColor(skin->getColor(TITLECOLOR));
 		ip.setColor(skin->getColor(TEXTCOLOR));
 
-		//FIXME : INetworkToMenu* network = PolyBomberApp::getINetworkToMenu();
-		//ip.setString(ip.getString() + network->getIpAddress());
+		this->network = PolyBomberApp::getINetworkToMenu();
+		ip.setString(ip.getString() + this->network->getIpAddress());
 		
 		ip.move(-80, 0);
 		
@@ -65,7 +66,10 @@ namespace PolyBomber
 	void WaitingMenu::validPressed(EMenuScreen* nextScreen)
 	{
 		if (cancel.getSelected())
+		{
+			this->network->cancel();			
 			*nextScreen = cancel.activate();
+		}
 		
 		if (start.getSelected())
 		{						
@@ -81,6 +85,8 @@ namespace PolyBomber
 
 	EMenuScreen WaitingMenu::run(MainWindow& window, EMenuScreen previous)
 	{
+		ip.setVisible(!this->gameConfig->isLocal);			
+
 		initWidgets();
 		return IMenuScreen::run(window, previous);
 	}

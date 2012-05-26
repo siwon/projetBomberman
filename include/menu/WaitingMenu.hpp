@@ -9,6 +9,9 @@
 
 #include "menu/IMenuScreen.hpp"
 
+#include "INetworkToMenu.hpp"
+#include "SGameConfig.hpp"
+
 #include "menu/TextWidget.hpp"
 #include "menu/LinkWidget.hpp"
 
@@ -24,7 +27,7 @@ namespace PolyBomber
 			/*!
 			 * Constructeur
 			 */
-			WaitingMenu();
+			WaitingMenu(SGameConfig* gameConfig);
 
 			/*!
 			 * Destructeur
@@ -65,6 +68,10 @@ namespace PolyBomber
 						
 			LinkWidget cancel;
 			LinkWidget start;
+
+			SGameConfig* gameConfig;
+
+			INetworkToMenu* network; /*!< Lien vers le module réseau */
 
 			/*!
 			 * \brief Méthode pour initialiser les widgets

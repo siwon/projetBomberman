@@ -19,6 +19,7 @@
 #include "menu/SelectNameMenu.hpp"
 #include "menu/WaitingMenu.hpp"
 #include "menu/JoinGameMenu.hpp"
+#include "menu/SelectSlotsMenu.hpp"
 
 #include "PolyBomberApp.hpp"
 
@@ -35,8 +36,9 @@ namespace PolyBomber
 				this->menuScreens[CREATEGAMEMENU] = new CreateGameMenu(&gameConfig);
 					this->menuScreens[GAMEOPTIONSMENU] = new GameOptionsMenu(&gameConfig);
 					this->menuScreens[SELECTNAMEMENU] = new SelectNameMenu(&gameConfig);
-					this->menuScreens[WAITINGMENU] = new WaitingMenu();
+					this->menuScreens[WAITINGMENU] = new WaitingMenu(&gameConfig);
 				this->menuScreens[JOINGAMEMENU] = new JoinGameMenu();
+					this->menuScreens[SELECTSLOTSMENU] = new SelectSlotsMenu();
 				
 			this->menuScreens[CONFIGMENU] = new ConfigMenu();
 				this->menuScreens[GRAPHICSCONFIGMENU] = new GraphicsConfigMenu();

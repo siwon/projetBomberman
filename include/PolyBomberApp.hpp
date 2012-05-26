@@ -76,7 +76,7 @@ namespace PolyBomber
 			 * \brief Retourne l'interface INetworkToMenu
 			 * \return l'interface INetworkToMenu
 			 */
-			//static INetworkToMenu* getINetworkToMenu();
+			static INetworkToMenu* getINetworkToMenu();
 
 			/*!
 			 * \brief Retourne l'interface IMenuToGameInterface
@@ -121,7 +121,7 @@ namespace PolyBomber
 
 			static MenuManager* menuManager; /*!< Instance du composant Menu */
 			//static GameInterfaceManager* gameInterfaceManager; /*!< Instance du composant Interface de jeu */
-			//static NetworkManager* networkManager; /*!< Instance du composant Réseau */
+			static NetworkManager* networkManager; /*!< Instance du composant Réseau */
 			//static GameEngineManager* gameEngineManager; /*!< Instance du composant Moteur de jeu */
 			static ControllerManager* controllerManager; /*!< Instance du composant Contrôleur */
 			static SoundManager* soundManager; /*!< Instance du composant Son */

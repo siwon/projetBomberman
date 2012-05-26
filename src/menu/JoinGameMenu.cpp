@@ -12,18 +12,22 @@ namespace PolyBomber
 {
 	JoinGameMenu::JoinGameMenu() :
 		title("Rejoindre une partie", TITLEFONT, 100),
+		error("Impossible de se connecter au serveur", TEXTFONT, 200),
 		ipText("Adresse IP du serveur :", TEXTFONT, 250),
-		ipInput(TEXTFONT, 300, CENTER, 170),
+		ipInput(TEXTFONT, 300, CENTER, 190),
 		cancel("Annuler", 450, GAMEMENU),
-		next("Connexion", 450, WAITINGMENU)
+		next("Connexion", 450, SELECTSLOTSMENU)
 	{
 		ISkin* skin = PolyBomberApp::getISkin();
 		
 		title.setColor(skin->getColor(TITLECOLOR));
+		error.setColor(skin->getColor(ERRORCOLOR));
 		ipText.setColor(skin->getColor(TEXTCOLOR));
 
 		cancel.move(-100, 0);
 		next.move(100, 0);
+
+		error.setVisible(false);
 
 		ipInput.setMaxLength(15);
 
@@ -36,6 +40,7 @@ namespace PolyBomber
 		next.setNext(&cancel);
 
 		this->widgets.push_back(&title);
+		this->widgets.push_back(&error);
 		this->widgets.push_back(&ipText);
 		this->widgets.push_back(&ipInput);
 		this->widgets.push_back(&cancel);
@@ -67,6 +72,7 @@ namespace PolyBomber
 	{
 		if (cancel.getSelected())
 		{
+			
 			*nextScreen = cancel.activate();
 		}
 		
