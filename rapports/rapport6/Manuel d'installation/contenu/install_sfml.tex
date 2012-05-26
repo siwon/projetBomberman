@@ -1,0 +1,60 @@
+
+	Le programme nécessite la version 2.0 de la librairie multimédia SFML pour pouvoir s'exécuter correctement. Cependant cette version n'étant pas disponible sur les dépôts officiels ubuntu, il est nécessaire de l'installer manuellement. La procédure d'installation est décrite ci-dessus.
+	
+\subsection{Téléchargement de la librairie}
+
+Téléchargez la librairie sur votre ordinateur en cliquant sur le lien suivant :
+\href{https://github.com/LaurentGomila/SFML/tarball/master}{SFML2.0}
+
+
+Si celui-ci n'est plus disponible, rendez-vous sur le site officiel \href{http://www.sfml-dev.org}{http://www.sfml-dev.org} et télécharger la version 2.0 présente dans la rubrique Télécharger.
+
+\subsection{Installation des dépendances}
+
+Ouvrez un terminal et mettez-vous en mode super-utilisateur en tapant la commande : \textbf{sudo su}.
+
+Vous aurez besoin de l'utilitaire \textit{cmake} et de nombreuses dépendances afin de compiler la librairie. Procédez à l'installation de ceux-ci en tapant les commandes suivantes :
+\begin{center}
+	\begin{lstlisting}[caption={Installation des dépendances}]
+		apt-get install cmake
+		apt-get install libpthread-stubs0-dev
+		apt-get install libgl1-mesa-dev
+		apt-get install libx11-dev
+		apt-get install libxrandr-dev
+		apt-get install libfreetype6-dev
+		apt-get install libglew1.5-dev
+		apt-get install libjpeg8-dev
+		apt-get install libsndfile1-dev
+		apt-get install libopenal-dev
+	\end{lstlisting}
+\end{center}
+
+
+\subsection{Compilation de la librairie}
+
+Ouvrez de nouveau un terminal et mettez-vous en mode super-utilisateur en tapant la commande : \textbf{sudo su}.
+
+Déplacez-vous dans le dossier de téléchargement de la librairie et extrayez le contenu du fichier via la commande : tar -xvf LaurentGomila-SFML-2.0-rc-24-gac9bda5.tar.gz SFML2.0
+
+Placez-vous maintenant à la racine du dossier créé : cd SFML2.0
+
+Puis tapez les commandes suivantes dans cet ordre là :
+
+\begin{lstlisting}[caption={Compilation de la SFML}]
+	cmake -G "Unix Makefiles" -D CMAKE_BUILD_TYPE=Release -D BUILD_SHARED_LIBS=TRUE .
+	make
+	make install
+	cmake -G "Unix Makefiles" -D CMAKE_BUILD_TYPE=Debug -D BUILD_SHARED_LIBS=TRUE .
+	make
+	sudo make install
+	cmake -G "Unix Makefiles" -D CMAKE_BUILD_TYPE=Release -D BUILD_SHARED_LIBS=FALSE .
+	make
+	sudo make install
+	cmake -G "Unix Makefiles" -D CMAKE_BUILD_TYPE=Debug -D BUILD_SHARED_LIBS=FALSE .
+	make
+	sudo make install
+\end{lstlisting}	
+
+L'installation de la librairie est terminée.
+
+
