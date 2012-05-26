@@ -34,8 +34,7 @@ const std::string Keyboard::keysLabel[] = {"a", "b", "c", "d", "e", "f", "g", "h
 							 "[", "]", ";", ",", ".", "'", "/", "\\", "~", "=", "-", "Espace",
 							 "Entree", "Retour arrière", "Tabulation", "Page suiv.", "Page prec.",
 							 "Fin", "Home", "Insert", "Suppr", "+", "-", "*", "/", "Gauche", "Droite", "Haut",
-							 "Bas", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "F1", "F2",
-							 "F3", "F4", "F5", "F6", "F7", "F8", "F9", "F10", "F11", "F12", "F13", "F14", "F15", "Pause"};
+							 "Bas", "0 Numpad", "1 Numpad", "2 Numpad", "3 Numpad", "4 Numpad", "5 Numpad", "6 Numpad", "7 Numpad", "8 Numpad", "9 								 Numpad", "F1", "F2", "F3", "F4", "F5", "F6", "F7", "F8", "F9", "F10", "F11", "F12", "F13", "F14", "F15", "Pause"};
 
 std::string Keyboard::getLabel(int key)
 {
@@ -145,6 +144,8 @@ char Keyboard::getCharPressed(sf::RenderWindow* window)
 				c = ' ';
 			else if(event.key.code == sf::Keyboard::Back) /* Gestion Retour arrière */
 				c = 2;
+			else if(event.key.code == sf::Keyboard::Period) /* Gestion du point '.' */
+				c = '.';
 		}
 	}
 	return c;
