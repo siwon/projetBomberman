@@ -26,6 +26,7 @@ namespace PolyBomber {
 		
     public:
 		Explosive(const Player&);
+		Explosive(const Player&, int x, int y);
 		Explosive(const Explosive&);
 		//operateur d affectation
 		~Explosive();

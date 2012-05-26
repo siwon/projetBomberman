@@ -17,6 +17,7 @@
 
 // Headers
 #include "../../include/gameEngine/Explosive.hpp"
+#include "../../include/gameEngine/Board.hpp"
 
 
 namespace PolyBomber {
@@ -26,7 +27,12 @@ namespace PolyBomber {
 		this->range=range;
 	}
 	
-	Explosive::Explosive(const Player& player) : Location(player.getLocationX(),player.getLocationY()) {
+	Explosive::Explosive(const Player& player) : Location(Board::cranToCase(player.getLocationX()),Board::cranToCase(player.getLocationY())) {
+		this->player=player.getId();
+		this->range=player.getRange();
+	}
+	
+	Explosive::Explosive(const Player& player, int x, int y) : Location(x,y) {// x et y sont en cases
 		this->player=player.getId();
 		this->range=player.getRange();
 	}

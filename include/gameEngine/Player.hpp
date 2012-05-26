@@ -63,6 +63,8 @@ namespace PolyBomber {
 		void centrerPlayerSurAxeVertical();
 		inline void incrementStep() {this->step++;}
 		inline void setOrientation(EOrientation orient) {this->orientation=orient;}
+		inline void incrementCapacity(int i=1) {this->capacity+=i;}
+		inline void decrementCapacity(int i=1) {this->capacity-=i;}
 	};
 }
 

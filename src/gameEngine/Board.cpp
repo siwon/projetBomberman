@@ -22,7 +22,7 @@
 namespace PolyBomber {
 	
 	Board::Board() {
-
+		
 	}
 	
 	Board::~Board() {
@@ -35,6 +35,20 @@ namespace PolyBomber {
 			indice++;
 		}
 		return player[indice];
+	}
+	
+	void Board::generateFlameHorizontal(int x, int y, int range, int date) {
+		for (int i=1; i<range; i++) {
+			if (x+i%2==0 && y%2==0) {
+				flame.push_back(Flame(x+i,y,ORIENTATION_RIGHT,ORIGIN,date+DUREEFLAMME));
+				flame.push_back(Flame(x-i,y,ORIENTATION_LEFT,ORIGIN,date+DUREEFLAMME));
+			} else {
+				flame.push_back(Flame(x+i,y,ORIENTATION_RIGHT,MIDDLE,date+DUREEFLAMME));
+				flame.push_back(Flame(x-i,y,ORIENTATION_LEFT,MIDDLE,date+DUREEFLAMME));
+			}
+		}
+		flame.push_back(Flame(x+range,y,ORIENTATION_RIGHT,END,date+DUREEFLAMME));
+		flame.push_back(Flame(x-range,y,ORIENTATION_LEFT,END,date+DUREEFLAMME));
 	}
 	
 	SBoard Board::boardToSBoard() {
@@ -104,7 +118,7 @@ namespace PolyBomber {
 		return toReturn;
 	}
 	
-	void Board::actionToucheHaut(int player) {
+	void Board::actionToucheHaut(int player) {//TODO : faire la vérification si le déplacement se fait dans la meme case nécessaire ?
 		Player pl = getPlayerById(player);
 		int x = pl.getLocationX();//position en cran
 		int y = pl.getLocationY();//position en cran
@@ -318,6 +332,7 @@ namespace PolyBomber {
 		Player pl = getPlayerById(player);
 		if (pl.getCapacity()>0) {//le joueur peut poser une bombe
 			bomb.push_back(Bomb(date,pl));
+			pl.decrementCapacity();
 		}
 	}
 	
@@ -331,7 +346,51 @@ namespace PolyBomber {
 			} else if (bon==ATOMICBOMB) {
 				bomb.push_back(Bomb(date,pl,2));
 			} else {
-				// TODO : générer autant de bombes que possibles en face du joueur
+				EOrientation orient = pl.getOrientation();
+				bool caseLibre=true;
+				int x=cranToCase(pl.getLocationX());
+				int y=cranToCase(pl.getLocationY());
+				int capacity=pl.getCapacity();
+				switch (orient) {
+					case ORIENTATION_UP:
+						bomb.push_back(Bomb(date,pl,x,y));
+						y=y-1;
+						while (pl.getCapacity()>0 && caseIsFree(x,y)) {
+							bomb.push_back(Bomb(date,pl,x,y));
+							y=y-1;
+						}
+						break;
+						
+					case ORIENTATION_DOWN:
+						bomb.push_back(Bomb(date,pl,x,y));
+						y=y+1;
+						while (pl.getCapacity()>0 && caseIsFree(x,y)) {
+							bomb.push_back(Bomb(date,pl,x,y));
+							y=y+1;
+						}
+						break;
+						
+					case ORIENTATION_LEFT:
+						bomb.push_back(Bomb(date,pl,x,y));
+						x=x-1;
+						while (pl.getCapacity()>0 && caseIsFree(x,y)) {
+							bomb.push_back(Bomb(date,pl,x,y));
+							x=x-1;
+						}
+						break;
+						
+					case ORIENTATION_RIGHT:
+						bomb.push_back(Bomb(date,pl,x,y));
+						x=x+1;
+						while (pl.getCapacity()>0 && caseIsFree(x,y)) {
+							bomb.push_back(Bomb(date,pl,x,y));
+							x=x+1;
+						}
+						break;
+						
+					default:
+						break;
+				}
 			}
 			bomb.erase(bomb.begin());
 		} else {
@@ -515,6 +574,10 @@ namespace PolyBomber {
 		int type=bomb[indice].getType();
 		if (type==0 || type==3) {//TODO : vérifier l'utilité de "type==3"
 			generateFlame(bomb[indice].getLocationX(),bomb[indice].getLocationY(),bomb[indice].getRange(),bomb[indice].getTimeOfExplosion()+DUREEFLAMME);
+			if (type==0) {
+				int pl = bomb[indice].getPlayer();
+				player[indice].incrementCapacity();
+			}
 		} else if (type==1) {
 			generateFlameInfinityBomb(indice,bomb[indice].getTimeOfExplosion()+DUREEFLAMME);
 		} else if (type==2) {
@@ -522,7 +585,7 @@ namespace PolyBomber {
 		}
 		bomb.erase(bomb.begin()+indice);
 	}
-
+	
 	void Board::explodeRemoteBomb(unsigned int indice, int date) {
 		generateFlame(remoteBomb[indice].getLocationX(),remoteBomb[indice].getLocationY(),remoteBomb[indice].getRange(),date+DUREEFLAMME);
 		remoteBomb.erase(remoteBomb.begin()+indice);
@@ -595,6 +658,21 @@ namespace PolyBomber {
 		generateFlame(bomb[indice].getLocationX(),bomb[indice].getLocationY(),19,date);
 	}
 	
+	void Board::generateFlameAtomicBomb(unsigned int indice, int date) {
+		int x = bomb[indice].getLocationX();
+		int y = bomb[indice].getLocationY();
+		int range = bomb[indice].getRange();
+		
+		generateFlame(xInitial,yInitial,range,date);
+		
+		for (int i=1; i<range; i++) {//génération de toutes les flammes horizontales
+			generateFlameHorizontal(x+i,y,range-i,date);
+			generateFlameHorizontal(x-i,y,range-i,date);
+		}
+		
+		bomb.erase(bomb.begin()+indice);
+	}
+	
 	Bonus Board::getBonusByCoord(int x, int y) {//on suppose que le bonus existe
 		return bonus[getIndiceBonus(x,y)];
 	}
@@ -625,7 +703,7 @@ namespace PolyBomber {
 		for (unsigned int i=0; i<player.size(); i++) {
 			int x = cranToCase(player[i].getLocationX());
 			int y = cranToCase(player[i].getLocationY());
-
+			
 			if (isAFlameInThisCase(x,y)) {
 				player[i].killPlayer();
 			}
@@ -635,50 +713,50 @@ namespace PolyBomber {
 					int alea=rand()%4;
 					for (unsigned int j=0;j<player.size();j++) {
 						switch(alea) {
-						case 0 :
-							player[j].addBonus(Bonus(player[j].getLocationX(),player[j].getLocationY(),CONFUSION,true));
-							break;
-
-						case 1 :
-							player[j].addBonus(Bonus(player[j].getLocationX(),player[j].getLocationY(),SPASME,true));
-							break;
-
-						case 2 :
-							player[j].addBonus(Bonus(player[j].getLocationX(),player[j].getLocationY(),DILATATION,true));
-							break;
-
-						case 3 :
-							player[j].addBonus(Bonus(player[j].getLocationX(),player[j].getLocationY(),RAGE,true));
-							break;
-
-						default :
-							break;
+							case 0 :
+								player[j].addBonus(Bonus(player[j].getLocationX(),player[j].getLocationY(),CONFUSION,true));
+								break;
+								
+							case 1 :
+								player[j].addBonus(Bonus(player[j].getLocationX(),player[j].getLocationY(),SPASME,true));
+								break;
+								
+							case 2 :
+								player[j].addBonus(Bonus(player[j].getLocationX(),player[j].getLocationY(),DILATATION,true));
+								break;
+								
+							case 3 :
+								player[j].addBonus(Bonus(player[j].getLocationX(),player[j].getLocationY(),RAGE,true));
+								break;
+								
+							default :
+								break;
 						}
 					}
 				} else if (bon.getType()==CRANE) {
 					int alea=rand()%4;
 					switch(alea) {
-					case 0 :
-						player[i].addBonus(Bonus(player[i].getLocationX(),player[i].getLocationY(),CONFUSION,true));
-						break;
-
-					case 1 :
-						player[i].addBonus(Bonus(player[i].getLocationX(),player[i].getLocationY(),SPASME,true));
-						break;
-
-					case 2 :
-						player[i].addBonus(Bonus(player[i].getLocationX(),player[i].getLocationY(),DILATATION,true));
-						break;
-
-					case 3 :
-						player[i].addBonus(Bonus(player[i].getLocationX(),player[i].getLocationY(),RAGE,true));
-						break;
-
-					default :
-						break;
+						case 0 :
+							player[i].addBonus(Bonus(player[i].getLocationX(),player[i].getLocationY(),CONFUSION,true));
+							break;
+							
+						case 1 :
+							player[i].addBonus(Bonus(player[i].getLocationX(),player[i].getLocationY(),SPASME,true));
+							break;
+							
+						case 2 :
+							player[i].addBonus(Bonus(player[i].getLocationX(),player[i].getLocationY(),DILATATION,true));
+							break;
+							
+						case 3 :
+							player[i].addBonus(Bonus(player[i].getLocationX(),player[i].getLocationY(),RAGE,true));
+							break;
+							
+						default :
+							break;
 					}
 				} else {
-
+					
 				}
 			}
 			if (isAMineInThisCase(x,y)) {

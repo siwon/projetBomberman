@@ -40,6 +40,7 @@ namespace PolyBomber {
 		std::vector<Wall> wall;
 		
 		Player getPlayerById(int);
+		void generateFlameHorizontal(int, int, int, int);
 		
 	public:
 		Board();
@@ -57,7 +58,7 @@ namespace PolyBomber {
 		void actionToucheGauche(int);
 		void actionToucheDroite(int);
 		void actionToucheAction1(int, int);
-		void actionToucheAction2(int, int); //TODO + gérer les bombline
+		void actionToucheAction2(int, int);
 		
 		inline void addPlayer(Player pl) {player.push_back(pl);}
 		inline void addWall(Wall w) {wall.push_back(w);}
@@ -91,7 +92,7 @@ namespace PolyBomber {
 		void explodeMine(unsigned int, int);
 		void generateFlame(int, int, int, int);
 		void generateFlameInfinityBomb(unsigned int, int);
-		void generateFlameAtomicBomb(unsigned int, int);//TODO
+		void generateFlameAtomicBomb(unsigned int, int);
 		Bonus getBonusByCoord(int, int);
 		inline Bonus getBonusByIndice(unsigned int indice){return this->bonus[indice];}
 		unsigned int getIndiceBonus(int, int);
