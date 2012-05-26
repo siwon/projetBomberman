@@ -7,6 +7,7 @@
  * \author Simon Rousseau
  */
  
+#include <time.h>
 #include <vector>
 
 #include "Flame.hpp"
