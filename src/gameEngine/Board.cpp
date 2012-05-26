@@ -345,45 +345,51 @@ namespace PolyBomber {
 				bomb.push_back(Bomb(date,pl,1));
 			} else if (bon==ATOMICBOMB) {
 				bomb.push_back(Bomb(date,pl,2));
-			} else {
+			} else { //bombline
 				EOrientation orient = pl.getOrientation();
-				bool caseLibre=true;
 				int x=cranToCase(pl.getLocationX());
 				int y=cranToCase(pl.getLocationY());
-				int capacity=pl.getCapacity();
 				switch (orient) {
 					case ORIENTATION_UP:
 						bomb.push_back(Bomb(date,pl,x,y));
+						pl.decrementCapacity();
 						y=y-1;
 						while (pl.getCapacity()>0 && caseIsFree(x,y)) {
 							bomb.push_back(Bomb(date,pl,x,y));
+							pl.decrementCapacity();
 							y=y-1;
 						}
 						break;
 						
 					case ORIENTATION_DOWN:
 						bomb.push_back(Bomb(date,pl,x,y));
+						pl.decrementCapacity();
 						y=y+1;
 						while (pl.getCapacity()>0 && caseIsFree(x,y)) {
 							bomb.push_back(Bomb(date,pl,x,y));
+							pl.decrementCapacity();
 							y=y+1;
 						}
 						break;
 						
 					case ORIENTATION_LEFT:
 						bomb.push_back(Bomb(date,pl,x,y));
+						pl.decrementCapacity();
 						x=x-1;
 						while (pl.getCapacity()>0 && caseIsFree(x,y)) {
 							bomb.push_back(Bomb(date,pl,x,y));
+							pl.decrementCapacity();
 							x=x-1;
 						}
 						break;
 						
 					case ORIENTATION_RIGHT:
 						bomb.push_back(Bomb(date,pl,x,y));
+						pl.decrementCapacity();
 						x=x+1;
 						while (pl.getCapacity()>0 && caseIsFree(x,y)) {
 							bomb.push_back(Bomb(date,pl,x,y));
+							pl.decrementCapacity();
 							x=x+1;
 						}
 						break;
@@ -576,7 +582,7 @@ namespace PolyBomber {
 			generateFlame(bomb[indice].getLocationX(),bomb[indice].getLocationY(),bomb[indice].getRange(),bomb[indice].getTimeOfExplosion()+DUREEFLAMME);
 			if (type==0) {
 				int pl = bomb[indice].getPlayer();
-				player[indice].incrementCapacity();
+				player[pl].incrementCapacity();
 			}
 		} else if (type==1) {
 			generateFlameInfinityBomb(indice,bomb[indice].getTimeOfExplosion()+DUREEFLAMME);
@@ -663,7 +669,7 @@ namespace PolyBomber {
 		int y = bomb[indice].getLocationY();
 		int range = bomb[indice].getRange();
 		
-		generateFlame(xInitial,yInitial,range,date);
+		generateFlame(x,y,range,date);
 		
 		for (int i=1; i<range; i++) {//génération de toutes les flammes horizontales
 			generateFlameHorizontal(x+i,y,range-i,date);
