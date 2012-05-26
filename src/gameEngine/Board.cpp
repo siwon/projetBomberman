@@ -120,6 +120,7 @@ namespace PolyBomber {
 	}
 	
 	void Board::actionToucheHaut(int player) {//TODO : faire la vérification si le déplacement se fait dans la meme case nécessaire ?
+		//TODO : gestion de la vitesse des joueurs
 		Player pl = getPlayerById(player);
 		int x = pl.getLocationX();//position en cran
 		int y = pl.getLocationY();//position en cran
@@ -129,16 +130,16 @@ namespace PolyBomber {
 		if (pl.getInfection()==1) {
 			//inversion des touches directionnelles
 			if (caseIsFree(xCase,yCase+1)) {
-				if (distanceDesAutresJoueursValide(player,x,y+pl.getSpeed())) {
-					pl.move(x,y+pl.getSpeed());
-					if (y+pl.getSpeed()%5!=2) {
+				if (distanceDesAutresJoueursValide(player,x,y+1)) {
+					pl.move(x,y+1);
+					if (y+1%5!=2) {
 						pl.centrerPlayerSurAxeHorizontal();
 					}
 				}
 			} else {
-				if (y+pl.getSpeed()%5<=2) {
-					pl.move(x,y+pl.getSpeed());
-					if (y+pl.getSpeed()%5!=2) {
+				if (y+1%5<=2) {
+					pl.move(x,y+1);
+					if (y+1%5!=2) {
 						pl.centrerPlayerSurAxeHorizontal();
 					}
 				} else {
@@ -150,16 +151,16 @@ namespace PolyBomber {
 		} else {
 			//test si la case suivante est libre
 			if (caseIsFree(xCase,yCase-1)) {
-				if (distanceDesAutresJoueursValide(player,x,y-pl.getSpeed())) {
-					pl.move(x,y-pl.getSpeed());
-					if (y-pl.getSpeed()%5!=2) {//si on est pas centré sur la case, alors la position est corrigée
+				if (distanceDesAutresJoueursValide(player,x,y-1)) {
+					pl.move(x,y-1);
+					if (y-1%5!=2) {//si on est pas centré sur la case, alors la position est corrigée
 						pl.centrerPlayerSurAxeHorizontal();
 					}
 				}
 			} else {
-				if (y-pl.getSpeed()%5>=2) {
-					pl.move(x,y-pl.getSpeed());
-					if (y-pl.getSpeed()%5!=2) {//si on est pas centré sur la case, alors la position est corrigée
+				if (y-1%5>=2) {
+					pl.move(x,y-1);
+					if (y-1%5!=2) {//si on est pas centré sur la case, alors la position est corrigée
 						pl.centrerPlayerSurAxeHorizontal();
 					}
 				} else {
@@ -173,6 +174,7 @@ namespace PolyBomber {
 	}
 	
 	void Board::actionToucheBas(int player) {
+		//TODO : gestion de la vitesse des joueurs
 		Player pl = getPlayerById(player);
 		EOrientation orient;
 		int x = pl.getLocationX();//position en cran
@@ -182,16 +184,16 @@ namespace PolyBomber {
 		if (pl.getInfection()==1) {
 			//inversion des touches directionnelles
 			if (caseIsFree(xCase,yCase-1)) {
-				if (distanceDesAutresJoueursValide(player,x,y-pl.getSpeed())) {
-					pl.move(x,y-pl.getSpeed());
-					if (y-pl.getSpeed()%5!=2) {//si on est pas centré sur la case, alors la position est corrigée
+				if (distanceDesAutresJoueursValide(player,x,y-1)) {
+					pl.move(x,y-1);
+					if (y-1%5!=2) {//si on est pas centré sur la case, alors la position est corrigée
 						pl.centrerPlayerSurAxeHorizontal();
 					}
 				}
 			} else {
-				if (y-pl.getSpeed()%5>=2) {
-					pl.move(x,y-pl.getSpeed());
-					if (y-pl.getSpeed()%5!=2) {//si on est pas centré sur la case, alors la position est corrigée
+				if (y-1%5>=2) {
+					pl.move(x,y-1);
+					if (y-1%5!=2) {//si on est pas centré sur la case, alors la position est corrigée
 						pl.centrerPlayerSurAxeHorizontal();
 					}
 				} else {
@@ -202,16 +204,16 @@ namespace PolyBomber {
 		} else {
 			//test si la case suivante est libre
 			if (caseIsFree(xCase,yCase+1)) {
-				if (distanceDesAutresJoueursValide(player,x,y+pl.getSpeed())) {
-					pl.move(x,y+pl.getSpeed());
-					if (y+pl.getSpeed()%5!=2) {
+				if (distanceDesAutresJoueursValide(player,x,y+1)) {
+					pl.move(x,y+1);
+					if (y+1%5!=2) {
 						pl.centrerPlayerSurAxeHorizontal();
 					}
 				}
 			} else {
-				if (y+pl.getSpeed()%5<=2) {
-					pl.move(x,y+pl.getSpeed());
-					if (y+pl.getSpeed()%5!=2) {
+				if (y+1%5<=2) {
+					pl.move(x,y+1);
+					if (y+1%5!=2) {
 						pl.centrerPlayerSurAxeHorizontal();
 					}
 				} else {
@@ -226,6 +228,7 @@ namespace PolyBomber {
 	}
 	
 	void Board::actionToucheGauche(int player) {
+		//TODO : gestion de la vitesse des joueurs
 		Player pl = getPlayerById(player);
 		EOrientation orient;
 		int x = pl.getLocationX();//position en cran
@@ -235,16 +238,16 @@ namespace PolyBomber {
 		if (pl.getInfection()==1) {
 			//inversion des touches directionnelles
 			if (caseIsFree(xCase+1,yCase)) {
-				if (distanceDesAutresJoueursValide(player,x+pl.getSpeed(),y)) {
-					pl.move(x+pl.getSpeed(),y);
-					if (x+pl.getSpeed()%5!=2) {
+				if (distanceDesAutresJoueursValide(player,x+1,y)) {
+					pl.move(x+1,y);
+					if (x+1%5!=2) {
 						pl.centrerPlayerSurAxeVertical();
 					}
 				}
 			} else {
-				if (x+pl.getSpeed()%5>=2) {
-					pl.move(x+pl.getSpeed(),y);
-					if (x+pl.getSpeed()%5!=2) {
+				if (x+1%5>=2) {
+					pl.move(x+1,y);
+					if (x+1%5!=2) {
 						pl.centrerPlayerSurAxeVertical();
 					}
 				} else {
@@ -255,16 +258,16 @@ namespace PolyBomber {
 		} else {
 			//test si la case suivante est libre
 			if (caseIsFree(xCase-1,yCase)) {
-				if (distanceDesAutresJoueursValide(player,x-pl.getSpeed(),y)) {
-					pl.move(x-pl.getSpeed(),y);
-					if (x-pl.getSpeed()%5!=2) {
+				if (distanceDesAutresJoueursValide(player,x-1,y)) {
+					pl.move(x-1,y);
+					if (x-1%5!=2) {
 						pl.centrerPlayerSurAxeVertical();
 					}
 				}
 			} else {
-				if (x-pl.getSpeed()%5<=2) {
-					pl.move(x-pl.getSpeed(),y);
-					if (x-pl.getSpeed()%5!=2) {
+				if (x-1%5<=2) {
+					pl.move(x-1,y);
+					if (x-1%5!=2) {
 						pl.centrerPlayerSurAxeVertical();
 					}
 				} else {
@@ -278,6 +281,7 @@ namespace PolyBomber {
 	}
 	
 	void Board::actionToucheDroite(int player) {
+		//TODO : gestion de la vitesse des joueurs
 		Player pl = getPlayerById(player);
 		EOrientation orient;
 		int x = pl.getLocationX();//position en cran
@@ -287,16 +291,16 @@ namespace PolyBomber {
 		if (pl.getInfection()==1) {
 			//inversion des touches directionnelles
 			if (caseIsFree(xCase-1,yCase)) {
-				if (distanceDesAutresJoueursValide(player,x-pl.getSpeed(),y)) {
-					pl.move(x-pl.getSpeed(),y);
-					if (x-pl.getSpeed()%5!=2) {
+				if (distanceDesAutresJoueursValide(player,x-1,y)) {
+					pl.move(x-1,y);
+					if (x-1%5!=2) {
 						pl.centrerPlayerSurAxeVertical();
 					}
 				}
 			} else {
-				if (x-pl.getSpeed()%5<=2) {
-					pl.move(x-pl.getSpeed(),y);
-					if (x-pl.getSpeed()%5!=2) {
+				if (x-1%5<=2) {
+					pl.move(x-1,y);
+					if (x-1%5!=2) {
 						pl.centrerPlayerSurAxeVertical();
 					}
 				} else {
@@ -307,16 +311,16 @@ namespace PolyBomber {
 		} else {
 			//test si la case suivante est libre
 			if (caseIsFree(xCase+1,yCase)) {
-				if (distanceDesAutresJoueursValide(player,x+pl.getSpeed(),y)) {
-					pl.move(x+pl.getSpeed(),y);
-					if (x+pl.getSpeed()%5!=2) {
+				if (distanceDesAutresJoueursValide(player,x+1,y)) {
+					pl.move(x+1,y);
+					if (x+1%5!=2) {
 						pl.centrerPlayerSurAxeVertical();
 					}
 				}
 			} else {
-				if (x+pl.getSpeed()%5>=2) {
-					pl.move(x+pl.getSpeed(),y);
-					if (x+pl.getSpeed()%5!=2) {
+				if (x+1%5>=2) {
+					pl.move(x+1,y);
+					if (x+1%5!=2) {
 						pl.centrerPlayerSurAxeVertical();
 					}
 				} else {
