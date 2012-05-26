@@ -28,6 +28,7 @@ namespace PolyBomber {
 		this->range=RANGEDEFAUT;
 		this->alive=true;
 		this->step=0;
+		this->saveCaracBeforeInfectionDilatation=0;
 		
 		this->bombBonus=std::vector<Bonus>();
 		this->infection=0;
@@ -48,6 +49,7 @@ namespace PolyBomber {
 		this->range=pl.getRange();
 		this->alive=pl.getAlive();
 		this->step=pl.getStep();
+		this->saveCaracBeforeInfectionDilatation=0;
 		
 		this->bombBonus=std::vector<Bonus>();
 		this->infection=pl.getInfection();
@@ -57,7 +59,11 @@ namespace PolyBomber {
 	}
 	
 	void Player::removeInfection() {
-		this->infection=0;
+		if (infection==3) {
+			speed=saveCaracBeforeInfectionDilatation;
+		}
+		saveCaracBeforeInfectionDilatation=0;
+		infection=0;
 	}
 	
 	void Player::addBonus(Bonus bonus) {
@@ -135,7 +141,9 @@ namespace PolyBomber {
 				break;
 				
 			case DILATATION:
+				this->saveCaracBeforeInfectionDilatation=this->speed;
 				infection=3;
+				this->speed=VITESSEMIN;
 				break;
 				
 			case RAGE:

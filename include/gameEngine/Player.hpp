@@ -31,6 +31,7 @@ namespace PolyBomber {
 		int step;			/*! Etat de la jambe du joueur */
 		int range;
 		bool detonator;
+		int saveCaracBeforeInfectionDilatation;
 		//Bonus du joueur
 		std::vector<Bonus> bombBonus;
 		int infection;

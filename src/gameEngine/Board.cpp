@@ -120,6 +120,7 @@ namespace PolyBomber {
 	}
 	
 	void Board::actionToucheHaut(int player) {//TODO : faire la vérification si le déplacement se fait dans la meme case nécessaire ?
+		//TODO : gestion de la vitesse des joueurs
 		Player pl = getPlayerById(player);
 		int x = pl.getLocationX();//position en cran
 		int y = pl.getLocationY();//position en cran
@@ -173,6 +174,7 @@ namespace PolyBomber {
 	}
 	
 	void Board::actionToucheBas(int player) {
+		//TODO : gestion de la vitesse des joueurs
 		Player pl = getPlayerById(player);
 		EOrientation orient;
 		int x = pl.getLocationX();//position en cran
@@ -226,6 +228,7 @@ namespace PolyBomber {
 	}
 	
 	void Board::actionToucheGauche(int player) {
+		//TODO : gestion de la vitesse des joueurs
 		Player pl = getPlayerById(player);
 		EOrientation orient;
 		int x = pl.getLocationX();//position en cran
@@ -278,6 +281,7 @@ namespace PolyBomber {
 	}
 	
 	void Board::actionToucheDroite(int player) {
+		//TODO : gestion de la vitesse des joueurs
 		Player pl = getPlayerById(player);
 		EOrientation orient;
 		int x = pl.getLocationX();//position en cran
@@ -705,8 +709,9 @@ namespace PolyBomber {
 	}
 	
 	void Board::checkPosition(int date) {
-		//faire la vérification des toutes les positions
-		//faire la vérification des joueurs (flammes, bonus)
+		//TODO : ajouter les actions dues aux infections
+		
+		//fait la vérification des joueurs (flammes, bonus)
 		for (unsigned int i=0; i<player.size(); i++) {
 			int x = cranToCase(player[i].getLocationX());
 			int y = cranToCase(player[i].getLocationY());
@@ -774,19 +779,19 @@ namespace PolyBomber {
 				mine.erase(mine.begin()+indiceMine);
 			}
 		}
-		//faire la vérification des caisses (flammes)
+		//fait la vérification des caisses (flammes)
 		for (unsigned int i=0; i<box.size(); i++) {
 			if (isAFlameInThisCase(box[i].getLocationX(),box[i].getLocationY())) {
 				box.erase(box.begin()+i);
 			}
 		}
-		//faire la vérification des bonus (flammes)
+		//fait la vérification des bonus (flammes)
 		for (unsigned int i=0; i<bonus.size(); i++) {
 			if (isAFlameInThisCase(bonus[i].getLocationX(),bonus[i].getLocationY())) {
 				bonus[i].setVisible();
 			}
 		}
-		//faire la vérification des bombes (flamme qui déclenche les autres)
+		//fait la vérification des bombes (flamme qui déclenche les autres)
 		for (unsigned int i=0; i<bomb.size(); i++) {
 			if (isAFlameInThisCase(bomb[i].getLocationX(),bomb[i].getLocationY())) {
 				explodeBomb(bomb[i].getLocationX(),bomb[i].getLocationY());
