@@ -28,7 +28,6 @@ namespace PolyBomber {
 		 * 1 => INFINITYBOMB
 		 * 2 => ATOMICBOMB
 		 * 3 => BOMBLINE
-		 * 
 		 */
 	public:
 		Bomb(int, const Player&, int=0);
@@ -37,6 +36,7 @@ namespace PolyBomber {
 		~Bomb();
 		
 		inline int getTimeOfExplosion() const {return this->timeOfExplosion;}
+		inline int getType() const {return this->type;}
 		inline void decalerExplosion(int nbSecondes) {this->timeOfExplosion=this->timeOfExplosion+nbSecondes;}
 	};
 }

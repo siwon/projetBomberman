@@ -110,6 +110,7 @@ namespace PolyBomber {
 		int y = pl.getLocationY();//position en cran
 		int xCase = cranToCase(x);
 		int yCase = cranToCase(y);
+		EOrientation orient;
 		if (pl.getInfection()==1) {
 			//inversion des touches directionnelles
 			if (caseIsFree(xCase,yCase+1)) {
@@ -130,6 +131,7 @@ namespace PolyBomber {
 				}
 				
 			}
+			orient=ORIENTATION_DOWN;
 		} else {
 			//test si la case suivante est libre
 			if (caseIsFree(xCase,yCase-1)) {
@@ -149,11 +151,15 @@ namespace PolyBomber {
 					pl.centrerPlayerSurAxeVertical();
 				}
 			}
+			orient=ORIENTATION_UP;
 		}
+		pl.incrementStep();
+		pl.setOrientation(orient);
 	}
 	
 	void Board::actionToucheBas(int player) {
 		Player pl = getPlayerById(player);
+		EOrientation orient;
 		int x = pl.getLocationX();//position en cran
 		int y = pl.getLocationY();//position en cran
 		int xCase = cranToCase(x);
@@ -177,6 +183,7 @@ namespace PolyBomber {
 					pl.centrerPlayerSurAxeVertical();
 				}
 			}
+			orient=ORIENTATION_UP;
 		} else {
 			//test si la case suivante est libre
 			if (caseIsFree(xCase,yCase+1)) {
@@ -197,11 +204,15 @@ namespace PolyBomber {
 				}
 				
 			}
+			orient=ORIENTATION_DOWN;
 		}
+		pl.incrementStep();
+		pl.setOrientation(orient);
 	}
 	
 	void Board::actionToucheGauche(int player) {
 		Player pl = getPlayerById(player);
+		EOrientation orient;
 		int x = pl.getLocationX();//position en cran
 		int y = pl.getLocationY();//position en cran
 		int xCase = cranToCase(x);
@@ -225,6 +236,7 @@ namespace PolyBomber {
 					pl.centrerPlayerSurAxeHorizontal();
 				}
 			}
+			orient=ORIENTATION_RIGHT;
 		} else {
 			//test si la case suivante est libre
 			if (caseIsFree(xCase-1,yCase)) {
@@ -244,11 +256,15 @@ namespace PolyBomber {
 					pl.centrerPlayerSurAxeHorizontal();
 				}
 			}
+			orient=ORIENTATION_LEFT;
 		}
+		pl.incrementStep();
+		pl.setOrientation(orient);
 	}
 	
 	void Board::actionToucheDroite(int player) {
 		Player pl = getPlayerById(player);
+		EOrientation orient;
 		int x = pl.getLocationX();//position en cran
 		int y = pl.getLocationY();//position en cran
 		int xCase = cranToCase(x);
@@ -272,6 +288,7 @@ namespace PolyBomber {
 					pl.centrerPlayerSurAxeHorizontal();
 				}
 			}
+			orient=ORIENTATION_LEFT;
 		} else {
 			//test si la case suivante est libre
 			if (caseIsFree(xCase+1,yCase)) {
@@ -291,7 +308,10 @@ namespace PolyBomber {
 					pl.centrerPlayerSurAxeHorizontal();
 				}
 			}
+			orient=ORIENTATION_RIGHT;
 		}
+		pl.incrementStep();
+		pl.setOrientation(orient);
 	}
 	
 	void Board::actionToucheAction1(int player, int date) {
@@ -302,16 +322,16 @@ namespace PolyBomber {
 	}
 	
 	void Board::actionToucheAction2(int player, int date) {
-		// TODO : a faire
 		Player pl = getPlayerById(player);
+		EGameBonus bon = pl.getFirstBombBonus();
 		if (pl.getBombBonus().size()>0) {
 			//utiliser le 1er bonus puis le supprimer de la liste
-			if (pl.getFirstBombBonus()==INFINITYBOMB) {
+			if (bon==INFINITYBOMB) {
 				bomb.push_back(Bomb(date,pl,1));
-			} else if (pl.getFirstBombBonus()==ATOMICBOMB) {
+			} else if (bon==ATOMICBOMB) {
 				bomb.push_back(Bomb(date,pl,2));
 			} else {
-				bomb.push_back(Bomb(date,pl,3));
+				// TODO : générer autant de bombes que possibles en face du joueur
 			}
 			bomb.erase(bomb.begin());
 		} else {
@@ -334,7 +354,6 @@ namespace PolyBomber {
 	}
 	
 	void Board::removeBox(int i) {
-		//box[i].~Box();
 		box.erase(box.begin()+i);
 	}
 	
@@ -456,12 +475,15 @@ namespace PolyBomber {
 	int Board::getIdSurvivant() {
 		int toReturn;
 		unsigned int cpt;
-		if (nbSurvivant()==1) {
+		int nbSurv = nbSurvivant();
+		if (nbSurv==1) {
 			toReturn=1;
 			while (cpt< player.size() && !player[cpt].getAlive()) {
 				cpt++;
 				toReturn++;
 			}
+		} else if (nbSurv==0) {
+			toReturn=-1;
 		} else {
 			toReturn=0;
 		}
@@ -490,7 +512,14 @@ namespace PolyBomber {
 	}
 	
 	void Board::explodeBomb(unsigned int indice) {
-		generateFlame(bomb[indice].getLocationX(),bomb[indice].getLocationY(),bomb[indice].getRange(),bomb[indice].getTimeOfExplosion()+DUREEFLAMME);
+		int type=bomb[indice].getType();
+		if (type==0 || type==3) {//TODO : vérifier l'utilité de "type==3"
+			generateFlame(bomb[indice].getLocationX(),bomb[indice].getLocationY(),bomb[indice].getRange(),bomb[indice].getTimeOfExplosion()+DUREEFLAMME);
+		} else if (type==1) {
+			generateFlameInfinityBomb(indice,bomb[indice].getTimeOfExplosion()+DUREEFLAMME);
+		} else if (type==2) {
+			generateFlameAtomicBomb(indice,bomb[indice].getTimeOfExplosion()+DUREEFLAMME);
+		}
 		bomb.erase(bomb.begin()+indice);
 	}
 
@@ -560,6 +589,10 @@ namespace PolyBomber {
 		if (y==origineY+range && !isAWallInThisCase(x,y) && y<13) {
 			addFlame(Flame(x,y,ORIENTATION_DOWN,END,date));
 		}
+	}
+	
+	void Board::generateFlameInfinityBomb(unsigned int indice, int date) {
+		generateFlame(bomb[indice].getLocationX(),bomb[indice].getLocationY(),19,date);
 	}
 	
 	Bonus Board::getBonusByCoord(int x, int y) {//on suppose que le bonus existe
@@ -690,5 +723,50 @@ namespace PolyBomber {
 				explodeBomb(i);
 			}
 		}
+	}
+	
+	bool Board::distanceDesAutresJoueursValide(unsigned int pl, int x, int y) {//x et y sont en crans
+		bool toReturn = true;
+		int x2;
+		int y2;
+		for (unsigned int i=0; i<player.size(); i++) {
+			if (i!=pl) {
+				x2=player[i].getLocationX();
+				y2=player[i].getLocationY();
+				if (x2<x) {
+					if (y2<y) {
+						if (x-x2<DISTANCEMINBETWEENTWOPLAYERS && y-y2<DISTANCEMINBETWEENTWOPLAYERS) {
+							toReturn=false;
+						}
+					} else {
+						if (x-x2<DISTANCEMINBETWEENTWOPLAYERS && y2-y<DISTANCEMINBETWEENTWOPLAYERS) {
+							toReturn=false;
+						}
+					}
+				} else {
+					if (y2<y) {
+						if (x2-x<DISTANCEMINBETWEENTWOPLAYERS && y-y2<DISTANCEMINBETWEENTWOPLAYERS) {
+							toReturn=false;
+						}
+					} else {
+						if (x2-x<DISTANCEMINBETWEENTWOPLAYERS && y2-y<DISTANCEMINBETWEENTWOPLAYERS) {
+							toReturn=false;
+						}
+					}
+				}
+			}
+		}
+		return toReturn;
+	}
+	
+	void Board::resetConfig() {
+		bonus.clear();
+		flame.clear();
+		box.clear();
+		player.clear();
+		bomb.clear();
+		remoteBomb.clear();
+		mine.clear();
+		wall.clear();
 	}
 }

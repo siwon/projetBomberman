@@ -34,6 +34,7 @@ namespace PolyBomber {
 	protected:
 		Board board; /*! Objet stockant le plateau de jeu */
 		bool gameConfigIsSet;
+		bool runnable;
 		sf::Clock horloge;
 		int debutPause;
 		
@@ -57,7 +58,7 @@ namespace PolyBomber {
 		
 		//IGameEngineToGameInterface
 		SBoard getBoard();
-		int isFinished(); //TODO
+		int isFinished();
 		/*
 		 * -1 : pas de gagnant et partie terminée
 		 * 0 : partie non terminée
@@ -67,6 +68,7 @@ namespace PolyBomber {
 		//INetworkToGameEngine
 		SKeyPressed getKeysPressed();
 		int isPaused();
+		void resetConfig();
 		
 	};
 }

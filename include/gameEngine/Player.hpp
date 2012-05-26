@@ -57,10 +57,12 @@ namespace PolyBomber {
 		inline int getInfection() const {return this->infection;}
 		
 		inline void killPlayer() {this->alive=false;}
-		void addBonus(Bonus bonus);//TODO
+		void addBonus(Bonus bonus);
 		void move(int, int);
 		void centrerPlayerSurAxeHorizontal();
 		void centrerPlayerSurAxeVertical();
+		inline void incrementStep() {this->step++;}
+		inline void setOrientation(EOrientation orient) {this->orientation=orient;}
 	};
 }
 

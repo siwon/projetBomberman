@@ -57,7 +57,7 @@ namespace PolyBomber {
 		void actionToucheGauche(int);
 		void actionToucheDroite(int);
 		void actionToucheAction1(int, int);
-		void actionToucheAction2(int, int); //TODO
+		void actionToucheAction2(int, int); //TODO + gérer les bombline
 		
 		inline void addPlayer(Player pl) {player.push_back(pl);}
 		inline void addWall(Wall w) {wall.push_back(w);}
@@ -77,6 +77,11 @@ namespace PolyBomber {
 		
 		int nbSurvivant();
 		int getIdSurvivant();
+		/*
+		 * -1 : pas de gagnant et partie terminée
+		 * 0 : partie non terminée
+		 * 1-4 : renvoie l'id du joueur +1
+		 */
 		void applyBonus(int, Bonus);
 		void effectuerDecalage(int);
 		void explodeBomb(int, int);
@@ -85,6 +90,8 @@ namespace PolyBomber {
 		void explodeMine(int, int, int);
 		void explodeMine(unsigned int, int);
 		void generateFlame(int, int, int, int);
+		void generateFlameInfinityBomb(unsigned int, int);
+		void generateFlameAtomicBomb(unsigned int, int);//TODO
 		Bonus getBonusByCoord(int, int);
 		inline Bonus getBonusByIndice(unsigned int indice){return this->bonus[indice];}
 		unsigned int getIndiceBonus(int, int);
@@ -98,7 +105,9 @@ namespace PolyBomber {
 		static int pixelToCase(int i) {return i/LARGEUR;}
 		static int cranToPixel(int i) {return i*7+4;}
 		static int cranToCase(int i) {return (i-(i%5))/5;}
-		static bool distanceDesAutresJoueursValide(int, int, int); //TODO
+		bool distanceDesAutresJoueursValide(unsigned int, int, int);
+		
+		void resetConfig();
 	};
 }
 

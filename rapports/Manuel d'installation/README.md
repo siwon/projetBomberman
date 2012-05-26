@@ -1,8 +1,0 @@
-# Rédacteurs
-
-* Bisiaux Alexandre : 
-
-# Relecteurs
-
-* 
-* 

@@ -22,5 +22,6 @@
 #define DUREEFLAMME 1
 
 #define LARGEUR 35
+#define DISTANCEMINBETWEENTWOPLAYERS 2
 
 #endif

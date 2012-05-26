@@ -126,16 +126,6 @@ namespace PolyBomber {
 				bombBonus.push_back(bonus);
 				break;
 				
-			case CRANE:
-				//donner une infection à chaque joueur
-				//infection=bonus;
-				break;
-				
-			case HELL:
-				//donner une infection à chaque joueur
-				//infection=bonus;
-				break;
-				
 			case CONFUSION:
 				infection=1;
 				break;
