@@ -35,7 +35,7 @@ NetworkManager::~NetworkManager(){
 	this->mutexConnect.lock();
 	this->connect = false;
 	this->mutexConnect.unlock();
-	
+
 	if(this->threadClient != NULL)
 		delete this->threadClient;
 	if(this->threadRun != NULL)
@@ -177,8 +177,7 @@ void NetworkManager::cancel(){
 	sf::Packet packet;
 	packet = createPacket(-1);
 	if(this->server){ // on prévient les clients
-		if (!this->gameConfig.isLocal)
-		{
+		if(!this->gameConfig.isLocal){
 			this->mutexClients.lock();
 			for(unsigned int i=0;i<this->clients.size();i++){
 				if(this->clients[i]->send(packet) != sf::TcpSocket::Done){
@@ -218,7 +217,9 @@ void NetworkManager::cancel(){
 void NetworkManager::joinGame(std::string ip){
 	this->server=false;
 	sf::TcpSocket* server = new sf::TcpSocket;
+	sf::IpAddress ip2 = sf::IpAddress(ip);
 	if(server->connect(ip, 55001) == sf::Socket::Error){
+		throw PolyBomberException("erreur de connection au serveur "+ip);
 		std::cerr << "erreur de connection au serveur " << ip << std::endl;
 	} else {
 		this->mutexClients.lock();
@@ -409,6 +410,7 @@ int NetworkManager::isFinished(){
 void NetworkManager::createServerSocket(){
 	sf::TcpListener listener;
 	sf::SocketSelector selector;
+	
 
 	listener.listen(55001);
 	selector.add(listener);
@@ -564,6 +566,11 @@ sf::Packet NetworkManager::createPacket(int i, int j){
 }
 
 sf::TcpSocket* NetworkManager::findSocket(sf::IpAddress& ip){
+	std::vector<sf::TcpSocket*>::iterator it = findSocketIterator(ip);
+	return *it;
+}
+
+std::vector<sf::TcpSocket*>::iterator NetworkManager::findSocketIterator(sf::IpAddress& ip){
 	bool find = false;
 	sf::TcpSocket* client= NULL;
 
@@ -577,7 +584,7 @@ sf::TcpSocket* NetworkManager::findSocket(sf::IpAddress& ip){
 	}
 	if(!find)
 		throw PolyBomberException ("Le serveur n'a pas pu trouver le socket pour communiquer avec le client "+ip.toString());
-	return client;
+	return it;
 }
 
 std::list<sf::Packet>::iterator NetworkManager::waitPacket(int num, sf::IpAddress& ipAddr){
@@ -616,7 +623,8 @@ void NetworkManager::decryptPacket(sf::Packet& packet){
 	switch(num){
 	case -1 :
 		if(this->server){
-			throw PolyBomberException("le client "+ip+" vient de se déconnecter");
+			std::cerr << "le client "+ip+" vient de se déconnecter" << std::endl;
+			eraseSocket(ip1);
 		} else {
 			this->mutexConnect.lock();
 			this->connect = false;
@@ -649,6 +657,14 @@ bool NetworkManager::isConnected(){
 	result=this->connect;
 	this->mutexConnect.unlock();
 	return result;
+}
+
+void NetworkManager::eraseSocket(sf::IpAddress& ip) {
+	// suprimet le socket à cet adresse ip
+	std::vector<sf::TcpSocket*>::iterator it = this->findSocketIterator(ip);
+	this->mutexClients.lock();
+	this->clients.erase(it);
+	this->mutexClients.unlock();
 }
 
 namespace PolyBomber
