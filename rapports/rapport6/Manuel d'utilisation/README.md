@@ -1,10 +1,9 @@
 # Rédacteurs
 
-* Bisiaux Alexandre : 
-*
-*
+* Bisiaux Alexandre
+* Rousseau Simon
 
 # Relecteurs
 
-* 
-* 
+* Guihal Maxime
+* Guillermic Brice
