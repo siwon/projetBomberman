@@ -22,6 +22,7 @@
 #include "../../include/EPlayerState.hpp"
 #include "../../include/SFlame.hpp"
 #include "../../include/EGameKeys.hpp"
+#include "../../include/PolyBomberException.hpp"
 //#include "PolyBomberApp.hpp"
 
 using namespace PolyBomber;
@@ -220,7 +221,7 @@ void NetworkManager::setSlot(unsigned int nb, sf::IpAddress ip) {
 }
 
 void NetworkManager::setPlayerName(std::string names[4]){
-	this->setName(name);
+	this->setName(names);
 }
 
 void NetworkManager::setName(std::string names[4], sf::IpAddress ip){
@@ -548,6 +549,8 @@ void NetworkManager::decryptPacket(sf::Packet& packet){
 	sf::Packet result;
 	std::string ip;
 	packet >> num >> ip;
+	sf::IpAddress ip1 = sf::IpAddress::IpAddress(ip);
+	std::string names[4];
 	switch(num){
 	case -1 :
 		if(this->server){
@@ -561,16 +564,14 @@ void NetworkManager::decryptPacket(sf::Packet& packet){
 		break;
 	case 15 :
 		int j;
-		std::string ip;
-		packet >> j >> ip;
-		setSlot(j, ip); // methode utilisant des ressources critiques
+		packet >> j;
+		setSlot(j, ip1); // methode utilisant des ressources critiques
 		break;
 	case 17 :
-		std::string names[4];
 		for(int i=0;i<4;i++){
 			packet >> names[i];
 		}
-		setName(names, ip); // methode utilisant des ressources critiques
+		setName(names, ip1); // methode utilisant des ressources critiques
 	default : // c'est une demande qui nécessite une réponse
 		sf::IpAddress ip2 = ip;
 		result = createPacket(num+1);
