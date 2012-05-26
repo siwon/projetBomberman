@@ -25,6 +25,11 @@ namespace PolyBomber {
 		this->type=type;
 	}
 	
+	Bomb::Bomb(int date, const Player& pl, int x, int y, int type) : Explosive(pl,x,y) {
+		this->timeOfExplosion=date+BOMBTIMESTAMP;
+		this->type=type;
+	}
+	
 	Bomb::Bomb(const Bomb& bombe) : Explosive(bombe.getPlayer(), bombe.getRange(), bombe.getLocationX(), bombe.getLocationY()) {
 		this->timeOfExplosion=bombe.getTimeOfExplosion();
 	}

@@ -7,7 +7,8 @@
 
 /** Includes **/
 // Bibliotheques standards
-
+#include <ctime>
+#include <cstdlib>
 
 // Bibliotheques SFML
 
@@ -47,16 +48,16 @@ namespace PolyBomber {
 	}
 	
 	void GameEngineManager::generatePlayer(int nbPlayer) {
-		switch (nbPlayer) {//TODO : vérifier la position des joueurs
+		switch (nbPlayer) {
 			case 2:
 				board.addPlayer(Player(3,3,0));
-				board.addPlayer(Player(87,62,1));
+				board.addPlayer(Player(92,62,1));
 				break;
 				
 			case 3:
 				board.addPlayer(Player(3,3,0));
-				board.addPlayer(Player(87,3,1));
-				board.addPlayer(Player(45,62,2));
+				board.addPlayer(Player(92,3,1));
+				board.addPlayer(Player(47,62,2));
 				break;
 				
 			case 4:
@@ -151,22 +152,22 @@ namespace PolyBomber {
 				
 				//gestion des touches
 				for (int i=0; i<board.getNbPlayer(); i++) { //pour chaque zoueur
-					if (sKeyPressed.keys[i][0]=true) {//touche haut
+					if (sKeyPressed.keys[i][0]==true) {//touche haut
 						board.actionToucheHaut(i);
 					}
-					if (sKeyPressed.keys[i][1]=true) {//touche bas
+					if (sKeyPressed.keys[i][1]==true) {//touche bas
 						board.actionToucheBas(i);
 					}
-					if (sKeyPressed.keys[i][2]=true) {//touche gauche
+					if (sKeyPressed.keys[i][2]==true) {//touche gauche
 						board.actionToucheGauche(i);
 					}
-					if (sKeyPressed.keys[i][3]=true) {//touche droite
+					if (sKeyPressed.keys[i][3]==true) {//touche droite
 						board.actionToucheDroite(i);
 					}
-					if (sKeyPressed.keys[i][4]=true) {//touche action1
+					if (sKeyPressed.keys[i][4]==true) {//touche action1
 						board.actionToucheAction1(i,horloge.getElapsedTime().asSeconds());
 					}
-					if (sKeyPressed.keys[i][5]=true) {//touche action2
+					if (sKeyPressed.keys[i][5]==true) {//touche action2
 						board.actionToucheAction2(i,horloge.getElapsedTime().asSeconds());
 					}
 				}

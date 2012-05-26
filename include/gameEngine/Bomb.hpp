@@ -31,6 +31,7 @@ namespace PolyBomber {
 		 */
 	public:
 		Bomb(int, const Player&, int=0);
+		Bomb(int, const Player&, int, int, int=0);
 		Bomb(const Bomb&);
 		//Bomb& operator=(Bomb&);
 		~Bomb();
