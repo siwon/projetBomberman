@@ -167,7 +167,7 @@ EControllerType Gamepad::getControllerType()
 	return GAMEPAD;
 }
 
-char Gamepad::getCharPressed()
+char Gamepad::getCharPressed(sf::RenderWindow* window)
 {
 	return '\0';
 }

@@ -143,7 +143,7 @@ EControllerType Wii::getControllerType()
 	return WII;
 }
 
-char Wii::getCharPressed()
+char Wii::getCharPressed(sf::RenderWindow* window)
 {
 	return '\0';
 }

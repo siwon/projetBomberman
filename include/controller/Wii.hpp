@@ -73,7 +73,7 @@ namespace PolyBomber
 
 		virtual EControllerType getControllerType();
 
-		virtual char getCharPressed(); /* Non disponible pour les wiimotes*/
+		virtual char getCharPressed(sf::RenderWindow* window); /* Non disponible pour les wiimotes*/
 
 		virtual int getKeyPressed(int player,sf::RenderWindow* window);
 

@@ -65,7 +65,7 @@ namespace PolyBomber
 		 * 1 : autre touche appuyée
 		 * 2 : retour arrière appuyé
 		 */
-		virtual char getCharPressed();
+		virtual char getCharPressed(sf::RenderWindow* window);
 		
 		virtual EControllerType getControllerType();
 		

@@ -124,10 +124,38 @@ bool Keyboard::isAlphaNum(sf::Keyboard::Key key)
 	return false;
 }
 
-char Keyboard::getCharPressed()
+char Keyboard::getCharPressed(sf::RenderWindow* window)
 {
-	
 	int k = (int)(sf::Keyboard::A);
+	bool charPressed = false;
+	char c = '\0';
+	
+	if(window != NULL)
+	{
+		sf::Event event;
+		window->pollEvent(event);
+		if(event.type == sf::Event::KeyReleased)
+		{
+			while(k != (int)(sf::Keyboard::KeyCount) && !charPressed)
+			{
+				c = 1;
+				if( event.key.code == (sf::Keyboard::Key)(k) && isAlphaNum((sf::Keyboard::Key)(k)))
+				{
+					charPressed = true;
+					c = getLabel(k)[0];
+					if(event.key.shift) /* Gestion des majuscules */
+						c = toupper(c);
+				}
+				else if(k == (int)(sf::Keyboard::Space)) /* Gestion espace */
+					c = ' ';
+				else if(k == (int)(sf::Keyboard::Back)) /* Gestion Retour arrière */
+					c = 2;
+				k++;
+			}
+		}
+	}
+	return c;
+	/*int k = (int)(sf::Keyboard::A);
 	
 	bool charPressed = false;
 	char c = '\0';
@@ -147,15 +175,15 @@ char Keyboard::getCharPressed()
 					std::cout << c << std::flush;
 				#endif
 			}
-			else if(k == (int)(sf::Keyboard::Space)) /* Gestion espace */
+			else if(k == (int)(sf::Keyboard::Space))
 				c = ' ';
-			else if(k == (int)(sf::Keyboard::Back)) /* Gestion Retour arrière */
+			else if(k == (int)(sf::Keyboard::Back))
 				c = 2;
 		}
 		k++;		
 	}
 	
-	return c;
+	return c;*/
 }
 
 EControllerType Keyboard::getControllerType()

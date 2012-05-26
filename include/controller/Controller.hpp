@@ -44,9 +44,10 @@ namespace PolyBomber
 		
 		/*!
 		 * \brief Récupération d'un caractère tapé sur le clavier
+		 * \param window : Fenêtre SFML
 		 * \return Caractère tapé sur le clavier
 		 */
-		virtual char getCharPressed() = 0;
+		virtual char getCharPressed(sf::RenderWindow* window) = 0;
 		
 		/*!
 		 * \brief Récupération d'une touche / bouton

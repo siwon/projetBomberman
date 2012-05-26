@@ -76,7 +76,7 @@ namespace PolyBomber
 		
 		virtual EControllerType getControllerType();
 		
-		virtual char getCharPressed(); /* Non disponible pour les joystick */
+		virtual char getCharPressed(sf::RenderWindow* window); /* Non disponible pour les joystick */
 		
 		virtual int getKeyPressed(int player,sf::RenderWindow* window);
 		
