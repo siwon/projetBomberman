@@ -29,7 +29,7 @@ namespace PolyBomber {
 	public:
 		Flame(int, int, EOrientation, EFlameLocation, int);
 		Flame(const Flame&);
-		Flame& operator=(Flame&);
+		//Flame& operator=(Flame&);
 		~Flame();
 		
 		inline EOrientation getOrientation() const {return this->orientation;}

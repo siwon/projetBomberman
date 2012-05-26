@@ -29,6 +29,7 @@ namespace PolyBomber
 
 	LinkWidget& LinkWidget::operator=(const LinkWidget& obj) throw(PolyBomberException)
 	{
+		this->target = obj.target;
 		return *this;
 	}
 

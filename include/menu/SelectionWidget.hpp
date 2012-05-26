@@ -84,6 +84,23 @@ namespace PolyBomber
 			 */			
 			void setSelected(bool selected);
 
+			/*!
+			 * Indique si le texte est visible ou non
+			 * \return True si le texte est visible
+			 */
+			inline bool isVisible() {return this->visible;}
+
+			/*!
+			 * \brief Permet de définir la visibilité du widget
+			 * \param visible : True si le widget est visible
+			 */
+			void setVisible(bool visible);
+
+			/*!
+			 * \brief Permet de vider les items de la liste
+			 */
+			void clear();
+
 		private:
 			/*!
 			 * \brief Méthode de dessin
@@ -103,6 +120,8 @@ namespace PolyBomber
 			TextWidget rightArrow; /*!< Flèche droite */
 
 			unsigned int widthItem; /*!< Largeur maximale d'item */
+
+			bool visible; /*!< Indique si le texte est visible */
 			
 			const unsigned int WIDTH; /*!< Largeur de la fenêtre */
 	};

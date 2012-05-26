@@ -18,7 +18,7 @@ namespace PolyBomber {
 	public:
 		RemoteBomb(const Player&);
 		RemoteBomb(const RemoteBomb&);
-		RemoteBomb& operator=(RemoteBomb&);
+		//RemoteBomb& operator=(RemoteBomb&);
 		~RemoteBomb();
 	};
 }

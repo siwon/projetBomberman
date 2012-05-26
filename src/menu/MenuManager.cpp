@@ -14,6 +14,11 @@
 #include "menu/SoundConfigMenu.hpp"
 #include "menu/ControllersConfigMenu.hpp"
 #include "menu/KeyAssignMenu.hpp"
+#include "menu/CreateGameMenu.hpp"
+#include "menu/GameOptionsMenu.hpp"
+#include "menu/SelectNameMenu.hpp"
+#include "menu/WaitingMenu.hpp"
+#include "menu/JoinGameMenu.hpp"
 
 #include "PolyBomberApp.hpp"
 
@@ -26,15 +31,21 @@ namespace PolyBomber
 		// Ajout des menus
 		this->menuScreens[SPLASHSCREEN] = new SplashScreen();
 		this->menuScreens[MAINMENU] = new MainMenu();
-		this->menuScreens[GAMEMENU] = new GameMenu();
-		this->menuScreens[CONFIGMENU] = new ConfigMenu();
-		this->menuScreens[GRAPHICSCONFIGMENU] = new GraphicsConfigMenu();
-		this->menuScreens[SOUNDCONFIGMENU] = new SoundConfigMenu();
-		this->menuScreens[CONTROLLERSCONFIGMENU] = new ControllersConfigMenu();
-		this->menuScreens[KEYASSIGNMENU1] = new KeyAssignMenu(1);
-		this->menuScreens[KEYASSIGNMENU2] = new KeyAssignMenu(2);
-		this->menuScreens[KEYASSIGNMENU3] = new KeyAssignMenu(3);
-		this->menuScreens[KEYASSIGNMENU4] = new KeyAssignMenu(4);
+			this->menuScreens[GAMEMENU] = new GameMenu();
+				this->menuScreens[CREATEGAMEMENU] = new CreateGameMenu(&gameConfig);
+					this->menuScreens[GAMEOPTIONSMENU] = new GameOptionsMenu(&gameConfig);
+					this->menuScreens[SELECTNAMEMENU] = new SelectNameMenu(&gameConfig);
+					this->menuScreens[WAITINGMENU] = new WaitingMenu();
+				this->menuScreens[JOINGAMEMENU] = new JoinGameMenu();
+				
+			this->menuScreens[CONFIGMENU] = new ConfigMenu();
+				this->menuScreens[GRAPHICSCONFIGMENU] = new GraphicsConfigMenu();
+				this->menuScreens[SOUNDCONFIGMENU] = new SoundConfigMenu();
+				this->menuScreens[CONTROLLERSCONFIGMENU] = new ControllersConfigMenu();
+					this->menuScreens[KEYASSIGNMENU1] = new KeyAssignMenu(1);
+					this->menuScreens[KEYASSIGNMENU2] = new KeyAssignMenu(2);
+					this->menuScreens[KEYASSIGNMENU3] = new KeyAssignMenu(3);
+					this->menuScreens[KEYASSIGNMENU4] = new KeyAssignMenu(4);
 	}
 
 	MenuManager::~MenuManager()
@@ -48,7 +59,6 @@ namespace PolyBomber
 	EScreenSignal MenuManager::run()
 	{
 		EMenuScreen old = SPLASHSCREEN;
-		//EMenuScreen screen = CONTROLLERSCONFIGMENU;
 		EMenuScreen screen = SPLASHSCREEN;
 		while (screen != EXIT)
 		{			
@@ -63,7 +73,7 @@ namespace PolyBomber
 	
 	EScreenSignal MenuManager::runPause(unsigned int player)
 	{
-		// TODO
+		// TODO: Coder la pause
 		return EXITMENU;
 	}
 }

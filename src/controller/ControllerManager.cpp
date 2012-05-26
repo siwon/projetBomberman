@@ -265,7 +265,7 @@ EMenuKeys ControllerManager::getKeyPressed()
 
 char ControllerManager::getCharPressed()
 {
-	return keyboard->getCharPressed();
+	return keyboard->getCharPressed(this->window);
 }
 
 

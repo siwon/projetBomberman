@@ -22,7 +22,7 @@ namespace PolyBomber {
 	public:
 		Location(int, int);
 		Location(const Location&);
-		Location& operator=(Location&);
+		//Location& operator=(Location&);
 		~Location();
 		
 		inline int getLocationX() const {return location.x;}

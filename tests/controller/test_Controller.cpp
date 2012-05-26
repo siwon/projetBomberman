@@ -43,8 +43,15 @@ int main()
 	
 
 	//controllerManager->printConfig(1);
-	controllerManager->setPlayerController(2,GAMEPAD);
-	controllerManager->setPlayerKey(2,GAME_UP);
+	try
+	{
+		controllerManager->setPlayerController(2,GAMEPAD);
+		controllerManager->setPlayerKey(2,GAME_UP);
+	}
+	catch(PolyBomberException e)
+	{
+		std::cout << e.what();
+	}
 	//controllerManager->setPlayerController(3,WII);
 	controllerManager->printConfig(2);
 	//controllerManager->printConfig(3);

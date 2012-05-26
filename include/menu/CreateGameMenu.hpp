@@ -9,6 +9,8 @@
 
 #include "menu/IMenuScreen.hpp"
 
+#include "SGameConfig.hpp"
+
 #include "menu/TextWidget.hpp"
 #include "menu/LinkWidget.hpp"
 #include "menu/SelectionWidget.hpp"
@@ -25,12 +27,17 @@ namespace PolyBomber
 			/*!
 			 * Constructeur
 			 */
-			CreateGameMenu();
+			CreateGameMenu(SGameConfig* gameConfig);
 
 			/*!
 			 * Destructeur
 			 */
 			~CreateGameMenu() {}
+
+			/*!
+			 * \see IMenuScreen::run
+			 */
+			EMenuScreen run(MainWindow& window, EMenuScreen previous);
 
 			/*!
 			 * \see IMenuScreen::downPressed
@@ -62,16 +69,35 @@ namespace PolyBomber
 			 */
 			void backPressed(EMenuScreen* nextScreen);
 
-			/*!
-			 * \see IMenuScreen::run
-			 */
-			EMenuScreen run(MainWindow& window, EMenuScreen previous);
-
 		private:
 			TextWidget title;
+			TextWidget typeText;
+			TextWidget playersText;
+
+			SelectionWidget type;
+			SelectionWidget players;
+
+			LinkWidget options;
 			
 			LinkWidget cancel;
 			LinkWidget next;
+
+			SGameConfig* gameConfig;
+
+			/*!
+			 * \brief Méthode pour changer le nombre de joueurs locaux maximal
+			 */
+			void changePlayers();
+
+			/*!
+			 * \brief Méthode pour initialiser la configuration du jeu
+			 */
+			void initGameConfig();
+
+			/*!
+			 * \brief Méthode pour initialiser les widgets
+			 */
+			void initWidgets();
 	};
 }
 

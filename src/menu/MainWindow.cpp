@@ -65,16 +65,9 @@ namespace PolyBomber
 		MainWindow::window.setFramerateLimit(60);
 	}
 
-	bool MainWindow::listenCloseButton()
+	bool MainWindow::isOpen()
 	{
-		sf::Event event;
-		while (MainWindow::window.pollEvent(event))
-		{
-			if (event.type == sf::Event::Closed)
-				return true;
-		}
-
-		return false;
+		return window.isOpen();
 	}
 
 	void MainWindow::clear()

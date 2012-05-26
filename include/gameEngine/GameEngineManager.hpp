@@ -7,10 +7,6 @@
  * \author Simon Rousseau
  */
 
-//#include <stdio.h>
-//#include <stdlib.h>
-#include <time.h>
-
 #include "Board.hpp"
 
 #include <SFML/System/Time.hpp>
@@ -34,6 +30,7 @@ namespace PolyBomber {
 	protected:
 		Board board; /*! Objet stockant le plateau de jeu */
 		bool gameConfigIsSet;
+		bool runnable;
 		sf::Clock horloge;
 		int debutPause;
 		
@@ -58,10 +55,16 @@ namespace PolyBomber {
 		//IGameEngineToGameInterface
 		SBoard getBoard();
 		int isFinished();
+		/*
+		 * -1 : pas de gagnant et partie terminée
+		 * 0 : partie non terminée
+		 * 1-4 : renvoie l'id du joueur +1
+		 */
 		
 		//INetworkToGameEngine
-		SKeyPressed getKeysPressed();
+		/*SKeyPressed getKeysPressed();
 		int isPaused();
+		void resetConfig();*/
 		
 	};
 }

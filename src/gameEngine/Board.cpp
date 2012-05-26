@@ -7,7 +7,8 @@
 
 /** Includes **/
 // Bibliotheques standards
-
+#include <ctime>
+#include <cstdlib>
 
 // Bibliotheques SFML
 
@@ -22,7 +23,7 @@
 namespace PolyBomber {
 	
 	Board::Board() {
-
+		
 	}
 	
 	Board::~Board() {
@@ -35,6 +36,20 @@ namespace PolyBomber {
 			indice++;
 		}
 		return player[indice];
+	}
+	
+	void Board::generateFlameHorizontal(int x, int y, int range, int date) {
+		for (int i=1; i<range; i++) {
+			if (x+i%2==0 && y%2==0) {
+				flame.push_back(Flame(x+i,y,ORIENTATION_RIGHT,ORIGIN,date+DUREEFLAMME));
+				flame.push_back(Flame(x-i,y,ORIENTATION_LEFT,ORIGIN,date+DUREEFLAMME));
+			} else {
+				flame.push_back(Flame(x+i,y,ORIENTATION_RIGHT,MIDDLE,date+DUREEFLAMME));
+				flame.push_back(Flame(x-i,y,ORIENTATION_LEFT,MIDDLE,date+DUREEFLAMME));
+			}
+		}
+		flame.push_back(Flame(x+range,y,ORIENTATION_RIGHT,END,date+DUREEFLAMME));
+		flame.push_back(Flame(x-range,y,ORIENTATION_LEFT,END,date+DUREEFLAMME));
 	}
 	
 	SBoard Board::boardToSBoard() {
@@ -104,25 +119,26 @@ namespace PolyBomber {
 		return toReturn;
 	}
 	
-	void Board::actionToucheHaut(int player) {
+	void Board::actionToucheHaut(int player) {//TODO : faire la vérification si le déplacement se fait dans la meme case nécessaire ?
 		Player pl = getPlayerById(player);
 		int x = pl.getLocationX();//position en cran
 		int y = pl.getLocationY();//position en cran
 		int xCase = cranToCase(x);
 		int yCase = cranToCase(y);
-		if (pl.getInfection().getType()==CONFUSION) {
+		EOrientation orient;
+		if (pl.getInfection()==1) {
 			//inversion des touches directionnelles
 			if (caseIsFree(xCase,yCase+1)) {
-				if (distanceDesAutresJoueursValide(player,x,y+1)) {
-					pl.move(x,y+1);
-					if (y+1%5!=2) {
+				if (distanceDesAutresJoueursValide(player,x,y+pl.getSpeed())) {
+					pl.move(x,y+pl.getSpeed());
+					if (y+pl.getSpeed()%5!=2) {
 						pl.centrerPlayerSurAxeHorizontal();
 					}
 				}
 			} else {
-				if (y+1%5<=2) {
-					pl.move(x,y+1);
-					if (y+1%5!=2) {
+				if (y+pl.getSpeed()%5<=2) {
+					pl.move(x,y+pl.getSpeed());
+					if (y+pl.getSpeed()%5!=2) {
 						pl.centrerPlayerSurAxeHorizontal();
 					}
 				} else {
@@ -130,66 +146,72 @@ namespace PolyBomber {
 				}
 				
 			}
+			orient=ORIENTATION_DOWN;
 		} else {
 			//test si la case suivante est libre
 			if (caseIsFree(xCase,yCase-1)) {
-				if (distanceDesAutresJoueursValide(player,x,y-1)) {
-					pl.move(x,y-1);
-					if (y-1%5!=2) {//si on est pas centré sur la case, alors la position est corrigée
+				if (distanceDesAutresJoueursValide(player,x,y-pl.getSpeed())) {
+					pl.move(x,y-pl.getSpeed());
+					if (y-pl.getSpeed()%5!=2) {//si on est pas centré sur la case, alors la position est corrigée
 						pl.centrerPlayerSurAxeHorizontal();
 					}
 				}
 			} else {
-				if (y-1%5>=2) {
-					pl.move(x,y-1);
-					if (y-1%5!=2) {//si on est pas centré sur la case, alors la position est corrigée
+				if (y-pl.getSpeed()%5>=2) {
+					pl.move(x,y-pl.getSpeed());
+					if (y-pl.getSpeed()%5!=2) {//si on est pas centré sur la case, alors la position est corrigée
 						pl.centrerPlayerSurAxeHorizontal();
 					}
 				} else {
 					pl.centrerPlayerSurAxeVertical();
 				}
 			}
+			orient=ORIENTATION_UP;
 		}
+		pl.incrementStep();
+		pl.setOrientation(orient);
 	}
 	
 	void Board::actionToucheBas(int player) {
 		Player pl = getPlayerById(player);
+		EOrientation orient;
 		int x = pl.getLocationX();//position en cran
 		int y = pl.getLocationY();//position en cran
 		int xCase = cranToCase(x);
 		int yCase = cranToCase(y);
-		if (pl.getInfection().getType()==CONFUSION) {
+		if (pl.getInfection()==1) {
 			//inversion des touches directionnelles
 			if (caseIsFree(xCase,yCase-1)) {
-				if (distanceDesAutresJoueursValide(player,x,y-1)) {
-					pl.move(x,y-1);
-					if (y-1%5!=2) {//si on est pas centré sur la case, alors la position est corrigée
+				if (distanceDesAutresJoueursValide(player,x,y-pl.getSpeed())) {
+					pl.move(x,y-pl.getSpeed());
+					if (y-pl.getSpeed()%5!=2) {//si on est pas centré sur la case, alors la position est corrigée
 						pl.centrerPlayerSurAxeHorizontal();
 					}
 				}
 			} else {
-				if (y-1%5>=2) {
-					pl.move(x,y-1);
-					if (y-1%5!=2) {//si on est pas centré sur la case, alors la position est corrigée
+				if (y-pl.getSpeed()%5>=2) {
+					pl.move(x,y-pl.getSpeed());
+					if (y-pl.getSpeed()%5!=2) {//si on est pas centré sur la case, alors la position est corrigée
 						pl.centrerPlayerSurAxeHorizontal();
 					}
 				} else {
 					pl.centrerPlayerSurAxeVertical();
 				}
 			}
+			orient=ORIENTATION_UP;
 		} else {
 			//test si la case suivante est libre
 			if (caseIsFree(xCase,yCase+1)) {
-				if (distanceDesAutresJoueursValide(player,x,y+1)) {
-					pl.move(x,y+1);
-					if (y+1%5!=2) {
+				if (distanceDesAutresJoueursValide(player,x,y+pl.getSpeed())) {
+					pl.move(x,y+pl.getSpeed());
+					if (y+pl.getSpeed()%5!=2) {
 						pl.centrerPlayerSurAxeHorizontal();
 					}
 				}
 			} else {
-				if (y+1%5<=2) {
-					pl.move(x,y+1);
-					if (y+1%5!=2) {
+				if (y+pl.getSpeed()%5<=2) {
+					pl.move(x,y+pl.getSpeed());
+					if (y+pl.getSpeed()%5!=2) {
 						pl.centrerPlayerSurAxeHorizontal();
 					}
 				} else {
@@ -197,115 +219,187 @@ namespace PolyBomber {
 				}
 				
 			}
+			orient=ORIENTATION_DOWN;
 		}
+		pl.incrementStep();
+		pl.setOrientation(orient);
 	}
 	
 	void Board::actionToucheGauche(int player) {
 		Player pl = getPlayerById(player);
+		EOrientation orient;
 		int x = pl.getLocationX();//position en cran
 		int y = pl.getLocationY();//position en cran
 		int xCase = cranToCase(x);
 		int yCase = cranToCase(y);
-		if (pl.getInfection().getType()==CONFUSION) {
+		if (pl.getInfection()==1) {
 			//inversion des touches directionnelles
 			if (caseIsFree(xCase+1,yCase)) {
-				if (distanceDesAutresJoueursValide(player,x+1,y)) {
-					pl.move(x+1,y);
-					if (x+1%5!=2) {
+				if (distanceDesAutresJoueursValide(player,x+pl.getSpeed(),y)) {
+					pl.move(x+pl.getSpeed(),y);
+					if (x+pl.getSpeed()%5!=2) {
 						pl.centrerPlayerSurAxeVertical();
 					}
 				}
 			} else {
-				if (x+1%5>=2) {
-					pl.move(x+1,y);
-					if (x+1%5!=2) {
+				if (x+pl.getSpeed()%5>=2) {
+					pl.move(x+pl.getSpeed(),y);
+					if (x+pl.getSpeed()%5!=2) {
 						pl.centrerPlayerSurAxeVertical();
 					}
 				} else {
 					pl.centrerPlayerSurAxeHorizontal();
 				}
 			}
+			orient=ORIENTATION_RIGHT;
 		} else {
 			//test si la case suivante est libre
 			if (caseIsFree(xCase-1,yCase)) {
-				if (distanceDesAutresJoueursValide(player,x-1,y)) {
-					pl.move(x-1,y);
-					if (x-1%5!=2) {
+				if (distanceDesAutresJoueursValide(player,x-pl.getSpeed(),y)) {
+					pl.move(x-pl.getSpeed(),y);
+					if (x-pl.getSpeed()%5!=2) {
 						pl.centrerPlayerSurAxeVertical();
 					}
 				}
 			} else {
-				if (x-1%5<=2) {
-					pl.move(x-1,y);
-					if (x-1%5!=2) {
+				if (x-pl.getSpeed()%5<=2) {
+					pl.move(x-pl.getSpeed(),y);
+					if (x-pl.getSpeed()%5!=2) {
 						pl.centrerPlayerSurAxeVertical();
 					}
 				} else {
 					pl.centrerPlayerSurAxeHorizontal();
 				}
 			}
+			orient=ORIENTATION_LEFT;
 		}
+		pl.incrementStep();
+		pl.setOrientation(orient);
 	}
 	
 	void Board::actionToucheDroite(int player) {
 		Player pl = getPlayerById(player);
+		EOrientation orient;
 		int x = pl.getLocationX();//position en cran
 		int y = pl.getLocationY();//position en cran
 		int xCase = cranToCase(x);
 		int yCase = cranToCase(y);
-		if (pl.getInfection().getType()==CONFUSION) {
+		if (pl.getInfection()==1) {
 			//inversion des touches directionnelles
 			if (caseIsFree(xCase-1,yCase)) {
-				if (distanceDesAutresJoueursValide(player,x-1,y)) {
-					pl.move(x-1,y);
-					if (x-1%5!=2) {
+				if (distanceDesAutresJoueursValide(player,x-pl.getSpeed(),y)) {
+					pl.move(x-pl.getSpeed(),y);
+					if (x-pl.getSpeed()%5!=2) {
 						pl.centrerPlayerSurAxeVertical();
 					}
 				}
 			} else {
-				if (x-1%5<=2) {
-					pl.move(x-1,y);
-					if (x-1%5!=2) {
+				if (x-pl.getSpeed()%5<=2) {
+					pl.move(x-pl.getSpeed(),y);
+					if (x-pl.getSpeed()%5!=2) {
 						pl.centrerPlayerSurAxeVertical();
 					}
 				} else {
 					pl.centrerPlayerSurAxeHorizontal();
 				}
 			}
+			orient=ORIENTATION_LEFT;
 		} else {
 			//test si la case suivante est libre
 			if (caseIsFree(xCase+1,yCase)) {
-				if (distanceDesAutresJoueursValide(player,x+1,y)) {
-					pl.move(x+1,y);
-					if (x+1%5!=2) {
+				if (distanceDesAutresJoueursValide(player,x+pl.getSpeed(),y)) {
+					pl.move(x+pl.getSpeed(),y);
+					if (x+pl.getSpeed()%5!=2) {
 						pl.centrerPlayerSurAxeVertical();
 					}
 				}
 			} else {
-				if (x+1%5>=2) {
-					pl.move(x+1,y);
-					if (x+1%5!=2) {
+				if (x+pl.getSpeed()%5>=2) {
+					pl.move(x+pl.getSpeed(),y);
+					if (x+pl.getSpeed()%5!=2) {
 						pl.centrerPlayerSurAxeVertical();
 					}
 				} else {
 					pl.centrerPlayerSurAxeHorizontal();
 				}
 			}
+			orient=ORIENTATION_RIGHT;
 		}
+		pl.incrementStep();
+		pl.setOrientation(orient);
 	}
 	
 	void Board::actionToucheAction1(int player, int date) {
 		Player pl = getPlayerById(player);
 		if (pl.getCapacity()>0) {//le joueur peut poser une bombe
 			bomb.push_back(Bomb(date,pl));
+			pl.decrementCapacity();
 		}
 	}
 	
 	void Board::actionToucheAction2(int player, int date) {
-		// TODO : a faire
 		Player pl = getPlayerById(player);
+		EGameBonus bon = pl.getFirstBombBonus();
 		if (pl.getBombBonus().size()>0) {
 			//utiliser le 1er bonus puis le supprimer de la liste
+			if (bon==INFINITYBOMB) {
+				bomb.push_back(Bomb(date,pl,1));
+			} else if (bon==ATOMICBOMB) {
+				bomb.push_back(Bomb(date,pl,2));
+			} else { //bombline
+				EOrientation orient = pl.getOrientation();
+				int x=cranToCase(pl.getLocationX());
+				int y=cranToCase(pl.getLocationY());
+				switch (orient) {
+					case ORIENTATION_UP:
+						bomb.push_back(Bomb(date,pl,x,y));
+						pl.decrementCapacity();
+						y=y-1;
+						while (pl.getCapacity()>0 && caseIsFree(x,y)) {
+							bomb.push_back(Bomb(date,pl,x,y));
+							pl.decrementCapacity();
+							y=y-1;
+						}
+						break;
+						
+					case ORIENTATION_DOWN:
+						bomb.push_back(Bomb(date,pl,x,y));
+						pl.decrementCapacity();
+						y=y+1;
+						while (pl.getCapacity()>0 && caseIsFree(x,y)) {
+							bomb.push_back(Bomb(date,pl,x,y));
+							pl.decrementCapacity();
+							y=y+1;
+						}
+						break;
+						
+					case ORIENTATION_LEFT:
+						bomb.push_back(Bomb(date,pl,x,y));
+						pl.decrementCapacity();
+						x=x-1;
+						while (pl.getCapacity()>0 && caseIsFree(x,y)) {
+							bomb.push_back(Bomb(date,pl,x,y));
+							pl.decrementCapacity();
+							x=x-1;
+						}
+						break;
+						
+					case ORIENTATION_RIGHT:
+						bomb.push_back(Bomb(date,pl,x,y));
+						pl.decrementCapacity();
+						x=x+1;
+						while (pl.getCapacity()>0 && caseIsFree(x,y)) {
+							bomb.push_back(Bomb(date,pl,x,y));
+							pl.decrementCapacity();
+							x=x+1;
+						}
+						break;
+						
+					default:
+						break;
+				}
+			}
+			bomb.erase(bomb.begin());
 		} else {
 			if (pl.getDetonator()) {
 				bool remoteBombDejaPosee=false;
@@ -326,7 +420,6 @@ namespace PolyBomber {
 	}
 	
 	void Board::removeBox(int i) {
-		//box[i].~Box();
 		box.erase(box.begin()+i);
 	}
 	
@@ -448,12 +541,15 @@ namespace PolyBomber {
 	int Board::getIdSurvivant() {
 		int toReturn;
 		unsigned int cpt;
-		if (nbSurvivant()==1) {
+		int nbSurv = nbSurvivant();
+		if (nbSurv==1) {
 			toReturn=1;
 			while (cpt< player.size() && !player[cpt].getAlive()) {
 				cpt++;
 				toReturn++;
 			}
+		} else if (nbSurv==0) {
+			toReturn=-1;
 		} else {
 			toReturn=0;
 		}
@@ -482,10 +578,21 @@ namespace PolyBomber {
 	}
 	
 	void Board::explodeBomb(unsigned int indice) {
-		generateFlame(bomb[indice].getLocationX(),bomb[indice].getLocationY(),bomb[indice].getRange(),bomb[indice].getTimeOfExplosion()+DUREEFLAMME);
+		int type=bomb[indice].getType();
+		if (type==0 || type==3) {//TODO : vérifier l'utilité de "type==3"
+			generateFlame(bomb[indice].getLocationX(),bomb[indice].getLocationY(),bomb[indice].getRange(),bomb[indice].getTimeOfExplosion()+DUREEFLAMME);
+			if (type==0) {
+				int pl = bomb[indice].getPlayer();
+				player[pl].incrementCapacity();
+			}
+		} else if (type==1) {
+			generateFlameInfinityBomb(indice,bomb[indice].getTimeOfExplosion()+DUREEFLAMME);
+		} else if (type==2) {
+			generateFlameAtomicBomb(indice,bomb[indice].getTimeOfExplosion()+DUREEFLAMME);
+		}
 		bomb.erase(bomb.begin()+indice);
 	}
-
+	
 	void Board::explodeRemoteBomb(unsigned int indice, int date) {
 		generateFlame(remoteBomb[indice].getLocationX(),remoteBomb[indice].getLocationY(),remoteBomb[indice].getRange(),date+DUREEFLAMME);
 		remoteBomb.erase(remoteBomb.begin()+indice);
@@ -554,6 +661,25 @@ namespace PolyBomber {
 		}
 	}
 	
+	void Board::generateFlameInfinityBomb(unsigned int indice, int date) {
+		generateFlame(bomb[indice].getLocationX(),bomb[indice].getLocationY(),19,date);
+	}
+	
+	void Board::generateFlameAtomicBomb(unsigned int indice, int date) {
+		int x = bomb[indice].getLocationX();
+		int y = bomb[indice].getLocationY();
+		int range = bomb[indice].getRange();
+		
+		generateFlame(x,y,range,date);
+		
+		for (int i=1; i<range; i++) {//génération de toutes les flammes horizontales
+			generateFlameHorizontal(x+i,y,range-i,date);
+			generateFlameHorizontal(x-i,y,range-i,date);
+		}
+		
+		bomb.erase(bomb.begin()+indice);
+	}
+	
 	Bonus Board::getBonusByCoord(int x, int y) {//on suppose que le bonus existe
 		return bonus[getIndiceBonus(x,y)];
 	}
@@ -579,12 +705,13 @@ namespace PolyBomber {
 	}
 	
 	void Board::checkPosition(int date) {
-		//faire la vérification des toutes les positions
-		//faire la vérification des joueurs (flammes, bonus)
+		//TODO : ajouter les actions dues aux infections
+		
+		//fait la vérification des joueurs (flammes, bonus)
 		for (unsigned int i=0; i<player.size(); i++) {
 			int x = cranToCase(player[i].getLocationX());
 			int y = cranToCase(player[i].getLocationY());
-
+			
 			if (isAFlameInThisCase(x,y)) {
 				player[i].killPlayer();
 			}
@@ -594,50 +721,50 @@ namespace PolyBomber {
 					int alea=rand()%4;
 					for (unsigned int j=0;j<player.size();j++) {
 						switch(alea) {
-						case 0 :
-							player[j].addBonus(Bonus(player[j].getLocationX(),player[j].getLocationY(),CONFUSION,true));
-							break;
-
-						case 1 :
-							player[j].addBonus(Bonus(player[j].getLocationX(),player[j].getLocationY(),SPASME,true));
-							break;
-
-						case 2 :
-							player[j].addBonus(Bonus(player[j].getLocationX(),player[j].getLocationY(),DILATATION,true));
-							break;
-
-						case 3 :
-							player[j].addBonus(Bonus(player[j].getLocationX(),player[j].getLocationY(),RAGE,true));
-							break;
-
-						default :
-							break;
+							case 0 :
+								player[j].addBonus(Bonus(player[j].getLocationX(),player[j].getLocationY(),CONFUSION,true));
+								break;
+								
+							case 1 :
+								player[j].addBonus(Bonus(player[j].getLocationX(),player[j].getLocationY(),SPASME,true));
+								break;
+								
+							case 2 :
+								player[j].addBonus(Bonus(player[j].getLocationX(),player[j].getLocationY(),DILATATION,true));
+								break;
+								
+							case 3 :
+								player[j].addBonus(Bonus(player[j].getLocationX(),player[j].getLocationY(),RAGE,true));
+								break;
+								
+							default :
+								break;
 						}
 					}
 				} else if (bon.getType()==CRANE) {
 					int alea=rand()%4;
 					switch(alea) {
-					case 0 :
-						player[i].addBonus(Bonus(player[i].getLocationX(),player[i].getLocationY(),CONFUSION,true));
-						break;
-
-					case 1 :
-						player[i].addBonus(Bonus(player[i].getLocationX(),player[i].getLocationY(),SPASME,true));
-						break;
-
-					case 2 :
-						player[i].addBonus(Bonus(player[i].getLocationX(),player[i].getLocationY(),DILATATION,true));
-						break;
-
-					case 3 :
-						player[i].addBonus(Bonus(player[i].getLocationX(),player[i].getLocationY(),RAGE,true));
-						break;
-
-					default :
-						break;
+						case 0 :
+							player[i].addBonus(Bonus(player[i].getLocationX(),player[i].getLocationY(),CONFUSION,true));
+							break;
+							
+						case 1 :
+							player[i].addBonus(Bonus(player[i].getLocationX(),player[i].getLocationY(),SPASME,true));
+							break;
+							
+						case 2 :
+							player[i].addBonus(Bonus(player[i].getLocationX(),player[i].getLocationY(),DILATATION,true));
+							break;
+							
+						case 3 :
+							player[i].addBonus(Bonus(player[i].getLocationX(),player[i].getLocationY(),RAGE,true));
+							break;
+							
+						default :
+							break;
 					}
 				} else {
-
+					
 				}
 			}
 			if (isAMineInThisCase(x,y)) {
@@ -648,19 +775,19 @@ namespace PolyBomber {
 				mine.erase(mine.begin()+indiceMine);
 			}
 		}
-		//faire la vérification des caisses (flammes)
+		//fait la vérification des caisses (flammes)
 		for (unsigned int i=0; i<box.size(); i++) {
 			if (isAFlameInThisCase(box[i].getLocationX(),box[i].getLocationY())) {
 				box.erase(box.begin()+i);
 			}
 		}
-		//faire la vérification des bonus (flammes)
+		//fait la vérification des bonus (flammes)
 		for (unsigned int i=0; i<bonus.size(); i++) {
 			if (isAFlameInThisCase(bonus[i].getLocationX(),bonus[i].getLocationY())) {
 				bonus[i].setVisible();
 			}
 		}
-		//faire la vérification des bombes (flamme qui déclenche les autres)
+		//fait la vérification des bombes (flamme qui déclenche les autres)
 		for (unsigned int i=0; i<bomb.size(); i++) {
 			if (isAFlameInThisCase(bomb[i].getLocationX(),bomb[i].getLocationY())) {
 				explodeBomb(bomb[i].getLocationX(),bomb[i].getLocationY());
@@ -682,5 +809,50 @@ namespace PolyBomber {
 				explodeBomb(i);
 			}
 		}
+	}
+	
+	bool Board::distanceDesAutresJoueursValide(unsigned int pl, int x, int y) {//x et y sont en crans
+		bool toReturn = true;
+		int x2;
+		int y2;
+		for (unsigned int i=0; i<player.size(); i++) {
+			if (i!=pl) {
+				x2=player[i].getLocationX();
+				y2=player[i].getLocationY();
+				if (x2<x) {
+					if (y2<y) {
+						if (x-x2<DISTANCEMINBETWEENTWOPLAYERS && y-y2<DISTANCEMINBETWEENTWOPLAYERS) {
+							toReturn=false;
+						}
+					} else {
+						if (x-x2<DISTANCEMINBETWEENTWOPLAYERS && y2-y<DISTANCEMINBETWEENTWOPLAYERS) {
+							toReturn=false;
+						}
+					}
+				} else {
+					if (y2<y) {
+						if (x2-x<DISTANCEMINBETWEENTWOPLAYERS && y-y2<DISTANCEMINBETWEENTWOPLAYERS) {
+							toReturn=false;
+						}
+					} else {
+						if (x2-x<DISTANCEMINBETWEENTWOPLAYERS && y2-y<DISTANCEMINBETWEENTWOPLAYERS) {
+							toReturn=false;
+						}
+					}
+				}
+			}
+		}
+		return toReturn;
+	}
+	
+	void Board::resetConfig() {
+		bonus.clear();
+		flame.clear();
+		box.clear();
+		player.clear();
+		bomb.clear();
+		remoteBomb.clear();
+		mine.clear();
+		wall.clear();
 	}
 }

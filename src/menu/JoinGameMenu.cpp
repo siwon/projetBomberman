@@ -1,0 +1,88 @@
+/*!
+ * \file JoinGameMenu.cpp
+ * \brief Gestionnaire du menu pour rejoindre une partie
+ * \author Maxime GUIHAL
+ */
+
+#include "menu/JoinGameMenu.hpp"
+#include "PolyBomberApp.hpp"
+#include "INetworkToMenu.hpp"
+
+namespace PolyBomber
+{
+	JoinGameMenu::JoinGameMenu() :
+		title("Rejoindre une partie", TITLEFONT, 100),
+		ipText("Adresse IP du serveur :", TEXTFONT, 250),
+		ipInput(TEXTFONT, 300, CENTER, 170),
+		cancel("Annuler", 450, GAMEMENU),
+		next("Connexion", 450, WAITINGMENU)
+	{
+		ISkin* skin = PolyBomberApp::getISkin();
+		
+		title.setColor(skin->getColor(TITLECOLOR));
+		ipText.setColor(skin->getColor(TEXTCOLOR));
+
+		cancel.move(-100, 0);
+		next.move(100, 0);
+
+		ipInput.setMaxLength(15);
+
+		cancel.setSelected(true);
+
+		ipInput.setNext(&cancel);
+		cancel.setPrevious(&ipInput);
+		next.setPrevious(&ipInput);
+		cancel.setNext(&next);
+		next.setNext(&cancel);
+
+		this->widgets.push_back(&title);
+		this->widgets.push_back(&ipText);
+		this->widgets.push_back(&ipInput);
+		this->widgets.push_back(&cancel);
+		this->widgets.push_back(&next);
+	}
+
+	void JoinGameMenu::downPressed()
+	{
+		ipInput.goNext();
+	}
+
+	void JoinGameMenu::upPressed()
+	{
+		cancel.goPrevious();
+		next.goPrevious();
+	}
+
+	void JoinGameMenu::leftPressed()
+	{
+		next.goNext();
+	}
+
+	void JoinGameMenu::rightPressed()
+	{
+		cancel.goNext();
+	}
+
+	void JoinGameMenu::validPressed(EMenuScreen* nextScreen)
+	{
+		if (cancel.getSelected())
+		{
+			*nextScreen = cancel.activate();
+		}
+		
+		if (next.getSelected())
+		{				
+			*nextScreen = next.activate();
+		}
+	}
+
+	void JoinGameMenu::backPressed(EMenuScreen* nextScreen)
+	{
+		*nextScreen = cancel.activate();
+	}
+
+	void JoinGameMenu::loopAction()
+	{
+		ipInput.writeChar();
+	}
+}

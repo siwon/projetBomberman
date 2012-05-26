@@ -17,16 +17,18 @@ namespace PolyBomber
 	{
 		SPEEDUP=0, /*!< Acceleration du joueur */
 		SPEEDDOWN, 
-		BOMBLINE,
+		BOMBLINE, //bonus de bombe
 		DETONATOR,
 		BOMBUP,
 		BOMBDOWN,
 		RANGEUP,
 		RANGEDOWN,
 		RANGEUPMAX,
+		/*bonus de bombe*/
 		MINE,
 		INFINITYBOMB,
 		ATOMICBOMB,
+		/*infection*/
 		CRANE,
 		HELL,
 		CONFUSION,

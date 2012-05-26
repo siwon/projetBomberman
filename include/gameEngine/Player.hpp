@@ -31,9 +31,10 @@ namespace PolyBomber {
 		int step;			/*! Etat de la jambe du joueur */
 		int range;
 		bool detonator;
+		int saveCaracBeforeInfectionDilatation;
 		//Bonus du joueur
 		std::vector<Bonus> bombBonus;
-		Bonus infection;
+		int infection;
 		
 	private:
 		void removeInfection();
@@ -41,7 +42,7 @@ namespace PolyBomber {
 	public:	
 		Player(int, int, int);
 		Player(const Player& pl);
-		Player& operator=(Player&);
+		//Player& operator=(Player&);
 		~Player();
 
 		inline int getId() const {return this->id;}
@@ -53,13 +54,18 @@ namespace PolyBomber {
 		inline int getRange() const {return this->range;}
 		inline bool getDetonator() const {return this->detonator;}
 		inline std::vector<Bonus> getBombBonus(){return this->bombBonus;}
-		inline Bonus getInfection(){return this->infection;}
+		inline EGameBonus getFirstBombBonus(){return this->bombBonus[0].getType();}
+		inline int getInfection() const {return this->infection;}
 		
 		inline void killPlayer() {this->alive=false;}
 		void addBonus(Bonus bonus);
 		void move(int, int);
 		void centrerPlayerSurAxeHorizontal();
 		void centrerPlayerSurAxeVertical();
+		inline void incrementStep() {this->step++;}
+		inline void setOrientation(EOrientation orient) {this->orientation=orient;}
+		inline void incrementCapacity(int i=1) {this->capacity+=i;}
+		inline void decrementCapacity(int i=1) {this->capacity-=i;}
 	};
 }
 

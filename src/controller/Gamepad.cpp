@@ -36,7 +36,7 @@ std::string Gamepad::getLabel(int key)
 
 bool Gamepad::gamepadUsed(int numGamepad)
 {
-	int i = 0;
+	unsigned int i = 0;
 	bool find = false;
 	
 	while (i<gamepadsAssignation.size() && !find)
@@ -167,7 +167,7 @@ EControllerType Gamepad::getControllerType()
 	return GAMEPAD;
 }
 
-char Gamepad::getCharPressed()
+char Gamepad::getCharPressed(sf::RenderWindow*)
 {
 	return '\0';
 }

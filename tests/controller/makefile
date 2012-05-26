@@ -2,14 +2,15 @@
 # Alexandre BISIAUX
 
 CC=g++
-CFLAGS=
+CFLAGS=-W -Wall -ansi -pedantic
 LDFLAGS=-lsfml-window -lsfml-graphics -lsfml-system -lwiicpp
+LDPATH=/lib/
 EXEC=test_Controller
 
 all: $(EXEC)
 
 test_Controller: test_Controller.o ControllerManager.o ConfigFileManager.o Keyboard.o Controller.o Gamepad.o PolyBomberException.o Wii.o
-	$(CC) -o $@ $^ $(LDFLAGS)
+	$(CC) -o $@ $^ $(LDFLAGS)  -L$(LDPATH)
 
 test_Controller.o: test_Controller.cpp
 	$(CC) -o $@ -c $< $(CFLAGS)

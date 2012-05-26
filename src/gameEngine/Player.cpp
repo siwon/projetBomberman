@@ -28,9 +28,17 @@ namespace PolyBomber {
 		this->range=RANGEDEFAUT;
 		this->alive=true;
 		this->step=0;
+		this->saveCaracBeforeInfectionDilatation=0;
 		
 		this->bombBonus=std::vector<Bonus>();
-		
+		this->infection=0;
+		/*
+		 * 0 => rien
+		 * 1 => CONFUSION
+		 * 2 => SPASME
+		 * 3 => DILATATION
+		 * 4 => RAGE
+		 */
 	}
 	
 	Player::Player(const Player& pl) : Location(pl.getLocationX(),pl.getLocationY()) {
@@ -39,17 +47,23 @@ namespace PolyBomber {
 		this->capacity=pl.getCapacity();
 		this->orientation=pl.getOrientation();
 		this->range=pl.getRange();
-		this->alive=getAlive();
-		this->step=getStep();
+		this->alive=pl.getAlive();
+		this->step=pl.getStep();
+		this->saveCaracBeforeInfectionDilatation=0;
 		
 		this->bombBonus=std::vector<Bonus>();
+		this->infection=pl.getInfection();
 	}
 	
 	Player::~Player() {
 	}
 	
 	void Player::removeInfection() {
-		this->infection.~Bonus();
+		if (infection==3) {
+			speed=saveCaracBeforeInfectionDilatation;
+		}
+		saveCaracBeforeInfectionDilatation=0;
+		infection=0;
 	}
 	
 	void Player::addBonus(Bonus bonus) {
@@ -118,28 +132,22 @@ namespace PolyBomber {
 				bombBonus.push_back(bonus);
 				break;
 				
-			case CRANE:
-				infection=bonus;
-				break;
-				
-			case HELL:
-				infection=bonus;
-				break;
-				
 			case CONFUSION:
-				infection=bonus;
+				infection=1;
 				break;
 				
 			case SPASME:
-				infection=bonus;
+				infection=2;
 				break;
 				
 			case DILATATION:
-				infection=bonus;
+				this->saveCaracBeforeInfectionDilatation=this->speed;
+				infection=3;
+				this->speed=VITESSEMIN;
 				break;
 				
 			case RAGE:
-				infection=bonus;
+				infection=4;
 				break;
 				
 			default:

@@ -22,14 +22,22 @@ namespace PolyBomber {
 	class Bomb : public Explosive {
     protected:
 		int timeOfExplosion; /*! Seconde ou doit exploser la bombe */
-		int type;
+		int type; /*! type de bombe */
+		/*
+		 * 0 => bombe normale
+		 * 1 => INFINITYBOMB
+		 * 2 => ATOMICBOMB
+		 * 3 => BOMBLINE
+		 */
 	public:
 		Bomb(int, const Player&, int=0);
+		Bomb(int, const Player&, int, int, int=0);
 		Bomb(const Bomb&);
-		Bomb& operator=(Bomb&);
+		//Bomb& operator=(Bomb&);
 		~Bomb();
 		
 		inline int getTimeOfExplosion() const {return this->timeOfExplosion;}
+		inline int getType() const {return this->type;}
 		inline void decalerExplosion(int nbSecondes) {this->timeOfExplosion=this->timeOfExplosion+nbSecondes;}
 	};
 }

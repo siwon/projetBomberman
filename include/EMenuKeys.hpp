@@ -21,7 +21,8 @@ namespace PolyBomber
 		MENU_RIGHT, /*!< Aller vers la droite */
 		MENU_VALID, /*!< Valider la sélection */
 		MENU_BACK, /*!< Allez en arrière */
-		MENU_NONE /*!< Aucune touche appuyée */
+		MENU_NONE, /*!< Aucune touche appuyée */
+		MENU_OTHER /*!< Autre touche appuyée */
 	};
 }
 

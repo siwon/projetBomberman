@@ -34,8 +34,7 @@ const std::string Keyboard::keysLabel[] = {"a", "b", "c", "d", "e", "f", "g", "h
 							 "[", "]", ";", ",", ".", "'", "/", "\\", "~", "=", "-", "Espace",
 							 "Entree", "Retour arrière", "Tabulation", "Page suiv.", "Page prec.",
 							 "Fin", "Home", "Insert", "Suppr", "+", "-", "*", "/", "Gauche", "Droite", "Haut",
-							 "Bas", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "F1", "F2",
-							 "F3", "F4", "F5", "F6", "F7", "F8", "F9", "F10", "F11", "F12", "F13", "F14", "F15", "Pause"};
+							 "Bas", "0 Numpad", "1 Numpad", "2 Numpad", "3 Numpad", "4 Numpad", "5 Numpad", "6 Numpad", "7 Numpad", "8 Numpad", "9 								 Numpad", "F1", "F2", "F3", "F4", "F5", "F6", "F7", "F8", "F9", "F10", "F11", "F12", "F13", "F14", "F15", "Pause"};
 
 std::string Keyboard::getLabel(int key)
 {
@@ -99,7 +98,7 @@ EMenuKeys Keyboard::getMenuKey(sf::RenderWindow* window)
 					return MENU_BACK;
 					
 				default :
-					return MENU_NONE;
+					return MENU_OTHER;
 			}
 		}
 		if(event.type == sf::Event::Closed)
@@ -124,41 +123,31 @@ bool Keyboard::isAlphaNum(sf::Keyboard::Key key)
 	return false;
 }
 
-char Keyboard::getCharPressed()
+char Keyboard::getCharPressed(sf::RenderWindow* window)
 {
-	
-	int k = (int)(sf::Keyboard::A);
-	
-	bool charPressed = false;
 	char c = '\0';
-
-	while(k != (int)(sf::Keyboard::KeyCount) && !charPressed)
-	{
-		if( sf::Keyboard::isKeyPressed((sf::Keyboard::Key)(k)) && isAlphaNum((sf::Keyboard::Key)(k)) )
-		{
-			c = getLabel(k)[0];
-			
-			if(sf::Keyboard::isKeyPressed(sf::Keyboard::LShift)) /* Gestion des majuscules */
-				c = char(toupper(c));
-			charPressed = true;
-			
-			if(k == (int)(sf::Keyboard::Space)) /* Gestion espace */
-				c = ' ';
-			
-			if(k == (int)(sf::Keyboard::Back)) /* Gestion Retour arrière */
-				c = (char)(0x08);
-			
-			if(k == (int)(sf::Keyboard::Delete)) /* Gestion Suppr */
-				c = (char)(0x7F);
-			
-			#if DEBUG
-				std::cout << c << std::flush;
-			#endif
-		}
-		k++;
-		
-	}
 	
+	if(window != NULL)
+	{
+		sf::Event event;
+		window->pollEvent(event);
+		if(event.type == sf::Event::KeyPressed)
+		{
+			c = 1;
+			if(isAlphaNum(event.key.code))
+			{
+				c = getLabel((int)event.key.code)[0];
+				if(event.key.shift) /* Gestion des majuscules */
+					c = toupper(c);
+			}
+			else if(event.key.code == sf::Keyboard::Space) /* Gestion espace */
+				c = ' ';
+			else if(event.key.code == sf::Keyboard::Back) /* Gestion Retour arrière */
+				c = 2;
+			else if(event.key.code == sf::Keyboard::Period) /* Gestion du point '.' */
+				c = '.';
+		}
+	}
 	return c;
 }
 
@@ -167,7 +156,7 @@ EControllerType Keyboard::getControllerType()
 	return KEYBOARD;
 }
 
-int Keyboard::getKeyPressed(int player,sf::RenderWindow* window)
+int Keyboard::getKeyPressed(int, sf::RenderWindow*)
 {
 	int k = (int)(sf::Keyboard::A);
 	
@@ -191,6 +180,6 @@ int Keyboard::getKeyPressed(int player,sf::RenderWindow* window)
 	return k;
 }
 
-void Keyboard::add(int player){}
+void Keyboard::add(int){}
 
-void Keyboard::disconnect(int player){}
+void Keyboard::disconnect(int){}

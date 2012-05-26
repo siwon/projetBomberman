@@ -30,9 +30,9 @@ namespace PolyBomber
 	PolyBomberApp::~PolyBomberApp()
 	{
 		MenuManager::kill();
-		/*GameInterfaceManager::kill();
-		NetworkManager::kill();
-		GameEngineManager::kill();*/
+		//GameInterfaceManager::kill();
+		//NetworkManager::kill();
+		//GameEngineManager::kill();
 		ControllerManager::kill();
 		SoundManager::kill();
 		SkinManager::kill();
