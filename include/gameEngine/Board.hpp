@@ -98,12 +98,11 @@ namespace PolyBomber {
 		unsigned int getIndiceBonus(int, int);
 		unsigned int getIndiceMineByCoord(int, int);
 		
-		void checkPosition(int);//A VERIFIER
+		void checkPosition(int);
+		void makeInfectionAction(int);
 		void removeObseleteFlame(int);
 		void explodeAllBomb(int);
 		
-		static int caseToPixel(int i) {return i*LARGEUR;}
-		static int pixelToCase(int i) {return i/LARGEUR;}
 		static int cranToPixel(int i) {return i*7+4;}
 		static int cranToCase(int i) {return (i-(i%5))/5;}
 		bool distanceDesAutresJoueursValide(unsigned int, int, int);

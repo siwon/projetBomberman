@@ -612,7 +612,7 @@ namespace PolyBomber {
 	}
 	
 	void Board::generateFlame(int origineX, int origineY, int range, int date) {
-		addFlame(Flame(Board::caseToPixel(origineX),Board::caseToPixel(origineY),ORIENTATION_UP,ORIGIN,date));
+		addFlame(Flame(origineX,origineY,ORIENTATION_UP,ORIGIN,date));
 		int x;
 		int y;
 		
@@ -705,8 +705,6 @@ namespace PolyBomber {
 	}
 	
 	void Board::checkPosition(int date) {
-		//TODO : ajouter les actions dues aux infections
-		
 		//fait la vérification des joueurs (flammes, bonus)
 		for (unsigned int i=0; i<player.size(); i++) {
 			int x = cranToCase(player[i].getLocationX());
@@ -791,6 +789,91 @@ namespace PolyBomber {
 		for (unsigned int i=0; i<bomb.size(); i++) {
 			if (isAFlameInThisCase(bomb[i].getLocationX(),bomb[i].getLocationY())) {
 				explodeBomb(bomb[i].getLocationX(),bomb[i].getLocationY());
+			}
+		}
+	}
+	
+	void Board::makeInfectionAction(int date) {
+		for (unsigned int i=0; i<player.size(); i++) {
+			if (player[i].getInfection()==2) {// spasme : effectue un mouvement aléatoire
+				bool movePossible=false;
+				int random;
+				int x, y;
+				while (!movePossible) {
+					random=rand()%8;
+					switch (random) {
+						case 0://en haut à gauche
+							if (caseIsFree(cranToCase(x)-1,cranToCase(y)-1)) {
+								x=x-1;
+								y=y-1;
+								movePossible=true;
+							}
+							break;
+							
+						case 1://en haut
+							if (caseIsFree(cranToCase(x),cranToCase(y)-1)) {
+								x=x;
+								y=y-1;
+								movePossible=true;
+							}
+							break;
+							
+						case 2://en haut à droite
+							if (caseIsFree(cranToCase(x)+1,cranToCase(y)-1)) {
+								x=x+1;
+								y=y-1;
+								movePossible=true;
+							}
+							break;
+							
+						case 3://a droite
+							if (caseIsFree(cranToCase(x)+1,cranToCase(y))) {
+								x=x+1;
+								y=y;
+								movePossible=true;
+							}
+							break;
+							
+						case 4://en bas à droite
+							if (caseIsFree(cranToCase(x)+1,cranToCase(y)+1)) {
+								x=x+1;
+								y=y+1;
+								movePossible=true;
+							}
+							break;
+							
+						case 5://en bas
+							if (caseIsFree(cranToCase(x),cranToCase(y)+1)) {
+								x=x;
+								y=y+1;
+								movePossible=true;
+							}
+							break;
+							
+						case 6://en bas à gauche
+							if (caseIsFree(cranToCase(x)-1,cranToCase(y)+1)) {
+								x=x-1;
+								y=y+1;
+								movePossible=true;
+							}
+							break;
+							
+						case 7://a gauche
+							if (caseIsFree(cranToCase(x)-1,cranToCase(y))) {
+								x=x-1;
+								y=y;
+								movePossible=true;
+							}
+							break;
+							
+						default:
+							break;
+					}
+				}
+				player[i].move(x,y);
+			} else if (player[i].getInfection()==4) {//rage : pose des bombes
+				bomb.push_back(Bomb(date,player[i]));
+				player[i].decrementCapacity();
 			}
 		}
 	}

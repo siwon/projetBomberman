@@ -131,24 +131,28 @@ namespace PolyBomber {
 	
 	void GameEngineManager::run() {
 		if (runnable) {
+			int time=horloge.getElapsedTime().asSeconds();
 			SKeyPressed sKeyPressed = getKeysPressed();
 			if (isPaused()) {//si le jeu est en pause
 				if(debutPause==0) {
-					debutPause=horloge.getElapsedTime().asSeconds();//stockage du début de la pause
+					debutPause=time;//stockage du début de la pause
 				}
 			} else {
 				//vérification de la pause
 				if (debutPause!=0) {
-					decalageHoraire(horloge.getElapsedTime().asSeconds()-debutPause);
+					decalageHoraire(time-debutPause);
 					debutPause=0;
 				}
 				
-				board.checkPosition(horloge.getElapsedTime().asSeconds());
+				//TODO : gestion du temps (evenement qui ne se fait toutes les TEMPSENTREDEUXACTIONSINFECTION secondes
+				board.makeInfectionAction(time);
+				
+				board.checkPosition(time);
 				
 				//supprimer les flammes
-				board.removeObseleteFlame(horloge.getElapsedTime().asSeconds());
+				board.removeObseleteFlame(time);
 				//déclencher les bombes
-				board.explodeAllBomb(horloge.getElapsedTime().asSeconds());
+				board.explodeAllBomb(time);
 				
 				//gestion des touches
 				for (int i=0; i<board.getNbPlayer(); i++) { //pour chaque zoueur
@@ -165,10 +169,10 @@ namespace PolyBomber {
 						board.actionToucheDroite(i);
 					}
 					if (sKeyPressed.keys[i][4]==true) {//touche action1
-						board.actionToucheAction1(i,horloge.getElapsedTime().asSeconds());
+						board.actionToucheAction1(i,time);
 					}
 					if (sKeyPressed.keys[i][5]==true) {//touche action2
-						board.actionToucheAction2(i,horloge.getElapsedTime().asSeconds());
+						board.actionToucheAction2(i,time);
 					}
 				}
 			}
