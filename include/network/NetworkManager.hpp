@@ -70,7 +70,8 @@ namespace PolyBomber
 			void initialize();
 			std::list<sf::Packet>::iterator askServer(int);
 			bool isConnected();
-			void erasePlayer(std::string);
+			void eraseSocket(sf::IpAddress&);
+
 			
 public:
 			SKeyPressed getKeysPressed();
@@ -97,6 +98,7 @@ public:
 			void listenToServer();
 			sf::Packet createPacket(int, int j =0);
 			sf::TcpSocket* findSocket(sf::IpAddress&);
+			std::vector<sf::TcpSocket*>::iterator findSocketIterator(sf::IpAddress&);
 			std::list<sf::Packet>::iterator waitPacket(int, sf::IpAddress&);
 			void decryptPacket(sf::Packet&);
 			

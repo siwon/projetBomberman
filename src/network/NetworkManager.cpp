@@ -32,6 +32,9 @@ NetworkManager::NetworkManager(){
 }
 
 NetworkManager::~NetworkManager(){
+	this->mutexConnect.lock();
+	this->connect=false;
+	this->mutexConnect.unlock();
 	if(this->threadClient != NULL)
 		delete this->threadClient;
 	if(this->threadRun != NULL)
@@ -173,13 +176,15 @@ void NetworkManager::cancel(){
 	sf::Packet packet;
 	packet = createPacket(-1);
 	if(this->server){ // on prévient les clients
-		this->mutexClients.lock();
-		for(unsigned int i=0;i<this->clients.size();i++){
-			if(this->clients[i]->send(packet) != sf::TcpSocket::Done){
-				std::cerr << ("Le client "+this->clients[i]->getRemoteAddress().toString() +" n'a pas pu être contacté pour appeler sa méthode Cancel")<< std::endl;
+		if(!this->gameConfig.isLocal){
+			this->mutexClients.lock();
+			for(unsigned int i=0;i<this->clients.size();i++){
+				if(this->clients[i]->send(packet) != sf::TcpSocket::Done){
+					std::cerr << ("Le client "+this->clients[i]->getRemoteAddress().toString() +" n'a pas pu être contacté pour appeler sa méthode Cancel")<< std::endl;
+				}
 			}
+			this->mutexClients.unlock();
 		}
-		this->mutexClients.unlock();
 	} else { // on prévient le serveur
 		if(this->clients[0]->send(packet) != sf::TcpSocket::Done){
 				std::cerr << ("Le serveur "+this->clients[0]->getRemoteAddress().toString() +" n'a pas pu être contacté pour le prévenir d'un Cancel")<< std::endl;
@@ -187,7 +192,7 @@ void NetworkManager::cancel(){
 	}
 
 	//terminer les threads 
-	this->gameEngine->resetConfig(); // stop le thread run() s'il est commencé
+	//this->gameEngine->resetConfig(); // stop le thread run() s'il est commencé
 	this->mutexConnect.lock();
 	this->connect=false; // stop le thread d'écoute du réseau;
 	this->mutexConnect.unlock();
@@ -211,7 +216,9 @@ void NetworkManager::cancel(){
 void NetworkManager::joinGame(std::string ip){
 	this->server=false;
 	sf::TcpSocket* server = new sf::TcpSocket;
+	sf::IpAddress ip2 = sf::IpAddress(ip);
 	if(server->connect(ip, 55001) == sf::Socket::Error){
+		throw PolyBomberException("erreur de connection au serveur "+ip);
 		std::cerr << "erreur de connection au serveur " << ip << std::endl;
 	} else {
 		this->mutexClients.lock();
@@ -402,6 +409,7 @@ int NetworkManager::isFinished(){
 void NetworkManager::createServerSocket(){
 	sf::TcpListener listener;
 	sf::SocketSelector selector;
+	
 
 	listener.listen(55001);
 	selector.add(listener);
@@ -410,7 +418,7 @@ void NetworkManager::createServerSocket(){
 	while (this->isConnected())
 	 {
 		 // Make the selector wait for data on any socket
-		 if (selector.wait())
+		 if (selector.wait(sf::milliseconds(100)))
 		 {
 			 // Test the listener
 			 if (selector.isReady(listener))
@@ -557,6 +565,11 @@ sf::Packet NetworkManager::createPacket(int i, int j){
 }
 
 sf::TcpSocket* NetworkManager::findSocket(sf::IpAddress& ip){
+	std::vector<sf::TcpSocket*>::iterator it = findSocketIterator(ip);
+	return *it;
+}
+
+std::vector<sf::TcpSocket*>::iterator NetworkManager::findSocketIterator(sf::IpAddress& ip){
 	bool find = false;
 	sf::TcpSocket* client= NULL;
 
@@ -570,7 +583,7 @@ sf::TcpSocket* NetworkManager::findSocket(sf::IpAddress& ip){
 	}
 	if(!find)
 		throw PolyBomberException ("Le serveur n'a pas pu trouver le socket pour communiquer avec le client "+ip.toString());
-	return client;
+	return it;
 }
 
 std::list<sf::Packet>::iterator NetworkManager::waitPacket(int num, sf::IpAddress& ipAddr){
@@ -609,8 +622,8 @@ void NetworkManager::decryptPacket(sf::Packet& packet){
 	switch(num){
 	case -1 :
 		if(this->server){
-			this->erasePlayer(ip);
-			throw PolyBomberException("le client "+ip+" vient de se déconnecter");
+			std::cerr << "le client "+ip+" vient de se déconnecter" << std::endl;
+			eraseSocket(ip1);
 		} else {
 			this->mutexConnect.lock();
 			this->connect = false;
@@ -643,6 +656,14 @@ bool NetworkManager::isConnected(){
 	result=this->connect;
 	this->mutexConnect.unlock();
 	return result;
+}
+
+void NetworkManager::eraseSocket(sf::IpAddress& ip) {
+	// suprimet le socket à cet adresse ip
+	std::vector<sf::TcpSocket*>::iterator it = this->findSocketIterator(ip);
+	this->mutexClients.lock();
+	this->clients.erase(it);
+	this->mutexClients.unlock();
 }
 
 namespace PolyBomber
