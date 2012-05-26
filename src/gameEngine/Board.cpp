@@ -7,7 +7,8 @@
 
 /** Includes **/
 // Bibliotheques standards
-
+#include <ctime>
+#include <cstdlib>
 
 // Bibliotheques SFML
 

@@ -7,10 +7,6 @@
  * \author Simon Rousseau
  */
 
-//#include <stdio.h>
-//#include <stdlib.h>
-#include <time.h>
-
 #include "Board.hpp"
 
 #include <SFML/System/Time.hpp>
