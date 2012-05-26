@@ -1,53 +1,41 @@
-#ifndef _SELECTNAMEMENU
-#define _SELECTNAMEMENU
+#ifndef _WAITINGMENU
+#define _WAITINGMENU
 
 /*!
- * \file SelectNameMenu.hpp
- * \brief Classe de gestion du menu de sélection des noms des joueurs
+ * \file WaitingMenu.hpp
+ * \brief Classe de gestion du menu d'attente de début de partie
  * \author Maxime GUIHAL
  */
 
 #include "menu/IMenuScreen.hpp"
 
-#include "SGameConfig.hpp"
-
 #include "menu/TextWidget.hpp"
 #include "menu/LinkWidget.hpp"
-#include "menu/InputWidget.hpp"
+#include "menu/SelectionWidget.hpp"
 
 namespace PolyBomber
 {
 	/*!
-	 * \class SelectNameMenu
-	 * \brief Classe de gestion du menu de sélection des noms des joueurs
+	 * \class WaitingMenu
+	 * \brief Classe de gestion du menu d'attente de début de partie
 	 */
-	class SelectNameMenu : public IMenuScreen
+	class WaitingMenu : public IMenuScreen
 	{
 		public:
 			/*!
 			 * Constructeur
 			 */
-			SelectNameMenu(SGameConfig* gameConfig);
+			WaitingMenu();
 
 			/*!
 			 * Destructeur
 			 */
-			~SelectNameMenu();
+			~WaitingMenu() {}
 
 			/*!
 			 * \see IMenuScreen::run
 			 */
 			EMenuScreen run(MainWindow& window, EMenuScreen previous);
-
-			/*!
-			 * \see IMenuScreen::downPressed
-			 */
-			void downPressed();
-
-			/*!
-			 * \see IMenuScreen::upPressed
-			 */
-			void upPressed();
 
 			/*!
 			 * \see IMenuScreen::leftPressed
@@ -69,21 +57,15 @@ namespace PolyBomber
 			 */
 			void backPressed(EMenuScreen* nextScreen);
 
-			/*!
-			 * \see IMenuScreen:loopAction
-			 */			
-			void loopAction();
-
 		private:
 			TextWidget title;
+			TextWidget ip;
 
-			TextWidget* nameTexts[4];
-			InputWidget* names[4];
-			
+			ImageWidget* pictures[4];
+			TextWidget* names[4];
+						
 			LinkWidget cancel;
-			LinkWidget next;
-
-			SGameConfig* gameConfig;
+			LinkWidget start;
 
 			/*!
 			 * \brief Méthode pour initialiser les widgets

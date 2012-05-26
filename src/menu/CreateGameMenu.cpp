@@ -4,6 +4,8 @@
  * \author Maxime GUIHAL
  */
 
+#include <sstream>
+
 #include "menu/CreateGameMenu.hpp"
 #include "PolyBomberApp.hpp"
 
@@ -156,7 +158,11 @@ namespace PolyBomber
 		this->gameConfig->nbPlayers = 1;
 
 		for (i=0; i<4; i++)
-			this->gameConfig->playersName[i] = "";
+		{
+			std::ostringstream text;
+			text << "Joueur " << (i+1);
+			this->gameConfig->playersName[i] = text.str();
+		}
 
 		for (i=0; i<18; i++)
 			this->gameConfig->nbBonus[i] = nbBonus[i];

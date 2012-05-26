@@ -17,8 +17,11 @@ namespace PolyBomber
 	{
 		SPLASH, /*!< Ecran d'accueil du programme */
 		MENU_BACKGROUND, /*!< Fond du menu */
-		WIISCREEN /*!< Ecran recherche des wiimotes */
-		// TODO: Remplir avec les autres libellés des images
+		WIISCREEN, /*!< Ecran recherche des wiimotes */
+		PLAYER1,
+		PLAYER2,
+		PLAYER3,
+		PLAYER4
 	};
 }
 

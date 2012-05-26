@@ -17,6 +17,7 @@
 #include "menu/CreateGameMenu.hpp"
 #include "menu/GameOptionsMenu.hpp"
 #include "menu/SelectNameMenu.hpp"
+#include "menu/WaitingMenu.hpp"
 
 #include "PolyBomberApp.hpp"
 
@@ -33,6 +34,7 @@ namespace PolyBomber
 				this->menuScreens[CREATEGAMEMENU] = new CreateGameMenu(&gameConfig);
 					this->menuScreens[GAMEOPTIONSMENU] = new GameOptionsMenu(&gameConfig);
 					this->menuScreens[SELECTNAMEMENU] = new SelectNameMenu(&gameConfig);
+					this->menuScreens[WAITINGMENU] = new WaitingMenu();
 				
 			this->menuScreens[CONFIGMENU] = new ConfigMenu();
 				this->menuScreens[GRAPHICSCONFIGMENU] = new GraphicsConfigMenu();
@@ -69,7 +71,7 @@ namespace PolyBomber
 	
 	EScreenSignal MenuManager::runPause(unsigned int player)
 	{
-		// TODO
+		// TODO: Coder la pause
 		return EXITMENU;
 	}
 }

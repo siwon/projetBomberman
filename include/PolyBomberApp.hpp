@@ -9,8 +9,8 @@
 
 class MenuManager;
 class ControllerManager;
-/*class NetworkManager;
-class GameEngineManager;
+class NetworkManager;
+/*class GameEngineManager;
 class GameInterfaceManager;*/
 class SoundManager;
 class SkinManager;
@@ -21,7 +21,7 @@ class SkinManager;
 #include "sound/SoundManager.hpp"
 #include "skin/SkinManager.hpp"
 #include "menu/MenuManager.hpp"
-//#include "network/NetworkManager.hpp"
+#include "network/NetworkManager.hpp"
 //#include "gameEngine/GameEngineManager.hpp"
 //#include "gameInterface/GameInterfaceManager.hpp"
 

@@ -16,6 +16,10 @@ namespace PolyBomber
 		this->files[SPLASH] = "splash.png";
 		this->files[WIISCREEN] = "wiiScreen.png";
 		this->files[MENU_BACKGROUND] = "mback.png";
+		this->files[PLAYER1] = "player1.png";
+		this->files[PLAYER2] = "player2.png";
+		this->files[PLAYER3] = "player3.png";
+		this->files[PLAYER4] = "player4.png";
 
 		this->colors[TEXTCOLOR] = "text";
 		this->colors[TITLECOLOR] = "title";

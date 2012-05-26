@@ -8,6 +8,7 @@
 
 #include "menu/SelectNameMenu.hpp"
 #include "PolyBomberApp.hpp"
+#include "INetworkToMenu.hpp"
 
 namespace PolyBomber
 {
@@ -97,6 +98,10 @@ namespace PolyBomber
 		{						
 			for (int i=0; i<4; i++)
 				this->gameConfig->playersName[i] = this->names[i]->getString();
+
+			//INetworkToMenu* network = PolyBomberApp::getINetworkToMenu();
+			//network->setGameConfig(*(this->gameConfig));
+				
 			*nextScreen = next.activate();
 		}
 	}
