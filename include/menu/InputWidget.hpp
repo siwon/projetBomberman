@@ -32,7 +32,7 @@ namespace PolyBomber
 			 * \param position : Position du widget
 			 * \param width : Largeur du widget
 			 */
-			InputWidget(ETextFont font, unsigned int y, ETextPosition position = CENTER, unsigned int width = 200);
+			InputWidget(ETextFont font, unsigned int y, ETextPosition position = CENTER, unsigned int width = 300);
 
 			/*!
 			 * \brief Destructeur
@@ -71,6 +71,23 @@ namespace PolyBomber
 			 * \brief Permet de vider la zone de texte
 			 */
 			void clear();
+
+			/*!
+			 * \brief Méthode de saisie d'un caractère
+			 */
+			void writeChar();
+
+			/*!
+			 * \brief Méthode permettant de récupérer le texte
+			 * \return Le texte saisi
+			 */
+			inline std::string getString() {return this->text.getString();}
+
+			/*!
+			 * \brief Méthode permettant de déterminer le texte
+			 * \param text Le texte
+			 */
+			inline void setString(std::string text) {this->text.setString(text);}
 
 		private:
 			/*!

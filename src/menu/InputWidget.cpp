@@ -21,7 +21,6 @@ namespace PolyBomber
 		area.setOutlineColor(skin->getColor(TEXTCOLOR));
 		area.setOutlineThickness(3);
 
-		text.setString("Juconil");
 		text.setPosition(5, 5);
 		text.setColor(skin->getColor(TEXTCOLOR));
 
@@ -92,7 +91,7 @@ namespace PolyBomber
 
 	void InputWidget::clear()
 	{
-
+		text.setString("");
 	}
 
 	void InputWidget::draw(sf::RenderTarget& target, sf::RenderStates states) const
@@ -101,5 +100,34 @@ namespace PolyBomber
 
 		target.draw(this->area, states);
 		target.draw(this->text, states);
+	}
+
+	void InputWidget::writeChar()
+	{
+		if (getSelected())
+		{
+			IControllerToMenu* controller = PolyBomberApp::getIControllerToMenu();
+
+			char c = 0;
+
+			while((c = controller->getCharPressed()) == 0);
+
+			if (c > 2)
+			{
+				std::string s = text.getString() + c;
+
+				if (s.size() < 11)
+					text.setString(s);
+			}
+			else if (c == 2) // retour arrière
+			{
+				std::string s = text.getString();
+
+				if (s.size() > 0)
+					s.erase(s.size() - 1);
+
+				text.setString(s);
+			}
+		}
 	}	
 }

@@ -43,6 +43,7 @@ namespace PolyBomber
 			this->nameTexts[i]->move(-200, 0);
 
 			this->names[i] = new InputWidget(TEXTFONT, 195 + 60*i);
+			this->names[i]->move(100, 0);
 
 			this->widgets.push_back(this->nameTexts[i]);
 			this->widgets.push_back(this->names[i]);
@@ -60,11 +61,15 @@ namespace PolyBomber
 
 	void SelectNameMenu::downPressed()
 	{
-
+		for (int i=3; i>=0; i--)
+			this->names[i]->goNext();
 	}
 
 	void SelectNameMenu::upPressed()
 	{
+		for (int i=0; i<4; i++)
+			this->names[i]->goPrevious();
+
 		cancel.goPrevious();
 		next.goPrevious();
 	}
@@ -83,11 +88,15 @@ namespace PolyBomber
 	{
 		if (cancel.getSelected())
 		{
+			for (int i=0; i<4; i++)
+				this->names[i]->clear();
 			*nextScreen = cancel.activate();
 		}
 		
 		if (next.getSelected())
 		{						
+			for (int i=0; i<4; i++)
+				this->gameConfig->playersName[i] = this->names[i]->getString();
 			*nextScreen = next.activate();
 		}
 	}
@@ -116,6 +125,24 @@ namespace PolyBomber
 		{
 			this->nameTexts[i]->setVisible(true);
 			this->names[i]->setVisible(true);
+
+			if (i < this->gameConfig->nbPlayers - 1)
+				this->names[i]->setNext(this->names[i + 1]);
+	
+			if (i > 0)
+				this->names[i]->setPrevious(this->names[i - 1]);
+
+			this->names[i]->setString(this->gameConfig->playersName[i]);
 		}
+
+		this->names[this->gameConfig->nbPlayers - 1]->setNext(&cancel);
+		cancel.setPrevious(this->names[this->gameConfig->nbPlayers - 1]);
+		next.setPrevious(this->names[this->gameConfig->nbPlayers - 1]);
+	}
+
+	void SelectNameMenu::loopAction()
+	{
+		for (int i=0; i<4; i++)
+			this->names[i]->writeChar();
 	}
 }

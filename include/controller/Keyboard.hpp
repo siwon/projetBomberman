@@ -57,7 +57,14 @@ namespace PolyBomber
 		/* Méthodes de la classe Controller */
 		
 		virtual EMenuKeys getMenuKey(sf::RenderWindow* window);
-		
+
+		/*!
+		 * \brief Méthode de saisie de caractères
+		 * \return Un caractère ou une valeur numérique ci-dessous :
+		 * 0 : aucun caractère alphanumérique saisi
+		 * 1 : autre touche appuyée
+		 * 2 : retour arrière appuyé
+		 */
 		virtual char getCharPressed();
 		
 		virtual EControllerType getControllerType();

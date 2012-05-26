@@ -58,6 +58,11 @@ namespace PolyBomber
 			virtual void rightPressed() {}
 
 			/*!
+			 * \brief Exécution pendant la boucle d'affichage
+			 */
+			virtual void loopAction() {}
+
+			/*!
 			 * \brief Appui sur la touche Valider
 			 * \param nextScreen Ecran suivant
 			 */

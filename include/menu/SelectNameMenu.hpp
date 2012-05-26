@@ -69,6 +69,8 @@ namespace PolyBomber
 			 */
 			void backPressed(EMenuScreen* nextScreen);
 
+			void loopAction();
+
 		private:
 			TextWidget title;
 

@@ -99,7 +99,7 @@ EMenuKeys Keyboard::getMenuKey(sf::RenderWindow* window)
 					return MENU_BACK;
 					
 				default :
-					return MENU_NONE;
+					return MENU_OTHER;
 			}
 		}
 		if(event.type == sf::Event::Closed)
@@ -134,29 +134,25 @@ char Keyboard::getCharPressed()
 
 	while(k != (int)(sf::Keyboard::KeyCount) && !charPressed)
 	{
-		if( sf::Keyboard::isKeyPressed((sf::Keyboard::Key)(k)) && isAlphaNum((sf::Keyboard::Key)(k)) )
+		if( sf::Keyboard::isKeyPressed((sf::Keyboard::Key)(k)) )
 		{
-			c = getLabel(k)[0];
-			
-			if(sf::Keyboard::isKeyPressed(sf::Keyboard::LShift)) /* Gestion des majuscules */
-				c = char(toupper(c));
 			charPressed = true;
-			
-			if(k == (int)(sf::Keyboard::Space)) /* Gestion espace */
+			c = 1;
+
+			if (isAlphaNum((sf::Keyboard::Key)(k)) )
+			{
+				c = getLabel(k)[0];
+				
+				#if DEBUG
+					std::cout << c << std::flush;
+				#endif
+			}
+			else if(k == (int)(sf::Keyboard::Space)) /* Gestion espace */
 				c = ' ';
-			
-			if(k == (int)(sf::Keyboard::Back)) /* Gestion Retour arrière */
-				c = (char)(0x08);
-			
-			if(k == (int)(sf::Keyboard::Delete)) /* Gestion Suppr */
-				c = (char)(0x7F);
-			
-			#if DEBUG
-				std::cout << c << std::flush;
-			#endif
+			else if(k == (int)(sf::Keyboard::Back)) /* Gestion Retour arrière */
+				c = 2;
 		}
-		k++;
-		
+		k++;		
 	}
 	
 	return c;
