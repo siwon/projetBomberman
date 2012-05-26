@@ -29,6 +29,11 @@ namespace PolyBomber {
 		virtual void run() =0;
 		
 		/*!
+			* \brief Remise à zéro de la configuration du gameEngine en cas d'annulation
+			*/
+		virtual void resetConfig() =0;
+
+		/*!
 		 * \brief Destructeur virtuel
 		 */
 		virtual ~IGameEngineToNetwork() {};

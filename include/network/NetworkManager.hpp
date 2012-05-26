@@ -10,16 +10,16 @@
 #include <SFML/Network.hpp>
 #include <list>
 
-#include "SBoard.hpp"
-#include "INetworkToGameInterface.hpp"
-#include "INetworkToGameEngine.hpp"
-#include "INetworkToMenu.hpp"
-#include "IControllerToNetwork.hpp"
-#include "IGameEngineToNetwork.hpp"
-#include "SGameConfig.hpp"
-#include "network/DataPlayer.hpp"
-#include "SKeyPressed.hpp"
-#include "TSingleton.hpp"
+#include "../SBoard.hpp"
+#include "../INetworkToGameInterface.hpp"
+#include "../INetworkToGameEngine.hpp"
+#include "../INetworkToMenu.hpp"
+#include "../IControllerToNetwork.hpp"
+#include "../IGameEngineToNetwork.hpp"
+#include "../SGameConfig.hpp"
+#include "../network/DataPlayer.hpp"
+#include "../SKeyPressed.hpp"
+#include "../TSingleton.hpp"
 
 namespace PolyBomber
 {
@@ -40,8 +40,9 @@ namespace PolyBomber
 			int scores[4];
 			int paused;
 			bool started;
+			bool connect;
 			std::vector<DataPlayer> players;
-			std::list<sf::TcpSocket*> clients;//ME
+			std::vector<sf::TcpSocket*> clients;//ME
 			std::list<sf::Packet> packets; // segment de mémoire partagé
 			bool server;
 			SKeyPressed keyPressed;
@@ -51,6 +52,9 @@ namespace PolyBomber
 
 			sf::Mutex mutexPacket;
 			sf::Mutex mutexClients;
+			sf::Mutex mutexSlots;
+			sf::Mutex mutexNames;
+			sf::Mutex mutexConnect;
 
 			/*!
 			 * \brief Constructeur
@@ -60,13 +64,22 @@ namespace PolyBomber
 			 * \brief Destructeur
 			 */
 			~NetworkManager();
-		public:
+			void initialize();
+			std::list<sf::Packet>::iterator askServer(int);
+			bool isConnected();
+			void erasePlayer(std::string);
+			
+public:
 			SKeyPressed getKeysPressed();
 			int isPaused();
+			void resume();
+			void cancel();
 			void joinGame(std::string ip);
 			int getFreeSlots();
-			void setBookedSlots(unsigned int nb, sf::IpAddress ip = sf::IpAddress::getLocalAddress());
-			void setPlayerName(std::string names[4], sf::IpAddress ip = sf::IpAddress::getLocalAddress());
+			void setBookedSlots(unsigned int nb);
+			void setSlot(unsigned int nb, sf::IpAddress ip = sf::IpAddress::getLocalAddress());
+			void setPlayerName(std::string names[4]);
+			void setName(std::string names[4], sf::IpAddress ip = sf::IpAddress::getLocalAddress());
 			int* getScores();
 			bool isStarted();
 			void startGame();

@@ -10,23 +10,30 @@
 //Headers
 #include <iostream>
 #include <vector>
-#include "network/NetworkManager.hpp"
+#include "../../include/network/NetworkManager.hpp"
 //#include "controller/ControllerManager.hpp"
-#include "SKeyPressed.hpp"
-#include "SBonus.hpp"
-#include "EGameBonus.hpp"
-#include "SExplosive.hpp"
-#include "EExplosiveType.hpp"
-#include "SPlayer.hpp"
-#include "EOrientation.hpp"
-#include "EPlayerState.hpp"
-#include "SFlame.hpp"
-#include "EGameKeys.hpp"
+#include "../../include/SKeyPressed.hpp"
+#include "../../include/SBonus.hpp"
+#include "../../include/EGameBonus.hpp"
+#include "../../include/SExplosive.hpp"
+#include "../../include/EExplosiveType.hpp"
+#include "../../include/SPlayer.hpp"
+#include "../../include/EOrientation.hpp"
+#include "../../include/EPlayerState.hpp"
+#include "../../include/SFlame.hpp"
+#include "../../include/EGameKeys.hpp"
 //#include "PolyBomberApp.hpp"
 
 using namespace PolyBomber;
 
 NetworkManager::NetworkManager(){
+	this->initialize();
+}
+
+NetworkManager::~NetworkManager(){
+}
+
+void NetworkManager::initialize(){
 	for(int i=0;i<4;i++){
 		this->ip[i] = sf::IpAddress::None;
 		this->nbPlayerByIp[i]=0;
@@ -46,10 +53,19 @@ NetworkManager::NetworkManager(){
 	this->gameEngine = NULL;
 }
 
-NetworkManager::~NetworkManager(){
-	this->clients.erase(this->clients.begin(),this->clients.end());
-	this->packets.erase(this->packets.begin(),this->packets.end());
-	this->players.erase(this->players.begin(),this->players.end());
+std::list<sf::Packet>::iterator NetworkManager::askServer(int num){
+	std::list<sf::Packet>::iterator it;
+	this->mutexClients.lock();
+	sf::TcpSocket* client = this->clients[0];
+
+	sf::Packet packet = this->createPacket(num);
+	client->send(packet);
+		
+	this->mutexClients.unlock();
+
+	sf::IpAddress address = client->getRemoteAddress();
+	it = waitPacket(num, address);
+	return it;
 }
 
 SKeyPressed NetworkManager::getKeysPressed(){
@@ -60,21 +76,14 @@ SKeyPressed NetworkManager::getKeysPressed(){
 		// chercher le nombre de joueur sur le réseau
 		unsigned int nbPlayerDone =0;
 		for(unsigned int i=0;i<this->players.size();i++){
-			if(this->players[i].getIp() == sf::IpAddress::LocalHost)
+			if(this->players[i].getIp() == sf::IpAddress::getLocalAddress()) // l'adresse local est celle du serveur
 				nbPlayerDone++;
 		}
 		// pour chaque joueur en dehors du reseau, demander ces touches
 		for(int i=0;i<4;i++){ // on parcourt le tableau d'ip
 			if(this->nbPlayerByIp[i]){ // s'il y a une adresse d'enregistrée
-				this->mutexClients.lock();
-				sf::TcpSocket& client = this->findSocket(this->ip[i]);
-				sf::Packet packet = this->createPacket(3);
-				
-				client.send(packet);
-				this->mutexClients.unlock();
 
-				sf::IpAddress address = client.getRemoteAddress();
-				std::list<sf::Packet>::iterator it2 = waitPacket(3, address);
+				std::list<sf::Packet>::iterator it2 = this->askServer(3);
 				sf::Packet& thePacket =  *it2 ;
 				thePacket >> keys; // récupération des touches envoyées
 				//ajouter ses touches.
@@ -88,17 +97,12 @@ SKeyPressed NetworkManager::getKeysPressed(){
 			}
 		}
 		//verification de la pause par un joueur
-		if(this->paused){
-			if(this->keyPressed.keys[this->paused - 1][GAME_PAUSE]) // il était en pause et l'enlève
-				this->paused=0;
-		} else {
-			int i=0;
-			while(i<4 && !this->paused){
-				if(this->keyPressed.keys[i][GAME_PAUSE])
-					this->paused=i+1;
-				else
-					i++;
-			}
+		unsigned int i=0;
+		while(i<this->gameConfig.nbPlayers && !this->paused){
+			if(this->keyPressed.keys[i][GAME_PAUSE])
+				this->paused=i+1;
+			else
+				i++;
 		}
 	} else { // on est le client
 		//message d'erreur car le client ne peut demander les touche au gameEngine
@@ -114,17 +118,7 @@ int NetworkManager::isPaused(){
 		result = this->paused;
 	else {
 		//demander au serveur
-		this->mutexClients.lock();
-		std::list<sf::TcpSocket*>::iterator it1 = this->clients.begin();
-		sf::TcpSocket* client = *it1;
-
-		sf::Packet packet = this->createPacket(7);
-		client->send(packet);
-		
-		this->mutexClients.unlock();
-
-		sf::IpAddress address = client->getRemoteAddress();
-		std::list<sf::Packet>::iterator it2 = waitPacket(7, address);
+		std::list<sf::Packet>::iterator it2 = this->askServer(7);
 		sf::Packet& thePacket = *it2;
 		int num;
 		std::string ip;
@@ -132,6 +126,35 @@ int NetworkManager::isPaused(){
 		this->packets.erase(it2);
 	}
 	return result;
+}
+
+void NetworkManager::resume(){
+	this->paused=0;
+}
+
+void NetworkManager::cancel(){
+	sf::Packet packet;
+	packet = createPacket(-1);
+	if(this->server){ // on prévient les clients
+		this->mutexClients.lock();
+		for(unsigned int i=0;i<this->clients.size();i++){
+			this->clients[i]->send(packet);
+		}
+		this->mutexClients.unlock();
+	} else { // on prévient le serveur
+		this->clients[0]->send(packet);
+	}
+
+	//terminer les threads 
+	this->gameEngine->resetConfig(); // stop le thread run() s'il est commencé
+	this->mutexConnect.lock();
+	this->connect=false; // stop le thread d'écoute du réseau;
+	this->mutexConnect.unlock();
+
+	// vider les vecteurs
+
+	this->initialize();
+
 }
 
 void NetworkManager::joinGame(std::string ip){
@@ -144,6 +167,7 @@ void NetworkManager::joinGame(std::string ip){
 		this->clients.push_back(server);
 		this->mutexClients.unlock();
 	}
+	this->connect=true;
 	sf::Thread thread(&NetworkManager::listenToServer, this);
 	thread.launch();
 }
@@ -154,17 +178,7 @@ int NetworkManager::getFreeSlots(){
 		result = (4 - this->players.size());
 	} else {
 		// demande au serveur
-		this->mutexClients.lock();
-		std::list<sf::TcpSocket*>::iterator it1 = this->clients.begin();
-		sf::TcpSocket* client = *it1;
-
-		sf::Packet packet = this->createPacket(5);
-		client->send(packet);
-		
-		this->mutexClients.unlock();
-
-		sf::IpAddress address = client->getRemoteAddress();
-		std::list<sf::Packet>::iterator it2 = waitPacket(5, address);
+		std::list<sf::Packet>::iterator it2 = this->askServer(5);
 		sf::Packet& thePacket = *it2;
 		int num;
 		std::string ip;
@@ -174,46 +188,56 @@ int NetworkManager::getFreeSlots(){
 	return result;
 }
 
-void NetworkManager::setBookedSlots(unsigned int nb, sf::IpAddress ip){
+void NetworkManager::setBookedSlots(unsigned int nb){
+	this->setSlot(nb);
+}
+
+void NetworkManager::setSlot(unsigned int nb, sf::IpAddress ip) {
+	this->mutexSlots.lock();
 	if(this->server){
 		if(ip != sf::IpAddress::getLocalAddress()){
 			int i =0;
-			while(i<4 && !(this->ip[i] == sf::IpAddress::None)){
+			while(i<4 && !(this->ip[i] == sf::IpAddress::None)){ // on cherche un emplacement libre dans le tableau d'ip
 				i++;
 			}
 			this->ip[i]=ip;
+			this->nbPlayerByIp[i]=nb;
 		}
 		for(unsigned int i=0;i<nb;i++){
-			DataPlayer* aPlayer = new DataPlayer(i, ip);
-			this->players.push_back(*aPlayer);
+			DataPlayer aPlayer(i, ip);
+			this->players.push_back(aPlayer);
 		}
 	} else {
 		// envoyer au serveur
 		this->mutexClients.lock();
-		std::list<sf::TcpSocket*>::iterator it = this->clients.begin();
-		sf::TcpSocket* client = *it;
+		sf::TcpSocket* client = this->clients[0];
 
 		sf::Packet packet = this->createPacket(15,nb);
 		client->send(packet); // pas besoin de réponse
 		this->mutexClients.unlock();
 	}
+	this->mutexSlots.unlock();
 }
 
-void NetworkManager::setPlayerName(std::string names[4], sf::IpAddress ip){
+void NetworkManager::setPlayerName(std::string names[4]){
+	this->setName(name);
+}
+
+void NetworkManager::setName(std::string names[4], sf::IpAddress ip){
+	this->mutexNames.lock();
 	if(this->server){
 		int i=0;//indice sur le vecteur de joueur
 		int j=0;//indice sur le tableau de nom
-		while(i<4 && !(ip==this->players[i].getIp())){ //recherche la bonne adresse ip
+		while(!(names[j] == "") && i<4){ // tant qu'il y a des noms à enregistrer
+			if(this->players[i].getIp() == ip){
+				this->players[i].setName(names[j]);
+				j++;
+			}
 			i++;
-		}
-		while(j<(4-i) && !(names[j] == "")){
-			this->players[j].setName(names[j]);
-			j++;
 		}
 	} else { // envoyer la demande au serveur
 		this->mutexClients.lock();
-		std::list<sf::TcpSocket*>::iterator it = this->clients.begin();
-		sf::TcpSocket* client = *it;
+		sf::TcpSocket* client = this->clients[0];
 		sf::Packet packet; //paquet créé sur place car modification de createPacket pour passer les params
 		packet << 17 << sf::IpAddress::getLocalAddress().toString();
 		for(int i=0;i<4;i++){
@@ -222,21 +246,13 @@ void NetworkManager::setPlayerName(std::string names[4], sf::IpAddress ip){
 		client->send(packet); // pas besoin de réponse
 		this->mutexClients.unlock();
 	}
+	this->mutexNames.unlock();
 }
 
 int* NetworkManager::getScores(){
 	if(!this->server){
 		//demander au serveur
-		this->mutexClients.lock();
-		std::list<sf::TcpSocket*>::iterator it1 = this->clients.begin();
-		sf::TcpSocket* client = *it1;
-
-		sf::Packet packet = this->createPacket(7);
-		client->send(packet);
-		this->mutexClients.unlock();
-
-		sf::IpAddress address = client->getRemoteAddress();
-		std::list<sf::Packet>::iterator it2 = waitPacket(7, address);
+		std::list<sf::Packet>::iterator it2 = this->askServer(7);
 		sf::Packet& thePacket = *it2;
 		int num;
 		std::string ip;
@@ -255,16 +271,7 @@ bool NetworkManager::isStarted(){
 		result = this->started;
 		} else {
 		//demander au serveur
-			this->mutexClients.lock();
-			std::list<sf::TcpSocket*>::iterator it1 = this->clients.begin();
-			sf::TcpSocket* client = *it1;
-
-			sf::Packet packet = this->createPacket(11);
-			client->send(packet);
-			this->mutexClients.unlock();
-
-			sf::IpAddress address = client->getRemoteAddress();
-			std::list<sf::Packet>::iterator it2 = waitPacket(11, address);
+			std::list<sf::Packet>::iterator it2 = this->askServer(11);
 			sf::Packet& thePacket = *it2;
 			int num;
 			std::string ip;
@@ -298,8 +305,10 @@ void NetworkManager::setGameConfig(SGameConfig& pGameConfig){
 
 	this->gameEngine->setGameConfig(this->gameConfig);// on envoie également au gameEngine
 	// création du listener qui écoute tous les clients
-	sf::Thread thread(&NetworkManager::createServerSocket, this);
-	thread.launch();
+	if(!this->gameConfig.isLocal) {
+		sf::Thread thread(&NetworkManager::createServerSocket, this);
+		thread.launch();
+	}
 }
 
 SBoard NetworkManager::getBoard(){
@@ -307,17 +316,7 @@ SBoard NetworkManager::getBoard(){
 		return this->gameEngine->getBoard();
 	} else {
 		//demande au serveur
-		this->mutexClients.lock();
-		std::list<sf::TcpSocket*>::iterator it1 = this->clients.begin();
-		sf::TcpSocket* client = *it1;
-
-		sf::Packet packet = this->createPacket(1);
-		client->send(packet);
-		
-		this->mutexClients.unlock();
-
-		sf::IpAddress address = client->getRemoteAddress();
-		std::list<sf::Packet>::iterator it2 = waitPacket(1, address);
+		std::list<sf::Packet>::iterator it2 = this->askServer(1);
 		sf::Packet& thePacket = *it2;
 		SBoard aBoard;
 		thePacket >> aBoard;
@@ -333,16 +332,7 @@ int NetworkManager::isFinished(){
 		result = this->gameEngine->isFinished();
 	} else {
 	//demander au réseau
-		this->mutexClients.lock();
-		std::list<sf::TcpSocket*>::iterator it1 = this->clients.begin();
-		sf::TcpSocket* client = *it1;
-
-		sf::Packet packet = this->createPacket(9);
-		client->send(packet);
-		this->mutexClients.unlock();
-
-		sf::IpAddress address = client->getRemoteAddress();
-		std::list<sf::Packet>::iterator it2 = waitPacket(9, address);
+		std::list<sf::Packet>::iterator it2 = this->askServer(9);
 		sf::Packet& thePacket = *it2;
 		int num;
 		std::string ip;
@@ -366,7 +356,7 @@ void NetworkManager::createServerSocket(){
 	selector.add(listener);
 
 	// Endless loop that waits for new connections
-	 while (true)
+	while (this->isConnected())
 	 {
 		 // Make the selector wait for data on any socket
 		 if (selector.wait())
@@ -393,24 +383,24 @@ void NetworkManager::createServerSocket(){
 			 {
 				 // The listener socket is not ready, test all other sockets (the clients)
 				 this->mutexClients.lock();
-				 for (std::list<sf::TcpSocket*>::iterator it = clients.begin(); it != clients.end(); ++it)
+				 for (unsigned int i=0;i<this->clients.size();i++)
 				 {
-					 sf::TcpSocket& client = **it;
-					 if (selector.isReady(client))
+					 sf::TcpSocket* client = this->clients[i];
+					 if (selector.isReady(*client))
 					 {
 						 // The client has sent some data, we can receive it
-						 sf::Packet* packet = new sf::Packet;
-						 if (client.receive(*packet) == sf::Socket::Done)
+						 sf::Packet packet;
+						 if (client->receive(packet) == sf::Socket::Done)
 						 {
 							 //Vérifier le premier numéro s'il est impaire
-							 sf::Packet testPacket = *packet; // recopie du paquet reçu
+							 sf::Packet testPacket = packet; // recopie du paquet reçu
 							 int num;
 							 testPacket >> num;
 							 if(num%2){ // si c'est impaire
-								 decryptPacket(*packet);
+								 decryptPacket(packet);
 							 } else { //ajouter le packet !!!!! mutex !!!!
 								 this->mutexPacket.lock();
-								 this->packets.push_back(*packet);
+								 this->packets.push_back(packet);
 								 this->mutexPacket.unlock();
 							 }
 						 }
@@ -423,21 +413,29 @@ void NetworkManager::createServerSocket(){
 }
 
 void NetworkManager::listenToServer(){
-	std::list<sf::TcpSocket*>::iterator it = clients.begin();
-	sf::TcpSocket* server = *it;
-	while(true){
-		sf::Packet* packet = new sf::Packet;
-		if (server->receive(*packet) == sf::Socket::Done){
+	sf::TcpSocket* server = this->clients[0];
+	while(this->isConnected()){
+		sf::Packet packet;
+		if (server->receive(packet) == sf::Socket::Done){
 			//Vérifier le premier numéro s'il est impaire
-			sf::Packet testPacket = *packet; // recopie du paquet reçu
+			sf::Packet testPacket = packet; // recopie du paquet reçu
 			int num;
 			testPacket >> num;
-			if(num%2){ // si c'est impaire
-				decryptPacket(*packet);
-			} else { //ajouter le packet !!!!! mutex !!!!
-				this->mutexPacket.lock();
-				this->packets.push_back(*packet);
-				this->mutexPacket.unlock();
+			if(num==-1) {// signal d'arrêt
+				this->mutexConnect.lock();
+				this->connect=false;
+				this->mutexConnect.unlock();
+				this->mutexClients.lock();
+				this->clients.pop_back();
+				this->mutexClients.unlock();
+			} else {
+				if(num%2){ // si c'est impaire
+					decryptPacket(packet);
+				} else { //ajouter le packet !!!!! mutex !!!!
+					this->mutexPacket.lock();
+					this->packets.push_back(packet);
+					this->mutexPacket.unlock();
+				}
 			}
 		}
 	}
@@ -448,11 +446,9 @@ sf::Packet NetworkManager::createPacket(int i, int j){
 	sf::IpAddress ipLocal = sf::IpAddress::getLocalAddress();
 	packet << i << ipLocal.toString();
 	switch(i){
-		case 1 : { // demande de getboard d'un client
-			
+		case 1 : // demande de getboard d'un client
 			break;
-				 }
-		case 2 : { // envoi d'un SBoard
+		case 2 : // envoi d'un SBoard
 			if(this->server){
 				SBoard gameBoard = this->gameEngine->getBoard();
 				packet <<  gameBoard;
@@ -460,12 +456,10 @@ sf::Packet NetworkManager::createPacket(int i, int j){
 				std::cerr << "le plateau ne peut être obtenu car un Client n'a pas accès à un GameEngine" << std::endl;
 			}
 			break;
-				 }
-		case 3 : { // demande des touches pressées
+		case 3 : // demande des touches pressées
 
 			break;
-				 }
-		case 4 : { // envoi d'un SKeyPressed
+		case 4 : // envoi d'un SKeyPressed
 			if(this->server){
 				SKeyPressed keys = this->getKeysPressed();
 				packet << keys;
@@ -474,54 +468,38 @@ sf::Packet NetworkManager::createPacket(int i, int j){
 				packet << keys;
 			}
 			break;
-				 }
-		case 5 : { // demande des slots disponible
+		case 5 : // demande des slots disponible
 
 			break;
-				 }
-		case 6 : { // envoi des slots disponibles
+		case 6 : // envoi des slots disponibles
 			packet << this->getFreeSlots();
 			break;
-				 }
-		case 7 : { // demande s'il y a une pause
-
+		case 7 : // demande s'il y a une pause
 			break;
-				 }
-		case 8 : { // envoi s'il y a une pause
+		case 8 : // envoi s'il y a une pause
 			packet << this->paused;
 			break;
-				 }
-		case 9 : { // demande s'il c'est fini
-
+		case 9 : // demande s'il c'est fini
 			break;
-				 }
-		case 10 : { // envoi si c'est fini
+		case 10 : // envoi si c'est fini
 			packet << this->isFinished();
 			break;
-				 }
-		case 11 : { // demande si c'est commencé
-
+		case 11 : // demande si c'est commencé
 			break;
-				 }
-		case 12 : { // envoi si c'est commencé
+		case 12 : // envoi si c'est commencé
 			packet << this->isStarted();
 			break;
-				 }
-		case 13 : { // demande du score
-
+		case 13 : // demande du score
 			break;
-				 }
-		case 14 : { // envoi du score
-			for(int i=0;i<4;i++){
+		case 14 : // envoi du score
+			for(int i=0;i<4;i++)
 				packet << this->scores[i];
-			}
 			break;
-				 }
-
-		case 15 : { // envoi réservation d'un slot
-			packet << j;
+		case 15 : // envoi réservation d'un slot
+			packet << j << sf::IpAddress::getLocalAddress().toString();
 			break;
-				 }
+		//le cas 17 est directement géré dans la fonction setPlayersName
+				 
 
 	}
 	return packet;
@@ -530,10 +508,10 @@ sf::Packet NetworkManager::createPacket(int i, int j){
 sf::TcpSocket& NetworkManager::findSocket(sf::IpAddress& ip){
 	bool find = false;
 
-	std::list<sf::TcpSocket*>::iterator it = clients.begin();
+	std::vector<sf::TcpSocket*>::iterator it = clients.begin();
 	while( it != clients.end() && !find){
-		sf::TcpSocket& client = **it;
-		if(client.getRemoteAddress()== ip)
+		sf::TcpSocket* client = *it;
+		if(client->getRemoteAddress()== ip)
 			find=true;
 		else
 			it++;
@@ -570,22 +548,49 @@ void NetworkManager::decryptPacket(sf::Packet& packet){
 	sf::Packet result;
 	std::string ip;
 	packet >> num >> ip;
-	if(num < 15){ // c'est une demande qui nécessite une réponse
-		sf::IpAddress ip2 = ip;
-		result = createPacket(num+1);
-		sf::TcpSocket& client = this->findSocket(ip2);
-		client.send(result);
-	} else if(num==15){ // c'est un 15
+	switch(num){
+	case -1 :
+		if(this->server){
+			this->erasePlayer(ip);
+			throw PolyBomberException("le client "+ip+" vient de se déconnecter");
+		} else {
+			this->mutexConnect.lock();
+			this->connect = false;
+			this->mutexConnect.unlock();
+		}
+		break;
+	case 15 :
 		int j;
-		packet >> j;
-		setBookedSlots(j, ip);
-	} else { // c'est un 17
+		std::string ip;
+		packet >> j >> ip;
+		setSlot(j, ip); // methode utilisant des ressources critiques
+		break;
+	case 17 :
 		std::string names[4];
 		for(int i=0;i<4;i++){
 			packet >> names[i];
 		}
-		setPlayerName(names, ip);
+		setName(names, ip); // methode utilisant des ressources critiques
+	default : // c'est une demande qui nécessite une réponse
+		sf::IpAddress ip2 = ip;
+		result = createPacket(num+1);
+		this->mutexClients.lock();
+		sf::TcpSocket& client = this->findSocket(ip2);
+		client.send(result);
+		this->mutexClients.unlock();
 	}
+}
+
+bool NetworkManager::isConnected(){
+	bool result;
+	this->mutexConnect.lock();
+	result=this->connect;
+	this->mutexConnect.unlock();
+	return result;
+}
+
+void NetworkManager::erasePlayer(std::string ip){
+	//ne plus prendre en compte les mouvement de ces joueurs
 }
 
 namespace PolyBomber

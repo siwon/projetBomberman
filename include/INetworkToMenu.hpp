@@ -65,6 +65,17 @@ namespace PolyBomber
 			 */
 
 			virtual void setGameConfig(SGameConfig& gameConfig) =0;
+			
+			/*!
+			 * \brief reprise après une pause
+			 */
+			virtual void resume() =0;
+
+			/*!
+			 * \brief annulation de la config de jeu en cours
+			 */
+			virtual void cancel() =0;
+
 			/*!
 			 * \brief Destructeur virtuel
 			 */
