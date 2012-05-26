@@ -33,6 +33,7 @@ namespace PolyBomber {
 		bool runnable;
 		sf::Clock horloge;
 		int debutPause;
+		int lastInfectionAction;
 		
 	private:
 		GameEngineManager();

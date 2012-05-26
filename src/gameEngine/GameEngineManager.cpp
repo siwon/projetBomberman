@@ -29,6 +29,7 @@ namespace PolyBomber {
 		this->runnable=false;
 		this->horloge=sf::Clock();
 		this->debutPause=0;
+		this->lastInfectionAction=0;
 		srand(time(NULL));
 	}
 	
@@ -144,8 +145,13 @@ namespace PolyBomber {
 					debutPause=0;
 				}
 				
-				//TODO : gestion du temps (evenement qui ne se fait toutes les TEMPSENTREDEUXACTIONSINFECTION secondes
-				board.makeInfectionAction(time);
+				//provoque les actions associees aux infections
+				if (time%TEMPSENTREDEUXACTIONSINFECTION==0) {
+					if (time!=this->lastInfectionAction) {
+						board.makeInfectionAction(time);
+						this->lastInfectionAction=time;
+					}
+				}
 				
 				board.checkPosition(time);
 				
