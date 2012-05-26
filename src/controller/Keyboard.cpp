@@ -126,64 +126,28 @@ bool Keyboard::isAlphaNum(sf::Keyboard::Key key)
 
 char Keyboard::getCharPressed(sf::RenderWindow* window)
 {
-	int k = (int)(sf::Keyboard::A);
-	bool charPressed = false;
 	char c = '\0';
 	
 	if(window != NULL)
 	{
 		sf::Event event;
 		window->pollEvent(event);
-		if(event.type == sf::Event::KeyReleased)
+		if(event.type == sf::Event::KeyPressed)
 		{
-			while(k != (int)(sf::Keyboard::KeyCount) && !charPressed)
+			c = 1;
+			if(isAlphaNum(event.key.code))
 			{
-				c = 1;
-				if( event.key.code == (sf::Keyboard::Key)(k) && isAlphaNum((sf::Keyboard::Key)(k)))
-				{
-					charPressed = true;
-					c = getLabel(k)[0];
-					if(event.key.shift) /* Gestion des majuscules */
-						c = toupper(c);
-				}
-				else if(k == (int)(sf::Keyboard::Space)) /* Gestion espace */
-					c = ' ';
-				else if(k == (int)(sf::Keyboard::Back)) /* Gestion Retour arrière */
-					c = 2;
-				k++;
+				c = getLabel((int)event.key.code)[0];
+				if(event.key.shift) /* Gestion des majuscules */
+					c = toupper(c);
 			}
+			else if(event.key.code == sf::Keyboard::Space) /* Gestion espace */
+				c = ' ';
+			else if(event.key.code == sf::Keyboard::Back) /* Gestion Retour arrière */
+				c = 2;
 		}
 	}
 	return c;
-	/*int k = (int)(sf::Keyboard::A);
-	
-	bool charPressed = false;
-	char c = '\0';
-
-	while(k != (int)(sf::Keyboard::KeyCount) && !charPressed)
-	{
-		if( sf::Keyboard::isKeyPressed((sf::Keyboard::Key)(k)) )
-		{
-			charPressed = true;
-			c = 1;
-
-			if (isAlphaNum((sf::Keyboard::Key)(k)) )
-			{
-				c = getLabel(k)[0];
-				
-				#if DEBUG
-					std::cout << c << std::flush;
-				#endif
-			}
-			else if(k == (int)(sf::Keyboard::Space))
-				c = ' ';
-			else if(k == (int)(sf::Keyboard::Back))
-				c = 2;
-		}
-		k++;		
-	}
-	
-	return c;*/
 }
 
 EControllerType Keyboard::getControllerType()
