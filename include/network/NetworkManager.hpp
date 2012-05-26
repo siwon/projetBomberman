@@ -46,6 +46,9 @@ namespace PolyBomber
 			std::list<sf::Packet> packets; // segment de mémoire partagé
 			bool server;
 			SKeyPressed keyPressed;
+			sf::Thread* threadServer;
+			sf::Thread* threadClient;
+			sf::Thread* threadRun;
 
 			IControllerToNetwork* controller;
 			IGameEngineToNetwork* gameEngine;
@@ -80,6 +83,7 @@ public:
 			void setSlot(unsigned int nb, sf::IpAddress ip = sf::IpAddress::getLocalAddress());
 			void setPlayerName(std::string names[4]);
 			void setName(std::string names[4], sf::IpAddress ip = sf::IpAddress::getLocalAddress());
+			std::string getName();
 			int* getScores();
 			bool isStarted();
 			void startGame();
@@ -92,7 +96,7 @@ public:
 			void createServerSocket();
 			void listenToServer();
 			sf::Packet createPacket(int, int j =0);
-			sf::TcpSocket& findSocket(sf::IpAddress&);
+			sf::TcpSocket* findSocket(sf::IpAddress&);
 			std::list<sf::Packet>::iterator waitPacket(int, sf::IpAddress&);
 			void decryptPacket(sf::Packet&);
 			
