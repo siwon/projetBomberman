@@ -678,7 +678,7 @@ namespace PolyBomber
 		std::vector<SFlame> flame = b.flames;
 
 		/*Ajout des Boxes*/
-		packet << boxes.size();
+		packet << boxes.size(); // FIXME : Erreur de Simon ici : conversion non acceptée
 		for (unsigned int i=0;i<boxes.size();i++){
 			sf::Vector2<int> tempVect = boxes[i];
 			packet << tempVect.x << tempVect.y;
