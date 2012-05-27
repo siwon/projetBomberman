@@ -23,14 +23,15 @@ sudo apt-get install libbluetooth-dev
 
 #Installation de WiiC
 cd lib/WiiC/
-sudo rm -rf build
 mkdir build
 cd build
 sudo cmake ../src
 sudo make
 cp wiic/libwiic.so ../../
 cp wiicpp/libwiicpp.so ../../
-cd ../../../
+cd ../
+sudo rm -rf build
+cd ../../
 
 
 #Installation de SFML2.0
