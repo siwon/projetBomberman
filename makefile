@@ -5,6 +5,9 @@ EXEC=PolyBomber
 
 all: $(EXEC)
 
+install:
+	(./install.sh)
+
 PolyBomber: main.o PolyBomberApp.o PolyBomberException.o menu sound skin configFile controller network
 	$(CC) -o $@ bin/*.o $(LDFLAGS)
 
