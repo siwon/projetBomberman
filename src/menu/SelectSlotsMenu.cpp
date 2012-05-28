@@ -28,6 +28,7 @@ namespace PolyBomber
 		next.move(100, 0);
 
 		nbPlayers.push_back("1");
+		nbPlayers.setCurrentItem(0);
 
 		error.setVisible(false);
 
@@ -99,6 +100,8 @@ namespace PolyBomber
 		int nb = this->network->getFreeSlots();
 		int sel = nbPlayers.getCurrentItem();
 
+		std::cout << "free slots : " << nb << std::endl;
+
 		nbPlayers.clear();
 
 		error.setVisible(nb == 0);
@@ -112,8 +115,11 @@ namespace PolyBomber
 			
 		if (nb > 1)	nbPlayers.push_back("2");
 		if (nb > 2)	nbPlayers.push_back("3");
+		if (nb > 3)	nbPlayers.push_back("4");
 
 		if (nb <= sel && nb > 0)
 			nbPlayers.setCurrentItem(nb - 1);
+		else
+			nbPlayers.setCurrentItem(sel);
 	}
 }

@@ -254,7 +254,7 @@ void NetworkManager::joinGame(std::string ip){
 int NetworkManager::getFreeSlots(){
 	int result;
 	if(this->server){
-		result = (4 - this->players.size());
+		result = (this->gameConfig.nbPlayers - this->players.size());
 	} else {
 		// demande au serveur
 		std::list<sf::Packet>::iterator it2 = this->askServer(5);

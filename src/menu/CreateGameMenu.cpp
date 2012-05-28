@@ -112,6 +112,9 @@ namespace PolyBomber
 		
 		if (next.getSelected())
 		{						
+			gameConfig->isLocal = !type.getCurrentItem();
+			gameConfig->nbPlayers = players.getCurrentItem() + 2;
+
 			INetworkToMenu* network = PolyBomberApp::getINetworkToMenu();
 			network->setGameConfig(*(this->gameConfig));
 

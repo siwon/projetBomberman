@@ -24,10 +24,10 @@ namespace PolyBomber
 			
 		while (nextScreen == NONEMENU)
 		{			
+			loopAction();
+
 			window.clear();
 			window.display(this->widgets);
-
-			loopAction();
 
 			EMenuKeys key = MENU_NONE;
 			while ((key = controller->getKeyPressed()) == MENU_NONE && window.isOpen());
