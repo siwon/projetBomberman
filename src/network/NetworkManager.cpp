@@ -135,8 +135,11 @@ SKeyPressed NetworkManager::getKeysPressed(){
 		//verification de la pause par un joueur
 		unsigned int i=0;
 		while(i<this->gameConfig.nbPlayers && !this->paused){
-			if(this->keyPressed.keys[i][GAME_PAUSE])
+			if(this->keyPressed.keys[i][GAME_PAUSE]) {
+				this->mutexPause.lock();
 				this->paused=i+1;
+				this->mutexPause.unlock();
+			}
 			else
 				i++;
 		}
@@ -150,8 +153,11 @@ SKeyPressed NetworkManager::getKeysPressed(){
 
 int NetworkManager::isPaused(){
 	int result;
-	if(this->server)
+	if(this->server){
+		this->mutexPause.lock();
 		result = this->paused;
+		this->mutexPause.unlock();
+	}
 	else {
 		//demander au serveur
 		try {
@@ -170,7 +176,19 @@ int NetworkManager::isPaused(){
 }
 
 void NetworkManager::resume(){
-	this->paused=0;
+	if(this->server){
+		this->mutexPause.lock();
+		this->paused=0;
+		this->mutexPause.unlock();
+	} else {
+		//envoyer un paquet (sans réponse) au serveur pour lui dire de reprendre
+		this->mutexClients.lock();
+		sf::TcpSocket* client = this->clients[0];
+
+		sf::Packet packet = this->createPacket(21);
+		client->send(packet); // pas besoin de réponse
+		this->mutexClients.unlock();
+	}
 }
 
 void NetworkManager::cancel(){
@@ -225,10 +243,11 @@ void NetworkManager::joinGame(std::string ip){
 		this->mutexClients.lock();
 		this->clients.push_back(server);
 		this->mutexClients.unlock();
+		this->connect=true;
+		threadClient = new sf::Thread(&NetworkManager::listenToServer, this);
+		threadClient->launch();
 	}
-	this->connect=true;
-	threadClient = new sf::Thread(&NetworkManager::listenToServer, this);
-	threadClient->launch();
+	
 }
 
 int NetworkManager::getFreeSlots(){
@@ -271,7 +290,7 @@ void NetworkManager::setSlot(unsigned int nb, sf::IpAddress ip) {
 		this->mutexClients.lock();
 		sf::TcpSocket* client = this->clients[0];
 
-		sf::Packet packet = this->createPacket(15,nb);
+		sf::Packet packet = this->createPacket(19,nb);
 		client->send(packet); // pas besoin de réponse
 		this->mutexClients.unlock();
 	}
@@ -308,6 +327,33 @@ void NetworkManager::setName(std::string names[4], sf::IpAddress ip){
 	this->mutexNames.unlock();
 }
 
+void NetworkManager::getName(std::string names[4]){
+	if(this->server){
+		for(unsigned int i=0;i<4;i++) {
+			if(i<players.size())
+				names[i]=this->players[i].getName();
+			else
+				names[i]="";
+		}
+	} else {
+		//envoyer un paquet pour demander les noms aux serveur
+			try {
+				std::list<sf::Packet>::iterator it = this->askServer(15);
+				sf::Packet& thePacket = *it;
+				int num;
+				std::string ip;
+				thePacket >> num >> ip;
+				for(int i=0;i<4;i++){
+					thePacket >> names[i];
+				}
+				this->packets.erase(it);
+			}
+			catch (PolyBomberException e){
+				std::cerr << e.what() <<std::endl;
+			}
+	}
+}
+
 int* NetworkManager::getScores(){
 	if(!this->server){
 		//demander au serveur
@@ -330,12 +376,17 @@ bool NetworkManager::isStarted(){
 		result = this->started;
 		} else {
 		//demander au serveur
-			std::list<sf::Packet>::iterator it2 = this->askServer(11);
-			sf::Packet& thePacket = *it2;
-			int num;
-			std::string ip;
-			thePacket >> num >> ip  >> result;
-			this->packets.erase(it2);
+			try {
+				std::list<sf::Packet>::iterator it2 = this->askServer(11);
+				sf::Packet& thePacket = *it2;
+				int num;
+				std::string ip;
+				thePacket >> num >> ip  >> result;
+				this->packets.erase(it2);
+			}
+			catch (PolyBomberException e){
+				std::cerr << e.what() <<std::endl;
+			}
 	}
 	return result;
 }
@@ -555,12 +606,23 @@ sf::Packet NetworkManager::createPacket(int i, int j){
 			for(int i=0;i<4;i++)
 				packet << this->scores[i];
 			break;
-		case 15 : // envoi réservation d'un slot
-			packet << j << sf::IpAddress::getLocalAddress().toString();
+		case 15 : // demande des noms
+			break;
+		case 16 : // envoi des noms
+			for(unsigned int i=0;i<4;i++) {
+				if(i<players.size())
+					packet << this->players[i].getName();
+				else
+					packet << "";
+			}
 			break;
 		//le cas 17 est directement géré dans la fonction setPlayersName
-				 
-
+		case 19 : // envoi réservation d'un slot
+			packet << j;
+			break;
+		case 21 : // envoi de la reprise du jeu
+			break;
+		
 	}
 	return packet;
 }
@@ -623,7 +685,7 @@ void NetworkManager::decryptPacket(sf::Packet& packet){
 	switch(num){
 	case -1 :
 		if(this->server){
-			std::cerr << "le client "+ip+" vient de se déconnecter" << std::endl;
+			std::cerr << "le client " << ip <<" vient de se déconnecter" << std::endl;
 			eraseSocket(ip1);
 		} else {
 			this->mutexConnect.lock();
@@ -631,22 +693,25 @@ void NetworkManager::decryptPacket(sf::Packet& packet){
 			this->mutexConnect.unlock();
 		}
 		break;
-	case 15 :
-		int j;
-		packet >> j;
-		setSlot(j, ip1); // methode utilisant des ressources critiques
-		break;
 	case 17 :
 		for(int i=0;i<4;i++){
 			packet >> names[i];
 		}
 		setName(names, ip1); // methode utilisant des ressources critiques
+	case 19 :
+		int j;
+		packet >> j;
+		setSlot(j, ip1); // methode utilisant des ressources critiques
+		break;
+	case 21 :
+		resume();
+		break;
 	default : // c'est une demande qui nécessite une réponse
-		sf::IpAddress ip2 = ip;
 		result = createPacket(num+1);
 		this->mutexClients.lock();
-		sf::TcpSocket* client = this->findSocket(ip2);
-		client->send(result);
+		sf::TcpSocket* client = this->findSocket(ip1);
+		if (!client->send(result) == sf::TcpSocket::Done)
+			std::cerr << "la réponse n°" << num << " n'à pas pu être renvoyée" << std::endl;
 		this->mutexClients.unlock();
 	}
 }
@@ -678,14 +743,14 @@ namespace PolyBomber
 		std::vector<SFlame> flame = b.flames;
 
 		/*Ajout des Boxes*/
-		packet << boxes.size();
+		packet << (int)boxes.size();
 		for (unsigned int i=0;i<boxes.size();i++){
 			sf::Vector2<int> tempVect = boxes[i];
 			packet << tempVect.x << tempVect.y;
 		}
 
 		/*Ajout des Bonus*/
-		packet << bonus.size();
+		packet << (int)bonus.size();
 		for(unsigned int i=0;i<bonus.size();i++){
 			sf::Vector2<int> tempCoord = bonus[i].coords;
 			int tempBonus = bonus[i].type;
@@ -693,7 +758,7 @@ namespace PolyBomber
 		}
 
 		/*Ajout des explosifs*/
-		packet << explosive.size();
+		packet << (int)explosive.size();
 		for(unsigned int i=0;i<explosive.size();i++){
 			sf::Vector2<int> tempCoord = explosive[i].coords;
 			int tempExplo = explosive[i].type;
@@ -701,7 +766,7 @@ namespace PolyBomber
 		}
 
 		/*ajout des players*/
-		packet << player.size();
+		packet << (int)player.size();
 		for (unsigned int i=0;i<player.size();i++){
 			sf::Vector2<int> tempCoord = player[i].coords;
 			int tempOrient = player[i].orientation;
@@ -713,7 +778,7 @@ namespace PolyBomber
 		}
 
 		/*Ajout des flames*/
-		packet << flame.size();
+		packet << (int)flame.size();
 		for(unsigned int i=0;i<flame.size();i++){
 			sf::Vector2<int> tempCoord = flame[i].coords;
 			int tempOrient = flame[i].orientation;
