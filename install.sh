@@ -27,8 +27,8 @@ mkdir build
 cd build
 sudo cmake ../src
 sudo make
-cp wiic/libwiic.so ../../
-cp wiicpp/libwiicpp.so ../../
+sudo make install
+sudo ldconfig
 cd ../
 sudo rm -rf build
 cd ../../
