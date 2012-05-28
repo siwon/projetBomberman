@@ -236,10 +236,10 @@ void NetworkManager::joinGame(std::string ip){
 	this->server=false;
 	sf::TcpSocket* server = new sf::TcpSocket;
 	sf::IpAddress ip2 = sf::IpAddress(ip);
-	if(server->connect(ip, 55001) == sf::Socket::Error){
-		throw PolyBomberException("erreur de connection au serveur "+ip);
-		std::cerr << "erreur de connection au serveur " << ip << std::endl;
+	if(server->connect(ip, 55001, sf::milliseconds(100)) != sf::Socket::Done){
+		throw PolyBomberException("Erreur de connexion au serveur "+ip);
 	} else {
+		std::cout << "okconnect" << std::endl;
 		this->mutexClients.lock();
 		this->clients.push_back(server);
 		this->mutexClients.unlock();
@@ -525,6 +525,7 @@ void NetworkManager::createServerSocket(){
 
 void NetworkManager::listenToServer(){
 	sf::TcpSocket* server = this->clients[0];
+	server->setBlocking(false);
 	while(this->isConnected()){
 		sf::Packet packet;
 		if (server->receive(packet) == sf::Socket::Done){
@@ -680,7 +681,7 @@ void NetworkManager::decryptPacket(sf::Packet& packet){
 	sf::Packet result;
 	std::string ip;
 	packet >> num >> ip;
-	sf::IpAddress ip1 = sf::IpAddress::IpAddress(ip);
+	sf::IpAddress ip1(ip);
 	std::string names[4];
 	switch(num){
 	case -1 :
