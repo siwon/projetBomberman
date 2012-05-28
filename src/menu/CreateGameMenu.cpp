@@ -112,6 +112,9 @@ namespace PolyBomber
 		
 		if (next.getSelected())
 		{						
+			INetworkToMenu* network = PolyBomberApp::getINetworkToMenu();
+			network->setGameConfig(*(this->gameConfig));
+
 			*nextScreen = next.activate();
 		}
 	}
@@ -145,6 +148,6 @@ namespace PolyBomber
 	void CreateGameMenu::initWidgets()
 	{
 		type.setCurrentItem(!this->gameConfig->isLocal);
-		players.setCurrentItem(this->gameConfig->nbPlayers - 1);
+		players.setCurrentItem(this->gameConfig->nbPlayers - 2);
 	}
 }

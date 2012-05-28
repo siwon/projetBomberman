@@ -96,6 +96,7 @@ namespace PolyBomber
 		
 		if (next.getSelected())
 		{						
+			// FIXME: c'est faux ça
 			for (int i=0; i<4; i++)
 				this->gameConfig->playersName[i] = this->names[i]->getString();
 
