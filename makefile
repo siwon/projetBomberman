@@ -1,6 +1,7 @@
 CC=g++
 CFLAGS=-W -Wall -ansi -pedantic -I include/
 LDFLAGS=-L lib/ -lsfml-window -lsfml-graphics -lsfml-audio -lsfml-network -lsfml-system -lwiic -lwiicpp
+MODULES=menu sound skin configFile controller network
 EXEC=PolyBomber
 
 all: $(EXEC)
@@ -8,7 +9,7 @@ all: $(EXEC)
 install:
 	(./install.sh)
 
-PolyBomber: main.o PolyBomberApp.o PolyBomberException.o menu sound skin configFile controller network
+PolyBomber: main.o PolyBomberApp.o PolyBomberException.o $(MODULES)
 	$(CC) -o $@ bin/*.o $(LDFLAGS)
 
 build:
@@ -17,34 +18,15 @@ build:
 %.o: src/%.cpp
 	$(CC) -o bin/$@ -c $< $(CFLAGS)
 
-menu:
-	(cd src/$@ && $(MAKE))
-
-configFile:
-	(cd src/$@ && $(MAKE))
-
-skin:
-	(cd src/$@ && $(MAKE))
-
-sound:
-	(cd src/$@ && $(MAKE))
-
-controller:
-	(cd src/$@ && $(MAKE))
-
-gameInterface:
-	(cd src/$@ && $(MAKE))
-
-network:
-	(cd src/$@ && $(MAKE))
-
-gameEngine:
-	(cd src/$@ && $(MAKE))
+$(MODULES):
+	$(MAKE) -w -C src/$@ $(MAKECMDGOALS)
 
 .PHONY: clean mrproper
 
 clean:
 	-rm bin/*.o
+	for i in $(MODULES); do ($(MAKE) -w -C src/$$i clean); done
+
 
 mrproper: clean
 	-rm $(EXEC)
