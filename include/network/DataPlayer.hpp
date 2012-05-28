@@ -39,7 +39,10 @@ namespace PolyBomber
 
 			inline sf::IpAddress getIp() const {return this->ip;}
 
-			inline void setName(std::string pName) {this->name=pName;};
+			inline void setName(std::string pName) {this->name=pName;}
+			inline std::string getName() {return this->name;}
+
+
 	};
 }
 #endif

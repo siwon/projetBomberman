@@ -64,8 +64,8 @@ namespace PolyBomber {
 		
 		//INetworkToGameEngine
 		/*SKeyPressed getKeysPressed();
-		int isPaused();*/
-		void resetConfig();/**/
+		int isPaused();
+		void resetConfig();*/
 		
 	};
 }

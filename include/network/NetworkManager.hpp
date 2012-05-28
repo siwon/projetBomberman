@@ -58,6 +58,7 @@ namespace PolyBomber
 			sf::Mutex mutexSlots;
 			sf::Mutex mutexNames;
 			sf::Mutex mutexConnect;
+			sf::Mutex mutexPause;
 
 			/*!
 			 * \brief Constructeur
@@ -67,10 +68,18 @@ namespace PolyBomber
 			 * \brief Destructeur
 			 */
 			~NetworkManager();
+			/******méthode ne provenant pas d'interface***/
 			void initialize();
 			std::list<sf::Packet>::iterator askServer(int);
 			bool isConnected();
 			void eraseSocket(sf::IpAddress&);
+			void createServerSocket();
+			void listenToServer();
+			sf::Packet createPacket(int, int j =0);
+			sf::TcpSocket* findSocket(sf::IpAddress&);
+			std::vector<sf::TcpSocket*>::iterator findSocketIterator(sf::IpAddress&);
+			std::list<sf::Packet>::iterator waitPacket(int, sf::IpAddress&);
+			void decryptPacket(sf::Packet&);
 
 			
 public:
@@ -84,7 +93,7 @@ public:
 			void setSlot(unsigned int nb, sf::IpAddress ip = sf::IpAddress::getLocalAddress());
 			void setPlayerName(std::string names[4]);
 			void setName(std::string names[4], sf::IpAddress ip = sf::IpAddress::getLocalAddress());
-			std::string getName();
+			void getName(std::string names[4]);
 			int* getScores();
 			bool isStarted();
 			void startGame();
@@ -92,15 +101,6 @@ public:
 			void setGameConfig(SGameConfig&);
 			SBoard getBoard();
 			int isFinished();
-
-			/******méthode ne provenant pas d'interface***/
-			void createServerSocket();
-			void listenToServer();
-			sf::Packet createPacket(int, int j =0);
-			sf::TcpSocket* findSocket(sf::IpAddress&);
-			std::vector<sf::TcpSocket*>::iterator findSocketIterator(sf::IpAddress&);
-			std::list<sf::Packet>::iterator waitPacket(int, sf::IpAddress&);
-			void decryptPacket(sf::Packet&);
 			
 	};
 
