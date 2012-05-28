@@ -12,4 +12,4 @@ all: $(OBJ)
 .PHONY: clean
 
 clean:
-	rm *.o
+	-rm *.o

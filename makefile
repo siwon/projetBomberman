@@ -19,7 +19,7 @@ build:
 	$(CC) -o bin/$@ -c $< $(CFLAGS)
 
 $(MODULES):
-	$(MAKE) -w -C src/$@ $(MAKECMDGOALS)
+	$(MAKE) -w -C src/$@
 
 .PHONY: clean mrproper
 
