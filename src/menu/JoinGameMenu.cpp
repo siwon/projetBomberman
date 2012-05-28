@@ -72,12 +72,13 @@ namespace PolyBomber
 	{
 		if (cancel.getSelected())
 		{
-			
 			*nextScreen = cancel.activate();
 		}
 		
 		if (next.getSelected())
 		{				
+			
+
 			*nextScreen = next.activate();
 		}
 	}
