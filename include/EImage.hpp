@@ -21,7 +21,9 @@ namespace PolyBomber
 		PLAYER1,
 		PLAYER2,
 		PLAYER3,
-		PLAYER4
+		PLAYER4,
+		GAME_BACKGROUND, /*!< Fond du jeu */
+		BOX /*!< Caisse destructible */
 	};
 }
 

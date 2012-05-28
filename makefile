@@ -1,7 +1,7 @@
 CC=g++
 CFLAGS=-W -Wall -ansi -pedantic -I include/
 LDFLAGS=-L lib/ -lsfml-window -lsfml-graphics -lsfml-audio -lsfml-network -lsfml-system -lwiic -lwiicpp
-MODULES=menu sound skin configFile controller network
+MODULES=menu sound skin configFile controller network gameInterface
 EXEC=PolyBomber
 
 all: $(EXEC)
@@ -19,7 +19,7 @@ build:
 	$(CC) -o bin/$@ -c $< $(CFLAGS)
 
 $(MODULES):
-	$(MAKE) -w -C src/$@
+	$(MAKE) --no-print-directory -C src/$@
 
 .PHONY: clean mrproper
 

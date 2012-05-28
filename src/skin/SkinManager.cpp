@@ -20,6 +20,8 @@ namespace PolyBomber
 		this->files[PLAYER2] = "player2.png";
 		this->files[PLAYER3] = "player3.png";
 		this->files[PLAYER4] = "player4.png";
+		this->files[GAME_BACKGROUND] = "gback.png";
+		this->files[BOX] = "box.png";
 
 		this->colors[TEXTCOLOR] = "text";
 		this->colors[TITLECOLOR] = "title";

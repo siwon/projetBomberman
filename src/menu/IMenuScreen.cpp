@@ -22,7 +22,7 @@ namespace PolyBomber
 
 		EMenuScreen nextScreen = NONEMENU;
 			
-		while (nextScreen == NONEMENU && window.isOpen())
+		while (nextScreen == NONEMENU)
 		{			
 			window.clear();
 			window.display(this->widgets);

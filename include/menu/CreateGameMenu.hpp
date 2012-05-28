@@ -85,11 +85,6 @@ namespace PolyBomber
 			SGameConfig* gameConfig;
 
 			/*!
-			 * \brief Méthode pour changer le nombre de joueurs locaux maximal
-			 */
-			void changePlayers();
-
-			/*!
 			 * \brief Méthode pour initialiser la configuration du jeu
 			 */
 			void initGameConfig();

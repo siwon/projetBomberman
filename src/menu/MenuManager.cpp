@@ -6,6 +6,8 @@
 
 #include "menu/MenuManager.hpp"
 
+#include "IGameInterfaceToMenu.hpp"
+
 #include "menu/SplashScreen.hpp"
 #include "menu/MainMenu.hpp"
 #include "menu/GameMenu.hpp"
@@ -28,6 +30,11 @@ namespace PolyBomber
 	MenuManager::MenuManager() : window()
 	{
 		PolyBomberApp::getIControllerToMenu()->setWindow(window.getWindow());
+
+		for (int i=0; i<3; i++)
+			this->scores[i] = 0;
+
+		this->winner = -1;
 
 		// Ajout des menus
 		this->menuScreens[SPLASHSCREEN] = new SplashScreen();
@@ -62,11 +69,26 @@ namespace PolyBomber
 	{
 		EMenuScreen old = SPLASHSCREEN;
 		EMenuScreen screen = SPLASHSCREEN;
+		EMenuScreen next;
+		EScreenSignal signal;
+
+		IGameInterfaceToMenu* gameInterface = PolyBomberApp::getIGameInterfaceToMenu();
+		
 		while (screen != EXIT)
 		{			
-			EMenuScreen next = this->menuScreens[screen]->run(this->window, old);
-			old = screen;
-			screen = next;
+			if (screen != RUNGAME)
+			{
+				next = this->menuScreens[screen]->run(this->window, old);
+				old = screen;
+				screen = next;
+			}
+			else
+			{
+				signal = gameInterface->run(window.getWindow(), this->scores, this->winner);
+				
+				if (signal == EXITGAME)
+					screen = EXIT;
+			}
 		}
 		
 		return EXITGAME;

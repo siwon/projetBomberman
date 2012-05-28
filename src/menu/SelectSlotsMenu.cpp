@@ -76,6 +76,8 @@ namespace PolyBomber
 	{
 		if (cancel.getSelected())
 		{
+			INetworkToMenu* network = PolyBomberApp::getINetworkToMenu();
+			network->cancel();
 			*nextScreen = cancel.activate();
 		}
 		
@@ -87,6 +89,8 @@ namespace PolyBomber
 
 	void SelectSlotsMenu::backPressed(EMenuScreen* nextScreen)
 	{
+		INetworkToMenu* network = PolyBomberApp::getINetworkToMenu();
+		network->cancel();
 		*nextScreen = cancel.activate();
 	}
 

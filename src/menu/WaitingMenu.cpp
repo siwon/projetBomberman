@@ -73,8 +73,8 @@ namespace PolyBomber
 		
 		if (start.getSelected())
 		{						
+			//this->network->startGame();
 			*nextScreen = start.activate();
-			// TODO : Commencer la partie
 		}
 	}
 

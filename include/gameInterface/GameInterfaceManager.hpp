@@ -7,6 +7,8 @@
  * \author Maxime GUIHAL
  */
 
+#include <vector>
+
 #include "IGameInterfaceToMenu.hpp"
 #include "TSingleton.hpp"
 
@@ -22,7 +24,10 @@ namespace PolyBomber
 		friend class Singleton<GameInterfaceManager>;
 
 		public:
-			EScreenSignal run(sf::RenderWindow window, unsigned int score[4], int& winner);
+			/*!
+			 * \see IGameInterfaceToMenu::run
+			 */
+			EScreenSignal run(sf::RenderWindow* window, unsigned int score[4], int& winner);
 
 		private:
 			/*!
@@ -34,6 +39,16 @@ namespace PolyBomber
 			 * \brief Destructeur
 			 */
 			~GameInterfaceManager();
+
+			/*!
+			 * \brief Méthode pour mettre à jour les informations du plateau de jeu
+			 */
+			void update();
+			
+
+			sf::Sprite background; /*!< Image de fond de la fenêtre et du plateau */
+
+			std::vector<sf::Sprite> boxes; /*!< Sprites pour les caisses */
 	};
 }
 

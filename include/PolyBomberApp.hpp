@@ -10,8 +10,8 @@
 class MenuManager;
 class ControllerManager;
 class NetworkManager;
-/*class GameEngineManager;
-class GameInterfaceManager;*/
+//class GameEngineManager;
+class GameInterfaceManager;
 class SoundManager;
 class SkinManager;
 
@@ -23,7 +23,7 @@ class SkinManager;
 #include "menu/MenuManager.hpp"
 #include "network/NetworkManager.hpp"
 //#include "gameEngine/GameEngineManager.hpp"
-//#include "gameInterface/GameInterfaceManager.hpp"
+#include "gameInterface/GameInterfaceManager.hpp"
 
 namespace PolyBomber
 {
@@ -64,13 +64,13 @@ namespace PolyBomber
 			 * \brief Retourne l'interface INetworkToGameEngine
 			 * \return l'interface INetworkToGameEngine
 			 */			
-			//static INetworkToGameEngine* getINetworkToGameEngine();
+			static INetworkToGameEngine* getINetworkToGameEngine();
 
 			/*!
 			 * \brief Retourne l'interface INetworkToGameInterface
 			 * \return l'interface INetworkToGameInterface
 			 */
-			//static INetworkToGameInterface* getINetworkToGameInterface();
+			static INetworkToGameInterface* getINetworkToGameInterface();
 
 			/*!
 			 * \brief Retourne l'interface INetworkToMenu
@@ -94,7 +94,7 @@ namespace PolyBomber
 			 * \brief Retourne l'interface IGameInterfaceToMenu
 			 * \return l'interface IGameInterfaceToMenu
 			 */			
-			//static IGameInterfaceToMenu* getIGameInterfaceToMenu();
+			static IGameInterfaceToMenu* getIGameInterfaceToMenu();
 
 			/*!
 			 * \brief Retourne l'interface ISkin
@@ -120,7 +120,7 @@ namespace PolyBomber
 			~PolyBomberApp();
 
 			static MenuManager* menuManager; /*!< Instance du composant Menu */
-			//static GameInterfaceManager* gameInterfaceManager; /*!< Instance du composant Interface de jeu */
+			static GameInterfaceManager* gameInterfaceManager; /*!< Instance du composant Interface de jeu */
 			static NetworkManager* networkManager; /*!< Instance du composant Réseau */
 			//static GameEngineManager* gameEngineManager; /*!< Instance du composant Moteur de jeu */
 			static ControllerManager* controllerManager; /*!< Instance du composant Contrôleur */

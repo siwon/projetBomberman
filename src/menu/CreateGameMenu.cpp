@@ -14,12 +14,12 @@ namespace PolyBomber
 	CreateGameMenu::CreateGameMenu(SGameConfig* gameConfig) :
 		title("Creation d'une partie", TITLEFONT, 100),
 		typeText("Type de la partie : ", TEXTFONT, 225, RIGHT),
-		playersText("Nombre de joueurs sur cet ordinateur : ", TEXTFONT, 300, RIGHT),
+		playersText("Nombre de joueurs de la partie : ", TEXTFONT, 300, RIGHT),
 		type(TEXTFONT, 225),
 		players(TEXTFONT, 300),
 		options("Options de la partie", 375, GAMEOPTIONSMENU),
 		cancel("Annuler", 450, GAMEMENU),
-		next("Suivant", 450, SELECTNAMEMENU),
+		next("Suivant", 450, SELECTSLOTSMENU),
 		gameConfig(gameConfig)
 	{
 		ISkin* skin = PolyBomberApp::getISkin();
@@ -31,7 +31,6 @@ namespace PolyBomber
 		type.push_back("locale");
 		type.push_back("en reseau");
 
-		players.push_back("1");
 		players.push_back("2");
 		players.push_back("3");
 		players.push_back("4");
@@ -91,8 +90,6 @@ namespace PolyBomber
 		type.goPreviousItem();
 		players.goPreviousItem();
 		next.goNext();
-
-		changePlayers();
 	}
 
 	void CreateGameMenu::rightPressed()
@@ -100,8 +97,6 @@ namespace PolyBomber
 		type.goNextItem();
 		players.goNextItem();
 		cancel.goNext();
-
-		changePlayers();
 	}
 
 	void CreateGameMenu::validPressed(EMenuScreen* nextScreen)
@@ -132,37 +127,16 @@ namespace PolyBomber
 		return IMenuScreen::run(window, previous);
 	}
 
-	void CreateGameMenu::changePlayers()
-	{
-		if (type.getSelected())
-		{
-			players.clear();
-			players.push_back("1");
-			players.push_back("2");
-			players.push_back("3");
-			
-			if (!type.getCurrentItem())
-				players.push_back("4");
-		}
-
-		this->gameConfig->isLocal = !type.getCurrentItem();
-		this->gameConfig->nbPlayers = players.getCurrentItem() + 1;
-	}
-
 	void CreateGameMenu::initGameConfig()
 	{
 		int nbBonus[18] = {5,3,5,3,1,4,4,1,   7,4,3,2,   3,1,2,2,2,2};
 		int i;
 
 		this->gameConfig->isLocal = true;
-		this->gameConfig->nbPlayers = 1;
+		this->gameConfig->nbPlayers = 4;
 
 		for (i=0; i<4; i++)
-		{
-			std::ostringstream text;
-			text << "Joueur " << (i+1);
-			this->gameConfig->playersName[i] = text.str();
-		}
+			this->gameConfig->playersName[i] = "";
 
 		for (i=0; i<18; i++)
 			this->gameConfig->nbBonus[i] = nbBonus[i];
@@ -171,7 +145,6 @@ namespace PolyBomber
 	void CreateGameMenu::initWidgets()
 	{
 		type.setCurrentItem(!this->gameConfig->isLocal);
-		changePlayers();
 		players.setCurrentItem(this->gameConfig->nbPlayers - 1);
 	}
 }
