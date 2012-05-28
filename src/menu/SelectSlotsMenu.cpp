@@ -75,15 +75,17 @@ namespace PolyBomber
 
 	void SelectSlotsMenu::validPressed(EMenuScreen* nextScreen)
 	{
+		INetworkToMenu* network = PolyBomberApp::getINetworkToMenu();
+
 		if (cancel.getSelected())
 		{
-			INetworkToMenu* network = PolyBomberApp::getINetworkToMenu();
 			network->cancel();
 			*nextScreen = cancel.activate();
 		}
 		
 		if (next.getSelected())
 		{				
+			network->setBookedSlots(nbPlayers.getCurrentItem()+1);
 			*nextScreen = next.activate();
 		}
 	}

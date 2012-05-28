@@ -236,11 +236,9 @@ void NetworkManager::joinGame(std::string ip){
 	this->server=false;
 	sf::TcpSocket* server = new sf::TcpSocket;
 	sf::IpAddress ip2 = sf::IpAddress(ip);
-	if(server->connect("192.168.1.11", 2222) == sf::TcpSocket::Error){
-		std::cout << "except" << std::endl;
+	if(server->connect(ip, 2222, sf::milliseconds(100)) != sf::TcpSocket::Done){
 		throw PolyBomberException("Erreur de connexion au serveur "+ip);
 	} else {
-		std::cout << "okconnect" << std::endl;
 		this->mutexClients.lock();
 		this->clients.push_back(server);
 		this->mutexClients.unlock();
