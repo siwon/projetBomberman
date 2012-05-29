@@ -45,6 +45,7 @@ namespace PolyBomber
 			std::vector<sf::TcpSocket*> clients;//ME
 			std::list<sf::Packet> packets; // segment de mémoire partagé
 			bool server;
+			sf::SocketSelector selector; // le selecteur pour le serveur
 			SKeyPressed keyPressed;
 			sf::Thread* threadServer;
 			sf::Thread* threadClient;
@@ -72,9 +73,13 @@ namespace PolyBomber
 			void initialize();
 			std::list<sf::Packet>::iterator askServer(int);
 			bool isConnected();
+			void setConnect(bool);
+			void setPause(int);
+			void addSocket(sf::TcpSocket*);
 			void eraseSocket(sf::IpAddress&);
 			void createServerSocket();
 			void listenToServer();
+			void deletePlayer(sf::IpAddress&);
 			sf::Packet createPacket(int, int j =0);
 			sf::TcpSocket* findSocket(sf::IpAddress&);
 			std::vector<sf::TcpSocket*>::iterator findSocketIterator(sf::IpAddress&);
@@ -93,7 +98,7 @@ public:
 			void setSlot(unsigned int nb, sf::IpAddress ip = sf::IpAddress::getLocalAddress());
 			void setPlayerName(std::string names[4]);
 			void setName(std::string names[4], sf::IpAddress ip = sf::IpAddress::getLocalAddress());
-			void getName(std::string names[4]);
+			void getPlayersName(std::string names[4]);
 			int* getScores();
 			bool isStarted();
 			void startGame();
