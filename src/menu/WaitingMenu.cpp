@@ -82,16 +82,16 @@ namespace PolyBomber
 
 	void WaitingMenu::loopAction()
 	{
-		/*std::string names[4];
+		std::string names[4];
 		this->network->getPlayersName(names);
 
 		for (unsigned int i=0; i<this->menuConfig->gameConfig.nbPlayers; i++)
 		{
-			if (names[i].compare("") == 0)
+			if (names[i].compare("None") == 0)
 				this->names[i]->setString("...");
 			else
 				this->names[i]->setString(names[i]);
-		}*/
+		}
 	}
 
 	EMenuScreen WaitingMenu::run(MainWindow& window, EMenuScreen previous)
@@ -109,6 +109,8 @@ namespace PolyBomber
 
 		while (names[nb].compare("") != 0)
 			nb++;
+
+		this->menuConfig->gameConfig.nbPlayers = nb;
 
 		for (unsigned int i=0; i<4; i++)
 		{
