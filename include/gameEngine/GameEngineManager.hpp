@@ -25,7 +25,7 @@ namespace PolyBomber {
 	 * \class ControllerManager
 	 * \brief Classe de gestion du moteur de jeu
 	 */
-	class GameEngineManager : public IGameEngineToNetwork, public INetworkToGameEngine, public Singleton<GameEngineManager> {
+	class GameEngineManager : public IGameEngineToNetwork, public Singleton<GameEngineManager> {
 
 	protected:
 		Board board; /*! Objet stockant le plateau de jeu */
