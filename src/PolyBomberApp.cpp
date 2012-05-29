@@ -11,7 +11,7 @@
 		MenuManager* PolyBomberApp::menuManager = NULL;
 		GameInterfaceManager* PolyBomberApp::gameInterfaceManager = NULL;
 		NetworkManager* PolyBomberApp::networkManager = NULL;
-		//GameEngineManager* PolyBomberApp::gameEngineManager = NULL;
+		GameEngineManager* PolyBomberApp::gameEngineManager = NULL;
 		ControllerManager* PolyBomberApp::controllerManager = NULL;
 		SoundManager* PolyBomberApp::soundManager = NULL;
 		SkinManager* PolyBomberApp::skinManager = NULL;
@@ -22,7 +22,7 @@
 			PolyBomberApp::soundManager = SoundManager::getInstance();
 			PolyBomberApp::skinManager = SkinManager::getInstance();
 			PolyBomberApp::networkManager = NetworkManager::getInstance();
-			//PolyBomberApp::gameEngineManager = GameEngineManager::getInstance();
+			PolyBomberApp::gameEngineManager = GameEngineManager::getInstance();
 			PolyBomberApp::menuManager = MenuManager::getInstance();
 			PolyBomberApp::gameInterfaceManager = GameInterfaceManager::getInstance();
 		}
@@ -32,7 +32,7 @@
 			MenuManager::kill();
 			GameInterfaceManager::kill();
 			NetworkManager::kill();
-			//GameEngineManager::kill();
+			GameEngineManager::kill();
 			ControllerManager::kill();
 			SoundManager::kill();
 			SkinManager::kill();
@@ -47,12 +47,12 @@
 		{
 			return static_cast<IControllerToNetwork*>(PolyBomberApp::controllerManager);
 		}
-		/*
+		
 		IGameEngineToNetwork* PolyBomberApp::getIGameEngineToNetwork()
 		{
 			return static_cast<IGameEngineToNetwork*>(PolyBomberApp::gameEngineManager);
 		}
-		*/		
+				
 		INetworkToGameEngine* PolyBomberApp::getINetworkToGameEngine()
 		{
 			return static_cast<INetworkToGameEngine*>(PolyBomberApp::networkManager);

@@ -17,13 +17,15 @@
 
 
 // Headers
-
 #include "../../include/gameEngine/GameEngineManager.hpp"
 #include "../../include/gameEngine/DefineAndFunction.hpp"
+
+#include "../../include/PolyBomberApp.hpp"
 
 namespace PolyBomber {
 	
 	GameEngineManager::GameEngineManager() {
+		this->network=PolyBomberApp::getINetworkToGameEngine();
 		this->board=Board();
 		this->gameConfigIsSet=false;
 		this->runnable=false;
@@ -133,8 +135,8 @@ namespace PolyBomber {
 	void GameEngineManager::run() {
 		if (runnable) {
 			int time=horloge.getElapsedTime().asSeconds();
-			SKeyPressed sKeyPressed = getKeysPressed();
-			if (isPaused()) {//si le jeu est en pause
+			SKeyPressed sKeyPressed = network->getKeysPressed();
+			if (network->isPaused()) {//si le jeu est en pause
 				if(debutPause==0) {
 					debutPause=time;//stockage du début de la pause
 				}

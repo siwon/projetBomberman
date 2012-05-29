@@ -83,11 +83,13 @@ namespace PolyBomber
 				network->joinGame(ipInput.getString());
 				
 				this->menuConfig->isServer = false;
+				this->menuConfig->gameConfig.isLocal = false;
 				*nextScreen = next.activate();
 			}
 			catch (PolyBomberException& e)
 			{
 				error.setVisible(true);
+				std::cout << e.what() << std::endl;
 			}			
 		}
 	}

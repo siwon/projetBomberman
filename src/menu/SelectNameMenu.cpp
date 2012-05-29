@@ -14,6 +14,7 @@ namespace PolyBomber
 {
 	SelectNameMenu::SelectNameMenu(SMenuConfig* menuConfig) :
 		title("Noms des joueurs", TITLEFONT, 100),
+		error("Noms des joueurs invalides", TEXTFONT, 200),
 		cancel("Annuler", 450, CREATEGAMEMENU),
 		next("Suivant", 450, WAITINGMENU),
 		menuConfig(menuConfig)
@@ -97,14 +98,21 @@ namespace PolyBomber
 		if (next.getSelected())
 		{						
 			std::string names[4] = {"", "", "", ""};
+			bool error = false;
 			
 			for (unsigned int i=0; i<this->menuConfig->nbLocalPlayers; i++)
+			{
 				names[i] = this->names[i]->getString();
+				if (names[i].compare("") == 0) error = true;
+			}
 
-			INetworkToMenu* network = PolyBomberApp::getINetworkToMenu();
-			network->setPlayerName(names);
+			if (!error)
+			{
+				INetworkToMenu* network = PolyBomberApp::getINetworkToMenu();
+				network->setPlayerName(names);
 				
-			*nextScreen = next.activate();
+				*nextScreen = next.activate();
+			}
 		}
 	}
 

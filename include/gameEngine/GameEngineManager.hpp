@@ -7,8 +7,6 @@
  * \author Simon Rousseau
  */
 
-#include "Board.hpp"
-
 #include <SFML/System/Time.hpp>
 #include <SFML/System/Clock.hpp>
 
@@ -16,6 +14,8 @@
 #include "../IGameEngineToGameInterface.hpp"
 #include "../INetworkToGameEngine.hpp"
 #include "../TSingleton.hpp"
+
+#include "Board.hpp"
 
 #include "DefineAndFunction.hpp"
 
@@ -25,9 +25,12 @@ namespace PolyBomber {
 	 * \class ControllerManager
 	 * \brief Classe de gestion du moteur de jeu
 	 */
-	class GameEngineManager : public IGameEngineToNetwork, public INetworkToGameEngine, public Singleton<GameEngineManager> {
+	class GameEngineManager : public IGameEngineToNetwork, public Singleton<GameEngineManager> {
+
+	friend class Singleton<GameEngineManager>; 
 
 	protected:
+		INetworkToGameEngine* network;
 		Board board; /*! Objet stockant le plateau de jeu */
 		bool gameConfigIsSet;
 		bool runnable;
@@ -52,6 +55,7 @@ namespace PolyBomber {
 		//IGameEngineToNetwork
 		void setGameConfig(SGameConfig);
 		void run();
+		void resetConfig();
 		
 		//IGameEngineToGameInterface
 		SBoard getBoard();
@@ -64,8 +68,7 @@ namespace PolyBomber {
 		
 		//INetworkToGameEngine
 		/*SKeyPressed getKeysPressed();
-		int isPaused();
-		void resetConfig();*/
+		int isPaused();*/
 		
 	};
 }

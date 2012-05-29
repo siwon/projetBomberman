@@ -82,7 +82,7 @@ namespace PolyBomber
 
 	void WaitingMenu::loopAction()
 	{
-		std::string names[4];
+		/*std::string names[4];
 		this->network->getPlayersName(names);
 
 		for (unsigned int i=0; i<this->menuConfig->gameConfig.nbPlayers; i++)
@@ -91,7 +91,7 @@ namespace PolyBomber
 				this->names[i]->setString("...");
 			else
 				this->names[i]->setString(names[i]);
-		}
+		}*/
 	}
 
 	EMenuScreen WaitingMenu::run(MainWindow& window, EMenuScreen previous)
@@ -102,10 +102,18 @@ namespace PolyBomber
 
 	void WaitingMenu::initWidgets()
 	{
+		std::string names[4];
+		this->network->getPlayersName(names);
+
+		unsigned int nb = 0;
+
+		while (names[nb].compare("") != 0)
+			nb++;
+
 		for (unsigned int i=0; i<4; i++)
 		{
-			this->pictures[i]->setVisible(i < this->menuConfig->gameConfig.nbPlayers);
-			this->names[i]->setVisible(i < this->menuConfig->gameConfig.nbPlayers);
+			this->pictures[i]->setVisible(i < nb);
+			this->names[i]->setVisible(i < nb);
 		}
 
 		ip.setVisible(this->menuConfig->isServer && !this->menuConfig->gameConfig.isLocal);

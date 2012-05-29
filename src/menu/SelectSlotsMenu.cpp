@@ -104,6 +104,14 @@ namespace PolyBomber
 
 	EMenuScreen SelectSlotsMenu::run(MainWindow& window, EMenuScreen previous)
 	{
+		// Gestion d'une partie locale
+		if (this->menuConfig->gameConfig.isLocal)
+		{
+			this->menuConfig->nbLocalPlayers = this->menuConfig->gameConfig.nbPlayers;
+			this->network->setBookedSlots(this->menuConfig->nbLocalPlayers);
+			return next.activate();
+		}
+
 		cancel.setTarget(previous);
 
 		if (previous == CREATEGAMEMENU)

@@ -24,6 +24,9 @@ namespace PolyBomber
 			
 		while (nextScreen == NONEMENU)
 		{			
+			window.clear();
+			window.display(this->widgets);
+
 			loopAction();
 
 			window.clear();
