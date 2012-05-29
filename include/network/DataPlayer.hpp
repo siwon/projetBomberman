@@ -23,6 +23,7 @@ namespace PolyBomber
 			int id;
 			sf::IpAddress ip;
 			std::string name;
+			bool connected;
 
 		public:
 			/*!
@@ -40,7 +41,9 @@ namespace PolyBomber
 			inline sf::IpAddress getIp() const {return this->ip;}
 
 			inline void setName(std::string pName) {this->name=pName;}
+			inline void setConnected(bool a) {this->connected=a;}
 			inline std::string getName() {return this->name;}
+			inline bool isConnected() {return this->connected;}
 
 
 	};

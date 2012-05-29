@@ -32,9 +32,7 @@ NetworkManager::NetworkManager(){
 }
 
 NetworkManager::~NetworkManager(){
-	this->mutexConnect.lock();
-	this->connect = false;
-	this->mutexConnect.unlock();
+	this->setConnect(false);
 
 	if(this->threadClient != NULL)
 		delete this->threadClient;
@@ -50,7 +48,7 @@ void NetworkManager::initialize(){
 		this->nbPlayerByIp[i]=0;
 		this->scores[i]=0;
 	}
-	this->paused=0;
+	this->setPause(0);
 	this->started=false;
 
 	this->server=false;
@@ -136,9 +134,7 @@ SKeyPressed NetworkManager::getKeysPressed(){
 		unsigned int i=0;
 		while(i<this->gameConfig.nbPlayers && !this->paused){
 			if(this->keyPressed.keys[i][GAME_PAUSE]) {
-				this->mutexPause.lock();
-				this->paused=i+1;
-				this->mutexPause.unlock();
+				this->setPause(i+1);
 			}
 			else
 				i++;
@@ -177,59 +173,61 @@ int NetworkManager::isPaused(){
 
 void NetworkManager::resume(){
 	if(this->server){
-		this->mutexPause.lock();
-		this->paused=0;
-		this->mutexPause.unlock();
+
+		this->setPause(0);
+
 	} else {
 		//envoyer un paquet (sans réponse) au serveur pour lui dire de reprendre
 		this->mutexClients.lock();
 		sf::TcpSocket* client = this->clients[0];
 
 		sf::Packet packet = this->createPacket(21);
-		client->send(packet); // pas besoin de réponse
+		if(client->send(packet) != sf::TcpSocket::Done) // pas besoin de réponse
+			throw PolyBomberException("l'envoie de la reprise à échoué");
 		this->mutexClients.unlock();
 	}
 }
 
 void NetworkManager::cancel(){
-	sf::Packet packet;
-	packet = createPacket(-1);
-	if(this->server){ // on prévient les clients
-		if(!this->gameConfig.isLocal){
-			this->mutexClients.lock();
-			for(unsigned int i=0;i<this->clients.size();i++){
-				if(this->clients[i]->send(packet) != sf::TcpSocket::Done){
-					std::cerr << ("Le client "+this->clients[i]->getRemoteAddress().toString() +" n'a pas pu être contacté pour appeler sa méthode Cancel")<< std::endl;
+	if(this->isConnected()){
+		sf::Packet packet;
+		packet = createPacket(-1);
+		if(this->server){ // on prévient les clients
+			if(!this->gameConfig.isLocal){
+				this->mutexClients.lock();
+				for(unsigned int i=0;i<this->clients.size();i++){
+					if(this->clients[i]->send(packet) != sf::TcpSocket::Done){
+						std::cerr << ("Le client "+this->clients[i]->getRemoteAddress().toString() +" n'a pas pu être contacté pour appeler sa méthode Cancel")<< std::endl;
+					}
 				}
+				this->mutexClients.unlock();
 			}
-			this->mutexClients.unlock();
+		} else { // on prévient le serveur
+			if(this->clients[0]->send(packet) != sf::TcpSocket::Done){
+					std::cerr << ("Le serveur "+this->clients[0]->getRemoteAddress().toString() +" n'a pas pu être contacté pour le prévenir d'un Cancel")<< std::endl;
+			}
 		}
-	} else { // on prévient le serveur
-		if(this->clients[0]->send(packet) != sf::TcpSocket::Done){
-				std::cerr << ("Le serveur "+this->clients[0]->getRemoteAddress().toString() +" n'a pas pu être contacté pour le prévenir d'un Cancel")<< std::endl;
-		}
+
+		// FIXME: this->gameEngine->resetConfig(); // stop le thread run() s'il est commencé
+		
+		//terminer les threads 
+		this->setConnect(false);
+
+		// vider les vecteurs
+		this->players.erase(this->players.begin(),this->players.end());
+		this->clients.erase(this->clients.begin(),this->clients.end());
+		this->packets.erase(this->packets.begin(),this->packets.end());
+		// et libérer les threads
+		if(this->threadClient != NULL)
+		delete this->threadClient;
+		if(this->threadRun != NULL)
+			delete this->threadRun;
+		if(this->threadServer != NULL)
+			delete this->threadServer;
+
+		
 	}
-
-	//terminer les threads 
-	// FIXME: this->gameEngine->resetConfig(); // stop le thread run() s'il est commencé
-	this->mutexConnect.lock();
-	this->connect=false; // stop le thread d'écoute du réseau;
-	this->mutexConnect.unlock();
-
-	// vider les vecteurs
-	this->players.erase(this->players.begin(),this->players.end());
-	this->clients.erase(this->clients.begin(),this->clients.end());
-	this->packets.erase(this->packets.begin(),this->packets.end());
-	// et libérer les threads
-	if(this->threadClient != NULL)
-	delete this->threadClient;
-	if(this->threadRun != NULL)
-		delete this->threadRun;
-	if(this->threadServer != NULL)
-		delete this->threadServer;
-
 	this->initialize();
-
 }
 
 void NetworkManager::joinGame(std::string ip){
@@ -239,10 +237,8 @@ void NetworkManager::joinGame(std::string ip){
 	if(server->connect(ip, 2222, sf::milliseconds(100)) != sf::TcpSocket::Done){
 		throw PolyBomberException("Erreur de connexion au serveur "+ip);
 	} else {
-		this->mutexClients.lock();
-		this->clients.push_back(server);
-		this->mutexClients.unlock();
-		this->connect=true;
+		this->addSocket(server);
+		this->setConnect(true);
 		threadClient = new sf::Thread(&NetworkManager::listenToServer, this);
 		threadClient->launch();
 	}
@@ -255,12 +251,17 @@ int NetworkManager::getFreeSlots(){
 		result = (this->gameConfig.nbPlayers - this->players.size());
 	} else {
 		// demande au serveur
+		try {
 		std::list<sf::Packet>::iterator it2 = this->askServer(5);
 		sf::Packet& thePacket = *it2;
 		int num;
 		std::string ip;
 		thePacket >> num >> ip  >> result;
 		this->packets.erase(it2);
+		}
+		catch(PolyBomberException e) {
+			std::cerr << e.what() << std::endl;
+		}
 	}
 	return result;
 }
@@ -290,7 +291,8 @@ void NetworkManager::setSlot(unsigned int nb, sf::IpAddress ip) {
 		sf::TcpSocket* client = this->clients[0];
 
 		sf::Packet packet = this->createPacket(19,nb);
-		client->send(packet); // pas besoin de réponse
+		if(client->send(packet) != sf::TcpSocket::Done) // pas besoin de réponse
+			throw PolyBomberException("échec de la réservation de slot");
 		this->mutexClients.unlock();
 	}
 	this->mutexSlots.unlock();
@@ -320,7 +322,8 @@ void NetworkManager::setName(std::string names[4], sf::IpAddress ip){
 		for(int i=0;i<4;i++){
 			packet << names[i];
 		}
-		client->send(packet); // pas besoin de réponse
+		if(client->send(packet) != sf::TcpSocket::Done) // pas besoin de réponse
+			throw PolyBomberException("échec lors de l'envoi des noms");
 		this->mutexClients.unlock();
 	}
 	this->mutexNames.unlock();
@@ -425,11 +428,16 @@ SBoard NetworkManager::getBoard(){
 		return this->gameEngine->getBoard();
 	} else {
 		//demande au serveur
-		std::list<sf::Packet>::iterator it2 = this->askServer(1);
-		sf::Packet& thePacket = *it2;
 		SBoard aBoard;
-		thePacket >> aBoard;
-		this->packets.erase(it2);
+		try {
+			std::list<sf::Packet>::iterator it = this->askServer(1);
+			sf::Packet& thePacket = *it;
+			thePacket >> aBoard;
+			this->packets.erase(it);
+		}
+		catch(PolyBomberException e) {
+			std::cerr << e.what() << std::endl;
+		}
 		return aBoard;
 	}
 	
@@ -441,12 +449,17 @@ int NetworkManager::isFinished(){
 		result = this->gameEngine->isFinished();
 	} else {
 	//demander au réseau
-		std::list<sf::Packet>::iterator it2 = this->askServer(9);
-		sf::Packet& thePacket = *it2;
-		int num;
-		std::string ip;
-		thePacket >> num >> ip  >> result;
-		this->packets.erase(it2);
+		try {
+			std::list<sf::Packet>::iterator it2 = this->askServer(9);
+			sf::Packet& thePacket = *it2;
+			int num;
+			std::string ip;
+			thePacket >> num >> ip  >> result;
+			this->packets.erase(it2);
+		}
+		catch(PolyBomberException e) {
+			std::cerr << e.what() << std::endl;
+		}
 	}
 	return result;
 }
@@ -459,13 +472,10 @@ int NetworkManager::isFinished(){
  */
 void NetworkManager::createServerSocket(){
 	sf::TcpListener listener;
-	sf::SocketSelector selector;
-	this->mutexConnect.lock();
-	this->connect = true;
-	this->mutexConnect.unlock();
+	this->setConnect(true);
 
 	listener.listen(2222);
-	selector.add(listener);
+	this->selector.add(listener);
 
 	// Endless loop that waits for new connections
 	while (this->isConnected())
@@ -482,9 +492,7 @@ void NetworkManager::createServerSocket(){
 				 {
 					 std::cout << "nouveau client " << client->getRemoteAddress() << std::endl;
 					 // Add the new client to the clients list
-					 this->mutexClients.lock();
-					 this->clients.push_back(client);
-					 this->mutexClients.unlock();
+					 this->addSocket(client);
 
 					 // Add the new client to the selector so that we will
 					 // be notified when he sends something
@@ -498,7 +506,7 @@ void NetworkManager::createServerSocket(){
 				 for (unsigned int i=0;i<this->clients.size();i++)
 				 {
 					 sf::TcpSocket* client = this->clients[i];
-					 if (selector.isReady(*client))
+					 if (this->selector.isReady(*client))
 					 {
 						 // The client has sent some data, we can receive it
 						 sf::Packet packet;
@@ -535,11 +543,9 @@ void NetworkManager::listenToServer(){
 			int num;
 			testPacket >> num;
 			if(num==-1) {// signal d'arrêt
-				this->mutexConnect.lock();
-				this->connect=false;
-				this->mutexConnect.unlock();
+				this->setConnect(false);
 				this->mutexClients.lock();
-				this->clients.pop_back();
+				this->clients.pop_back(); // il n'y a qu'une seul socket
 				this->mutexClients.unlock();
 			} else {
 				if(num%2){ // si c'est impaire
@@ -590,7 +596,9 @@ sf::Packet NetworkManager::createPacket(int i, int j){
 		case 7 : // demande s'il y a une pause
 			break;
 		case 8 : // envoi s'il y a une pause
+			this->mutexPause.lock();
 			packet << this->paused;
+			this->mutexPause.unlock();
 			break;
 		case 9 : // demande s'il c'est fini
 			break;
@@ -690,9 +698,7 @@ void NetworkManager::decryptPacket(sf::Packet& packet){
 			std::cerr << "le client " << ip <<" vient de se déconnecter" << std::endl;
 			eraseSocket(ip1);
 		} else {
-			this->mutexConnect.lock();
-			this->connect = false;
-			this->mutexConnect.unlock();
+			this->setConnect(false);
 		}
 		break;
 	case 17 :
@@ -726,11 +732,38 @@ bool NetworkManager::isConnected(){
 	return result;
 }
 
+void NetworkManager::setConnect(bool a) {
+	this->mutexConnect.lock();
+	this->connect=a;
+	this->mutexConnect.unlock();
+}
+
+void NetworkManager::setPause(int i){
+	this->mutexPause.lock();
+	this->paused=i;
+	this->mutexPause.unlock();
+}
+
 void NetworkManager::eraseSocket(sf::IpAddress& ip) {
-	// suprimet le socket à cet adresse ip
+	// suprime le socket à cet adresse ip ; fonction appelé uniquement sur le serveur
 	std::vector<sf::TcpSocket*>::iterator it = this->findSocketIterator(ip);
+	sf::TcpSocket* socket = *it;
+	this->selector.remove(*socket);
 	this->mutexClients.lock();
 	this->clients.erase(it);
+	this->mutexClients.unlock();
+	this->deletePlayer(ip);
+}
+
+void NetworkManager::deletePlayer(sf::IpAddress& ip){
+	for(unsigned int i=0;i<players.size();i++){
+
+	}
+}
+
+void NetworkManager::addSocket(sf::TcpSocket* socket) {
+	this->mutexClients.lock();
+	this->clients.push_back(socket);
 	this->mutexClients.unlock();
 }
 
