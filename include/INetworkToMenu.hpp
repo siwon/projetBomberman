@@ -77,6 +77,10 @@ namespace PolyBomber
 			virtual void cancel() =0;
 
 			/*!
+			 * \brief remplit le tableau de noms des joueurs
+			 */
+			virtual void getPlayersName(std::string names[4]) =0;
+			/*!
 			 * \brief Destructeur virtuel
 			 */
 			virtual ~INetworkToMenu() {};

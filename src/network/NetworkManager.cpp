@@ -326,7 +326,7 @@ void NetworkManager::setName(std::string names[4], sf::IpAddress ip){
 	this->mutexNames.unlock();
 }
 
-void NetworkManager::getName(std::string names[4]){
+void NetworkManager::getPlayersName(std::string names[4]){
 	if(this->server){
 		for(unsigned int i=0;i<4;i++) {
 			if(i<players.size())
