@@ -97,14 +97,21 @@ namespace PolyBomber
 		if (next.getSelected())
 		{						
 			std::string names[4] = {"", "", "", ""};
+			bool error = false;
 			
 			for (unsigned int i=0; i<this->menuConfig->nbLocalPlayers; i++)
+			{
 				names[i] = this->names[i]->getString();
+				if (names[i].compare("") == 0) error = true;
+			}
 
-			INetworkToMenu* network = PolyBomberApp::getINetworkToMenu();
-			network->setPlayerName(names);
+			if (!error)
+			{
+				INetworkToMenu* network = PolyBomberApp::getINetworkToMenu();
+				network->setPlayerName(names);
 				
-			*nextScreen = next.activate();
+				*nextScreen = next.activate();
+			}
 		}
 	}
 
