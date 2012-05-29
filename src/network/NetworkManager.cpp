@@ -755,10 +755,32 @@ void NetworkManager::eraseSocket(sf::IpAddress& ip) {
 	this->deletePlayer(ip);
 }
 
-void NetworkManager::deletePlayer(sf::IpAddress& ip){
-	for(unsigned int i=0;i<players.size();i++){
-
+void NetworkManager::deletePlayer(sf::IpAddress& ip1){
+	if(isStarted()){ // on ne peut pas les supprimer, le jeu est lancé
+		for(unsigned int i=0;i<players.size();i++){
+			DataPlayer& player = this->players[i];
+			if(player.getIp() == ip1)
+				player.setConnected(false);
+		}
+	} else { // il faut les supprimer pour laisser la place à d'autre
+		for(std::vector<DataPlayer>::iterator it = players.begin();it !=players.end();it++){
+			if(it->getIp() == ip1)
+				players.erase(it); // suppression dans le vecteur
+		}
+		bool find = false;
+		for(int i=0;i<4;i++){
+			if(!find){
+				if(this->ip[i]==ip1)
+					find=true;
+			} else { // suppression dans les tableaux + décalage
+				this->ip[i-1]=this->ip[i];
+				this->nbPlayerByIp[i-1]=this->nbPlayerByIp[i];
+			}
+		}
+		this->ip[3]=sf::IpAddress::None;
+		this->nbPlayerByIp[3]=0;
 	}
+	
 }
 
 void NetworkManager::addSocket(sf::TcpSocket* socket) {
