@@ -28,6 +28,7 @@ namespace PolyBomber {
 	class GameEngineManager : public IGameEngineToNetwork, public Singleton<GameEngineManager> {
 
 	protected:
+		INetworkToGameEngine* network;
 		Board board; /*! Objet stockant le plateau de jeu */
 		bool gameConfigIsSet;
 		bool runnable;
@@ -52,6 +53,7 @@ namespace PolyBomber {
 		//IGameEngineToNetwork
 		void setGameConfig(SGameConfig);
 		void run();
+		void resetConfig();
 		
 		//IGameEngineToGameInterface
 		SBoard getBoard();
@@ -64,8 +66,7 @@ namespace PolyBomber {
 		
 		//INetworkToGameEngine
 		/*SKeyPressed getKeysPressed();
-		int isPaused();
-		void resetConfig();*/
+		int isPaused();*/
 		
 	};
 }
