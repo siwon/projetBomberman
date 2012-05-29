@@ -191,7 +191,7 @@ void NetworkManager::resume(){
 void NetworkManager::cancel(){
 	if(this->isConnected()){
 		sf::Packet packet;
-		packet = createPacket(-1);
+		packet = createPacket(101);
 		if(this->server){ // on prévient les clients
 			if(!this->gameConfig.isLocal){
 				this->mutexClients.lock();
@@ -234,7 +234,7 @@ void NetworkManager::cancel(){
 void NetworkManager::joinGame(std::string ip){
 	this->server=false;
 	sf::TcpSocket* server = new sf::TcpSocket;
-	sf::IpAddress ip2 = sf::IpAddress(ip);
+	sf::IpAddress ip2(ip);
 	if(server->connect(ip, 2222, sf::milliseconds(100)) != sf::TcpSocket::Done){
 		throw PolyBomberException("Erreur de connexion au serveur "+ip);
 	} else {
@@ -543,7 +543,7 @@ void NetworkManager::listenToServer(){
 			sf::Packet testPacket = packet; // recopie du paquet reçu
 			int num;
 			testPacket >> num;
-			if(num==-1) {// signal d'arrêt
+			if(num==101) {// signal d'arrêt
 				this->setConnect(false);
 				this->mutexClients.lock();
 				this->clients.pop_back(); // il n'y a qu'une seul socket
@@ -694,7 +694,7 @@ void NetworkManager::decryptPacket(sf::Packet& packet){
 	sf::IpAddress ip1(ip);
 	std::string names[4];
 	switch(num){
-	case -1 :
+	case 101 :
 		if(this->server){
 			std::cerr << "le client " << ip <<" vient de se déconnecter" << std::endl;
 			eraseSocket(ip1);
