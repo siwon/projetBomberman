@@ -75,6 +75,7 @@ namespace PolyBomber
 
 		private:
 			TextWidget title;
+			TextWidget error;
 
 			TextWidget* nameTexts[4];
 			InputWidget* names[4];

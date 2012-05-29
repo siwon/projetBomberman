@@ -7,8 +7,6 @@
  * \author Simon Rousseau
  */
 
-#include "Board.hpp"
-
 #include <SFML/System/Time.hpp>
 #include <SFML/System/Clock.hpp>
 
@@ -16,6 +14,8 @@
 #include "../IGameEngineToGameInterface.hpp"
 #include "../INetworkToGameEngine.hpp"
 #include "../TSingleton.hpp"
+
+#include "Board.hpp"
 
 #include "DefineAndFunction.hpp"
 
@@ -26,6 +26,8 @@ namespace PolyBomber {
 	 * \brief Classe de gestion du moteur de jeu
 	 */
 	class GameEngineManager : public IGameEngineToNetwork, public Singleton<GameEngineManager> {
+
+	friend class Singleton<GameEngineManager>; 
 
 	protected:
 		INetworkToGameEngine* network;

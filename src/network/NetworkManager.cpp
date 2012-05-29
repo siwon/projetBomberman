@@ -536,8 +536,8 @@ void NetworkManager::createServerSocket(){
 void NetworkManager::listenToServer(){
 	sf::TcpSocket* server = this->clients[0];
 	server->setBlocking(false);
+	sf::Packet packet;
 	while(this->isConnected()){
-		sf::Packet packet;
 		if (server->receive(packet) == sf::Socket::Done){
 			//Vérifier le premier numéro s'il est impaire
 			sf::Packet testPacket = packet; // recopie du paquet reçu

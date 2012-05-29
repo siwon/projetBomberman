@@ -7,23 +7,23 @@
  * \author Maxime GUIHAL
  */
 
-class MenuManager;
 class ControllerManager;
-class NetworkManager;
-//class GameEngineManager;
-class GameInterfaceManager;
 class SoundManager;
 class SkinManager;
+class NetworkManager;
+class GameEngineManager;
+class GameInterfaceManager;
+class MenuManager;
 
 #include "TSingleton.hpp"
 
 #include "controller/ControllerManager.hpp"
 #include "sound/SoundManager.hpp"
 #include "skin/SkinManager.hpp"
-#include "menu/MenuManager.hpp"
 #include "network/NetworkManager.hpp"
-//#include "gameEngine/GameEngineManager.hpp"
+#include "gameEngine/GameEngineManager.hpp"
 #include "gameInterface/GameInterfaceManager.hpp"
+#include "menu/MenuManager.hpp"
 
 namespace PolyBomber
 {
@@ -58,7 +58,7 @@ namespace PolyBomber
 			 * \brief Retourne l'interface IGameEngineToNetwork
 			 * \return l'interface IGameEngineToNetwork
 			 */
-			//static IGameEngineToNetwork* getIGameEngineToNetwork();
+			static IGameEngineToNetwork* getIGameEngineToNetwork();
 
 			/*!
 			 * \brief Retourne l'interface INetworkToGameEngine
@@ -122,7 +122,7 @@ namespace PolyBomber
 			static MenuManager* menuManager; /*!< Instance du composant Menu */
 			static GameInterfaceManager* gameInterfaceManager; /*!< Instance du composant Interface de jeu */
 			static NetworkManager* networkManager; /*!< Instance du composant Réseau */
-			//static GameEngineManager* gameEngineManager; /*!< Instance du composant Moteur de jeu */
+			static GameEngineManager* gameEngineManager; /*!< Instance du composant Moteur de jeu */
 			static ControllerManager* controllerManager; /*!< Instance du composant Contrôleur */
 			static SoundManager* soundManager; /*!< Instance du composant Son */
 			static SkinManager* skinManager; /*!< Instance du composant Skin */

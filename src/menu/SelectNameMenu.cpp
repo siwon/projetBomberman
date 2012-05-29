@@ -14,6 +14,7 @@ namespace PolyBomber
 {
 	SelectNameMenu::SelectNameMenu(SMenuConfig* menuConfig) :
 		title("Noms des joueurs", TITLEFONT, 100),
+		error("Noms des joueurs invalides", TEXTFONT, 200),
 		cancel("Annuler", 450, CREATEGAMEMENU),
 		next("Suivant", 450, WAITINGMENU),
 		menuConfig(menuConfig)

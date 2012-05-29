@@ -17,9 +17,10 @@
 
 
 // Headers
-#include "../PolyBomberApp.cpp"
 #include "../../include/gameEngine/GameEngineManager.hpp"
 #include "../../include/gameEngine/DefineAndFunction.hpp"
+
+#include "../../include/PolyBomberApp.hpp"
 
 namespace PolyBomber {
 	

@@ -1,7 +1,7 @@
 CC=g++
 CFLAGS=-W -Wall -ansi -pedantic -I include/
 LDFLAGS=-L lib/ -lsfml-window -lsfml-graphics -lsfml-audio -lsfml-network -lsfml-system -lwiic -lwiicpp
-MODULES=menu sound skin configFile controller network gameInterface
+MODULES=menu sound skin configFile controller network gameInterface gameEngine
 EXEC=PolyBomber
 
 all: $(EXEC)
