@@ -8,9 +8,9 @@
  */
 
 #include "menu/IMenuScreen.hpp"
+#include "menu/SMenuConfig.hpp"
 
 #include "INetworkToMenu.hpp"
-#include "SGameConfig.hpp"
 
 #include "menu/TextWidget.hpp"
 #include "menu/LinkWidget.hpp"
@@ -27,7 +27,7 @@ namespace PolyBomber
 			/*!
 			 * Constructeur
 			 */
-			WaitingMenu(SGameConfig* gameConfig);
+			WaitingMenu(SMenuConfig* menuConfig);
 
 			/*!
 			 * Destructeur
@@ -59,6 +59,11 @@ namespace PolyBomber
 			 */
 			void backPressed(EMenuScreen* nextScreen);
 
+			/*!
+			 * \see IMenuScreen::loopAction
+			 */			
+			void loopAction();
+
 		private:
 			TextWidget title;
 			TextWidget ip;
@@ -69,7 +74,7 @@ namespace PolyBomber
 			LinkWidget cancel;
 			LinkWidget start;
 
-			SGameConfig* gameConfig;
+			SMenuConfig* menuConfig;
 
 			INetworkToMenu* network; /*!< Lien vers le module réseau */
 

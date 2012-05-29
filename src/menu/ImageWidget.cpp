@@ -27,4 +27,16 @@ namespace PolyBomber
 	{
 		this->setTexture(*texture);
 	}
+
+	void ImageWidget::setVisible(bool visible)
+	{
+		sf::Color color = this->getColor();
+
+		if (visible)
+			color.a = 255;
+		else
+			color.a = 0;
+
+		this->setColor(color);
+	}
 }

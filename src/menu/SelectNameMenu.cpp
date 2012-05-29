@@ -12,11 +12,11 @@
 
 namespace PolyBomber
 {
-	SelectNameMenu::SelectNameMenu(SGameConfig* gameConfig) :
+	SelectNameMenu::SelectNameMenu(SMenuConfig* menuConfig) :
 		title("Noms des joueurs", TITLEFONT, 100),
 		cancel("Annuler", 450, CREATEGAMEMENU),
 		next("Suivant", 450, WAITINGMENU),
-		gameConfig(gameConfig)
+		menuConfig(menuConfig)
 	{
 		ISkin* skin = PolyBomberApp::getISkin();
 		
@@ -96,12 +96,13 @@ namespace PolyBomber
 		
 		if (next.getSelected())
 		{						
-			// FIXME: c'est faux ça
-			for (int i=0; i<4; i++)
-				this->gameConfig->playersName[i] = this->names[i]->getString();
+			std::string names[4] = {"", "", "", ""};
+			
+			for (unsigned int i=0; i<this->menuConfig->nbLocalPlayers; i++)
+				names[i] = this->names[i]->getString();
 
 			INetworkToMenu* network = PolyBomberApp::getINetworkToMenu();
-			network->setGameConfig(*(this->gameConfig));
+			network->setPlayerName(names);
 				
 			*nextScreen = next.activate();
 		}
@@ -109,6 +110,7 @@ namespace PolyBomber
 
 	void SelectNameMenu::backPressed(EMenuScreen* nextScreen)
 	{
+		// FIXME: ReleaseSlots() ?
 		*nextScreen = cancel.activate();
 	}
 
@@ -127,23 +129,23 @@ namespace PolyBomber
 
 	void SelectNameMenu::initWidgets()
 	{
-		for (unsigned int i=0; i<this->gameConfig->nbPlayers; i++)
+		unsigned int nb = this->menuConfig->nbLocalPlayers;
+
+		for (unsigned int i=0; i<nb; i++)
 		{
 			this->nameTexts[i]->setVisible(true);
 			this->names[i]->setVisible(true);
 
-			if (i < this->gameConfig->nbPlayers - 1)
+			if (i < nb - 1)
 				this->names[i]->setNext(this->names[i + 1]);
 	
 			if (i > 0)
 				this->names[i]->setPrevious(this->names[i - 1]);
-
-			this->names[i]->setString(this->gameConfig->playersName[i]);
 		}
 
-		this->names[this->gameConfig->nbPlayers - 1]->setNext(&cancel);
-		cancel.setPrevious(this->names[this->gameConfig->nbPlayers - 1]);
-		next.setPrevious(this->names[this->gameConfig->nbPlayers - 1]);
+		this->names[nb - 1]->setNext(&cancel);
+		cancel.setPrevious(this->names[nb - 1]);
+		next.setPrevious(this->names[nb - 1]);
 	}
 
 	void SelectNameMenu::loopAction()

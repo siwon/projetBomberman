@@ -11,11 +11,11 @@
 
 #include "IMenuToMain.hpp"
 #include "IMenuToGameInterface.hpp"
-#include "SGameConfig.hpp"
 #include "TSingleton.hpp"
 
 #include "menu/MainWindow.hpp"
 #include "menu/IMenuScreen.hpp"
+#include "menu/SMenuConfig.hpp"
 
 namespace PolyBomber
 {
@@ -51,10 +51,15 @@ namespace PolyBomber
 			 */
 			~MenuManager();
 
+			/*!
+			 * \brief Méthode d'initialisation de la structure de configuration
+			 */
+			void initMenuConfig();
+
 			MainWindow window; /*!< Fenêtre du programme */
 			std::map<EMenuScreen, IMenuScreen*> menuScreens; /*!< Liste des différents menus du jeu */
 
-			SGameConfig gameConfig; /*!< Configuration des parties */
+			SMenuConfig menuConfig; /*!< Configuration des parties */
 
 			unsigned int scores[4]; /*!< Score des joueurs */
 			int winner; /*!< Gagnant de la dernière partie */

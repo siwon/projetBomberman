@@ -9,12 +9,12 @@
 
 namespace PolyBomber
 {
-	GameOptionsMenu::GameOptionsMenu(SGameConfig* gameConfig) :
+	GameOptionsMenu::GameOptionsMenu(SMenuConfig* menuConfig) :
 		title("Options de la partie", TITLEFONT, 30),
 		category(TITLEFONT, 100),		
 		cancel("Annuler", 550, CREATEGAMEMENU),
 		save("Valider", 550, CREATEGAMEMENU),
-		gameConfig(gameConfig)
+		menuConfig(menuConfig)
 	{
 		ISkin* skin = PolyBomberApp::getISkin();
 		
@@ -97,7 +97,7 @@ namespace PolyBomber
 		if (save.getSelected())
 		{						
 			for (int i=0; i<18; i++)
-				this->gameConfig->nbBonus[i] = this->bonus[i]->getCurrentItem();
+				this->menuConfig->gameConfig.nbBonus[i] = this->bonus[i]->getCurrentItem();
 
 			*nextScreen = save.activate();
 		}
@@ -147,7 +147,7 @@ namespace PolyBomber
 			this->bonus[i]->push_back("8");
 			this->bonus[i]->push_back("9");
 			this->bonus[i]->push_back("10");
-			this->bonus[i]->setCurrentItem(this->gameConfig->nbBonus[i]);
+			this->bonus[i]->setCurrentItem(this->menuConfig->gameConfig.nbBonus[i]);
 			this->bonus[i]->move(70, 0);
 
 			if (j > 0)
@@ -211,6 +211,6 @@ namespace PolyBomber
 	void GameOptionsMenu::reloadBonus()
 	{
 		for (int i=0; i<18; i++)
-			this->bonus[i]->setCurrentItem(this->gameConfig->nbBonus[i]);
+			this->bonus[i]->setCurrentItem(this->menuConfig->gameConfig.nbBonus[i]);
 	}
 }

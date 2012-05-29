@@ -43,6 +43,12 @@ namespace PolyBomber
 			 * \param texture : Texture de l'image
 			 */
 			void setImage(sf::Texture* texture);
+
+			/*!
+			 * \brief Définit la visibilité de l'image
+			 * \param visible : True si l'image est visible
+			 */
+			void setVisible(bool visible);
 	};
 }
 

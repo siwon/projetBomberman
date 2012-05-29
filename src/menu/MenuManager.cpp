@@ -40,12 +40,12 @@ namespace PolyBomber
 		this->menuScreens[SPLASHSCREEN] = new SplashScreen();
 		this->menuScreens[MAINMENU] = new MainMenu();
 			this->menuScreens[GAMEMENU] = new GameMenu();
-				this->menuScreens[CREATEGAMEMENU] = new CreateGameMenu(&gameConfig);
-					this->menuScreens[GAMEOPTIONSMENU] = new GameOptionsMenu(&gameConfig);
-					this->menuScreens[SELECTNAMEMENU] = new SelectNameMenu(&gameConfig);
-					this->menuScreens[WAITINGMENU] = new WaitingMenu(&gameConfig);
-				this->menuScreens[JOINGAMEMENU] = new JoinGameMenu();
-					this->menuScreens[SELECTSLOTSMENU] = new SelectSlotsMenu();
+				this->menuScreens[CREATEGAMEMENU] = new CreateGameMenu(&menuConfig);
+					this->menuScreens[GAMEOPTIONSMENU] = new GameOptionsMenu(&menuConfig);
+				this->menuScreens[JOINGAMEMENU] = new JoinGameMenu(&menuConfig);
+				this->menuScreens[SELECTSLOTSMENU] = new SelectSlotsMenu(&menuConfig);
+				this->menuScreens[SELECTNAMEMENU] = new SelectNameMenu(&menuConfig);
+				this->menuScreens[WAITINGMENU] = new WaitingMenu(&menuConfig);
 				
 			this->menuScreens[CONFIGMENU] = new ConfigMenu();
 				this->menuScreens[GRAPHICSCONFIGMENU] = new GraphicsConfigMenu();
@@ -99,5 +99,23 @@ namespace PolyBomber
 	{
 		// TODO: Coder la pause
 		return EXITMENU;
+	}
+
+	void MenuManager::initMenuConfig()
+	{
+		this->menuConfig.isServer = false;
+		this->menuConfig.nbLocalPlayers = 0;
+
+		int nbBonus[18] = {5,3,5,3,1,4,4,1,   7,4,3,2,   3,1,2,2,2,2};
+		int i;
+
+		this->menuConfig.gameConfig.isLocal = true;
+		this->menuConfig.gameConfig.nbPlayers = 4;
+
+		for (i=0; i<4; i++)
+			this->menuConfig.gameConfig.playersName[i] = "";
+
+		for (i=0; i<18; i++)
+			this->menuConfig.gameConfig.nbBonus[i] = nbBonus[i];
 	}
 }

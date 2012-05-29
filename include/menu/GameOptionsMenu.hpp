@@ -8,8 +8,7 @@
  */
 
 #include "menu/IMenuScreen.hpp"
-
-#include "SGameConfig.hpp"
+#include "menu/SMenuConfig.hpp"
 
 #include "menu/TextWidget.hpp"
 #include "menu/LinkWidget.hpp"
@@ -27,7 +26,7 @@ namespace PolyBomber
 			/*!
 			 * Constructeur
 			 */
-			GameOptionsMenu(SGameConfig* gameConfig);
+			GameOptionsMenu(SMenuConfig* menuConfig);
 
 			/*!
 			 * Destructeur
@@ -79,7 +78,7 @@ namespace PolyBomber
 			LinkWidget cancel;
 			LinkWidget save;
 
-			SGameConfig* gameConfig;
+			SMenuConfig* menuConfig;
 
 			/*!
 			 * \brief Procédure d'initialisation des bonus

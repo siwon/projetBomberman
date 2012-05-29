@@ -8,6 +8,7 @@
  */
 
 #include "menu/IMenuScreen.hpp"
+#include "menu/SMenuConfig.hpp"
 
 #include "menu/TextWidget.hpp"
 #include "menu/LinkWidget.hpp"
@@ -24,8 +25,9 @@ namespace PolyBomber
 		public:
 			/*!
 			 * Constructeur
+			 * \param menuConfig : Structure de configuration des parties
 			 */
-			JoinGameMenu();
+			JoinGameMenu(SMenuConfig* menuConfig);
 
 			/*!
 			 * Destructeur
@@ -76,6 +78,8 @@ namespace PolyBomber
 						
 			LinkWidget cancel;
 			LinkWidget next;
+
+			SMenuConfig* menuConfig;
 	};
 }
 

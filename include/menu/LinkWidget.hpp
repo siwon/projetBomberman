@@ -58,6 +58,12 @@ namespace PolyBomber
 			 */
 			inline EMenuScreen activate() {return this->target;}
 
+			/*!
+			 * \brief Méthode pour déterminer la cible du lien
+			 * \param target : La cible du lien
+			 */
+			inline void setTarget(EMenuScreen target) {this->target = target;}
+
 		private:
 			EMenuScreen target; /*!< Cible du lien */
 	};

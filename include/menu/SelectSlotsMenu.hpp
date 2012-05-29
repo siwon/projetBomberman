@@ -8,6 +8,7 @@
  */
 
 #include "menu/IMenuScreen.hpp"
+#include "menu/SMenuConfig.hpp"
 
 #include "INetworkToMenu.hpp"
 
@@ -26,13 +27,19 @@ namespace PolyBomber
 		public:
 			/*!
 			 * Constructeur
+			 * \param menuConfig : Structure de configuration des parties
 			 */
-			SelectSlotsMenu();
+			SelectSlotsMenu(SMenuConfig* menuConfig);
 
 			/*!
 			 * Destructeur
 			 */
 			~SelectSlotsMenu() {}
+
+			/*!
+			 * \see IMenuScreen::run
+			 */
+			EMenuScreen run(MainWindow& window, EMenuScreen previous);
 
 			/*!
 			 * \see IMenuScreen::downPressed
@@ -78,6 +85,8 @@ namespace PolyBomber
 						
 			LinkWidget cancel;
 			LinkWidget next;
+
+			SMenuConfig* menuConfig;
 
 			INetworkToMenu* network; /*!< Lien vers le module réseau */
 	};

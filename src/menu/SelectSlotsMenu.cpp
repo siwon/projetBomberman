@@ -10,13 +10,14 @@
 
 namespace PolyBomber
 {
-	SelectSlotsMenu::SelectSlotsMenu() :
-		title("Rejoindre une partie", TITLEFONT, 100),
+	SelectSlotsMenu::SelectSlotsMenu(SMenuConfig* menuConfig) :
+		title("Creation d'une partie", TITLEFONT, 100),
 		error("Pas assez de place sur le serveur", TEXTFONT, 300),
 		nbPlayersText("Nombre de joueurs sur cet ordinateur :", TEXTFONT, 250),
 		nbPlayers(TEXTFONT, 300),
-		cancel("Annuler", 450, GAMEMENU),
-		next("Valider", 450, SELECTNAMEMENU)
+		cancel("Annuler", 450, NONEMENU),
+		next("Valider", 450, SELECTNAMEMENU),
+		menuConfig(menuConfig)
 	{
 		ISkin* skin = PolyBomberApp::getISkin();
 		
@@ -59,6 +60,7 @@ namespace PolyBomber
 	{
 		cancel.goPrevious();
 		next.goPrevious();
+		error.setVisible(false);
 	}
 
 	void SelectSlotsMenu::leftPressed()
@@ -75,26 +77,41 @@ namespace PolyBomber
 
 	void SelectSlotsMenu::validPressed(EMenuScreen* nextScreen)
 	{
-		INetworkToMenu* network = PolyBomberApp::getINetworkToMenu();
-
 		if (cancel.getSelected())
 		{
-			network->cancel();
+			this->network->cancel();
 			*nextScreen = cancel.activate();
 		}
 		
 		if (next.getSelected())
 		{				
-			network->setBookedSlots(nbPlayers.getCurrentItem()+1);
-			*nextScreen = next.activate();
+			if (this->network->getFreeSlots() <= (int)nbPlayers.getCurrentItem())
+				error.setVisible(true);
+			else
+			{			
+				this->network->setBookedSlots(nbPlayers.getCurrentItem() + 1);
+				this->menuConfig->nbLocalPlayers = nbPlayers.getCurrentItem() + 1;
+				*nextScreen = next.activate();
+			}
 		}
 	}
 
 	void SelectSlotsMenu::backPressed(EMenuScreen* nextScreen)
 	{
-		INetworkToMenu* network = PolyBomberApp::getINetworkToMenu();
-		network->cancel();
+		this->network->cancel();
 		*nextScreen = cancel.activate();
+	}
+
+	EMenuScreen SelectSlotsMenu::run(MainWindow& window, EMenuScreen previous)
+	{
+		cancel.setTarget(previous);
+
+		if (previous == CREATEGAMEMENU)
+			title.setString("Creation d'une partie");
+		else
+			title.setString("Rejoindre une partie");
+
+		return IMenuScreen::run(window, previous);
 	}
 
 	void SelectSlotsMenu::loopAction()

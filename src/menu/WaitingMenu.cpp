@@ -9,12 +9,12 @@
 
 namespace PolyBomber
 {
-	WaitingMenu::WaitingMenu(SGameConfig* gameConfig) :
+	WaitingMenu::WaitingMenu(SMenuConfig* menuConfig) :
 		title("Resume de la partie", TITLEFONT, 50),
 		ip("Adresse IP du serveur : ", TEXTFONT, 150),
 		cancel("Annuler", 500, SELECTNAMEMENU),
 		start("Jouer !", 500, RUNGAME),
-		gameConfig(gameConfig)
+		menuConfig(menuConfig)
 	{
 		ISkin* skin = PolyBomberApp::getISkin();
 		
@@ -66,10 +66,7 @@ namespace PolyBomber
 	void WaitingMenu::validPressed(EMenuScreen* nextScreen)
 	{
 		if (cancel.getSelected())
-		{
-			this->network->cancel();			
 			*nextScreen = cancel.activate();
-		}
 		
 		if (start.getSelected())
 		{						
@@ -83,16 +80,35 @@ namespace PolyBomber
 		*nextScreen = cancel.activate();
 	}
 
+	void WaitingMenu::loopAction()
+	{
+		std::string names[4];
+		this->network->getPlayersName(names);
+
+		for (unsigned int i=0; i<this->menuConfig->gameConfig.nbPlayers; i++)
+		{
+			if (names[i].compare("") == 0)
+				this->names[i]->setString("...");
+			else
+				this->names[i]->setString(names[i]);
+		}
+	}
+
 	EMenuScreen WaitingMenu::run(MainWindow& window, EMenuScreen previous)
 	{
-		ip.setVisible(!this->gameConfig->isLocal);			
-
 		initWidgets();
 		return IMenuScreen::run(window, previous);
 	}
 
 	void WaitingMenu::initWidgets()
 	{
-		// TODO : Raffraichir les noms
+		for (unsigned int i=0; i<4; i++)
+		{
+			this->pictures[i]->setVisible(i < this->menuConfig->gameConfig.nbPlayers);
+			this->names[i]->setVisible(i < this->menuConfig->gameConfig.nbPlayers);
+		}
+
+		ip.setVisible(this->menuConfig->isServer && !this->menuConfig->gameConfig.isLocal);
+		start.setVisible(this->menuConfig->isServer);
 	}
 }

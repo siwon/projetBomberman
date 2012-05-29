@@ -8,8 +8,7 @@
  */
 
 #include "menu/IMenuScreen.hpp"
-
-#include "SGameConfig.hpp"
+#include "menu/SMenuConfig.hpp"
 
 #include "menu/TextWidget.hpp"
 #include "menu/LinkWidget.hpp"
@@ -26,8 +25,9 @@ namespace PolyBomber
 		public:
 			/*!
 			 * Constructeur
+			 * \param menuConfig : Structure de configuration des parties
 			 */
-			CreateGameMenu(SGameConfig* gameConfig);
+			CreateGameMenu(SMenuConfig* menuConfig);
 
 			/*!
 			 * Destructeur
@@ -82,12 +82,7 @@ namespace PolyBomber
 			LinkWidget cancel;
 			LinkWidget next;
 
-			SGameConfig* gameConfig;
-
-			/*!
-			 * \brief Méthode pour initialiser la configuration du jeu
-			 */
-			void initGameConfig();
+			SMenuConfig* menuConfig;
 
 			/*!
 			 * \brief Méthode pour initialiser les widgets
