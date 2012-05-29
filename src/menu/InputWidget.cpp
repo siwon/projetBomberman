@@ -113,7 +113,8 @@ namespace PolyBomber
 
 			char c = 0;
 
-			while((c = controller->getCharPressed()) == 0);
+			while((c = controller->getCharPressed()) == 0)
+				sf::sleep(sf::milliseconds(30));
 
 			if (c > 2)
 			{
