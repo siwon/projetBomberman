@@ -50,7 +50,7 @@ void NetworkManager::initialize(){
 	}
 	this->setPause(0);
 	this->started=false;
-
+	this->setConnect(false);
 	this->server=false;
 	for(int i=0;i<4;i++){
 		for(int j=0;j<7;j++){
@@ -217,6 +217,7 @@ void NetworkManager::cancel(){
 		this->players.erase(this->players.begin(),this->players.end());
 		this->clients.erase(this->clients.begin(),this->clients.end());
 		this->packets.erase(this->packets.begin(),this->packets.end());
+		this->selector.clear();
 		// et libérer les threads
 		if(this->threadClient != NULL)
 		delete this->threadClient;
