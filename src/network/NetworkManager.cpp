@@ -734,7 +734,8 @@ void NetworkManager::decryptPacket(sf::Packet& packet){
 			std::cerr << "le client " << ip <<" vient de se déconnecter" << std::endl;
 			eraseSocket(ip1);
 		} else {
-			this->setConnect(false);
+			this->cancel();
+			throw PolyBomberException("Le serveur vient de quitter la partie");
 		}
 		etatNetwork();
 		break;
