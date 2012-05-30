@@ -120,7 +120,7 @@ namespace PolyBomber
 				*nextScreen = next.activate();
 			}
 			else
-				error.setVisible(true);
+				this->error.setVisible(true);
 		}
 	}
 
