@@ -254,19 +254,14 @@ int NetworkManager::getFreeSlots(){
 		result = (this->gameConfig.nbPlayers - this->players.size());
 	} else {
 		// demande au serveur
-		try {
 		std::list<sf::Packet>::iterator it2 = this->askServer(5);
 		sf::Packet& thePacket = *it2;
 		int num;
 		std::string ip;
 		thePacket >> num >> ip  >> result;
 		this->packets.erase(it2);
-		}
-		catch(PolyBomberException e) {
-			std::cerr << e.what() << std::endl;
-		}
+		return result;
 	}
-	return result;
 }
 
 void NetworkManager::setBookedSlots(unsigned int nb){
@@ -341,21 +336,16 @@ void NetworkManager::getPlayersName(std::string names[4]){
 				names[i]="";
 		}
 	} else {
-		//envoyer un paquet pour demander les noms aux serveur
-			try {
-				std::list<sf::Packet>::iterator it = this->askServer(15);
-				sf::Packet& thePacket = *it;
-				int num;
-				std::string ip;
-				thePacket >> num >> ip;
-				for(int i=0;i<4;i++){
-					thePacket >> names[i];
-				}
-				this->packets.erase(it);
-			}
-			catch (PolyBomberException e){
-				std::cerr << e.what() <<std::endl;
-			}
+		//envoyer un paquet pour demander les noms aux serveur	
+		std::list<sf::Packet>::iterator it = this->askServer(15);
+		sf::Packet& thePacket = *it;
+		int num;
+		std::string ip;
+		thePacket >> num >> ip;
+		for(int i=0;i<4;i++){
+			thePacket >> names[i];
+		}
+		this->packets.erase(it);	
 	}
 }
 
