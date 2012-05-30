@@ -72,7 +72,10 @@ std::list<sf::Packet>::iterator NetworkManager::askServer(int num){
 	sf::TcpSocket* client = this->clients[0];
 
 	sf::Packet packet = this->createPacket(num);
-	client->send(packet);
+	std::cout << "packet n° " << num <<" pret à envoyer" << std::endl; 
+	if(client->send(packet) != sf::TcpSocket::Done){
+		throw PolyBomberException("meme pas pu envoyer le paquet");
+	}
 		
 	this->mutexClients.unlock();
 
@@ -341,16 +344,21 @@ void NetworkManager::getPlayersName(std::string names[4]){
 				names[i]="";
 		}
 	} else {
-		//envoyer un paquet pour demander les noms aux serveur	
-		std::list<sf::Packet>::iterator it = this->askServer(15);
-		sf::Packet& thePacket = *it;
-		int num;
-		std::string ip;
-		thePacket >> num >> ip;
-		for(int i=0;i<4;i++){
-			thePacket >> names[i];
+		try {
+			//envoyer un paquet pour demander les noms aux serveur	
+			std::list<sf::Packet>::iterator it = this->askServer(15);
+			sf::Packet& thePacket = *it;
+			int num;
+			std::string ip;
+			thePacket >> num >> ip;
+			for(int i=0;i<4;i++){
+				thePacket >> names[i];
+			}
+			this->packets.erase(it);	
 		}
-		this->packets.erase(it);	
+		catch(PolyBomberException& e){
+			throw PolyBomberException(e.what());
+		}
 	}
 }
 
@@ -698,6 +706,7 @@ std::list<sf::Packet>::iterator NetworkManager::waitPacket(int num, sf::IpAddres
 	std::list<sf::Packet>::iterator it;
 	sf::Clock clock;
 	while(!find && clock.getElapsedTime().asMilliseconds() < 100){
+		
 		this->mutexPacket.lock();
 		it = this->packets.begin();
 		while(it!=this->packets.end() && !find){
@@ -712,6 +721,7 @@ std::list<sf::Packet>::iterator NetworkManager::waitPacket(int num, sf::IpAddres
 		this->mutexPacket.unlock();
 	}
 	if(!find){
+		std::cout << "le paquet "<<num<<" n'a pas été trouvé provenant de l'addresse"<<ipAddr.toString()<< std::endl;
 		throw PolyBomberException("Echec de la réception du paquet de l'expéditeur "+ipAddr.toString()+". Temps d'attente de 100 millisecondes dépassé");
 	}
 	return it;
@@ -728,7 +738,7 @@ void NetworkManager::decryptPacket(sf::Packet& packet){
 	switch(num){
 	case 101 :
 		if(this->server){
-			std::cerr << "le client " << ip <<" vient de se déconnecter" << std::endl;
+			std::cerr << "le client " << ip <<" vient de se dconnecter" << std::endl;
 			eraseSocket(ip1);
 		} else {
 			throw PolyBomberException("Le serveur vient de quitter la partie");
