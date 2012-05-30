@@ -260,8 +260,9 @@ int NetworkManager::getFreeSlots(){
 		std::string ip;
 		thePacket >> num >> ip  >> result;
 		this->packets.erase(it2);
-		return result;
 	}
+
+	return result;
 }
 
 void NetworkManager::setBookedSlots(unsigned int nb){
