@@ -189,6 +189,7 @@ void NetworkManager::resume(){
 }
 
 void NetworkManager::cancel(){
+etatNetwork();
 	if(this->isConnected()){
 		sf::Packet packet;
 		packet = createPacket(101);
@@ -485,7 +486,7 @@ void NetworkManager::createServerSocket(){
 		 // Make the selector wait for data on any socket
 		 if (selector.wait(sf::milliseconds(100)))
 		 {
-			std::cout << "réception d'un paquet" << std::endl;
+			
 			 // Test the listener
 			 if (selector.isReady(listener))
 			 {
@@ -510,6 +511,7 @@ void NetworkManager::createServerSocket(){
 					 sf::TcpSocket* client = this->clients[i];
 					 if (this->selector.isReady(*client))
 					 {
+					 	std::cout << "réception d'un paquet" << std::endl;
 						 // The client has sent some data, we can receive it
 						 sf::Packet packet;
 						 if (client->receive(packet) == sf::Socket::Done)
