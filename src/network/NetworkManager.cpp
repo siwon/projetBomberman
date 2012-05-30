@@ -551,19 +551,13 @@ void NetworkManager::listenToServer(){
 			sf::Packet testPacket = packet; // recopie du paquet reçu
 			int num;
 			testPacket >> num;
-			if(num==101) {// signal d'arrêt
-				this->setConnect(false);
-				this->mutexClients.lock();
-				this->clients.pop_back(); // il n'y a qu'une seul socket
-				this->mutexClients.unlock();
-			} else {
-				if(num%2){ // si c'est impaire
-					decryptPacket(packet);
-				} else { //ajouter le packet !!!!! mutex !!!!
-					this->mutexPacket.lock();
-					this->packets.push_back(packet);
-					this->mutexPacket.unlock();
-				}
+		
+			if(num%2){ // si c'est impaire
+				decryptPacket(packet);
+			} else { //ajouter le packet !!!!! mutex !!!!
+				this->mutexPacket.lock();
+				this->packets.push_back(packet);
+				this->mutexPacket.unlock();
 			}
 		}
 	}

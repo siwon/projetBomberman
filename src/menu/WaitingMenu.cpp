@@ -93,7 +93,7 @@ namespace PolyBomber
 
 			for (unsigned int i=0; i<this->menuConfig->gameConfig.nbPlayers; i++)
 			{
-				if (names[i].compare("None") == 0)// || names[i].compare("") == 0)
+				if (names[i].compare("None") == 0 || names[i].compare("") == 0)
 					this->names[i]->setString("...");
 				else
 					this->names[i]->setString(names[i]);
@@ -106,18 +106,9 @@ namespace PolyBomber
 
 	}
 
-	EMenuScreen WaitingMenu::run(MainWindow& window, EMenuScreen previous)
+	EMenuScreen WaitingMenu::run(MainWindow& window, EMenuScreen)
 	{
-		std::cout << "deb waiting" << std::endl;
 		initWidgets();
-
-		//sf::Thread thread(&WaitingMenu::update, this);
-		//thread.launch();
-		
-		//EMenuScreen signal = IMenuScreen::run(window, previous);
-
-		//thread.terminate();
-		//return signal;
 
 		IControllerToMenu* controller = PolyBomberApp::getIControllerToMenu();
 
@@ -199,5 +190,10 @@ namespace PolyBomber
 
 		ip.setVisible(this->menuConfig->isServer && !this->menuConfig->gameConfig.isLocal);
 		start.setVisible(this->menuConfig->isServer);
+
+		if (this->menuConfig->isServer && !this->menuConfig->gameConfig.isLocal)
+			cancel.setNext(&start);
+		else
+			cancel.setNext(NULL);
 	}
 }

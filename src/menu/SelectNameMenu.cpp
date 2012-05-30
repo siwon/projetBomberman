@@ -13,8 +13,8 @@
 namespace PolyBomber
 {
 	SelectNameMenu::SelectNameMenu(SMenuConfig* menuConfig) :
-		title("Noms des joueurs", TITLEFONT, 100),
-		error("Noms des joueurs invalides", TEXTFONT, 200),
+		title("Noms des joueurs", TITLEFONT, 50),
+		error("Noms des joueurs invalides", TEXTFONT, 150),
 		cancel("Annuler", 450, GAMEMENU),
 		next("Suivant", 450, WAITINGMENU),
 		menuConfig(menuConfig)
@@ -22,6 +22,7 @@ namespace PolyBomber
 		ISkin* skin = PolyBomberApp::getISkin();
 		
 		title.setColor(skin->getColor(TITLECOLOR));
+		error.setColor(skin->getColor(ERRORCOLOR));
 
 		cancel.move(-100, 0);
 		next.move(100, 0);
@@ -131,7 +132,6 @@ namespace PolyBomber
 				network->cancel();
 				*nextScreen = cancel.activate();
 			}
-			std::cout << "fin select name" << std::endl;
 		}
 	}
 
