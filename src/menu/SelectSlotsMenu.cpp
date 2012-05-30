@@ -128,7 +128,7 @@ namespace PolyBomber
 			{
 				// FIXME : Msg erreur
 				std::cerr << e.what() << std::endl;
-				this->cancel();
+				this->network->cancel();
 				return cancel.activate();
 			}
 		}
