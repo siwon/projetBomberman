@@ -24,6 +24,12 @@ namespace PolyBomber
 		PLAYER4,
 		GAME_BACKGROUND, /*!< Fond du jeu */
 		BOX, /*!< Caisse destructible */
+		
+		//BOMB
+		BOMB,
+		INFINITYBOMB,
+		MINE,
+		REMOTEBOMB,
 
 		//BONUS
 		BOMBPLUS,
