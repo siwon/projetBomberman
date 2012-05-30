@@ -107,40 +107,48 @@ namespace PolyBomber {
 	}
 	
 	//IGameEngineToNetwork
-	void GameEngineManager::setGameConfig(SGameConfig gameConfig) {
+	void GameEngineManager::setGameConfig(SGameConfig gameConfig) {		
 		if (!gameConfigIsSet) {
 			resetConfig();
 		}
+
 		int nbPlayer = gameConfig.nbPlayers;
 		int nbBonusTemp;
 		int x=rand()%18;
 		int y=rand()%13;
 		int nbBonus=0;
-		
+
 		//generation des joueurs
 		generatePlayer(nbPlayer);
-		
+
 		//generation des murs
 		generateWall();
-		
+		std::cout << "ok5" << std::endl;
 		//generation des bonus
 		for (int i=0;i<18;i++) {
+			std::cout << "ok6" << std::endl;
 			nbBonusTemp = gameConfig.nbBonus[i];
+			std::cout << "gb " << i << " : " << gameConfig.nbBonus[i] << std::endl;
 			for (int j=0; j<nbBonusTemp; j++) {
+				std::cout << "ok7 : " << nbBonusTemp << std::endl;
 				while (!board.caseIsFreeInitialisation(x,y)) {
+					std::cout << "ok8" << x << " et " << y << std::endl;
 					x=rand()%18;
 					y=rand()%13;
 				}
+				std::cout << "ok9" << std::endl;
 				this->mutexBoard.lock();
 				board.addBonus(Bonus(x,y,(EGameBonus)i,false));
+				std::cout << "ok10" << std::endl;
 				this->mutexBoard.unlock();
 			}
+			std::cout << "ok11" << std::endl;
 			nbBonus=nbBonus+nbBonusTemp;
 		}
-		
+		std::cout << "okfin" << std::endl;
 		//generation des caisses
 		generateBox(NOMBREBOX-nbBonus);
-		
+		std::cout << "ok7" << std::endl;
 		this->gameConfigIsSet=true;
 	}
 	

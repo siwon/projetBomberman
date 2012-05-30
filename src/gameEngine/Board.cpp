@@ -424,7 +424,7 @@ namespace PolyBomber {
 	}
 	
 	bool Board::caseIsFreeInitialisation(int x, int y) {
-		bool toReturn;
+		bool toReturn = true;
 		//test si c'est une coordonnee reservee
 		if ((x==0&&y==1)||(x==1&&y==0)||(x==17&&y==0)||(x==18&&y==1)||(x==18&&y==11)||(x==17&&y==12)||(x==0&&y==11)||(x==1&&y==12)||(x==8&&y==11)||(x==8&&y==12)||(x==10&&y==12)||(x==10&&y==11)) {
 			toReturn=false;
@@ -436,7 +436,7 @@ namespace PolyBomber {
 	
 	bool Board::caseIsFree(int x, int y) {
 		bool toReturn = true;
-		unsigned int i=0;;
+		unsigned int i=0;
 		while (toReturn && i<bonus.size()) {//bonus
 			if (x==bonus[i].getLocationX() && y==bonus[i].getLocationY()) {
 				toReturn=false;
@@ -459,7 +459,7 @@ namespace PolyBomber {
 		}
 		i=0;
 		while (toReturn && i<player.size()) {//player
-			if (x==player[i].getLocationX() && y==player[i].getLocationY()) {
+			if (x==cranToCase(player[i].getLocationX()) && y==cranToCase(player[i].getLocationY())) {
 				toReturn=false;
 			}
 			i++;

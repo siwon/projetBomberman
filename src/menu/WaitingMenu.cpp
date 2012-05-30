@@ -191,7 +191,7 @@ namespace PolyBomber
 		ip.setVisible(this->menuConfig->isServer && !this->menuConfig->gameConfig.isLocal);
 		start.setVisible(this->menuConfig->isServer);
 
-		if (this->menuConfig->isServer && !this->menuConfig->gameConfig.isLocal)
+		if (this->menuConfig->isServer)
 			cancel.setNext(&start);
 		else
 			cancel.setNext(NULL);

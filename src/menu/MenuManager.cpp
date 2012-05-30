@@ -36,6 +36,8 @@ namespace PolyBomber
 
 		this->winner = -1;
 
+		initMenuConfig();
+
 		// Ajout des menus
 		this->menuScreens[SPLASHSCREEN] = new SplashScreen();
 		this->menuScreens[MAINMENU] = new MainMenu();

@@ -39,6 +39,9 @@ namespace PolyBomber
   			
 			window->draw(this->background);
 
+			for (int i=0; i<this->boxes.size(); i++)
+				window->draw(this->boxes[i]);
+
 			window->display();
 		}
 
@@ -50,8 +53,8 @@ namespace PolyBomber
 		INetworkToGameInterface* network = PolyBomberApp::getINetworkToGameInterface();
 		ISkin* skin = PolyBomberApp::getISkin();
 
-		//SBoard board = network->getBoard();
-		/*std::vector<sf::Vector2<int> >::iterator it;
+		SBoard board = network->getBoard();
+		std::vector<sf::Vector2<int> >::iterator it;
 
 		this->boxes.clear();
 
@@ -60,7 +63,7 @@ namespace PolyBomber
 			sf::Sprite box(*skin->loadImage(BOX));
 			box.setPosition(ORIGX + CASEPX * (*it).x, ORIGY + CASEPX * (*it).y);
 			this->boxes.push_back(box);
-		}*/
+		}
 	}
 }
 
