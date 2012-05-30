@@ -15,7 +15,7 @@ namespace PolyBomber
 	SelectNameMenu::SelectNameMenu(SMenuConfig* menuConfig) :
 		title("Noms des joueurs", TITLEFONT, 100),
 		error("Noms des joueurs invalides", TEXTFONT, 200),
-		cancel("Annuler", 450, CREATEGAMEMENU),
+		cancel("Annuler", 450, GAMEMENU),
 		next("Suivant", 450, WAITINGMENU),
 		menuConfig(menuConfig)
 	{
@@ -31,7 +31,10 @@ namespace PolyBomber
 		cancel.setNext(&next);
 		next.setNext(&cancel);
 
+		error.setVisible(false);
+
 		this->widgets.push_back(&title);
+		this->widgets.push_back(&error);
 		this->widgets.push_back(&cancel);
 		this->widgets.push_back(&next);
 		
@@ -74,6 +77,7 @@ namespace PolyBomber
 
 		cancel.goPrevious();
 		next.goPrevious();
+		error.setVisible(false);
 	}
 
 	void SelectNameMenu::leftPressed()
@@ -88,10 +92,14 @@ namespace PolyBomber
 
 	void SelectNameMenu::validPressed(EMenuScreen* nextScreen)
 	{
+		INetworkToMenu* network = PolyBomberApp::getINetworkToMenu();
+
 		if (cancel.getSelected())
 		{
 			for (int i=0; i<4; i++)
 				this->names[i]->clear();
+			
+			network->cancel();
 			*nextScreen = cancel.activate();
 		}
 		
@@ -108,17 +116,18 @@ namespace PolyBomber
 
 			if (!error)
 			{
-				INetworkToMenu* network = PolyBomberApp::getINetworkToMenu();
-				network->setPlayerName(names);
-				
+				network->setPlayerName(names);				
 				*nextScreen = next.activate();
 			}
+			else
+				error.setVisible(true);
 		}
 	}
 
 	void SelectNameMenu::backPressed(EMenuScreen* nextScreen)
 	{
-		// FIXME: ReleaseSlots() ?
+		INetworkToMenu* network = PolyBomberApp::getINetworkToMenu();
+		network->cancel();
 		*nextScreen = cancel.activate();
 	}
 

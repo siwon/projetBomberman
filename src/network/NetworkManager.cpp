@@ -235,7 +235,7 @@ void NetworkManager::joinGame(std::string ip){
 	this->server=false;
 	sf::TcpSocket* server = new sf::TcpSocket;
 	sf::IpAddress ip2(ip);
-	if(server->connect(ip, 2222, sf::milliseconds(100)) != sf::TcpSocket::Done){
+	if(server->connect(ip, 2222, sf::milliseconds(1000)) != sf::TcpSocket::Done){
 		throw PolyBomberException("Erreur de connexion au serveur "+ip);
 	} else {
 		this->addSocket(server);
@@ -538,6 +538,7 @@ void NetworkManager::listenToServer(){
 	server->setBlocking(false);
 	sf::Packet packet;
 	while(this->isConnected()){
+		sf::sleep(sf::milliseconds(30));
 		if (server->receive(packet) == sf::Socket::Done){
 			//Vérifier le premier numéro s'il est impaire
 			sf::Packet testPacket = packet; // recopie du paquet reçu
