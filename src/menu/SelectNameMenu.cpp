@@ -175,7 +175,7 @@ namespace PolyBomber
 		next.setPrevious(this->names[nb - 1]);
 	}
 
-	void SelectNameMenu::loopAction()
+	void SelectNameMenu::loopAction(EMenuScreen*)
 	{
 		for (int i=0; i<4; i++)
 			this->names[i]->writeChar();
