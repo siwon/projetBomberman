@@ -86,11 +86,11 @@ namespace PolyBomber
 
 	void WaitingMenu::update()
 	{
-		while (true)
+		/*while (true)
 		{
 			sf::sleep(sf::milliseconds(500));
 
-			std::string names[4];
+			std::string names[4] = {"", "", "", ""};
 			this->network->getPlayersName(names);
 
 			for (unsigned int i=0; i<this->menuConfig->gameConfig.nbPlayers; i++)
@@ -100,20 +100,67 @@ namespace PolyBomber
 				else
 					this->names[i]->setString(names[i]);
 			}
-		}
+		}*/
 	}
 
 	EMenuScreen WaitingMenu::run(MainWindow& window, EMenuScreen previous)
 	{
 		initWidgets();
 
-		sf::Thread thread(&WaitingMenu::update, this);
-		thread.launch();
+		//sf::Thread thread(&WaitingMenu::update, this);
+		//thread.launch();
 		
 		EMenuScreen signal = IMenuScreen::run(window, previous);
 
-		thread.terminate();
+		//thread.terminate();
 		return signal;
+
+		/*IControllerToMenu* controller = PolyBomberApp::getIControllerToMenu();
+
+		EMenuScreen nextScreen = NONEMENU;
+			
+		while (nextScreen == NONEMENU)
+		{			
+			window.clear();
+			window.display(this->widgets);
+
+			loopAction(&nextScreen);
+
+			window.clear();
+			window.display(this->widgets);
+
+			EMenuKeys key = MENU_NONE;
+			while ((key = controller->getKeyPressed()) == MENU_NONE && window.isOpen());
+
+			switch(key)
+			{
+				case MENU_DOWN:
+					downPressed();
+					break;
+				case MENU_UP:
+					upPressed();
+					break;
+				case MENU_LEFT:
+					leftPressed();
+					break;
+				case MENU_RIGHT:
+					rightPressed();
+					break;
+				case MENU_VALID:
+					validPressed(&nextScreen);
+					break;
+				case MENU_BACK:
+					backPressed(&nextScreen);
+					break;
+				default:
+					break;
+			}
+
+			if (!window.isOpen())
+				nextScreen = EXIT;
+		}
+
+		return nextScreen;*/
 	}
 
 	void WaitingMenu::initWidgets()
@@ -122,7 +169,7 @@ namespace PolyBomber
 		if (!menuConfig->isServer)
 		{
 			unsigned int nb = 0;
-			std::string names[4];
+			std::string names[4] = {"", "", "", ""};
 			this->network->getPlayersName(names);
 			while (names[nb].compare("") != 0)
 				nb++;
