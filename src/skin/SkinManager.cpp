@@ -40,9 +40,9 @@ namespace PolyBomber
 		this->files[RANGEMOINS] = "rangeLess.png";
 		this->files[RANGEMAX] = "rangeMax.png";
 		
-		this->files[ATOMIC] = "atomic.png";
+		this->files[ATOMIC] = "atomicBonus.png";
 		this->files[BOMBLINE] = "bombLine.png";
-		this->files[INFINITY] = "infinity.png";
+		this->files[INFINITY] = "infinityBonus.png";
 		this->files[MINEBONUS] = "mineBonus.png";
 		this->files[REMOTEBONUS] = "remote.png";
 		
