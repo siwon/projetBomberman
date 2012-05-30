@@ -30,6 +30,29 @@ namespace PolyBomber
 		this->colors[ERRORCOLOR] = "error";
 		this->colors[BGCOLOR] = "bg";
 		this->colors[SELECTEDBGCOLOR] = "selectedbg";
+		
+		//BONUS
+		this->files[BOMBPLUS] = "bombMore.png";
+		this->files[BOMBMOINS] = "bombLess.png";
+		this->files[VITESSEPLUS] = "vitesseMore.png";
+		this->files[VITESSEMOINS] = "vitesseLess.png";
+		this->files[RANGEPLUS] = "rangeMore.png";
+		this->files[RANGEMOINS] = "rangeLess.png";
+		this->files[RANGEMAX] = "rangeMax.png";
+		
+		this->files[ATOMIC] = "atomic.png";
+		this->files[BOMBLINE] = "bombLine.png";
+		this->files[INFINITY] = "infinity.png";
+		this->files[MINEBONUS] = "mineBonus.png";
+		this->files[REMOTEBONUS] = "remote.png";
+		
+		//INFECTION
+		this->files[CONFUSION] = "confusion.png";
+		this->files[CRANE] = "crane.png";
+		this->files[DILATATION] = "dilatation.png";
+		this->files[HELL] = "hell.png";
+		this->files[RAGE] = "rage.png";
+		this->files[SPASME] = "spasme.png";
 
 		reloadConfig();
 	}
