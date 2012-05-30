@@ -31,6 +31,12 @@ namespace PolyBomber
 		this->colors[BGCOLOR] = "bg";
 		this->colors[SELECTEDBGCOLOR] = "selectedbg";
 		
+		//BOMB
+		this->files[BOMB] = "bomb.png";
+		this->files[INFINITYBOMB] = "infinityBomb.png";
+		this->files[MINE] = "mine.png";
+		this->files[REMOTEBOMB] = "remoteBomb.png";
+		
 		//BONUS
 		this->files[BOMBPLUS] = "bombMore.png";
 		this->files[BOMBMOINS] = "bombLess.png";
