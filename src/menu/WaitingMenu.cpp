@@ -86,10 +86,7 @@ namespace PolyBomber
 
 	void WaitingMenu::update()
 	{
-		/*while (true)
-		{
-			sf::sleep(sf::milliseconds(500));
-
+		/*
 			std::string names[4] = {"", "", "", ""};
 			this->network->getPlayersName(names);
 
@@ -100,7 +97,7 @@ namespace PolyBomber
 				else
 					this->names[i]->setString(names[i]);
 			}
-		}*/
+		*/
 	}
 
 	EMenuScreen WaitingMenu::run(MainWindow& window, EMenuScreen previous)
@@ -124,13 +121,9 @@ namespace PolyBomber
 			window.clear();
 			window.display(this->widgets);
 
-			loopAction(&nextScreen);
-
-			window.clear();
-			window.display(this->widgets);
-
 			EMenuKeys key = MENU_NONE;
-			while ((key = controller->getKeyPressed()) == MENU_NONE && window.isOpen());
+			while ((key = controller->getKeyPressed()) == MENU_NONE && window.isOpen())
+				update();
 
 			switch(key)
 			{
@@ -169,10 +162,19 @@ namespace PolyBomber
 		if (!menuConfig->isServer)
 		{
 			unsigned int nb = 0;
-			std::string names[4] = {"", "", "", ""};
-			this->network->getPlayersName(names);
-			while (names[nb].compare("") != 0)
-				nb++;
+
+			try
+			{
+				std::string names[4] = {"", "", "", ""};
+				this->network->getPlayersName(names);
+				while (names[nb].compare("") != 0)
+					nb++;
+			}
+			catch (PolyBomberException& e)
+			{
+				std::cerr << e.what() << std::endl;
+				this->network->cancel();
+			}
 
 			this->menuConfig->gameConfig.nbPlayers = nb;
 		}

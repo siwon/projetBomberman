@@ -302,16 +302,18 @@ void NetworkManager::setPlayerName(std::string names[4]){
 }
 
 void NetworkManager::setName(std::string names[4], sf::IpAddress ip){
-	this->mutexNames.lock();
 	if(this->server){
 		int i=0;//indice sur le vecteur de joueur
 		int j=0;//indice sur le tableau de nom
 		while(!(names[j] == "") && i<4){ // tant qu'il y a des noms à enregistrer
 			if(this->players[i].getIp() == ip){
+				this->mutexNames.lock();
 				this->players[i].setName(names[j]);
+				this->mutexNames.unlock();
 				j++;
 			}
 			i++;
+			std::cout << "boucle i=" << i << std::endl;
 		}
 	} else { // envoyer la demande au serveur
 		this->mutexClients.lock();
@@ -325,14 +327,16 @@ void NetworkManager::setName(std::string names[4], sf::IpAddress ip){
 			throw PolyBomberException("échec lors de l'envoi des noms");
 		this->mutexClients.unlock();
 	}
-	this->mutexNames.unlock();
 }
 
 void NetworkManager::getPlayersName(std::string names[4]){
 	if(this->server){
 		for(unsigned int i=0;i<4;i++) {
-			if(i<players.size())
+			if(i<players.size()){
+				this->mutexNames.lock();
 				names[i]=this->players[i].getName();
+				this->mutexNames.unlock();
+			}
 			else
 				names[i]="";
 		}
@@ -652,6 +656,7 @@ sf::Packet NetworkManager::createPacket(int i, int j){
 				else
 					packet << "";
 			}
+			std::cout << "ok1" << std::endl;
 			break;
 		//le cas 17 est directement géré dans la fonction setPlayersName
 		case 19 : // envoi réservation d'un slot
@@ -718,7 +723,8 @@ void NetworkManager::decryptPacket(sf::Packet& packet){
 	std::string ip;
 	packet >> num >> ip;
 	sf::IpAddress ip1(ip);
-	std::string names[4];
+	std::string names[4] = {"", "", "", ""};
+	std::cout << "num=" << num << " et ip=" << ip << std::endl;
 	switch(num){
 	case 101 :
 		if(this->server){
@@ -733,7 +739,9 @@ void NetworkManager::decryptPacket(sf::Packet& packet){
 		for(int i=0;i<4;i++){
 			packet >> names[i];
 		}
+		std::cout << "ok decrypt 17" << std::endl;
 		setName(names, ip1); // methode utilisant des ressources critiques
+		break;
 	case 19 :
 		int j;
 		packet >> j;
@@ -743,6 +751,7 @@ void NetworkManager::decryptPacket(sf::Packet& packet){
 		resume();
 		break;
 	default : // c'est une demande qui nécessite une réponse
+		std::cout << "ok !! : " << (num+1) << std::endl;
 		result = createPacket(num+1);
 		this->mutexClients.lock();
 		sf::TcpSocket* client = this->findSocket(ip1);
