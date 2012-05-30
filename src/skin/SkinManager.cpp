@@ -32,33 +32,33 @@ namespace PolyBomber
 		this->colors[SELECTEDBGCOLOR] = "selectedbg";
 		
 		//BOMB
-		this->files[BOMB] = "bomb.png";
-		this->files[INFINITYBOMB] = "infinityBomb.png";
-		this->files[MINE] = "mine.png";
-		this->files[REMOTEBOMB] = "remoteBomb.png";
+		this->files[EIMAGE_BOMB] = "bomb.png";
+		this->files[EIMAGE_INFINITYBOMB] = "infinityBomb.png";
+		this->files[EIMAGE_MINE] = "mine.png";
+		this->files[EIMAGE_REMOTEBOMB] = "remoteBomb.png";
 		
 		//BONUS
-		this->files[BOMBPLUS] = "bombMore.png";
-		this->files[BOMBMOINS] = "bombLess.png";
-		this->files[VITESSEPLUS] = "vitesseMore.png";
-		this->files[VITESSEMOINS] = "vitesseLess.png";
-		this->files[RANGEPLUS] = "rangeMore.png";
-		this->files[RANGEMOINS] = "rangeLess.png";
-		this->files[RANGEMAX] = "rangeMax.png";
+		this->files[EIMAGE_BOMBPLUS] = "bombMore.png";
+		this->files[EIMAGE_BOMBMOINS] = "bombLess.png";
+		this->files[EIMAGE_VITESSEPLUS] = "vitesseMore.png";
+		this->files[EIMAGE_VITESSEMOINS] = "vitesseLess.png";
+		this->files[EIMAGE_RANGEPLUS] = "rangeMore.png";
+		this->files[EIMAGE_RANGEMOINS] = "rangeLess.png";
+		this->files[EIMAGE_RANGEMAX] = "rangeMax.png";
 		
-		this->files[ATOMIC] = "atomicBonus.png";
-		this->files[BOMBLINE] = "bombLine.png";
-		this->files[INFINITY] = "infinityBonus.png";
-		this->files[MINEBONUS] = "mineBonus.png";
-		this->files[REMOTEBONUS] = "remote.png";
+		this->files[EIMAGE_ATOMIC] = "atomicBonus.png";
+		this->files[EIMAGE_BOMBLINE] = "bombLine.png";
+		this->files[EIMAGE_INFINITY] = "infinityBonus.png";
+		this->files[EIMAGE_MINEBONUS] = "mineBonus.png";
+		this->files[EIMAGE_REMOTEBONUS] = "remote.png";
 		
 		//INFECTION
-		this->files[CONFUSION] = "confusion.png";
-		this->files[CRANE] = "crane.png";
-		this->files[DILATATION] = "dilatation.png";
-		this->files[HELL] = "hell.png";
-		this->files[RAGE] = "rage.png";
-		this->files[SPASME] = "spasme.png";
+		this->files[EIMAGE_CONFUSION] = "confusion.png";
+		this->files[EIMAGE_CRANE] = "crane.png";
+		this->files[EIMAGE_DILATATION] = "dilatation.png";
+		this->files[EIMAGE_HELL] = "hell.png";
+		this->files[EIMAGE_RAGE] = "rage.png";
+		this->files[EIMAGE_SPASME] = "spasme.png";
 
 		reloadConfig();
 	}
