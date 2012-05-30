@@ -580,16 +580,16 @@ void NetworkManager::etatNetwork(){
 
 	std::cout << "taille Vecteur Players : " << players.size() << std::endl;
 	for(unsigned int i=0;i<players.size();i++)
-		std::cout << players[i].getIp << " | " ;
+		std::cout << players[i].getIp() << " | " ;
 
 
 	std::cout << std::endl << "taille Vecteur clients : " << clients.size() << std::endl;
 	for(unsigned int i=0;i<clients.size();i++)
-		std::cout << clients[i]->getRemoteAddress << " | " ;
+		std::cout << clients[i]->getRemoteAddress() << " | " ;
 	
 	std::cout << std::endl << "taille list packets : " << packets.size() << std::endl;
 	for(std::list<sf::Packet>::iterator it= packets.begin();it!=packets.end();it++)
-		std::cout << *it " | " ;
+		std::cout << *it << " | " ;
 
 	std::cout << std::endl;
 }
