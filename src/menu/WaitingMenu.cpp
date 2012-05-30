@@ -84,24 +84,36 @@ namespace PolyBomber
 		*nextScreen = cancel.activate();
 	}
 
-	void WaitingMenu::loopAction()
+	void WaitingMenu::update()
 	{
-		std::string names[4];
-		this->network->getPlayersName(names);
-
-		for (unsigned int i=0; i<this->menuConfig->gameConfig.nbPlayers; i++)
+		while (true)
 		{
-			if (names[i].compare("None") == 0)
-				this->names[i]->setString("...");
-			else
-				this->names[i]->setString(names[i]);
+			sf::sleep(sf::milliseconds(500));
+
+			std::string names[4];
+			this->network->getPlayersName(names);
+
+			for (unsigned int i=0; i<this->menuConfig->gameConfig.nbPlayers; i++)
+			{
+				if (names[i].compare("None") == 0 || names[i].compare("") == 0)
+					this->names[i]->setString("...");
+				else
+					this->names[i]->setString(names[i]);
+			}
 		}
 	}
 
 	EMenuScreen WaitingMenu::run(MainWindow& window, EMenuScreen previous)
 	{
 		initWidgets();
-		return IMenuScreen::run(window, previous);
+
+		sf::Thread thread(&WaitingMenu::update, this);
+		thread.launch();
+		
+		EMenuScreen signal = IMenuScreen::run(window, previous);
+
+		thread.terminate();
+		return signal;
 	}
 
 	void WaitingMenu::initWidgets()

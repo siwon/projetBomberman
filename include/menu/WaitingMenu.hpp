@@ -59,11 +59,6 @@ namespace PolyBomber
 			 */
 			void backPressed(EMenuScreen* nextScreen);
 
-			/*!
-			 * \see IMenuScreen::loopAction
-			 */			
-			void loopAction();
-
 		private:
 			TextWidget title;
 			TextWidget ip;
@@ -82,6 +77,11 @@ namespace PolyBomber
 			 * \brief Méthode pour initialiser les widgets
 			 */
 			void initWidgets();
+
+			/*!
+			 * \brief Méthode pour mettre à jour les noms
+			 */
+			void update();
 	};
 }
 

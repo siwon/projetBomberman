@@ -27,7 +27,7 @@ namespace PolyBomber
 			window.clear();
 			window.display(this->widgets);
 
-			loopAction();
+			loopAction(&nextScreen);
 
 			window.clear();
 			window.display(this->widgets);

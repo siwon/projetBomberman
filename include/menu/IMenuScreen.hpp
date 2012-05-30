@@ -60,7 +60,7 @@ namespace PolyBomber
 			/*!
 			 * \brief Exécution pendant la boucle d'affichage
 			 */
-			virtual void loopAction() {}
+			virtual void loopAction() {EMenuScreen*}
 
 			/*!
 			 * \brief Appui sur la touche Valider

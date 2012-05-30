@@ -105,22 +105,32 @@ namespace PolyBomber
 		
 		if (next.getSelected())
 		{						
-			std::string names[4] = {"", "", "", ""};
-			bool error = false;
-			
-			for (unsigned int i=0; i<this->menuConfig->nbLocalPlayers; i++)
+			try
 			{
-				names[i] = this->names[i]->getString();
-				if (names[i].compare("") == 0) error = true;
-			}
+				std::string names[4] = {"", "", "", ""};
+				bool error = false;
+				
+				for (unsigned int i=0; i<this->menuConfig->nbLocalPlayers; i++)
+				{
+					names[i] = this->names[i]->getString();
+					if (names[i].compare("") == 0) error = true;
+				}
 
-			if (!error)
-			{
-				network->setPlayerName(names);				
-				*nextScreen = next.activate();
+				if (!error)
+				{
+					network->setPlayerName(names);				
+					*nextScreen = next.activate();
+				}
+				else
+					this->error.setVisible(true);
 			}
-			else
-				this->error.setVisible(true);
+			catch (PolyBomberException& e)
+			{
+				std::cerr << e.what() << std::endl;
+				//FIXME: msg err
+				network->cancel();
+				*nextScreen = cancel.activate();
+			}
 		}
 	}
 
