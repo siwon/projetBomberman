@@ -23,7 +23,30 @@ namespace PolyBomber
 		PLAYER3,
 		PLAYER4,
 		GAME_BACKGROUND, /*!< Fond du jeu */
-		BOX /*!< Caisse destructible */
+		BOX, /*!< Caisse destructible */
+
+		//BONUS
+		BOMBPLUS,
+		BOMBMOINS,
+		VITESSEPLUS,
+		VITESSEMOINS,
+		RANGEPLUS,
+		RANGEMOINS,
+		RANGEMAX,
+		
+		ATOMIC,
+		BOMBLINE,
+		INFINITY,
+		MINEBONUS,
+		REMOTEBONUS,
+		
+		//INFECTION
+		CONFUSION,
+		CRANE,
+		DILATATION,
+		HELL,
+		RAGE,
+		SPASME
 	};
 }
 
