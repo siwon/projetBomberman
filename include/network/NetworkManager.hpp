@@ -86,6 +86,8 @@ namespace PolyBomber
 			std::list<sf::Packet>::iterator waitPacket(int, sf::IpAddress&);
 			void decryptPacket(sf::Packet&);
 
+			void etatNetwork();
+
 			
 public:
 			SKeyPressed getKeysPressed();

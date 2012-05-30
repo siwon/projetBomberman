@@ -229,6 +229,7 @@ void NetworkManager::cancel(){
 		
 	}
 	this->initialize();
+	etatNetwork();
 }
 
 void NetworkManager::joinGame(std::string ip){
@@ -484,6 +485,7 @@ void NetworkManager::createServerSocket(){
 		 // Make the selector wait for data on any socket
 		 if (selector.wait(sf::milliseconds(100)))
 		 {
+			std::cout << "réception d'un paquet" << std::endl;
 			 // Test the listener
 			 if (selector.isReady(listener))
 			 {
@@ -492,11 +494,10 @@ void NetworkManager::createServerSocket(){
 				 if (listener.accept(*client) == sf::Socket::Done)
 				 {
 					 std::cout << "nouveau client " << client->getRemoteAddress() << std::endl;
-					 // Add the new client to the clients list
+					 // ajout à la liste des sockets connectés
 					 this->addSocket(client);
 
-					 // Add the new client to the selector so that we will
-					 // be notified when he sends something
+					 // ajout au sélector pour être averti lors de l'activité du socket
 					 selector.add(*client);
 				 }
 			 }
@@ -531,6 +532,7 @@ void NetworkManager::createServerSocket(){
 			 }
 		 }
 	 }
+	std::cout << "fin du thread serveur" << std::endl;
 }
 
 void NetworkManager::listenToServer(){
@@ -560,6 +562,36 @@ void NetworkManager::listenToServer(){
 			}
 		}
 	}
+	std::cout << "fin du thread client" << std::endl;
+}
+
+void NetworkManager::etatNetwork(){
+	std::cout << "sf::IpAddress ip[4] ";
+	for(int i=0;i<4;i++)
+		std::cout << ip[i] << "|";
+	std::cout << std::endl <<"nbPlayerByIp[4] ";
+	for(int i=0;i<4;i++)
+		std::cout << nbPlayerByIp[i] << "|";
+	
+	std::cout << std::endl <<"Pause : " << paused << std::endl;
+	std::cout <<"Started ? : " << started << std::endl;
+	std::cout <<"connect ? : " << connect << std::endl;
+	std::cout <<"serveur ? : " << server << std::endl;
+
+	std::cout << "taille Vecteur Players : " << players.size() << std::endl;
+	for(unsigned int i=0;i<players.size();i++)
+		std::cout << players[i].getIp() << " | " ;
+
+
+	std::cout << std::endl << "taille Vecteur clients : " << clients.size() << std::endl;
+	for(unsigned int i=0;i<clients.size();i++)
+		std::cout << clients[i]->getRemoteAddress() << " | " ;
+	
+	std::cout << std::endl << "taille list packets : " << packets.size() << std::endl;
+	for(std::list<sf::Packet>::iterator it= packets.begin();it!=packets.end();it++)
+		std::cout << *it << " | " ;
+
+	std::cout << std::endl;
 }
 
 sf::Packet NetworkManager::createPacket(int i, int j){
@@ -702,6 +734,7 @@ void NetworkManager::decryptPacket(sf::Packet& packet){
 		} else {
 			this->setConnect(false);
 		}
+		etatNetwork();
 		break;
 	case 17 :
 		for(int i=0;i<4;i++){
