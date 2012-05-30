@@ -237,7 +237,7 @@ void NetworkManager::joinGame(std::string ip){
 	this->server=false;
 	sf::TcpSocket* server = new sf::TcpSocket;
 	sf::IpAddress ip2(ip);
-	if(server->connect(ip, 2222, sf::milliseconds(100)) != sf::TcpSocket::Done){
+	if(server->connect(ip, 2222, sf::milliseconds(1000)) != sf::TcpSocket::Done){
 		throw PolyBomberException("Erreur de connexion au serveur "+ip);
 	} else {
 		this->addSocket(server);

@@ -12,7 +12,7 @@ namespace PolyBomber
 	WaitingMenu::WaitingMenu(SMenuConfig* menuConfig) :
 		title("Resume de la partie", TITLEFONT, 50),
 		ip("Adresse IP du serveur : ", TEXTFONT, 150),
-		cancel("Annuler", 500, SELECTNAMEMENU),
+		cancel("Annuler", 500, GAMEMENU),
 		start("Jouer !", 500, RUNGAME),
 		menuConfig(menuConfig)
 	{
@@ -66,7 +66,10 @@ namespace PolyBomber
 	void WaitingMenu::validPressed(EMenuScreen* nextScreen)
 	{
 		if (cancel.getSelected())
+		{
+			this->network->cancel();
 			*nextScreen = cancel.activate();
+		}
 		
 		if (start.getSelected())
 		{						
@@ -77,6 +80,7 @@ namespace PolyBomber
 
 	void WaitingMenu::backPressed(EMenuScreen* nextScreen)
 	{
+		this->network->cancel();
 		*nextScreen = cancel.activate();
 	}
 
@@ -102,20 +106,22 @@ namespace PolyBomber
 
 	void WaitingMenu::initWidgets()
 	{
-		std::string names[4];
-		this->network->getPlayersName(names);
+		// On récupère le nombre de joueurs sur la partie si on est client
+		if (!menuConfig->isServer)
+		{
+			unsigned int nb = 0;
+			std::string names[4];
+			this->network->getPlayersName(names);
+			while (names[nb].compare("") != 0)
+				nb++;
 
-		unsigned int nb = 0;
-
-		while (names[nb].compare("") != 0)
-			nb++;
-
-		this->menuConfig->gameConfig.nbPlayers = nb;
+			this->menuConfig->gameConfig.nbPlayers = nb;
+		}
 
 		for (unsigned int i=0; i<4; i++)
 		{
-			this->pictures[i]->setVisible(i < nb);
-			this->names[i]->setVisible(i < nb);
+			this->pictures[i]->setVisible(i < this->menuConfig->gameConfig.nbPlayers);
+			this->names[i]->setVisible(i < this->menuConfig->gameConfig.nbPlayers);
 		}
 
 		ip.setVisible(this->menuConfig->isServer && !this->menuConfig->gameConfig.isLocal);

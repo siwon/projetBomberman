@@ -15,7 +15,7 @@ namespace PolyBomber
 		error("Pas assez de place sur le serveur", TEXTFONT, 300),
 		nbPlayersText("Nombre de joueurs sur cet ordinateur :", TEXTFONT, 250),
 		nbPlayers(TEXTFONT, 300),
-		cancel("Annuler", 450, NONEMENU),
+		cancel("Annuler", 450, GAMEMENU),
 		next("Valider", 450, SELECTNAMEMENU),
 		menuConfig(menuConfig)
 	{
@@ -111,8 +111,6 @@ namespace PolyBomber
 			this->network->setBookedSlots(this->menuConfig->nbLocalPlayers);
 			return next.activate();
 		}
-
-		cancel.setTarget(previous);
 
 		if (previous == CREATEGAMEMENU)
 			title.setString("Creation d'une partie");
