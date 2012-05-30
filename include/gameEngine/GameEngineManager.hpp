@@ -7,6 +7,7 @@
  * \author Simon Rousseau
  */
 
+#include <SFML/System/Mutex.hpp>
 #include <SFML/System/Time.hpp>
 #include <SFML/System/Clock.hpp>
 
@@ -28,7 +29,8 @@ namespace PolyBomber {
 	class GameEngineManager : public IGameEngineToNetwork, public Singleton<GameEngineManager> {
 
 	friend class Singleton<GameEngineManager>; 
-
+	private:
+		sf::Mutex mutexBoard;
 	protected:
 		INetworkToGameEngine* network;
 		Board board; /*! Objet stockant le plateau de jeu */
