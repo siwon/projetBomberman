@@ -814,7 +814,7 @@ void NetworkManager::deletePlayer(sf::IpAddress& ip1){
 		}
 	} else { // il faut les supprimer pour laisser la place à d'autre
 		for(std::vector<DataPlayer>::iterator it = players.begin();it<players.end();it++){
-			if(it->getIp() == ip1){
+			while((it<players.end())&&(it->getIp() == ip1)){ // s'il y a plusieurs joueurs, obligé de faire un while car le vector décale après la supression et la boucle for augmente. DU coup il y a une occurrence qui échappe a la vérification
 				std::cout << "ok deleteplayer dans if" << std::endl;
 				players.erase(it); // suppression dans le vecteur
 			}
