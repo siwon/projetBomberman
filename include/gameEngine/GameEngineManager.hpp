@@ -65,11 +65,6 @@ namespace PolyBomber {
 		 * 0 : partie non terminée
 		 * 1-4 : renvoie l'id du joueur +1
 		 */
-		
-		//INetworkToGameEngine
-		/*SKeyPressed getKeysPressed();
-		int isPaused();*/
-		
 	};
 }
 

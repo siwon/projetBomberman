@@ -86,21 +86,24 @@ namespace PolyBomber
 
 	void WaitingMenu::update()
 	{
-		/*while (true)
+		try
 		{
-			sf::sleep(sf::milliseconds(500));
-
 			std::string names[4] = {"", "", "", ""};
 			this->network->getPlayersName(names);
 
 			for (unsigned int i=0; i<this->menuConfig->gameConfig.nbPlayers; i++)
 			{
-				if (names[i].compare("None") == 0 || names[i].compare("") == 0)
+				if (names[i].compare("None") == 0)// || names[i].compare("") == 0)
 					this->names[i]->setString("...");
 				else
 					this->names[i]->setString(names[i]);
 			}
-		}*/
+		}
+		catch (PolyBomberException& e)
+		{
+			std::cerr << e.what() << std::endl;
+		}
+
 	}
 
 	EMenuScreen WaitingMenu::run(MainWindow& window, EMenuScreen previous)
@@ -111,12 +114,12 @@ namespace PolyBomber
 		//sf::Thread thread(&WaitingMenu::update, this);
 		//thread.launch();
 		
-		EMenuScreen signal = IMenuScreen::run(window, previous);
+		//EMenuScreen signal = IMenuScreen::run(window, previous);
 
 		//thread.terminate();
-		return signal;
+		//return signal;
 
-		/*IControllerToMenu* controller = PolyBomberApp::getIControllerToMenu();
+		IControllerToMenu* controller = PolyBomberApp::getIControllerToMenu();
 
 		EMenuScreen nextScreen = NONEMENU;
 			
@@ -125,13 +128,13 @@ namespace PolyBomber
 			window.clear();
 			window.display(this->widgets);
 
-			loopAction(&nextScreen);
-
-			window.clear();
-			window.display(this->widgets);
-
 			EMenuKeys key = MENU_NONE;
-			while ((key = controller->getKeyPressed()) == MENU_NONE && window.isOpen());
+			while ((key = controller->getKeyPressed()) == MENU_NONE && window.isOpen())
+			{
+				update();
+				window.clear();
+				window.display(this->widgets);
+			}
 
 			switch(key)
 			{
@@ -161,7 +164,7 @@ namespace PolyBomber
 				nextScreen = EXIT;
 		}
 
-		return nextScreen;*/
+		return nextScreen;
 	}
 
 	void WaitingMenu::initWidgets()
@@ -170,12 +173,20 @@ namespace PolyBomber
 		if (!menuConfig->isServer)
 		{
 			unsigned int nb = 0;
-			std::string names[4] = {"", "", "", ""};
-			std::cout << "avt gpn" << std::endl;
-			this->network->getPlayersName(names);
-			std::cout << "ap gpn" << std::endl;
-			while (names[nb].compare("") != 0)
-				nb++;
+
+			try
+			{
+				std::string names[4] = {"", "", "", ""};
+				this->network->getPlayersName(names);
+				while (names[nb].compare("") != 0)
+					nb++;
+			}
+			catch (PolyBomberException& e)
+			{
+				std::cerr << e.what() << std::endl;
+				this->network->cancel();
+				// FIXME: Changer de menu
+			}
 
 			this->menuConfig->gameConfig.nbPlayers = nb;
 		}
