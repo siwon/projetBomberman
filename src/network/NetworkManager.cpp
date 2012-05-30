@@ -551,19 +551,13 @@ void NetworkManager::listenToServer(){
 			sf::Packet testPacket = packet; // recopie du paquet reçu
 			int num;
 			testPacket >> num;
-			if(num==101) {// signal d'arrêt
-				this->setConnect(false);
-				this->mutexClients.lock();
-				this->clients.pop_back(); // il n'y a qu'une seul socket
-				this->mutexClients.unlock();
-			} else {
-				if(num%2){ // si c'est impaire
-					decryptPacket(packet);
-				} else { //ajouter le packet !!!!! mutex !!!!
-					this->mutexPacket.lock();
-					this->packets.push_back(packet);
-					this->mutexPacket.unlock();
-				}
+
+			if(num%2){ // si c'est impaire
+				decryptPacket(packet);
+			} else { //ajouter le packet !!!!! mutex !!!!
+				this->mutexPacket.lock();
+				this->packets.push_back(packet);
+				this->mutexPacket.unlock();
 			}
 		}
 	}
@@ -685,7 +679,6 @@ sf::TcpSocket* NetworkManager::findSocket(sf::IpAddress& ip){
 std::vector<sf::TcpSocket*>::iterator NetworkManager::findSocketIterator(sf::IpAddress& ip){
 	bool find = false;
 	sf::TcpSocket* client= NULL;
-
 	std::vector<sf::TcpSocket*>::iterator it = clients.begin();
 	while( it != clients.end() && !find){
 		client = *it;
@@ -694,8 +687,9 @@ std::vector<sf::TcpSocket*>::iterator NetworkManager::findSocketIterator(sf::IpA
 		else
 			it++;
 	}
-	if(!find)
+	if(!find) {
 		throw PolyBomberException ("Le serveur n'a pas pu trouver le socket pour communiquer avec le client "+ip.toString());
+		}
 	return it;
 }
 
@@ -738,7 +732,7 @@ void NetworkManager::decryptPacket(sf::Packet& packet){
 	switch(num){
 	case 101 :
 		if(this->server){
-			std::cerr << "le client " << ip <<" vient de se dconnecter" << std::endl;
+			std::cerr << "le client " << ip <<" vient de se deconnecter" << std::endl;
 			eraseSocket(ip1);
 		} else {
 			throw PolyBomberException("Le serveur vient de quitter la partie");
@@ -764,9 +758,13 @@ void NetworkManager::decryptPacket(sf::Packet& packet){
 		std::cout << "ok !! : " << (num+1) << std::endl;
 		result = createPacket(num+1);
 		this->mutexClients.lock();
+		try {
 		sf::TcpSocket* client = this->findSocket(ip1);
 		if (!client->send(result) == sf::TcpSocket::Done)
 			std::cerr << "la réponse n°" << num << " n'à pas pu être renvoyée" << std::endl;
+		} catch(PolyBomberException e) {
+			std::cout << "decrypt packet ne trouve pas le socket" << std::endl;
+		}
 		this->mutexClients.unlock();
 	}
 }
@@ -793,12 +791,17 @@ void NetworkManager::setPause(int i){
 
 void NetworkManager::eraseSocket(sf::IpAddress& ip) {
 	// suprime le socket à cet adresse ip ; fonction appelé uniquement sur le serveur
-	std::vector<sf::TcpSocket*>::iterator it = this->findSocketIterator(ip);
-	sf::TcpSocket* socket = *it;
-	this->selector.remove(*socket);
-	this->mutexClients.lock();
-	this->clients.erase(it);
-	this->mutexClients.unlock();
+	try{
+		std::vector<sf::TcpSocket*>::iterator it = this->findSocketIterator(ip);
+		sf::TcpSocket* socket = *it;
+		this->selector.remove(*socket);
+		this->mutexClients.lock();
+		this->clients.erase(it);
+		this->mutexClients.unlock();
+		std::cout << "ok pour la suppression du socket" << std::endl;
+	} catch(PolyBomberException e) {
+		std::cerr << e.what() << std::endl;
+	}
 	this->deletePlayer(ip);
 }
 
@@ -810,10 +813,13 @@ void NetworkManager::deletePlayer(sf::IpAddress& ip1){
 				player.setConnected(false);
 		}
 	} else { // il faut les supprimer pour laisser la place à d'autre
-		for(std::vector<DataPlayer>::iterator it = players.begin();it !=players.end();it++){
-			if(it->getIp() == ip1)
+		for(std::vector<DataPlayer>::iterator it = players.begin();it<players.end();it++){
+			if(it->getIp() == ip1){
+				std::cout << "ok deleteplayer dans if" << std::endl;
 				players.erase(it); // suppression dans le vecteur
+			}
 		}
+		std::cout << "ok deleteplayer en cours" << std::endl;
 		bool find = false;
 		for(int i=0;i<4;i++){
 			if(!find){
@@ -826,6 +832,7 @@ void NetworkManager::deletePlayer(sf::IpAddress& ip1){
 		}
 		this->ip[3]=sf::IpAddress::None;
 		this->nbPlayerByIp[3]=0;
+		std::cout << "ok deleteplayer fin" << std::endl;
 	}
 	
 }
