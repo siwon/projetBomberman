@@ -131,6 +131,7 @@ namespace PolyBomber
 				network->cancel();
 				*nextScreen = cancel.activate();
 			}
+			std::cout << "fin select name" << std::endl;
 		}
 	}
 

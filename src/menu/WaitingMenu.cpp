@@ -105,6 +105,7 @@ namespace PolyBomber
 
 	EMenuScreen WaitingMenu::run(MainWindow& window, EMenuScreen previous)
 	{
+		std::cout << "deb waiting" << std::endl;
 		initWidgets();
 
 		//sf::Thread thread(&WaitingMenu::update, this);
@@ -170,7 +171,9 @@ namespace PolyBomber
 		{
 			unsigned int nb = 0;
 			std::string names[4] = {"", "", "", ""};
+			std::cout << "avt gpn" << std::endl;
 			this->network->getPlayersName(names);
+			std::cout << "ap gpn" << std::endl;
 			while (names[nb].compare("") != 0)
 				nb++;
 
