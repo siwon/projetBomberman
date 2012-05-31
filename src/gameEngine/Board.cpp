@@ -121,6 +121,7 @@ namespace PolyBomber {
 	
 	void Board::actionToucheHaut(int player) {//TODO : faire la vérification si le déplacement se fait dans la meme case nécessaire ?
 		Player& pl = getPlayerById(player);
+		if (pl.getAlive()) {
 		int x = pl.getLocationX();//position en cran
 		int y = pl.getLocationY();//position en cran
 		int xCase = cranToCase(x);
@@ -171,10 +172,12 @@ namespace PolyBomber {
 		}
 		pl.incrementStep();
 		pl.setOrientation(orient);
+		}
 	}
 	
 	void Board::actionToucheBas(int player) {
 		Player& pl = getPlayerById(player);
+		if (pl.getAlive()) {
 		EOrientation orient;
 		int x = pl.getLocationX();//position en cran
 		int y = pl.getLocationY();//position en cran
@@ -225,11 +228,12 @@ namespace PolyBomber {
 		}
 		pl.incrementStep();
 		pl.setOrientation(orient);
-		std::cout << "okfin : " << pl.getLocationX() << " ; " << pl.getLocationY() << std::endl;
+		}
 	}
 	
 	void Board::actionToucheGauche(int player) {
 		Player& pl = getPlayerById(player);
+		if (pl.getAlive()) {
 		EOrientation orient;
 		int x = pl.getLocationX();//position en cran
 		int y = pl.getLocationY();//position en cran
@@ -278,10 +282,12 @@ namespace PolyBomber {
 		}
 		pl.incrementStep();
 		pl.setOrientation(orient);
+		}
 	}
 	
 	void Board::actionToucheDroite(int player) {
 		Player& pl = getPlayerById(player);
+		if (pl.getAlive()) {
 		EOrientation orient;
 		int x = pl.getLocationX();//position en cran
 		int y = pl.getLocationY();//position en cran
@@ -330,21 +336,25 @@ namespace PolyBomber {
 		}
 		pl.incrementStep();
 		pl.setOrientation(orient);
+		}
 	}
 	
 	void Board::actionToucheAction1(int player, int date) {
 		Player& pl = getPlayerById(player);
+		if (pl.getAlive()) { 
 		std::cout << "Bombe player : " << player << " => " << pl.getCapacity() << std::endl;
 		if (pl.getCapacity()>0 && !isABombInThisCase(cranToCase(pl.getLocationX()),cranToCase(pl.getLocationY()))) {//le joueur peut poser une bombe
 			std::cout << "Puddi" << std::endl;
 			bomb.push_back(Bomb(date,pl));
 			pl.decrementCapacity();
 		}
+		}
 	}
 	
-	void Board::actionToucheAction2(int player, int date) {
+	void Board::actionToucheAction2(int player, int date) {/*
 		Player& pl = getPlayerById(player);
 		EGameBonus bon = pl.getFirstBombBonus();
+		if (pl.getAlive()) {
 		if (pl.getBombBonus().size()>0) {
 			//utiliser le 1er bonus puis le supprimer de la liste
 			if (bon==INFINITYBOMB) {
@@ -422,6 +432,7 @@ namespace PolyBomber {
 				}
 			}
 		}
+		}*/
 	}
 	
 	void Board::removeBox(int i) {
@@ -452,13 +463,13 @@ namespace PolyBomber {
 			i++;
 		}
 		i=0;
-		while (toReturn && i<flame.size()) {//flame
+		/*while (toReturn && i<flame.size()) {//flame
 			if (x==flame[i].getLocationX() && y==flame[i].getLocationY()) {
 				toReturn=false;
 			}
 			i++;
 		}
-		i=0;
+		i=0;*/
 		while (toReturn && i<box.size()) {//box
 			if (x==box[i].getLocationX() && y==box[i].getLocationY()) {
 				toReturn=false;
@@ -467,7 +478,7 @@ namespace PolyBomber {
 		}
 		i=0;
 		while (toReturn && i<player.size()) {//player
-			if (x==cranToCase(player[i].getLocationX()) && y==cranToCase(player[i].getLocationY())) {
+			if (x==cranToCase(player[i].getLocationX()) && y==cranToCase(player[i].getLocationY()) && player[i].getAlive()) {
 				toReturn=false;
 			}
 			i++;
@@ -783,8 +794,9 @@ namespace PolyBomber {
 							break;
 					}
 				} else {
-					
+					player[i].addBonus(bon);
 				}
+				removeBonusByCoord(x,y);
 			}
 			if (isAMineInThisCase(x,y)) {
 				int indiceMine = getIndiceMineByCoord(x,y);
@@ -810,6 +822,19 @@ namespace PolyBomber {
 		for (int i=bomb.size()-1; i>=0; i--) {
 			if (isAFlameInThisCase(bomb[i].getLocationX(),bomb[i].getLocationY())) {
 				explodeBomb(bomb[i].getLocationX(),bomb[i].getLocationY());
+			}
+		}
+	}
+	
+	void Board::removeBonusByCoord(int x, int y) { //TODO : A replacer !!!
+		int indice = 0;
+		bool trouve = false;
+		while (indice < bonus.size() && !trouve) {
+			if (bonus[indice].getLocationX()==x && bonus[indice].getLocationY()==y) {
+				trouve=true;
+				bonus.erase(bonus.begin()+indice);
+			} else {
+				indice++;
 			}
 		}
 	}
@@ -924,7 +949,7 @@ namespace PolyBomber {
 		int x2;
 		int y2;
 		for (unsigned int i=0; i<player.size(); i++) {
-			if (i!=pl) {
+			if (i!=pl && player[i].getAlive()) {
 				x2=player[i].getLocationX();
 				y2=player[i].getLocationY();
 				if (x2<x) {
