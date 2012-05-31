@@ -24,6 +24,7 @@
 #include "../../include/EControllerType.hpp"
 #include "../../include/controller/Gamepad.hpp"
 #include "../../include/PolyBomberException.hpp"
+#include "../../include/controller/GameAction.hpp"
 
 using namespace PolyBomber;
 
@@ -207,4 +208,120 @@ int Gamepad::getKeyPressed(int player,sf::RenderWindow* window)
 		return Y_DOWN;
 	
 	return -1;
+}
+		
+GameAction Gamepad::getAction(int keys[7],int player, sf::RenderWindow*)
+{
+	int i;	
+	
+	GameAction gameAction;
+	gameAction.init();
+	
+	for(i=0;i<7;i++)
+	{
+		switch((Keys)keys[i])
+		{
+			case BUT1:
+				if(sf::Joystick::isButtonPressed(gamepadsAssignation[player], 0))
+				{
+					gameAction.actions[i] = true;
+					std::cout << "Player " << player << " : " << keys[i] << std::endl;
+				}
+				break;
+			case BUT2:
+				if(sf::Joystick::isButtonPressed(gamepadsAssignation[player], 1))
+				{
+					gameAction.actions[i] = true;
+					std::cout << "Player " << player << " : " << keys[i] << std::endl;
+				}
+				break;
+			case BUT3:
+				if(sf::Joystick::isButtonPressed(gamepadsAssignation[player], 2))
+				{
+					gameAction.actions[i] = true;
+					std::cout << "Player " << player << " : " << keys[i] << std::endl;
+				}
+				break;
+			case BUT4:
+				if(sf::Joystick::isButtonPressed(gamepadsAssignation[player], 3))
+				{
+					gameAction.actions[i] = true;
+					std::cout << "Player " << player << " : " << keys[i] << std::endl;
+				}
+				break;
+			case BUT5:
+				if(sf::Joystick::isButtonPressed(gamepadsAssignation[player], 4))
+				{
+					gameAction.actions[i] = true;
+					std::cout << "Player " << player << " : " << keys[i] << std::endl;
+				}
+				break;
+			case BUT6:
+				if(sf::Joystick::isButtonPressed(gamepadsAssignation[player], 5))
+				{	
+					gameAction.actions[i] = true;
+					std::cout << "Player " << player << " : " << keys[i] << std::endl;
+				}
+				break;
+			case BUT7:
+				if(sf::Joystick::isButtonPressed(gamepadsAssignation[player], 6))
+				{	
+					gameAction.actions[i] = true;
+					std::cout << "Player " << player << " : " << keys[i] << std::endl;
+				}
+				break;
+			case BUT8:
+				if(sf::Joystick::isButtonPressed(gamepadsAssignation[player], 7))
+				{
+					gameAction.actions[i] = true;
+					std::cout << "Player " << player << " : " << keys[i] << std::endl;
+				}
+				break;
+			case BUT9:
+				if(sf::Joystick::isButtonPressed(gamepadsAssignation[player], 8))
+				{
+					gameAction.actions[i] = true;
+					std::cout << "Player " << player << " : " << keys[i] << std::endl;
+				}
+				break;
+			case BUT10:
+				if(sf::Joystick::isButtonPressed(gamepadsAssignation[player], 9))
+				{
+					gameAction.actions[i] = true;
+					std::cout << "Player " << player << " : " << keys[i] << std::endl;
+				}
+				break;
+			case X_LEFT:
+				if(sf::Joystick::getAxisPosition(gamepadsAssignation[player], sf::Joystick::X) < -50)
+				{
+					gameAction.actions[i] = true;
+					std::cout << "Player " << player << " : " << keys[i] << std::endl;
+				}
+				break;	
+			case X_RIGHT:
+				if(sf::Joystick::getAxisPosition(gamepadsAssignation[player], sf::Joystick::X) > 50)
+				{
+					gameAction.actions[i] = true;
+					std::cout << "Player " << player << " : " << keys[i] << std::endl;
+				}
+				break;	
+			case Y_UP:
+				if(sf::Joystick::getAxisPosition(gamepadsAssignation[player], sf::Joystick::Y) < -50)
+				{
+					gameAction.actions[i] = true;
+					std::cout << "Player " << player << " : " << keys[i] << std::endl;
+				}
+				break;	
+			case Y_DOWN:
+				if(sf::Joystick::getAxisPosition(gamepadsAssignation[player], sf::Joystick::Y) > 50)
+				{
+					gameAction.actions[i] = true;
+					std::cout << "Player " << player << " : " << keys[i] << std::endl;
+				}
+				break;
+			default:
+				break;
+		}
+	}
+	return gameAction;
 }

@@ -15,6 +15,7 @@
 // Headers
 #include "../EMenuKeys.hpp"
 #include "../EControllerType.hpp"
+#include "GameAction.hpp"
 
 namespace PolyBomber
 {
@@ -69,18 +70,27 @@ namespace PolyBomber
 		 */
 		virtual std::string getLabel(int key) = 0;
 	
-		/**
+		/*!
 		 * \brief Affecte un controleur disponible à un joueur
 		 * Lance une exception PolyBomberException si aucune controleur n'est disponible
 		 * \param player : joueur à qui affecter un controleur
 		 */
 		virtual void add(int player) = 0;
 		
-		/**
+		/*!
 		 * \brief Déconnecte le controleur d'un joueur donné
 		 * \param player : joueur à qui déconnecter le controleur
 		 */
 		virtual void disconnect(int player) = 0;
+		
+		/*!
+		 * \brief Obtenir les actions a effectuer pour un joueur donné
+		 * \param keys : touches configurées pour le joueur donné
+		 * \param player : joueur donné
+		 * \param window : fenetre SFML
+		 * \return Tableau de booléens définissant pour chaque action si elle est a effectuer ou non
+		 */
+		virtual GameAction getAction(int keys[7],int player, sf::RenderWindow* window) = 0;
   };
 }
 

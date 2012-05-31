@@ -23,6 +23,7 @@
 #include "../../include/controller/Wii.hpp"
 #include "../../include/PolyBomberException.hpp"
 #include "../../include/controller/Wiicpp.hpp"
+#include "../../include/controller/GameAction.hpp"
 
 using namespace PolyBomber;
 
@@ -146,6 +147,34 @@ EControllerType Wii::getControllerType()
 char Wii::getCharPressed(sf::RenderWindow*)
 {
 	return '\0';
+}
+
+GameAction Wii::getAction(int keys[7],int player, sf::RenderWindow*)
+{
+	GameAction gameAction;
+	gameAction.init();
+	
+	if(wii->Poll())
+	{
+		CWiimote & wiimote =  *wiimotesAssignation[player];
+			
+		switch(wiimote.GetEvent())
+		{
+			case CWiimote::EVENT_EVENT :
+				for(int i=0;i<7;i++)
+				{
+					if(wiimote.Buttons.isPressed(keys[i]))
+					{
+						gameAction.actions[i] = true;
+						std::cout << "Player " << player << " : " << keys[i] << std::endl;
+					}
+				}
+				break;
+			default :
+				break;
+		}				
+	}
+	return gameAction;
 }
 
 int Wii::getKeyPressed(int player,sf::RenderWindow*)

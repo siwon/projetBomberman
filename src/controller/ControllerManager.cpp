@@ -26,7 +26,7 @@
 #include "../../include/SKeysConfig.hpp"
 #include "../../include/EGameKeys.hpp"
 #include "../../include/PolyBomberException.hpp"
-
+#include "../../include/controller/GameAction.hpp"
 
 using namespace PolyBomber;
 
@@ -479,93 +479,25 @@ SKeyPressed ControllerManager::initSKeyPressed()
 SKeyPressed ControllerManager::getKeysPressed()
 {
 	SKeyPressed sKeyPressed = initSKeyPressed();
-	int i;
+	int i,j;
 	Controller* controller;
-	EGameKeys gameKeys;
+	GameAction gameAction;
 	
 	for(i=0; i<4; i++)
 	{
 		controller = controllerAssignation[i].getController();
 		if(controller != NULL)
 		{
-			gameKeys = getAction(controller->getKeyPressed(i+1,window),i+1);
-			
-			switch(gameKeys)
+			gameAction = controller->getAction(controllerAssignation[i].keys,i+1,window);
+			for(j=0;j<7;j++)
 			{
-				case GAME_UP :
-					#if DEBUG
-						std::cout << "Player " << i+1 << ": UP" << std::endl;
-					#endif
-					sKeyPressed.keys[i][GAME_UP] = true;
-					break;
-				case GAME_DOWN :
-					#if DEBUG
-						std::cout << "Player " << i+1 << ": DOWN" << std::endl;
-					#endif
-					sKeyPressed.keys[i][GAME_DOWN] = true;
-					break;
-				case GAME_LEFT :
-					#if DEBUG
-						std::cout << "Player " << i+1 << ": LEFT" << std::endl;
-					#endif
-					sKeyPressed.keys[i][GAME_LEFT] = true;
-					break;
-				case GAME_RIGHT :
-					#if DEBUG
-						std::cout << "Player " << i+1 << ": RIGHT" << std::endl;
-					#endif
-					sKeyPressed.keys[i][GAME_RIGHT] = true;
-					break;
-				case GAME_ACTION1 :
-					#if DEBUG
-						std::cout << "Player " << i+1 << ": ACTION1" << std::endl;
-					#endif
-					sKeyPressed.keys[i][GAME_ACTION1] = true;
-					break;
-				case GAME_ACTION2 :
-					#if DEBUG
-						std::cout << "Player " << i+1 << ": ACTION2" << std::endl;
-					#endif
-					sKeyPressed.keys[i][GAME_ACTION2] = true;
-					break;
-				case GAME_PAUSE :
-					#if DEBUG
-						std::cout << "Player " << i+1 << ": PAUSE" << std::endl;
-					#endif
-					sKeyPressed.keys[i][GAME_PAUSE] = true;
-					break;
-				default :
-					break;
+				if(gameAction.actions[j])
+					sKeyPressed.keys[i][(EGameKeys)j] = true;
 			}
+
 		}
 	}
 	return sKeyPressed;
-}
-
-EGameKeys ControllerManager::getAction(int key, int player)
-{
-	if( key == (int)(controllerAssignation[player-1].getKeys(GAME_UP)) )
-		return GAME_UP;
-	
-	if( key == (int)(controllerAssignation[player-1].getKeys(GAME_DOWN)) )
-		return GAME_DOWN;
-	
-	if( key == (int)(controllerAssignation[player-1].getKeys(GAME_LEFT)) )
-		return GAME_LEFT;
-	
-	if( key == (int)(controllerAssignation[player-1].getKeys(GAME_RIGHT)) )
-		return GAME_RIGHT;
-	
-	if( key == (int)(controllerAssignation[player-1].getKeys(GAME_ACTION1)) )
-		return GAME_ACTION1;
-	
-	if( key == (int)(controllerAssignation[player-1].getKeys(GAME_ACTION2)) )
-		return GAME_ACTION2;
-	
-	if( key == (int)(controllerAssignation[player-1].getKeys(GAME_PAUSE)) )
-		return GAME_PAUSE;
-	
-	return GAME_NONE;
 }
 
 void ControllerManager::printConfig(int player)

@@ -23,6 +23,7 @@
 #include "../../include/SKeysConfig.hpp"
 #include "../../include/EControllerType.hpp"
 #include "../../include/controller/Keyboard.hpp"
+#include "../../include/controller/GameAction.hpp"
 
 using namespace PolyBomber;
 
@@ -156,27 +157,53 @@ EControllerType Keyboard::getControllerType()
 	return KEYBOARD;
 }
 
-int Keyboard::getKeyPressed(int, sf::RenderWindow*)
+GameAction Keyboard::getAction(int keys[7],int player, sf::RenderWindow*)
 {
-	int k = (int)(sf::Keyboard::A);
+	int i;
 	
-	bool keyPressed = false;
-
-	while(k != (int)(sf::Keyboard::KeyCount) && !keyPressed)
+	GameAction gameAction;
+	gameAction.init();
+	
+	for(i=0;i<7;i++)
 	{
-		if( sf::Keyboard::isKeyPressed((sf::Keyboard::Key)(k)) )
+		if(sf::Keyboard::isKeyPressed((sf::Keyboard::Key)(keys[i])) )
 		{
-			keyPressed = true;
+			gameAction.actions[i] = true;
+			std::cout << "Player " << player << " : " << keys[i] << std::endl;
 		}
-		else
-		{
-			k++;
-		}
-		
 	}
-	if( !keyPressed )
-		k = -1;
+	return gameAction;
+}
+int Keyboard::getKeyPressed(int, sf::RenderWindow* window)
+{
+	int k = -1;
 	
+	if(window != NULL)
+	{
+		sf::Event event;
+		window->pollEvent(event);
+		if(event.type == sf::Event::KeyPressed)
+		{
+			bool keyPressed = false;
+			k = (int)(sf::Keyboard::A);
+			
+			
+			while(k != (int)(sf::Keyboard::KeyCount) && !keyPressed)
+			{
+				if(event.key.code == (sf::Keyboard::Key)(k) )
+				{
+					keyPressed = true;
+				}
+				else
+				{
+					k++;
+				}
+		
+			}
+			if( !keyPressed )
+				k = -1;
+		}
+	}
 	return k;
 }
 

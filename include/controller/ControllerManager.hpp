@@ -49,7 +49,7 @@ namespace PolyBomber
 		*/
 		class ControllerAssignation
 		{
-			private :
+			public :
 				Controller* controller; /*!< Controleur assigné */
 				int keys[7]; /*!< Touches / Boutons configurés */
 				
@@ -134,14 +134,6 @@ namespace PolyBomber
 		 * \return Structure initialisée
 		 */
 		SKeyPressed initSKeyPressed();
-		
-		/*!
-		 * \brief Obtenir l'action de jeu à effectuer suivant un code touche / bouton appuyé
-		 * \param key : code touche / bouton
-		 * \param player : joueur courant
-		 * \return Action à effectuer
-		 */
-		EGameKeys getAction(int key, int player);
 		
 		/*!
 		 * \brief Vérifie si une touche n'est pas déjà assignée

@@ -20,6 +20,7 @@
 #include "../EMenuKeys.hpp"
 #include "../EControllerType.hpp"
 #include "Wiicpp.hpp"
+#include "GameAction.hpp"
 
 namespace PolyBomber
 {
@@ -82,6 +83,8 @@ namespace PolyBomber
 		virtual void add(int player);
 		
 		virtual void disconnect(int player);
+		
+		virtual GameAction getAction(int keys[7],int, sf::RenderWindow*);
 
   };
 }
