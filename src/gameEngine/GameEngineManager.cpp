@@ -36,8 +36,6 @@ namespace PolyBomber {
 	}
 	
 	GameEngineManager::~GameEngineManager() {
-		this->board.~Board();
-		this->horloge.~Clock();
 	}
 	
 	void GameEngineManager::generateWall() {
@@ -56,21 +54,21 @@ namespace PolyBomber {
 		this->mutexBoard.lock();
 		switch (nbPlayer) {
 			case 2:
-				board.addPlayer(Player(3,3,0));
+				board.addPlayer(Player(2,2,0));
 				board.addPlayer(Player(92,62,1));
 				break;
 				
 			case 3:
-				board.addPlayer(Player(3,3,0));
-				board.addPlayer(Player(92,3,1));
+				board.addPlayer(Player(2,2,0));
+				board.addPlayer(Player(92,2,1));
 				board.addPlayer(Player(47,62,2));
 				break;
 				
 			case 4:
-				board.addPlayer(Player(3,3,0));
-				board.addPlayer(Player(87,3,1));
-				board.addPlayer(Player(87,62,2));
-				board.addPlayer(Player(3,62,3));
+				board.addPlayer(Player(2,2,0));
+				board.addPlayer(Player(92,2,1));
+				board.addPlayer(Player(92,62,2));
+				board.addPlayer(Player(2,62,3));
 				break;
 				
 			default:
@@ -111,7 +109,7 @@ namespace PolyBomber {
 		if (!gameConfigIsSet) {
 			resetConfig();
 		}
-
+		std::cout << gameConfig.nbPlayers<< std::endl;
 		int nbPlayer = gameConfig.nbPlayers;
 		int nbBonusTemp;
 		int x=rand()%19;
@@ -125,7 +123,7 @@ namespace PolyBomber {
 		generateWall();
 		std::cout << "ok5" << std::endl;
 		//generation des bonus
-		for (int i=0;i<19;i++) {
+		for (int i=0;i<18;i++) {
 			std::cout << "ok6" << std::endl;
 			nbBonusTemp = gameConfig.nbBonus[i];
 			std::cout << "gb " << i << " : " << gameConfig.nbBonus[i] << std::endl;
@@ -150,6 +148,7 @@ namespace PolyBomber {
 		generateBox(NOMBREBOX-nbBonus);
 		std::cout << "ok7" << std::endl;
 		this->gameConfigIsSet=true;
+		this->runnable = true;
 	}
 	
 	void GameEngineManager::run() {

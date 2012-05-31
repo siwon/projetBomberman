@@ -8,6 +8,7 @@
  */
  
 #include <vector>
+#include <iostream>
 
 #include "Flame.hpp"
 #include "Bonus.hpp"
@@ -60,11 +61,11 @@ namespace PolyBomber {
 		void actionToucheAction1(int, int);
 		void actionToucheAction2(int, int);
 		
-		inline void addPlayer(Player pl) {player.push_back(pl);}
-		inline void addWall(Wall w) {wall.push_back(w);}
-		inline void addBonus(Bonus b) {bonus.push_back(b);}
-		inline void addBox(Box b) {box.push_back(b);}
-		inline void addFlame(Flame f) {flame.push_back(f);}
+		inline void addPlayer(Player pl) {this->player.push_back(pl);}
+		inline void addWall(Wall w) {this->wall.push_back(w);}
+		inline void addBonus(Bonus b) {this->bonus.push_back(b);}
+		inline void addBox(Box b) {this->box.push_back(b);}
+		inline void addFlame(Flame f) {this->flame.push_back(f);}
 		
 		void removeBox(int i);
 		
@@ -103,7 +104,12 @@ namespace PolyBomber {
 		void removeObseleteFlame(int);
 		void explodeAllBomb(int);
 		
-		static int cranToPixel(int i) {return i*7+4;}
+		static int cranToPixel(int i) {
+
+			std::cout << "i=" << i << " ; " << (i-2)*7 << std::endl;
+			return (i-2)*7;
+			
+		}
 		static int cranToCase(int i) {return (i-(i%5))/5;}
 		bool distanceDesAutresJoueursValide(unsigned int, int, int);
 		

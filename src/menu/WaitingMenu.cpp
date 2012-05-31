@@ -73,7 +73,7 @@ namespace PolyBomber
 		
 		if (start.getSelected())
 		{						
-			//this->network->startGame();
+			this->network->startGame();
 			*nextScreen = start.activate();
 		}
 	}
@@ -125,6 +125,12 @@ namespace PolyBomber
 				update();
 				window.clear();
 				window.display(this->widgets);
+
+				if (this->network->isStarted())
+				{
+					nextScreen = start.activate();
+					break;
+				}
 			}
 
 			switch(key)
@@ -154,6 +160,8 @@ namespace PolyBomber
 			if (!window.isOpen())
 				nextScreen = EXIT;
 		}
+
+		
 
 		return nextScreen;
 	}

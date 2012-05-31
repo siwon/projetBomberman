@@ -92,6 +92,8 @@ namespace PolyBomber
 					screen = EXIT;
 			}
 		}
+
+		PolyBomberApp::getINetworkToMenu()->cancel();
 		
 		return EXITGAME;
 	}
