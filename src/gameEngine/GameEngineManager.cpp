@@ -121,32 +121,30 @@ namespace PolyBomber {
 
 		//generation des murs
 		generateWall();
-		std::cout << "ok5" << std::endl;
+
 		//generation des bonus
 		for (int i=0;i<18;i++) {
-			std::cout << "ok6" << std::endl;
 			nbBonusTemp = gameConfig.nbBonus[i];
-			std::cout << "gb " << i << " : " << gameConfig.nbBonus[i] << std::endl;
+
 			for (int j=0; j<nbBonusTemp; j++) {
-				std::cout << "ok7 : " << nbBonusTemp << std::endl;
+
 				while (!board.caseIsFreeInitialisation(x,y)) {
-					std::cout << "ok8" << x << " et " << y << std::endl;
 					x=rand()%19;
 					y=rand()%13;
 				}
-				std::cout << "ok9" << std::endl;
+
 				this->mutexBoard.lock();
 				board.addBonus(Bonus(x,y,(EGameBonus)i,false));
-				std::cout << "ok10" << std::endl;
+
 				this->mutexBoard.unlock();
 			}
-			std::cout << "ok11" << std::endl;
+
 			nbBonus=nbBonus+nbBonusTemp;
 		}
-		std::cout << "okfin" << std::endl;
+
 		//generation des caisses
 		generateBox(NOMBREBOX-nbBonus);
-		std::cout << "ok7" << std::endl;
+
 		this->gameConfigIsSet=true;
 		this->runnable = true;
 	}
@@ -155,6 +153,9 @@ namespace PolyBomber {
 		while (runnable) {
 			int time=horloge.getElapsedTime().asSeconds();
 			SKeyPressed sKeyPressed = network->getKeysPressed();
+
+			std::cout << "run engine : " << sKeyPressed.keys[0][GAME_DOWN] << std::endl;
+			
 			if (network->isPaused()) {//si le jeu est en pause
 				if(debutPause==0) {
 					debutPause=time;//stockage du début de la pause
@@ -199,7 +200,9 @@ namespace PolyBomber {
 					}
 					if (sKeyPressed.keys[i][1]==true) {//touche bas
 						this->mutexBoard.lock();
+						std::cout << "ok1" << std::endl;
 						board.actionToucheBas(i);
+						std::cout << "ok2" << std::endl;
 						this->mutexBoard.unlock();
 					}
 					if (sKeyPressed.keys[i][2]==true) {//touche gauche
@@ -231,6 +234,7 @@ namespace PolyBomber {
 	//IGameEngineToGameInterface
 	SBoard GameEngineManager::getBoard() {
 		this->mutexBoard.lock();
+		std::cout << "getBoooooo" << std::endl;
 		SBoard gameboard = this->board.boardToSBoard();
 		this->mutexBoard.unlock();
 		return gameboard;

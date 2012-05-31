@@ -49,8 +49,6 @@ namespace PolyBomber
 			for (i=0; i<this->explosives.size(); i++)	window->draw(this->explosives[i]);
 			for (i=0; i<this->flames.size(); i++)		window->draw(this->flames[i]);
 
-			//window->draw(score);
-
 			window->display();
 		}
 

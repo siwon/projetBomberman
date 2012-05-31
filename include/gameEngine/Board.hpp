@@ -40,7 +40,7 @@ namespace PolyBomber {
 		std::vector<Mine> mine;
 		std::vector<Wall> wall;
 		
-		Player getPlayerById(int);
+		Player& getPlayerById(int);
 		void generateFlameHorizontal(int, int, int, int);
 		
 	public:
@@ -104,12 +104,7 @@ namespace PolyBomber {
 		void removeObseleteFlame(int);
 		void explodeAllBomb(int);
 		
-		static int cranToPixel(int i) {
-
-			std::cout << "i=" << i << " ; " << (i-2)*7 << std::endl;
-			return (i-2)*7;
-			
-		}
+		static int cranToPixel(int i) {return (i-2)*7;}
 		static int cranToCase(int i) {return (i-(i%5))/5;}
 		bool distanceDesAutresJoueursValide(unsigned int, int, int);
 		

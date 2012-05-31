@@ -30,7 +30,7 @@ namespace PolyBomber {
 		
 	}
 	
-	Player Board::getPlayerById(int id) {
+	Player& Board::getPlayerById(int id) {
 		unsigned int indice=0;
 		while (indice<player.size() && player[indice].getId()!=id) {
 			indice++;
@@ -83,6 +83,7 @@ namespace PolyBomber {
 		/*les joueurs*/
 		for (unsigned int i=0; i<player.size(); i++) {
 			SPlayer p;
+			std::cout << "btosb : " << i << " : " << player[i].getLocationY() << std::endl;
 			p.coords=sf::Vector2<int>(cranToPixel(player[i].getLocationX()),cranToPixel(player[i].getLocationY()));
 			p.orientation=player[i].getOrientation();
 			p.number=player[i].getId();
@@ -126,6 +127,7 @@ namespace PolyBomber {
 		int xCase = cranToCase(x);
 		int yCase = cranToCase(y);
 		EOrientation orient;
+
 		if (pl.getInfection()==1) {
 			//inversion des touches directionnelles
 			if (caseIsFree(xCase,yCase+1)) {
@@ -173,12 +175,13 @@ namespace PolyBomber {
 	}
 	
 	void Board::actionToucheBas(int player) {
-		Player pl = getPlayerById(player);
+		Player& pl = getPlayerById(player);
 		EOrientation orient;
 		int x = pl.getLocationX();//position en cran
 		int y = pl.getLocationY();//position en cran
 		int xCase = cranToCase(x);
 		int yCase = cranToCase(y);
+		std::cout << "okdeb : " << x << " ; " << y << std::endl;
 		if (pl.getInfection()==1) {
 			//inversion des touches directionnelles
 			if (caseIsFree(xCase,yCase-1)) {
@@ -223,6 +226,7 @@ namespace PolyBomber {
 		}
 		pl.incrementStep();
 		pl.setOrientation(orient);
+		std::cout << "okfin : " << pl.getLocationX() << " ; " << pl.getLocationY() << std::endl;
 	}
 	
 	void Board::actionToucheGauche(int player) {
