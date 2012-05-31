@@ -228,6 +228,9 @@ namespace PolyBomber {
 				}
 			}
 			sf::sleep(sf::milliseconds(50));
+			if (isFinished()) {
+				this->runnable=false;
+			}
 		}
 	}
 	
