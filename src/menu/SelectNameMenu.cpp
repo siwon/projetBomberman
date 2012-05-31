@@ -42,14 +42,17 @@ namespace PolyBomber
 		for (int i=0; i<4; i++)
 		{
 			std::ostringstream text;
-			text << "Joueur " << (i+1) << " : ";
+			text << "Joueur " << (i+1);
+
+			this->names[i] = new InputWidget(TEXTFONT, 195 + 60*i);
+			this->names[i]->move(100, 0);
+			this->names[i]->setString(text.str());
+
+			text << " : ";
 
 			this->nameTexts[i] = new TextWidget(text.str(), TEXTFONT, 200 + 60*i);		
 			this->nameTexts[i]->setColor(skin->getColor(TEXTCOLOR));
 			this->nameTexts[i]->move(-200, 0);
-
-			this->names[i] = new InputWidget(TEXTFONT, 195 + 60*i);
-			this->names[i]->move(100, 0);
 
 			this->widgets.push_back(this->nameTexts[i]);
 			this->widgets.push_back(this->names[i]);

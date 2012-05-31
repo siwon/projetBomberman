@@ -51,7 +51,14 @@ namespace PolyBomber
 		this->files[EIMAGE_MINEBONUS] = "mineBonus.png";
 		this->files[EIMAGE_REMOTEBONUS] = "remote.png";
 
-		this->files[EIMAGE_FLAME_UP] = "flame_middle_horizontal.png";
+		// FLAMES
+		this->files[EIMAGE_FLAME_UP] = "flame_end_up.png";
+		this->files[EIMAGE_FLAME_DOWN] = "flame_end_down.png";
+		this->files[EIMAGE_FLAME_LEFT] = "flame_end_left.png";
+		this->files[EIMAGE_FLAME_RIGHT] = "flame_end_right.png";
+		this->files[EIMAGE_FLAME_H] = "flame_middle_horizontal.png";
+		this->files[EIMAGE_FLAME_V] = "flame_middle_vertical.png";
+		this->files[EIMAGE_FLAME_ORIG] = "flame_middle_horizontal.png";
 		
 		//INFECTION
 		this->files[EIMAGE_CONFUSION] = "confusion.png";

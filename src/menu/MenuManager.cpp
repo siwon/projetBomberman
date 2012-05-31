@@ -114,9 +114,9 @@ namespace PolyBomber
 		int i;
 
 		this->menuConfig.gameConfig.isLocal = true;
-		this->menuConfig.gameConfig.nbPlayers = 4;
+		this->menuConfig.gameConfig.nbPlayers = 2;
 
-		for (i=0; i<4; i++)
+		for (i=0; i<4; i++)		
 			this->menuConfig.gameConfig.playersName[i] = "";
 
 		for (i=0; i<18; i++)

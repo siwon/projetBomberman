@@ -118,7 +118,19 @@ namespace PolyBomber
 		// Flammes
 		for (itFlames=board.flames.begin(); itFlames!=board.flames.end(); itFlames++)
 		{
-			EImage image = (EImage)(EIMAGE_FLAME_UP);
+			EImage image;
+
+			if ((*itFlames).location == ORIGIN)
+				image = EIMAGE_FLAME_ORIG;
+			else if ((*itFlames).location == MIDDLE)
+			{
+				if ((*itFlames).orientation == ORIENTATION_DOWN || (*itFlames).orientation == ORIENTATION_UP)
+					image = EIMAGE_FLAME_V;
+				else
+					image = EIMAGE_FLAME_H;
+			}
+			else
+				image = (EImage)(EIMAGE_FLAME_UP + (*itFlames).orientation);
 
 			sf::Sprite flame(*skin->loadImage(image));
 			flame.setPosition(ORIGX + CASEPX * (*itFlames).coords.x, ORIGY + CASEPX * (*itFlames).coords.y);
