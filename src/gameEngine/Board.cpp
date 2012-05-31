@@ -122,232 +122,232 @@ namespace PolyBomber {
 	void Board::actionToucheHaut(int player) {//TODO : faire la vérification si le déplacement se fait dans la meme case nécessaire ?
 		Player& pl = getPlayerById(player);
 		if (pl.getAlive()) {
-		int x = pl.getLocationX();//position en cran
-		int y = pl.getLocationY();//position en cran
-		int xCase = cranToCase(x);
-		int yCase = cranToCase(y);
-		EOrientation orient;
-
-		if (pl.getInfection()==1) {
-			//inversion des touches directionnelles
-			if (caseIsFree(xCase,yCase+1)) {
-				if (distanceDesAutresJoueursValide(player,x,y+pl.getSpeed())) {
-					pl.move(x,y+pl.getSpeed());
-					if (((y+pl.getSpeed())%5)!=2) {
-						pl.centrerPlayerSurAxeHorizontal();
-					}
-				}
-			} else {
-				if (((y+pl.getSpeed())%5)<=2) {
-					pl.move(x,y+pl.getSpeed());
-					if (((y+pl.getSpeed())%5)!=2) {
-						pl.centrerPlayerSurAxeHorizontal();
+			int x = pl.getLocationX();//position en cran
+			int y = pl.getLocationY();//position en cran
+			int xCase = cranToCase(x);
+			int yCase = cranToCase(y);
+			EOrientation orient;
+			
+			if (pl.getInfection()==1) {
+				//inversion des touches directionnelles
+				if (caseIsFree(xCase,yCase+1)) {
+					if (distanceDesAutresJoueursValide(player,x,y+pl.getSpeed())) {
+						pl.move(x,y+pl.getSpeed());
+						if (((y+pl.getSpeed())%5)!=2) {
+							pl.centrerPlayerSurAxeHorizontal();
+						}
 					}
 				} else {
-					pl.centrerPlayerSurAxeVertical();
-				}
-				
-			}
-			orient=ORIENTATION_DOWN;
-		} else {
-			//test si la case suivante est libre
-			if (caseIsFree(xCase,yCase-1)) {
-				if (distanceDesAutresJoueursValide(player,x,y-pl.getSpeed())) {
-					pl.move(x,y-pl.getSpeed());
-					if (y-pl.getSpeed()%5!=2) {//si on est pas centré sur la case, alors la position est corrigée
-						pl.centrerPlayerSurAxeHorizontal();
+					if (((y+pl.getSpeed())%5)<=2) {
+						pl.move(x,y+pl.getSpeed());
+						if (((y+pl.getSpeed())%5)!=2) {
+							pl.centrerPlayerSurAxeHorizontal();
+						}
+					} else {
+						pl.centrerPlayerSurAxeVertical();
 					}
+					
 				}
+				orient=ORIENTATION_DOWN;
 			} else {
-				if (((y-pl.getSpeed())%5)>2) {
-					pl.move(x,y-pl.getSpeed());
-					if (((y-pl.getSpeed())%5)!=2) {//si on est pas centré sur la case, alors la position est corrigée
-						pl.centrerPlayerSurAxeHorizontal();
+				//test si la case suivante est libre
+				if (caseIsFree(xCase,yCase-1)) {
+					if (distanceDesAutresJoueursValide(player,x,y-pl.getSpeed())) {
+						pl.move(x,y-pl.getSpeed());
+						if (y-pl.getSpeed()%5!=2) {//si on est pas centré sur la case, alors la position est corrigée
+							pl.centrerPlayerSurAxeHorizontal();
+						}
 					}
 				} else {
-					pl.centrerPlayerSurAxeVertical();
+					if (((y-pl.getSpeed())%5)>2) {
+						pl.move(x,y-pl.getSpeed());
+						if (((y-pl.getSpeed())%5)!=2) {//si on est pas centré sur la case, alors la position est corrigée
+							pl.centrerPlayerSurAxeHorizontal();
+						}
+					} else {
+						pl.centrerPlayerSurAxeVertical();
+					}
 				}
+				orient=ORIENTATION_UP;
 			}
-			orient=ORIENTATION_UP;
-		}
-		pl.incrementStep();
-		pl.setOrientation(orient);
+			pl.incrementStep();
+			pl.setOrientation(orient);
 		}
 	}
 	
 	void Board::actionToucheBas(int player) {
 		Player& pl = getPlayerById(player);
 		if (pl.getAlive()) {
-		EOrientation orient;
-		int x = pl.getLocationX();//position en cran
-		int y = pl.getLocationY();//position en cran
-		int xCase = cranToCase(x);
-		int yCase = cranToCase(y);
-		std::cout << "okdeb : " << x << " ; " << y << std::endl;
-		if (pl.getInfection()==1) {
-			//inversion des touches directionnelles
-			if (caseIsFree(xCase,yCase-1)) {
-				if (distanceDesAutresJoueursValide(player,x,y-pl.getSpeed())) {
-					pl.move(x,y-pl.getSpeed());
-					if (y-pl.getSpeed()%5!=2) {//si on est pas centré sur la case, alors la position est corrigée
-						pl.centrerPlayerSurAxeHorizontal();
-					}
-				}
-			} else {
-				if (y-pl.getSpeed()%5>=2) {
-					pl.move(x,y-pl.getSpeed());
-					if (y-pl.getSpeed()%5!=2) {//si on est pas centré sur la case, alors la position est corrigée
-						pl.centrerPlayerSurAxeHorizontal();
+			EOrientation orient;
+			int x = pl.getLocationX();//position en cran
+			int y = pl.getLocationY();//position en cran
+			int xCase = cranToCase(x);
+			int yCase = cranToCase(y);
+			std::cout << "okdeb : " << x << " ; " << y << std::endl;
+			if (pl.getInfection()==1) {
+				//inversion des touches directionnelles
+				if (caseIsFree(xCase,yCase-1)) {
+					if (distanceDesAutresJoueursValide(player,x,y-pl.getSpeed())) {
+						pl.move(x,y-pl.getSpeed());
+						if (y-pl.getSpeed()%5!=2) {//si on est pas centré sur la case, alors la position est corrigée
+							pl.centrerPlayerSurAxeHorizontal();
+						}
 					}
 				} else {
-					pl.centrerPlayerSurAxeVertical();
-				}
-			}
-			orient=ORIENTATION_UP;
-		} else {
-			//test si la case suivante est libre
-			if (caseIsFree(xCase,yCase+1)) {
-				if (distanceDesAutresJoueursValide(player,x,y+pl.getSpeed())) {
-					pl.move(x,y+pl.getSpeed());
-					if (y+pl.getSpeed()%5!=2) {
-						pl.centrerPlayerSurAxeHorizontal();
+					if (y-pl.getSpeed()%5>=2) {
+						pl.move(x,y-pl.getSpeed());
+						if (y-pl.getSpeed()%5!=2) {//si on est pas centré sur la case, alors la position est corrigée
+							pl.centrerPlayerSurAxeHorizontal();
+						}
+					} else {
+						pl.centrerPlayerSurAxeVertical();
 					}
 				}
+				orient=ORIENTATION_UP;
 			} else {
-				if (y+pl.getSpeed()%5<=2) {
-					pl.move(x,y+pl.getSpeed());
-					if (y+pl.getSpeed()%5!=2) {
-						pl.centrerPlayerSurAxeHorizontal();
+				//test si la case suivante est libre
+				if (caseIsFree(xCase,yCase+1)) {
+					if (distanceDesAutresJoueursValide(player,x,y+pl.getSpeed())) {
+						pl.move(x,y+pl.getSpeed());
+						if (y+pl.getSpeed()%5!=2) {
+							pl.centrerPlayerSurAxeHorizontal();
+						}
 					}
 				} else {
-					pl.centrerPlayerSurAxeVertical();
+					if (y+pl.getSpeed()%5<=2) {
+						pl.move(x,y+pl.getSpeed());
+						if (y+pl.getSpeed()%5!=2) {
+							pl.centrerPlayerSurAxeHorizontal();
+						}
+					} else {
+						pl.centrerPlayerSurAxeVertical();
+					}
+					
 				}
-				
+				orient=ORIENTATION_DOWN;
 			}
-			orient=ORIENTATION_DOWN;
-		}
-		pl.incrementStep();
-		pl.setOrientation(orient);
+			pl.incrementStep();
+			pl.setOrientation(orient);
 		}
 	}
 	
 	void Board::actionToucheGauche(int player) {
 		Player& pl = getPlayerById(player);
 		if (pl.getAlive()) {
-		EOrientation orient;
-		int x = pl.getLocationX();//position en cran
-		int y = pl.getLocationY();//position en cran
-		int xCase = cranToCase(x);
-		int yCase = cranToCase(y);
-		if (pl.getInfection()==1) {
-			//inversion des touches directionnelles
-			if (caseIsFree(xCase+1,yCase)) {
-				if (distanceDesAutresJoueursValide(player,x+pl.getSpeed(),y)) {
-					pl.move(x+pl.getSpeed(),y);
-					if (((x+pl.getSpeed())%5)!=2) {
-						pl.centrerPlayerSurAxeVertical();
-					}
-				}
-			} else {
-				if (((x+pl.getSpeed())%5)>=2) {
-					pl.move(x+pl.getSpeed(),y);
-					if (((x+pl.getSpeed())%5)!=2) {
-						pl.centrerPlayerSurAxeVertical();
+			EOrientation orient;
+			int x = pl.getLocationX();//position en cran
+			int y = pl.getLocationY();//position en cran
+			int xCase = cranToCase(x);
+			int yCase = cranToCase(y);
+			if (pl.getInfection()==1) {
+				//inversion des touches directionnelles
+				if (caseIsFree(xCase+1,yCase)) {
+					if (distanceDesAutresJoueursValide(player,x+pl.getSpeed(),y)) {
+						pl.move(x+pl.getSpeed(),y);
+						if (((x+pl.getSpeed())%5)!=2) {
+							pl.centrerPlayerSurAxeVertical();
+						}
 					}
 				} else {
-					pl.centrerPlayerSurAxeHorizontal();
-				}
-			}
-			orient=ORIENTATION_RIGHT;
-		} else {
-			//test si la case suivante est libre
-			if (caseIsFree(xCase-1,yCase)) {
-				if (distanceDesAutresJoueursValide(player,x-pl.getSpeed(),y)) {
-					pl.move(x-pl.getSpeed(),y);
-					if (x-pl.getSpeed()%5!=2) {
-						pl.centrerPlayerSurAxeVertical();
+					if (((x+pl.getSpeed())%5)>=2) {
+						pl.move(x+pl.getSpeed(),y);
+						if (((x+pl.getSpeed())%5)!=2) {
+							pl.centrerPlayerSurAxeVertical();
+						}
+					} else {
+						pl.centrerPlayerSurAxeHorizontal();
 					}
 				}
+				orient=ORIENTATION_RIGHT;
 			} else {
-				if (((x-pl.getSpeed())%5)>2) {
-					pl.move(x-pl.getSpeed(),y);
-					if (((x-pl.getSpeed())%5)!=2) {
-						pl.centrerPlayerSurAxeVertical();
+				//test si la case suivante est libre
+				if (caseIsFree(xCase-1,yCase)) {
+					if (distanceDesAutresJoueursValide(player,x-pl.getSpeed(),y)) {
+						pl.move(x-pl.getSpeed(),y);
+						if (x-pl.getSpeed()%5!=2) {
+							pl.centrerPlayerSurAxeVertical();
+						}
 					}
 				} else {
-					pl.centrerPlayerSurAxeHorizontal();
+					if (((x-pl.getSpeed())%5)>2) {
+						pl.move(x-pl.getSpeed(),y);
+						if (((x-pl.getSpeed())%5)!=2) {
+							pl.centrerPlayerSurAxeVertical();
+						}
+					} else {
+						pl.centrerPlayerSurAxeHorizontal();
+					}
 				}
+				orient=ORIENTATION_LEFT;
 			}
-			orient=ORIENTATION_LEFT;
-		}
-		pl.incrementStep();
-		pl.setOrientation(orient);
+			pl.incrementStep();
+			pl.setOrientation(orient);
 		}
 	}
 	
 	void Board::actionToucheDroite(int player) {
 		Player& pl = getPlayerById(player);
 		if (pl.getAlive()) {
-		EOrientation orient;
-		int x = pl.getLocationX();//position en cran
-		int y = pl.getLocationY();//position en cran
-		int xCase = cranToCase(x);
-		int yCase = cranToCase(y);
-		if (pl.getInfection()==1) {
-			//inversion des touches directionnelles
-			if (caseIsFree(xCase-1,yCase)) {
-				if (distanceDesAutresJoueursValide(player,x-pl.getSpeed(),y)) {
-					pl.move(x-pl.getSpeed(),y);
-					if (((x-pl.getSpeed())%5)!=2) {
-						pl.centrerPlayerSurAxeVertical();
-					}
-				}
-			} else {
-				if (((x-pl.getSpeed())%5)>2) {
-					pl.move(x-pl.getSpeed(),y);
-					if (((x-pl.getSpeed())%5)!=2) {
-						pl.centrerPlayerSurAxeVertical();
+			EOrientation orient;
+			int x = pl.getLocationX();//position en cran
+			int y = pl.getLocationY();//position en cran
+			int xCase = cranToCase(x);
+			int yCase = cranToCase(y);
+			if (pl.getInfection()==1) {
+				//inversion des touches directionnelles
+				if (caseIsFree(xCase-1,yCase)) {
+					if (distanceDesAutresJoueursValide(player,x-pl.getSpeed(),y)) {
+						pl.move(x-pl.getSpeed(),y);
+						if (((x-pl.getSpeed())%5)!=2) {
+							pl.centrerPlayerSurAxeVertical();
+						}
 					}
 				} else {
-					pl.centrerPlayerSurAxeHorizontal();
-				}
-			}
-			orient=ORIENTATION_LEFT;
-		} else {
-			//test si la case suivante est libre
-			if (caseIsFree(xCase+1,yCase)) {
-				if (distanceDesAutresJoueursValide(player,x+pl.getSpeed(),y)) {
-					pl.move(x+pl.getSpeed(),y);
-					if (((x+pl.getSpeed())%5)!=2) {
-						pl.centrerPlayerSurAxeVertical();
+					if (((x-pl.getSpeed())%5)>2) {
+						pl.move(x-pl.getSpeed(),y);
+						if (((x-pl.getSpeed())%5)!=2) {
+							pl.centrerPlayerSurAxeVertical();
+						}
+					} else {
+						pl.centrerPlayerSurAxeHorizontal();
 					}
 				}
+				orient=ORIENTATION_LEFT;
 			} else {
-				if (((x+pl.getSpeed())%5)<2) {
-					pl.move(x+pl.getSpeed(),y);
-					if (((x+pl.getSpeed())%5)!=2) {
-						pl.centrerPlayerSurAxeVertical();
+				//test si la case suivante est libre
+				if (caseIsFree(xCase+1,yCase)) {
+					if (distanceDesAutresJoueursValide(player,x+pl.getSpeed(),y)) {
+						pl.move(x+pl.getSpeed(),y);
+						if (((x+pl.getSpeed())%5)!=2) {
+							pl.centrerPlayerSurAxeVertical();
+						}
 					}
 				} else {
-					pl.centrerPlayerSurAxeHorizontal();
+					if (((x+pl.getSpeed())%5)<2) {
+						pl.move(x+pl.getSpeed(),y);
+						if (((x+pl.getSpeed())%5)!=2) {
+							pl.centrerPlayerSurAxeVertical();
+						}
+					} else {
+						pl.centrerPlayerSurAxeHorizontal();
+					}
 				}
+				orient=ORIENTATION_RIGHT;
 			}
-			orient=ORIENTATION_RIGHT;
-		}
-		pl.incrementStep();
-		pl.setOrientation(orient);
+			pl.incrementStep();
+			pl.setOrientation(orient);
 		}
 	}
 	
 	void Board::actionToucheAction1(int player, int date) {
 		Player& pl = getPlayerById(player);
 		if (pl.getAlive()) { 
-		std::cout << "Bombe player : " << player << " => " << pl.getCapacity() << std::endl;
-		if (pl.getCapacity()>0 && !isABombInThisCase(cranToCase(pl.getLocationX()),cranToCase(pl.getLocationY()))) {//le joueur peut poser une bombe
-			std::cout << "Puddi" << std::endl;
-			bomb.push_back(Bomb(date,pl));
-			pl.decrementCapacity();
-		}
+			std::cout << "Bombe player : " << player << " => " << pl.getCapacity() << std::endl;
+			if (pl.getCapacity()>0 && !isABombInThisCase(cranToCase(pl.getLocationX()),cranToCase(pl.getLocationY()))) {//le joueur peut poser une bombe
+				std::cout << "Puddi" << std::endl;
+				bomb.push_back(Bomb(date,pl));
+				pl.decrementCapacity();
+			}
 		}
 	}
 	
@@ -355,84 +355,84 @@ namespace PolyBomber {
 		Player& pl = getPlayerById(player);
 		EGameBonus bon = pl.getFirstBombBonus();
 		if (pl.getAlive()) {
-		if (pl.getBombBonus().size()>0) {
-			//utiliser le 1er bonus puis le supprimer de la liste
-			if (bon==INFINITYBOMB) {
-				bomb.push_back(Bomb(date,pl,1));
-			} else if (bon==ATOMICBOMB) {
-				bomb.push_back(Bomb(date,pl,2));
-			} else { //bombline
-				EOrientation orient = pl.getOrientation();
-				int x=cranToCase(pl.getLocationX());
-				int y=cranToCase(pl.getLocationY());
-				switch (orient) {
-					case ORIENTATION_UP:
-						bomb.push_back(Bomb(date,pl,x,y));
-						pl.decrementCapacity();
-						y=y-1;
-						while (pl.getCapacity()>0 && caseIsFree(x,y)) {
+			if (pl.getBombBonus().size()>0) {
+				//utiliser le 1er bonus puis le supprimer de la liste
+				if (bon==INFINITYBOMB) {
+					bomb.push_back(Bomb(date,pl,1));
+				} else if (bon==ATOMICBOMB) {
+					bomb.push_back(Bomb(date,pl,2));
+				} else { //bombline
+					EOrientation orient = pl.getOrientation();
+					int x=cranToCase(pl.getLocationX());
+					int y=cranToCase(pl.getLocationY());
+					switch (orient) {
+						case ORIENTATION_UP:
 							bomb.push_back(Bomb(date,pl,x,y));
 							pl.decrementCapacity();
 							y=y-1;
-						}
-						break;
-						
-					case ORIENTATION_DOWN:
-						bomb.push_back(Bomb(date,pl,x,y));
-						pl.decrementCapacity();
-						y=y+1;
-						while (pl.getCapacity()>0 && caseIsFree(x,y)) {
+							while (pl.getCapacity()>0 && caseIsFree(x,y)) {
+								bomb.push_back(Bomb(date,pl,x,y));
+								pl.decrementCapacity();
+								y=y-1;
+							}
+							break;
+							
+						case ORIENTATION_DOWN:
 							bomb.push_back(Bomb(date,pl,x,y));
 							pl.decrementCapacity();
 							y=y+1;
-						}
-						break;
-						
-					case ORIENTATION_LEFT:
-						bomb.push_back(Bomb(date,pl,x,y));
-						pl.decrementCapacity();
-						x=x-1;
-						while (pl.getCapacity()>0 && caseIsFree(x,y)) {
+							while (pl.getCapacity()>0 && caseIsFree(x,y)) {
+								bomb.push_back(Bomb(date,pl,x,y));
+								pl.decrementCapacity();
+								y=y+1;
+							}
+							break;
+							
+						case ORIENTATION_LEFT:
 							bomb.push_back(Bomb(date,pl,x,y));
 							pl.decrementCapacity();
 							x=x-1;
-						}
-						break;
-						
-					case ORIENTATION_RIGHT:
-						bomb.push_back(Bomb(date,pl,x,y));
-						pl.decrementCapacity();
-						x=x+1;
-						while (pl.getCapacity()>0 && caseIsFree(x,y)) {
+							while (pl.getCapacity()>0 && caseIsFree(x,y)) {
+								bomb.push_back(Bomb(date,pl,x,y));
+								pl.decrementCapacity();
+								x=x-1;
+							}
+							break;
+							
+						case ORIENTATION_RIGHT:
 							bomb.push_back(Bomb(date,pl,x,y));
 							pl.decrementCapacity();
 							x=x+1;
-						}
-						break;
-						
-					default:
-						break;
-				}
-			}
-			bomb.erase(bomb.begin());
-		} else {
-			if (pl.getDetonator()) {
-				bool remoteBombDejaPosee=false;
-				int indiceRemoteBomb;
-				for (unsigned int i=0;i<remoteBomb.size();i++) {
-					if (remoteBomb[i].getPlayer()==player) {
-						remoteBombDejaPosee=true;
-						indiceRemoteBomb=i;
+							while (pl.getCapacity()>0 && caseIsFree(x,y)) {
+								bomb.push_back(Bomb(date,pl,x,y));
+								pl.decrementCapacity();
+								x=x+1;
+							}
+							break;
+							
+						default:
+							break;
 					}
 				}
-				if (remoteBombDejaPosee) {
-					explodeRemoteBomb(indiceRemoteBomb, date);
-				} else {
-					remoteBomb.push_back(RemoteBomb(pl));
+				bomb.erase(bomb.begin());
+			} else {
+				if (pl.getDetonator()) {
+					bool remoteBombDejaPosee=false;
+					int indiceRemoteBomb;
+					for (unsigned int i=0;i<remoteBomb.size();i++) {
+						if (remoteBomb[i].getPlayer()==player) {
+							remoteBombDejaPosee=true;
+							indiceRemoteBomb=i;
+						}
+					}
+					if (remoteBombDejaPosee) {
+						explodeRemoteBomb(indiceRemoteBomb, date);
+					} else {
+						remoteBomb.push_back(RemoteBomb(pl));
+					}
 				}
 			}
-		}
-		}*/
+		}/**/
 	}
 	
 	void Board::removeBox(int i) {
@@ -463,13 +463,6 @@ namespace PolyBomber {
 			i++;
 		}
 		i=0;
-		/*while (toReturn && i<flame.size()) {//flame
-			if (x==flame[i].getLocationX() && y==flame[i].getLocationY()) {
-				toReturn=false;
-			}
-			i++;
-		}
-		i=0;*/
 		while (toReturn && i<box.size()) {//box
 			if (x==box[i].getLocationX() && y==box[i].getLocationY()) {
 				toReturn=false;
