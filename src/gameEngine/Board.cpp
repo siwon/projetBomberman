@@ -351,7 +351,8 @@ namespace PolyBomber {
 		}
 	}
 	
-	void Board::actionToucheAction2(int player, int date) {/*
+	void Board::actionToucheAction2(int player, int date) {//TODO : à gérer
+		/*
 		Player& pl = getPlayerById(player);
 		EGameBonus bon = pl.getFirstBombBonus();
 		if (pl.getAlive()) {
