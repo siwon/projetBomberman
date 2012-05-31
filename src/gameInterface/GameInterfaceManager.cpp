@@ -118,7 +118,7 @@ namespace PolyBomber
 		// Flammes
 		for (itFlames=board.flames.begin(); itFlames!=board.flames.end(); itFlames++)
 		{
-			EImage image = (EImage)(EIMAGE_FLAME_UP + (*itExplosives).type);
+			EImage image = (EImage)(EIMAGE_FLAME_UP);
 
 			sf::Sprite flame(*skin->loadImage(image));
 			flame.setPosition(ORIGX + CASEPX * (*itFlames).coords.x, ORIGY + CASEPX * (*itFlames).coords.y);
