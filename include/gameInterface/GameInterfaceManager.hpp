@@ -49,6 +49,10 @@ namespace PolyBomber
 			sf::Sprite background; /*!< Image de fond de la fenêtre et du plateau */
 
 			std::vector<sf::Sprite> boxes; /*!< Sprites pour les caisses */
+			std::vector<sf::Sprite> players; /*!< Sprites pour les personnages */
+			std::vector<sf::Sprite> bonus; /*!< Sprites pour les bonus */
+			std::vector<sf::Sprite> explosives; /*!< Sprites pour les bombes */
+			std::vector<sf::Sprite> flames; /*!< Sprites pour les flammes */
 	};
 }
 

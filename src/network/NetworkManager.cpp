@@ -213,7 +213,9 @@ namespace PolyBomber
 				}
 			}
 
-			this->gameEngine->resetConfig(); // FIXME: // stop le thread run() s'il est commencé
+			// FIXME
+			if (isStarted())
+				this->gameEngine->resetConfig(); // FIXME: // stop le thread run() s'il est commencé
 			
 			//terminer les threads 
 			this->setConnect(false);

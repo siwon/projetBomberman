@@ -225,7 +225,7 @@ namespace PolyBomber {
 					}
 				}
 			}
-			sf::sleep(sf::millisecondes(50));
+			sf::sleep(sf::milliseconds(50));
 		}
 	}
 	
