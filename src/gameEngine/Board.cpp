@@ -351,7 +351,7 @@ namespace PolyBomber {
 		}
 	}
 	
-	void Board::actionToucheAction2(int player, int date) {
+	void Board::actionToucheAction2(int player, int date) {/*
 		Player& pl = getPlayerById(player);
 		EGameBonus bon = pl.getFirstBombBonus();
 		if (pl.getAlive()) {
@@ -432,7 +432,7 @@ namespace PolyBomber {
 				}
 			}
 		}
-		}
+		}*/
 	}
 	
 	void Board::removeBox(int i) {
@@ -463,13 +463,13 @@ namespace PolyBomber {
 			i++;
 		}
 		i=0;
-		while (toReturn && i<flame.size()) {//flame
+		/*while (toReturn && i<flame.size()) {//flame
 			if (x==flame[i].getLocationX() && y==flame[i].getLocationY()) {
 				toReturn=false;
 			}
 			i++;
 		}
-		i=0;
+		i=0;*/
 		while (toReturn && i<box.size()) {//box
 			if (x==box[i].getLocationX() && y==box[i].getLocationY()) {
 				toReturn=false;
