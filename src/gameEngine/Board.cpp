@@ -83,7 +83,6 @@ namespace PolyBomber {
 		/*les joueurs*/
 		for (unsigned int i=0; i<player.size(); i++) {
 			SPlayer p;
-			std::cout << "btosb : " << i << " : " << player[i].getLocationY() << std::endl;
 			p.coords=sf::Vector2<int>(cranToPixel(player[i].getLocationX()),cranToPixel(player[i].getLocationY()));
 			p.orientation=player[i].getOrientation();
 			p.number=player[i].getId();
@@ -159,9 +158,9 @@ namespace PolyBomber {
 					}
 				}
 			} else {
-				if (y-pl.getSpeed()%5>=2) {
+				if (((y-pl.getSpeed())%5)>2) {
 					pl.move(x,y-pl.getSpeed());
-					if (y-pl.getSpeed()%5!=2) {//si on est pas centré sur la case, alors la position est corrigée
+					if (((y-pl.getSpeed())%5)!=2) {//si on est pas centré sur la case, alors la position est corrigée
 						pl.centrerPlayerSurAxeHorizontal();
 					}
 				} else {
@@ -266,9 +265,9 @@ namespace PolyBomber {
 					}
 				}
 			} else {
-				if (x-pl.getSpeed()%5<=2) {
+				if (((x-pl.getSpeed())%5)>2) {
 					pl.move(x-pl.getSpeed(),y);
-					if (x-pl.getSpeed()%5!=2) {
+					if (((x-pl.getSpeed())%5)!=2) {
 						pl.centrerPlayerSurAxeVertical();
 					}
 				} else {
@@ -313,14 +312,14 @@ namespace PolyBomber {
 			if (caseIsFree(xCase+1,yCase)) {
 				if (distanceDesAutresJoueursValide(player,x+pl.getSpeed(),y)) {
 					pl.move(x+pl.getSpeed(),y);
-					if (x+pl.getSpeed()%5!=2) {
+					if (((x+pl.getSpeed())%5)!=2) {
 						pl.centrerPlayerSurAxeVertical();
 					}
 				}
 			} else {
-				if (x+pl.getSpeed()%5>=2) {
+				if (((x+pl.getSpeed())%5)<2) {
 					pl.move(x+pl.getSpeed(),y);
-					if (x+pl.getSpeed()%5!=2) {
+					if (((x+pl.getSpeed())%5)!=2) {
 						pl.centrerPlayerSurAxeVertical();
 					}
 				} else {
@@ -335,7 +334,9 @@ namespace PolyBomber {
 	
 	void Board::actionToucheAction1(int player, int date) {
 		Player& pl = getPlayerById(player);
+		std::cout << "Bombe player : " << player << " => " << pl.getCapacity() << std::endl;
 		if (pl.getCapacity()>0) {//le joueur peut poser une bombe
+			std::cout << "Puddi" << std::endl;
 			bomb.push_back(Bomb(date,pl));
 			pl.decrementCapacity();
 		}

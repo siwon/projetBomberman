@@ -228,16 +228,15 @@ namespace PolyBomber {
 				}
 			}
 			sf::sleep(sf::milliseconds(50));
-			if (isFinished()) {
+			/*if (isFinished()) {
 				this->runnable=false;
-			}
+			}*/
 		}
 	}
 	
 	//IGameEngineToGameInterface
 	SBoard GameEngineManager::getBoard() {
 		this->mutexBoard.lock();
-		std::cout << "getBoooooo" << std::endl;
 		SBoard gameboard = this->board.boardToSBoard();
 		this->mutexBoard.unlock();
 		return gameboard;
