@@ -203,9 +203,7 @@ namespace PolyBomber {
 						}
 						if (sKeyPressed.keys[i][1]==true) {//touche bas
 							this->mutexBoard.lock();
-							std::cout << "ok1" << std::endl;
 							board.actionToucheBas(i);
-							std::cout << "ok2" << std::endl;
 							this->mutexBoard.unlock();
 						}
 						if (sKeyPressed.keys[i][2]==true) {//touche gauche
