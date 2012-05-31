@@ -478,7 +478,7 @@ namespace PolyBomber {
 		}
 		i=0;
 		while (toReturn && i<player.size()) {//player
-			if (x==cranToCase(player[i].getLocationX()) && y==cranToCase(player[i].getLocationY())) {
+			if (x==cranToCase(player[i].getLocationX()) && y==cranToCase(player[i].getLocationY()) && player[i].getAlive()) {
 				toReturn=false;
 			}
 			i++;
@@ -935,7 +935,7 @@ namespace PolyBomber {
 		int x2;
 		int y2;
 		for (unsigned int i=0; i<player.size(); i++) {
-			if (i!=pl) {
+			if (i!=pl && player[i].getAlive()) {
 				x2=player[i].getLocationX();
 				y2=player[i].getLocationY();
 				if (x2<x) {
