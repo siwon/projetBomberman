@@ -60,6 +60,27 @@ namespace PolyBomber
 		this->files[EIMAGE_RAGE] = "rage.png";
 		this->files[EIMAGE_SPASME] = "spasme.png";
 
+		//PERSONNAGES
+		this->files[PLAYER_WHITE_FRONT] = "white_front.png";
+		this->files[PLAYER_WHITE_BACK] = "white_back.png";
+		this->files[PLAYER_WHITE_LEFT] = "white_left.png";
+		this->files[PLAYER_WHITE_RIGHT] = "white_right.png";
+		
+		this->files[PLAYER_RED_FRONT] = "red_front.png";
+		this->files[PLAYER_RED_BACK] = "red_back.png";
+		this->files[PLAYER_RED_LEFT] = "red_left.png";
+		this->files[PLAYER_RED_RIGHT] = "red_right.png";
+		
+		this->files[PLAYER_BLACK_FRONT] = "black_front.png";
+		this->files[PLAYER_BLACK_BACK] = "black_back.png";
+		this->files[PLAYER_BLACK_LEFT] = "black_left.png";
+		this->files[PLAYER_BLACK_RIGHT] = "black_right.png";
+		
+		this->files[PLAYER_GREEN_FRONT] = "green_front.png";
+		this->files[PLAYER_GREEN_BACK] = "green_back.png";
+		this->files[PLAYER_GREEN_LEFT] = "green_left.png";
+		this->files[PLAYER_GREEN_RIGHT] = "green_right.png";
+		
 		reloadConfig();
 	}
 
