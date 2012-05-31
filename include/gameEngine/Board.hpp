@@ -99,6 +99,7 @@ namespace PolyBomber {
 		inline Bonus getBonusByIndice(unsigned int indice){return this->bonus[indice];}
 		unsigned int getIndiceBonus(int, int);
 		unsigned int getIndiceMineByCoord(int, int);
+		void removeBonusByCoord(int x, int y);
 		
 		void checkPosition(int);
 		void makeInfectionAction(int);

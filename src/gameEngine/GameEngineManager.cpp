@@ -135,7 +135,6 @@ namespace PolyBomber {
 				
 				this->mutexBoard.lock();
 				board.addBonus(Bonus(x,y,(EGameBonus)i,false));
-				
 				this->mutexBoard.unlock();
 			}
 			
