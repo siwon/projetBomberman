@@ -33,7 +33,6 @@ namespace PolyBomber
 		
 		//BOMB
 		this->files[EIMAGE_BOMB] = "bomb.png";
-		this->files[EIMAGE_INFINITYBOMB] = "infinityBomb.png";
 		this->files[EIMAGE_MINE] = "mine.png";
 		this->files[EIMAGE_REMOTEBOMB] = "remoteBomb.png";
 		
