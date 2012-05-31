@@ -60,11 +60,11 @@ namespace PolyBomber {
 		void actionToucheAction1(int, int);
 		void actionToucheAction2(int, int);
 		
-		inline void addPlayer(Player pl) {player.push_back(pl);}
-		inline void addWall(Wall w) {wall.push_back(w);}
-		inline void addBonus(Bonus b) {bonus.push_back(b);}
-		inline void addBox(Box b) {box.push_back(b);}
-		inline void addFlame(Flame f) {flame.push_back(f);}
+		inline void addPlayer(Player pl) {this->player.push_back(pl);}
+		inline void addWall(Wall w) {this->wall.push_back(w);}
+		inline void addBonus(Bonus b) {this->bonus.push_back(b);}
+		inline void addBox(Box b) {this->box.push_back(b);}
+		inline void addFlame(Flame f) {this->flame.push_back(f);}
 		
 		void removeBox(int i);
 		

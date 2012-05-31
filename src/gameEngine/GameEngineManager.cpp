@@ -36,8 +36,6 @@ namespace PolyBomber {
 	}
 	
 	GameEngineManager::~GameEngineManager() {
-		this->board.~Board();
-		this->horloge.~Clock();
 	}
 	
 	void GameEngineManager::generateWall() {
@@ -111,7 +109,7 @@ namespace PolyBomber {
 		if (!gameConfigIsSet) {
 			resetConfig();
 		}
-
+		std::cout << gameConfig.nbPlayers<< std::endl;
 		int nbPlayer = gameConfig.nbPlayers;
 		int nbBonusTemp;
 		int x=rand()%19;
@@ -125,7 +123,7 @@ namespace PolyBomber {
 		generateWall();
 		std::cout << "ok5" << std::endl;
 		//generation des bonus
-		for (int i=0;i<19;i++) {
+		for (int i=0;i<18;i++) {
 			std::cout << "ok6" << std::endl;
 			nbBonusTemp = gameConfig.nbBonus[i];
 			std::cout << "gb " << i << " : " << gameConfig.nbBonus[i] << std::endl;

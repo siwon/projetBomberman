@@ -34,7 +34,7 @@ namespace PolyBomber
 
 	NetworkManager::~NetworkManager(){		
 		for(unsigned int i=0;i<this->clients.size();i++){
-			delete this->clients[i]; // destruction des clients créé dynamiquements
+			//delete this->clients[i]; // destruction des clients créé dynamiquements
 		}
 		
 
@@ -209,10 +209,7 @@ namespace PolyBomber
 						}
 					}
 					this->mutexClients.unlock();
-					if(isStarted()){
-						this->gameEngine->resetConfig(); // stop le thread run() s'il est commencé
-						std::cout << "Le gameEngine a ete averti" << std::endl;
-					}
+					
 				}
 			} else { // on prévient le serveur
 				if(this->clients[0]->send(packet) != sf::TcpSocket::Done){
@@ -224,7 +221,6 @@ namespace PolyBomber
 			this->setConnect(false);
 
 			// vider les vecteurs
-			this->players.clear();
 			for(unsigned int i=0;i<this->clients.size();i++){
 				delete this->clients[i]; // destruction des clients créé dynamiquements
 			}
@@ -240,7 +236,13 @@ namespace PolyBomber
 				delete this->threadServer;
 
 			
+		} else {
+			if(this->server){
+				this->gameEngine->resetConfig(); // stop le thread run() s'il est commencé
+		std::cout << "Le gameEngine a ete averti" << std::endl;
+			}
 		}
+		this->players.clear();
 		this->initialize();
 		etatNetwork();
 	}
@@ -410,6 +412,8 @@ namespace PolyBomber
 
 	void NetworkManager::startGame() {//threader la fonction de run
 		if(this->server){
+			std::cout << "c'est parti" << std::endl;
+			
 			threadRun = new sf::Thread(&IGameEngineToNetwork::run, this->gameEngine);
 			threadRun->launch();
 			this->started=true;
@@ -427,11 +431,12 @@ namespace PolyBomber
 		this->gameEngine = PolyBomberApp::getIGameEngineToNetwork();//FIXME: 
 
 		this->gameConfig = pGameConfig;
-		
+
 		this->server=true; //l'ordinateur sera le serveur
 
 		this->gameEngine->setGameConfig(this->gameConfig);//FIXME: // on envoie également au gameEngine
 		// création du listener qui écoute tous les clients
+		
 		if(!this->gameConfig.isLocal) {
 			threadServer = new sf::Thread(&NetworkManager::createServerSocket, this);
 			threadServer->launch();
@@ -667,7 +672,6 @@ namespace PolyBomber
 					else
 						packet << "";
 				}
-				std::cout << "ok1" << std::endl;
 				break;
 			//le cas 17 est directement géré dans la fonction setPlayersName
 			case 19 : // envoi réservation d'un slot
@@ -752,7 +756,6 @@ namespace PolyBomber
 			for(int i=0;i<4;i++){
 				packet >> names[i];
 			}
-			std::cout << "ok decrypt 17" << std::endl;
 			setName(names, ip1); // methode utilisant des ressources critiques
 			break;
 		case 19 :
@@ -764,7 +767,6 @@ namespace PolyBomber
 			resume();
 			break;
 		default : // c'est une demande qui nécessite une réponse
-			std::cout << "ok !! : " << (num+1) << std::endl;
 			result = createPacket(num+1);
 			this->mutexClients.lock();
 			try {
@@ -825,11 +827,9 @@ namespace PolyBomber
 		} else { // il faut les supprimer pour laisser la place à d'autre
 			for(std::vector<DataPlayer>::iterator it = players.begin();it<players.end();it++){
 				while((it<players.end())&&(it->getIp() == ip1)){ // s'il y a plusieurs joueurs, obligé de faire un while car le vector décale après la supression et la boucle for augmente. DU coup il y a une occurrence qui échappe a la vérification
-					std::cout << "ok deleteplayer dans if" << std::endl;
 					players.erase(it); // suppression dans le vecteur
 				}
 			}
-			std::cout << "ok deleteplayer en cours" << std::endl;
 			bool find = false;
 			for(int i=0;i<4;i++){
 				if(!find){
