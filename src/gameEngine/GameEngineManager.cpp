@@ -150,12 +150,8 @@ namespace PolyBomber {
 	
 	void GameEngineManager::run() {
 		while (runnable) {
-			std::cout << "test1" << std::endl;
 			int time=horloge.getElapsedTime().asSeconds();
-			std::cout << "test2" << std::endl;
 			SKeyPressed sKeyPressed = network->getKeysPressed();
-
-			std::cout << "time : " << time << std::endl;
 			
 			if (network->isPaused()) {//si le jeu est en pause
 				if(debutPause==0) {
@@ -194,45 +190,41 @@ namespace PolyBomber {
 				
 				//gestion des touches
 				for (int i=0; i<board.getNbPlayer(); i++) { //pour chaque zoueur
-
-						if (sKeyPressed.keys[i][0]==true) {//touche haut
-							this->mutexBoard.lock();
-							board.actionToucheHaut(i);
-							this->mutexBoard.unlock();
-						}
-						if (sKeyPressed.keys[i][1]==true) {//touche bas
-							this->mutexBoard.lock();
-							board.actionToucheBas(i);
-							this->mutexBoard.unlock();
-						}
-						if (sKeyPressed.keys[i][2]==true) {//touche gauche
-							this->mutexBoard.lock();
-							board.actionToucheGauche(i);
-							this->mutexBoard.unlock();
-						}
-						if (sKeyPressed.keys[i][3]==true) {//touche droite
-							this->mutexBoard.lock();
-							board.actionToucheDroite(i);
-							this->mutexBoard.unlock();
-						}
-						if (sKeyPressed.keys[i][4]==true) {//touche action1
-							this->mutexBoard.lock();
-							board.actionToucheAction1(i,time);
-							this->mutexBoard.unlock();
-						}
-						if (sKeyPressed.keys[i][5]==true) {//touche action2
-							this->mutexBoard.lock();
-							board.actionToucheAction2(i,time);
-							this->mutexBoard.unlock();
-						}
-
+					if (sKeyPressed.keys[i][0]==true) {//touche haut
+						this->mutexBoard.lock();
+						board.actionToucheHaut(i);
+						this->mutexBoard.unlock();
+					}
+					if (sKeyPressed.keys[i][1]==true) {//touche bas
+						this->mutexBoard.lock();
+						board.actionToucheBas(i);
+						this->mutexBoard.unlock();
+					}
+					if (sKeyPressed.keys[i][2]==true) {//touche gauche
+						this->mutexBoard.lock();
+						board.actionToucheGauche(i);
+						this->mutexBoard.unlock();
+					}
+					if (sKeyPressed.keys[i][3]==true) {//touche droite
+						this->mutexBoard.lock();
+						board.actionToucheDroite(i);
+						this->mutexBoard.unlock();
+					}
+					if (sKeyPressed.keys[i][4]==true) {//touche action1
+						this->mutexBoard.lock();
+						board.actionToucheAction1(i,time);
+						this->mutexBoard.unlock();
+					}
+					if (sKeyPressed.keys[i][5]==true) {//touche action2
+						this->mutexBoard.lock();
+						board.actionToucheAction2(i,time);
+						this->mutexBoard.unlock();
+					}
 				}
 			}
 			
-			std::cout << "sleep" << std::endl;
 			sf::sleep(sf::milliseconds(50));
-			std::cout << "sleep2" << std::endl;
-			if (isFinished()!=0) {
+			if (board.nbSurvivant()<=1) {
 				this->runnable=false;
 				std::cout << "Partie terminee" << std::endl;
 			}

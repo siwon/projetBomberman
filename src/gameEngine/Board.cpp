@@ -566,7 +566,7 @@ namespace PolyBomber {
 		int nbSurv = nbSurvivant();
 		if (nbSurv==1) {
 			toReturn=1;
-			while (cpt< player.size() && !player[cpt].getAlive()) {
+			while (cpt<player.size() && !player[cpt].getAlive()) {
 				cpt++;
 				toReturn++;
 			}
