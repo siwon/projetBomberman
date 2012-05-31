@@ -8,6 +8,7 @@
  */
  
 #include <vector>
+#include <iostream>
 
 #include "Flame.hpp"
 #include "Bonus.hpp"
@@ -103,7 +104,12 @@ namespace PolyBomber {
 		void removeObseleteFlame(int);
 		void explodeAllBomb(int);
 		
-		static int cranToPixel(int i) {return i*7+4;}
+		static int cranToPixel(int i) {
+
+			std::cout << "i=" << i << " ; " << (i-2)*7 << std::endl;
+			return (i-2)*7;
+			
+		}
 		static int cranToCase(int i) {return (i-(i%5))/5;}
 		bool distanceDesAutresJoueursValide(unsigned int, int, int);
 		

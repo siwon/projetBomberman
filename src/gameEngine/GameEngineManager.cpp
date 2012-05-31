@@ -57,20 +57,20 @@ namespace PolyBomber {
 		switch (nbPlayer) {
 			case 2:
 				board.addPlayer(Player(2,2,0));
-				board.addPlayer(Player(93,63,1));
+				board.addPlayer(Player(92,62,1));
 				break;
 				
 			case 3:
 				board.addPlayer(Player(2,2,0));
-				board.addPlayer(Player(93,2,1));
-				board.addPlayer(Player(48,63,2));
+				board.addPlayer(Player(92,2,1));
+				board.addPlayer(Player(47,62,2));
 				break;
 				
 			case 4:
 				board.addPlayer(Player(2,2,0));
-				board.addPlayer(Player(93,2,1));
-				board.addPlayer(Player(93,63,2));
-				board.addPlayer(Player(2,63,3));
+				board.addPlayer(Player(92,2,1));
+				board.addPlayer(Player(92,62,2));
+				board.addPlayer(Player(2,62,3));
 				break;
 				
 			default:
@@ -150,6 +150,7 @@ namespace PolyBomber {
 		generateBox(NOMBREBOX-nbBonus);
 		std::cout << "ok7" << std::endl;
 		this->gameConfigIsSet=true;
+		this->runnable = true;
 	}
 	
 	void GameEngineManager::run() {

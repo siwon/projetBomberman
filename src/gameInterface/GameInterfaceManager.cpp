@@ -27,7 +27,9 @@ namespace PolyBomber
 
 	EScreenSignal GameInterfaceManager::run(sf::RenderWindow* window, unsigned int score[4], int& winner)
 	{		
-		while (window->isOpen())
+		INetworkToGameInterface* network = PolyBomberApp::getINetworkToGameInterface();
+
+		while (window->isOpen() && !network->isPaused())
 		{			
 			sf::Event event;
 			while (window->pollEvent(event))
@@ -46,6 +48,8 @@ namespace PolyBomber
 			for (i=0; i<this->bonus.size(); i++)		window->draw(this->bonus[i]);
 			for (i=0; i<this->explosives.size(); i++)	window->draw(this->explosives[i]);
 			for (i=0; i<this->flames.size(); i++)		window->draw(this->flames[i]);
+
+			//window->draw(score);
 
 			window->display();
 		}
@@ -72,6 +76,7 @@ namespace PolyBomber
 		this->explosives.clear();
 		this->flames.clear();
 
+		// Caisses
 		for (itBoxes=board.boxes.begin(); itBoxes!=board.boxes.end(); itBoxes++)
 		{
 			sf::Sprite box(*skin->loadImage(EIMAGE_BOX));
@@ -79,28 +84,45 @@ namespace PolyBomber
 			this->boxes.push_back(box);
 		}
 
+		// Joueurs
 		for (itPlayers=board.players.begin(); itPlayers!=board.players.end(); itPlayers++)
 		{
-			sf::Sprite player(*skin->loadImage(EIMAGE_PLAYER1LEFT));
-			player.setPosition(ORIGX + CASEPX * (*itPlayers).coords.x, ORIGY + CASEPX * (*itPlayers).coords.y);
-			this->boxes.push_back(player);
+			sf::IntRect rect(0, 0, 35, 35);
+
+			EImage image = (EImage)((EIMAGE_PLAYER1UP + (*itPlayers).number*4) + (*itPlayers).orientation);
+			
+			sf::Sprite player(*skin->loadImage(image), rect);
+			player.setPosition(ORIGX + (*itPlayers).coords.x, ORIGY + (*itPlayers).coords.y);
+			this->players.push_back(player);
 		}
 
+		// Bonus
 		for (itBonus=board.bonus.begin(); itBonus!=board.bonus.end(); itBonus++)
 		{
 			EImage image = (EImage)(SPEEDUP + (*itBonus).type);
 			sf::Sprite bonus(*skin->loadImage(image));
 			bonus.setPosition(ORIGX + CASEPX * (*itBonus).coords.x, ORIGY + CASEPX * (*itBonus).coords.y);
-			this->boxes.push_back(bonus);
+			this->bonus.push_back(bonus);
 		}
 
+		// Bombes
 		for (itExplosives=board.explosives.begin(); itExplosives!=board.explosives.end(); itExplosives++)
 		{
 			EImage image = (EImage)(EXPLOSIVE_MINE + (*itExplosives).type);
 			sf::Sprite explosive(*skin->loadImage(image));
 			explosive.setPosition(ORIGX + CASEPX * (*itExplosives).coords.x, ORIGY + CASEPX * (*itExplosives).coords.y);
-			this->boxes.push_back(explosive);
+			this->explosives.push_back(explosive);
 		}
+
+		// Flammes
+		for (itFlames=board.flames.begin(); itFlames!=board.flames.end(); itFlames++)
+		{
+			/*EImage image = (EImage)(EXPLOSIVE_MINE + (*itExplosives).type);
+
+			sf::Sprite flame(*skin->loadImage(image));
+			flame.setPosition(ORIGX + CASEPX * (*itExplosives).coords.x, ORIGY + CASEPX * (*itExplosives).coords.y);
+			this->flames.push_back(flame);*/
+		}		
 	}
 }
 
