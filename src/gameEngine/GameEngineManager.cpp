@@ -80,7 +80,7 @@ namespace PolyBomber {
 	void GameEngineManager::generateBox(int nbBox) {
 		int x=rand()%19;
 		int y=rand()%13;
-
+		
 		for (int i=0;i<nbBox;i++) {
 			while (!board.caseIsFreeInitialisation(x,y)) {
 				x=rand()%19;
@@ -115,36 +115,36 @@ namespace PolyBomber {
 		int x=rand()%19;
 		int y=rand()%13;
 		int nbBonus=0;
-
+		
 		//generation des joueurs
 		generatePlayer(nbPlayer);
-
+		
 		//generation des murs
 		generateWall();
-
+		
 		//generation des bonus
 		for (int i=0;i<18;i++) {
 			nbBonusTemp = gameConfig.nbBonus[i];
-
+			
 			for (int j=0; j<nbBonusTemp; j++) {
-
+				
 				while (!board.caseIsFreeInitialisation(x,y)) {
 					x=rand()%19;
 					y=rand()%13;
 				}
-
+				
 				this->mutexBoard.lock();
 				board.addBonus(Bonus(x,y,(EGameBonus)i,false));
-
+				
 				this->mutexBoard.unlock();
 			}
-
+			
 			nbBonus=nbBonus+nbBonusTemp;
 		}
-
+		
 		//generation des caisses
 		generateBox(NOMBREBOX-nbBonus);
-
+		
 		this->gameConfigIsSet=true;
 		this->runnable = true;
 	}
@@ -153,7 +153,7 @@ namespace PolyBomber {
 		while (runnable) {
 			int time=horloge.getElapsedTime().asSeconds();
 			SKeyPressed sKeyPressed = network->getKeysPressed();
-
+			
 			std::cout << "run engine : " << sKeyPressed.keys[0][GAME_DOWN] << std::endl;
 			
 			if (network->isPaused()) {//si le jeu est en pause
@@ -176,7 +176,7 @@ namespace PolyBomber {
 						this->lastInfectionAction=time;
 					}
 				}
-
+				
 				this->mutexBoard.lock();
 				board.checkPosition(time);
 				this->mutexBoard.unlock();
@@ -185,45 +185,48 @@ namespace PolyBomber {
 				this->mutexBoard.lock();
 				board.removeObseleteFlame(time);
 				this->mutexBoard.unlock();
-
+				
 				//déclencher les bombes
 				this->mutexBoard.lock();
 				board.explodeAllBomb(time);
 				this->mutexBoard.unlock();
-
+				
 				//gestion des touches
 				for (int i=0; i<board.getNbPlayer(); i++) { //pour chaque zoueur
-					if (sKeyPressed.keys[i][0]==true) {//touche haut
-						this->mutexBoard.lock();
-						board.actionToucheHaut(i);
-						this->mutexBoard.unlock();
-					}
-					if (sKeyPressed.keys[i][1]==true) {//touche bas
-						this->mutexBoard.lock();
-						std::cout << "ok1" << std::endl;
-						board.actionToucheBas(i);
-						std::cout << "ok2" << std::endl;
-						this->mutexBoard.unlock();
-					}
-					if (sKeyPressed.keys[i][2]==true) {//touche gauche
-						this->mutexBoard.lock();
-						board.actionToucheGauche(i);
-						this->mutexBoard.unlock();
-					}
-					if (sKeyPressed.keys[i][3]==true) {//touche droite
-						this->mutexBoard.lock();
-						board.actionToucheDroite(i);
-						this->mutexBoard.unlock();
-					}
-					if (sKeyPressed.keys[i][4]==true) {//touche action1
-						this->mutexBoard.lock();
-						board.actionToucheAction1(i,time);
-						this->mutexBoard.unlock();
-					}
-					if (sKeyPressed.keys[i][5]==true) {//touche action2
-						this->mutexBoard.lock();
-						board.actionToucheAction2(i,time);
-						this->mutexBoard.unlock();
+					Player& pl = getPlayerById(i);
+					if (!pl.getAlive()) {
+						if (sKeyPressed.keys[i][0]==true) {//touche haut
+							this->mutexBoard.lock();
+							board.actionToucheHaut(i);
+							this->mutexBoard.unlock();
+						}
+						if (sKeyPressed.keys[i][1]==true) {//touche bas
+							this->mutexBoard.lock();
+							std::cout << "ok1" << std::endl;
+							board.actionToucheBas(i);
+							std::cout << "ok2" << std::endl;
+							this->mutexBoard.unlock();
+						}
+						if (sKeyPressed.keys[i][2]==true) {//touche gauche
+							this->mutexBoard.lock();
+							board.actionToucheGauche(i);
+							this->mutexBoard.unlock();
+						}
+						if (sKeyPressed.keys[i][3]==true) {//touche droite
+							this->mutexBoard.lock();
+							board.actionToucheDroite(i);
+							this->mutexBoard.unlock();
+						}
+						if (sKeyPressed.keys[i][4]==true) {//touche action1
+							this->mutexBoard.lock();
+							board.actionToucheAction1(i,time);
+							this->mutexBoard.unlock();
+						}
+						if (sKeyPressed.keys[i][5]==true) {//touche action2
+							this->mutexBoard.lock();
+							board.actionToucheAction2(i,time);
+							this->mutexBoard.unlock();
+						}
 					}
 				}
 			}

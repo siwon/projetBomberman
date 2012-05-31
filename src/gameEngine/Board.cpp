@@ -445,7 +445,7 @@ namespace PolyBomber {
 			toReturn=false;
 		}
 		while (toReturn && i<bonus.size()) {//bonus
-			if (x==bonus[i].getLocationX() && y==bonus[i].getLocationY()) {
+			if (x==bonus[i].getLocationX() && y==bonus[i].getLocationY() && !bonus[i].isVisible()) {
 				toReturn=false;
 			}
 			i++;
@@ -589,8 +589,8 @@ namespace PolyBomber {
 		if (type==0 || type==3) {//TODO : vérifier l'utilité de "type==3"
 			generateFlame(bomb[indice].getLocationX(),bomb[indice].getLocationY(),bomb[indice].getRange(),bomb[indice].getTimeOfExplosion()+DUREEFLAMME);
 			if (type==0) {
-				int pl = bomb[indice].getPlayer();
-				player[pl].incrementCapacity();
+				Player& pl = getPlayerById(bomb[indice].getPlayer());
+				pl.incrementCapacity();
 			}
 		} else if (type==1) {
 			generateFlameInfinityBomb(indice,bomb[indice].getTimeOfExplosion()+DUREEFLAMME);
