@@ -240,14 +240,14 @@ namespace PolyBomber {
 			if (caseIsFree(xCase+1,yCase)) {
 				if (distanceDesAutresJoueursValide(player,x+pl.getSpeed(),y)) {
 					pl.move(x+pl.getSpeed(),y);
-					if (x+pl.getSpeed()%5!=2) {
+					if (((x+pl.getSpeed())%5)!=2) {
 						pl.centrerPlayerSurAxeVertical();
 					}
 				}
 			} else {
-				if (x+pl.getSpeed()%5>=2) {
+				if (((x+pl.getSpeed())%5)>=2) {
 					pl.move(x+pl.getSpeed(),y);
-					if (x+pl.getSpeed()%5!=2) {
+					if (((x+pl.getSpeed())%5)!=2) {
 						pl.centrerPlayerSurAxeVertical();
 					}
 				} else {
@@ -578,7 +578,7 @@ namespace PolyBomber {
 	}
 	
 	void Board::explodeBomb(int x, int y) {
-		for (int i=bomb.size(); i>=0; i--) {
+		for (int i=bomb.size()-1; i>=0; i--) {
 			if (bomb[i].getLocationX()==x && bomb[i].getLocationY()==y) {
 				explodeBomb(i);
 			}
@@ -786,7 +786,7 @@ namespace PolyBomber {
 			}
 		}
 		//fait la vérification des caisses (flammes)
-		for (unsigned int i=0; i<box.size(); i++) {
+		for (int i=box.size()-1; i>=0; i--) {
 			if (isAFlameInThisCase(box[i].getLocationX(),box[i].getLocationY())) {
 				box.erase(box.begin()+i);
 			}
@@ -798,7 +798,7 @@ namespace PolyBomber {
 			}
 		}
 		//fait la vérification des bombes (flamme qui déclenche les autres)
-		for (unsigned int i=0; i<bomb.size(); i++) {
+		for (int i=bomb.size()-1; i>=0; i--) {
 			if (isAFlameInThisCase(bomb[i].getLocationX(),bomb[i].getLocationY())) {
 				explodeBomb(bomb[i].getLocationX(),bomb[i].getLocationY());
 			}
@@ -902,6 +902,7 @@ namespace PolyBomber {
 		for (int i=bomb.size()-1; i>=0; i--) {
 			if (bomb[i].getTimeOfExplosion()<date) {
 				explodeBomb(i);
+				std::cout << "explode" << std::endl;
 			}
 		}
 	}

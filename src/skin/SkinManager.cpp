@@ -201,10 +201,21 @@ namespace PolyBomber
 
 	void SkinManager::insertTexture(EImage key)
 	{
-		sf::Texture* texture = new sf::Texture();
-		std::string path = this->PATH + this->folder + "/" + this->files[key];			
-		texture->loadFromFile(path);
-		this->textures[key] = texture;
+		std::string path;
+
+		try
+		{
+			sf::Texture* texture = new sf::Texture();
+			path = this->PATH + this->folder + "/" + this->files[key];
+					
+			texture->loadFromFile(path);
+			this->textures[key] = texture;
+		}
+		catch (std::exception& e)
+		{
+			std::cerr << "Erreur fatale de chargement d'image (" << path << ") : " << e.what() << std::endl;
+			throw;
+		}
 	}
 
 	void SkinManager::reloadTextures()
