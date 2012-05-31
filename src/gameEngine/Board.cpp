@@ -121,6 +121,7 @@ namespace PolyBomber {
 	
 	void Board::actionToucheHaut(int player) {//TODO : faire la vérification si le déplacement se fait dans la meme case nécessaire ?
 		Player& pl = getPlayerById(player);
+		if (pl.getAlive()) {
 		int x = pl.getLocationX();//position en cran
 		int y = pl.getLocationY();//position en cran
 		int xCase = cranToCase(x);
@@ -171,10 +172,12 @@ namespace PolyBomber {
 		}
 		pl.incrementStep();
 		pl.setOrientation(orient);
+		}
 	}
 	
 	void Board::actionToucheBas(int player) {
 		Player& pl = getPlayerById(player);
+		if (pl.getAlive()) {
 		EOrientation orient;
 		int x = pl.getLocationX();//position en cran
 		int y = pl.getLocationY();//position en cran
@@ -225,11 +228,12 @@ namespace PolyBomber {
 		}
 		pl.incrementStep();
 		pl.setOrientation(orient);
-		std::cout << "okfin : " << pl.getLocationX() << " ; " << pl.getLocationY() << std::endl;
+		}
 	}
 	
 	void Board::actionToucheGauche(int player) {
 		Player& pl = getPlayerById(player);
+		if (pl.getAlive()) {
 		EOrientation orient;
 		int x = pl.getLocationX();//position en cran
 		int y = pl.getLocationY();//position en cran
@@ -278,10 +282,12 @@ namespace PolyBomber {
 		}
 		pl.incrementStep();
 		pl.setOrientation(orient);
+		}
 	}
 	
 	void Board::actionToucheDroite(int player) {
 		Player& pl = getPlayerById(player);
+		if (pl.getAlive()) {
 		EOrientation orient;
 		int x = pl.getLocationX();//position en cran
 		int y = pl.getLocationY();//position en cran
@@ -330,21 +336,25 @@ namespace PolyBomber {
 		}
 		pl.incrementStep();
 		pl.setOrientation(orient);
+		}
 	}
 	
 	void Board::actionToucheAction1(int player, int date) {
 		Player& pl = getPlayerById(player);
+		if (pl.getAlive()) { 
 		std::cout << "Bombe player : " << player << " => " << pl.getCapacity() << std::endl;
 		if (pl.getCapacity()>0 && !isABombInThisCase(cranToCase(pl.getLocationX()),cranToCase(pl.getLocationY()))) {//le joueur peut poser une bombe
 			std::cout << "Puddi" << std::endl;
 			bomb.push_back(Bomb(date,pl));
 			pl.decrementCapacity();
 		}
+		}
 	}
 	
 	void Board::actionToucheAction2(int player, int date) {
 		Player& pl = getPlayerById(player);
 		EGameBonus bon = pl.getFirstBombBonus();
+		if (pl.getAlive()) {
 		if (pl.getBombBonus().size()>0) {
 			//utiliser le 1er bonus puis le supprimer de la liste
 			if (bon==INFINITYBOMB) {
@@ -421,6 +431,7 @@ namespace PolyBomber {
 					remoteBomb.push_back(RemoteBomb(pl));
 				}
 			}
+		}
 		}
 	}
 	
