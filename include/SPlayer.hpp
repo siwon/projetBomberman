@@ -31,7 +31,7 @@ namespace PolyBomber {
     sf::Vector2<int> coords;	/*! Coordonnées du joueur */
     EOrientation orientation;	/*! Orientation du joueur */
     unsigned int number;		/*!  */
-    EPlayerState state;		/*! Statistique du joueur */
+    EPlayerState state;		/*! Etat du joueur (vivant ou pas) */
     unsigned int step;		/*!  */
   };
 }
