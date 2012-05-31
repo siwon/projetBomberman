@@ -30,7 +30,7 @@ namespace PolyBomber {
 	}
 	
 	Location::~Location() {
-		this->location.~Vector2();
+		
 	}
 
 	void Location::setLocation(int x, int y) {
