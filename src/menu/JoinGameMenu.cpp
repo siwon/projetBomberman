@@ -99,7 +99,7 @@ namespace PolyBomber
 		*nextScreen = cancel.activate();
 	}
 
-	void JoinGameMenu::loopAction()
+	void JoinGameMenu::loopAction(EMenuScreen*)
 	{
 		ipInput.writeChar();
 	}

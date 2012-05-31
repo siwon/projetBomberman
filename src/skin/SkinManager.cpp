@@ -58,7 +58,7 @@ namespace PolyBomber
 		this->files[EIMAGE_FLAME_RIGHT] = "flame_end_right.png";
 		this->files[EIMAGE_FLAME_H] = "flame_middle_horizontal.png";
 		this->files[EIMAGE_FLAME_V] = "flame_middle_vertical.png";
-		this->files[EIMAGE_FLAME_ORIG] = "flame_middle_horizontal.png";
+		this->files[EIMAGE_FLAME_ORIG] = "flame_begin.png";
 		
 		//INFECTION
 		this->files[EIMAGE_CONFUSION] = "confusion.png";

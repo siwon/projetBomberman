@@ -228,9 +228,9 @@ namespace PolyBomber {
 
 				}
 			}
-			std::cout << "sleep" << std::endl;
-			sf::sleep(sf::milliseconds(5));
-			std::cout << "sleep2" << std::endl;
+			
+			sf::sleep(sf::milliseconds(50));
+			
 			/*if (isFinished()) {
 				this->runnable=false;
 			}*/

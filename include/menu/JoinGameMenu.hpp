@@ -67,7 +67,7 @@ namespace PolyBomber
 			/*!
 			 * \see IMenuScreen:loopAction
 			 */			
-			void loopAction();
+			void loopAction(EMenuScreen*);
 
 		private:
 			TextWidget title;

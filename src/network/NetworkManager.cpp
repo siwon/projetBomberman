@@ -452,6 +452,9 @@ namespace PolyBomber
 			try {
 				std::list<sf::Packet>::iterator it = this->askServer(1);
 				sf::Packet& thePacket = *it;
+				int i;
+				std::string s;
+				thePacket >> i >> s;
 				thePacket >> aBoard;
 				this->packets.erase(it);
 			}
@@ -927,12 +930,13 @@ namespace PolyBomber
 		int j;
 		int type;
 		packet >> j;
+		
 		for(int i=0;i<j;i++){
 			sf::Vector2<int> coord;
 			packet >> coord.x >> coord.y;
 			board.boxes.push_back(coord);
 		}
-
+		
 		/*Ajout des Bonus*/
 		packet >> j;
 		for(int i=0;i<j;i++){
@@ -941,7 +945,6 @@ namespace PolyBomber
 			bonus.type = (EGameBonus)type;
 			board.bonus.push_back(bonus);
 		}
-
 
 		/*Ajout des explosifs}*/
 		packet >> j;
@@ -975,7 +978,7 @@ namespace PolyBomber
 			flame.location = (EFlameLocation)location;
 			board.flames.push_back(flame);
 		}
-
+		
 		return packet;
 	}
 

@@ -29,6 +29,8 @@ namespace PolyBomber
 	{		
 		INetworkToGameInterface* network = PolyBomberApp::getINetworkToGameInterface();
 
+		std::cout << "debut interface" << std::endl;
+
 		while (window->isOpen() && !network->isPaused())
 		{			
 			sf::Event event;
