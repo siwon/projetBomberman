@@ -56,21 +56,21 @@ namespace PolyBomber {
 		this->mutexBoard.lock();
 		switch (nbPlayer) {
 			case 2:
-				board.addPlayer(Player(3,3,0));
-				board.addPlayer(Player(92,62,1));
+				board.addPlayer(Player(2,2,0));
+				board.addPlayer(Player(93,63,1));
 				break;
 				
 			case 3:
-				board.addPlayer(Player(3,3,0));
-				board.addPlayer(Player(92,3,1));
-				board.addPlayer(Player(47,62,2));
+				board.addPlayer(Player(2,2,0));
+				board.addPlayer(Player(93,2,1));
+				board.addPlayer(Player(48,63,2));
 				break;
 				
 			case 4:
-				board.addPlayer(Player(3,3,0));
-				board.addPlayer(Player(87,3,1));
-				board.addPlayer(Player(87,62,2));
-				board.addPlayer(Player(3,62,3));
+				board.addPlayer(Player(2,2,0));
+				board.addPlayer(Player(93,2,1));
+				board.addPlayer(Player(93,63,2));
+				board.addPlayer(Player(2,63,3));
 				break;
 				
 			default:
