@@ -441,6 +441,9 @@ namespace PolyBomber {
 	bool Board::caseIsFree(int x, int y) {
 		bool toReturn = true;
 		unsigned int i=0;
+		if (x<0 || x>18 || y<0 || y>12) {
+			toReturn=false;
+		}
 		while (toReturn && i<bonus.size()) {//bonus
 			if (x==bonus[i].getLocationX() && y==bonus[i].getLocationY()) {
 				toReturn=false;
