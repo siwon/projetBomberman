@@ -22,11 +22,15 @@
 #include "../EMenuKeys.hpp"
 #include "../EGameKeys.hpp"
 #include "../SKeysConfig.hpp"
+
 #include "../IControllerToMenu.hpp"
-#include "../configFile/ConfigFileManager.hpp"
 #include "../IControllerToNetwork.hpp"
-#include "Controller.hpp"
+
+#include "../configFile/ConfigFileManager.hpp"
+
 #include "../TSingleton.hpp"
+
+#include "Controller.hpp"
 #include "Wii.hpp"
 
 
@@ -49,7 +53,7 @@ namespace PolyBomber
 		*/
 		class ControllerAssignation
 		{
-			public :
+			private :
 				Controller* controller; /*!< Controleur assigné */
 				int keys[7]; /*!< Touches / Boutons configurés */
 				
@@ -88,7 +92,13 @@ namespace PolyBomber
 				* \param key : Action donnée
 				* \return Touche / Bouton correspondant
 				*/
-				int getKeys(EGameKeys key);
+				int getKey(EGameKeys key);
+				
+				/*!
+				* \brief Obtenir les touches configurées
+				* \return Tableau de touches configurées
+				*/
+				int* getKeys();
 				
 				/*!
 				 * \brief Assigne la configuration par défaut pour une wiimote
@@ -171,8 +181,6 @@ namespace PolyBomber
 		/* Méthodes de l'interface IControllerToNetwork */
 		
 		virtual SKeyPressed getKeysPressed();
-		
-		void printConfig(int player);
 	  
   };
 }

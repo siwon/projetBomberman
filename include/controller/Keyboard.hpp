@@ -28,10 +28,10 @@ namespace PolyBomber
   */
   class Keyboard : public Controller
   {
+  
 	private :
 		
 		static const std::string keysLabel[]; /*!< Labels des touches clavier */
-		
 		
 		/**
 		 * \brief Vérifie si une key SFML correspond à caractère alpha-numérique
@@ -39,8 +39,6 @@ namespace PolyBomber
 		 * \return Vrai si key correspond un caractère alpha-numérique, faux sinon.
 		 */
 		bool isAlphaNum(sf::Keyboard::Key key);
-		
-		
 	  
 	public :
 		

@@ -84,7 +84,7 @@ namespace PolyBomber
 		virtual void disconnect(int player) = 0;
 		
 		/*!
-		 * \brief Obtenir les actions a effectuer pour un joueur donné
+		 * \brief Obtention des actions à effectuer pour un joueur donné
 		 * \param keys : touches configurées pour le joueur donné
 		 * \param player : joueur donné
 		 * \param window : fenetre SFML

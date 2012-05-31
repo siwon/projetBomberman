@@ -55,8 +55,14 @@ namespace PolyBomber
 		
 	private :
 		std::map<int,int> gamepadsAssignation; /*!< Tableau d'assignation des joysticks aux différents joueurs */
-		int nbGamepad;
 		
+		int nbGamepad; /*!< Nombre de gamepads utilisés */
+		
+		/*!
+		 * \brief Test l'utilisation d'un gamepad
+		 * \param numGamepad : Numéro du gamepad à tester
+		 * \return Vrai si le gamepad est déjà assigné, faux sinon
+		 */
 		bool gamepadUsed(int numGamepad);
 		
 	public :

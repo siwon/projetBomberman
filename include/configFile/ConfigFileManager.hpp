@@ -22,7 +22,7 @@
 #include "../IConfigFile.hpp"
 
 
-#define DEFAULT_FILENAME "resources/PolyBomber.conf"
+#define DEFAULT_FILENAME "resources/PolyBomber.conf" /* Chemin et nom par défaut du fichier de configuration */
 
 namespace PolyBomber
 {
@@ -32,6 +32,7 @@ namespace PolyBomber
   */
   class ConfigFileManager : public IConfigFile
   {
+  
 	private :
 
 		std::fstream configFile; /*!< Fichier de configuration */
@@ -59,6 +60,11 @@ namespace PolyBomber
 		 */
 		virtual ~ConfigFileManager();
 		
+		/*!
+		 * \brief Ecriture de la configuration clavier par défaut du joueur donné
+		 */
+		void setDefaultKeyboardConfig(int player);
+		
 		/* Méthodes de IConfigFile */
 
 		virtual void setStringValue(std::string key, std::string value);
@@ -70,11 +76,6 @@ namespace PolyBomber
 		virtual int getIntValue(std::string key);
 		
 		virtual std::vector<std::string> getKeys();
-		
-		/*!
-		 * \brief Ecriture de la configuration clavier par défaut du joueur donné
-		 */
-		void setDefaultKeyboardConfig(int player);
 		
 	private :
 		
@@ -106,7 +107,6 @@ namespace PolyBomber
 		 */
 		void createDefault();
 		
-
   };
 }
 
