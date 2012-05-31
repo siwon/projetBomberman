@@ -228,17 +228,11 @@ namespace PolyBomber {
 
 				}
 			}
-<<<<<<< HEAD
 			
-			sf::sleep(sf::milliseconds(50));
-			
-			/*if (isFinished()) {
-=======
 			std::cout << "sleep" << std::endl;
-			sf::sleep(sf::milliseconds(5));
+			sf::sleep(sf::milliseconds(50));
 			std::cout << "sleep2" << std::endl;
 			if (isFinished()!=0) {
->>>>>>> ajout fin de partie
 				this->runnable=false;
 				std::cout << "Partie terminee" << std::endl;
 			}
