@@ -820,7 +820,7 @@ namespace PolyBomber {
 	}
 	
 	void Board::removeBonusByCoord(int x, int y) { //TODO : A replacer !!!
-		int indice = 0;
+		unsigned int indice = 0;
 		bool trouve = false;
 		while (indice < bonus.size() && !trouve) {
 			if (bonus[indice].getLocationX()==x && bonus[indice].getLocationY()==y) {
@@ -929,7 +929,6 @@ namespace PolyBomber {
 	
 	void Board::explodeAllBomb(int date) {
 		unsigned int indice=0;
-		int size = bomb.size();
 		while (indice<bomb.size()) {
 			if (bomb[indice].getTimeOfExplosion()<date) {
 				explodeBomb(indice);
