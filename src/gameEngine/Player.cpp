@@ -137,7 +137,7 @@ namespace PolyBomber {
 				break;
 				
 			case SPASME:
-				//infection=2; //TODO : plantage lorsque l'on prend ce bonus
+				infection=2; //TODO : plantage lorsque l'on prend ce bonus
 				break;
 				
 			case DILATATION:

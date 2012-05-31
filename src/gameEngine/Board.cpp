@@ -352,7 +352,6 @@ namespace PolyBomber {
 	}
 	
 	void Board::actionToucheAction2(int player, int date) {//TODO : à gérer
-		/*
 		Player& pl = getPlayerById(player);
 		EGameBonus bon = pl.getFirstBombBonus();
 		if (pl.getAlive()) {
@@ -912,8 +911,10 @@ namespace PolyBomber {
 				}
 				player[i].move(x,y);
 			} else if (player[i].getInfection()==4) {//rage : pose des bombes
-				bomb.push_back(Bomb(date,player[i]));
-				player[i].decrementCapacity();
+				if (player[i].getCapacity()>0) {
+					bomb.push_back(Bomb(date,player[i]));
+					player[i].decrementCapacity();
+				}
 			}
 		}
 	}
