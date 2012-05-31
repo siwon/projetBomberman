@@ -56,15 +56,15 @@ namespace PolyBomber
 	void TextWidget::init() throw(PolyBomberException)
 	{
 		// Initialisation des tables
-		this->fontFiles[TITLEFONT] = "strong.ttf";
+		this->fontFiles[TITLEFONT] = "normal.ttf";
 		this->fontFiles[TEXTFONT] = "normal.ttf";
 		this->fontFiles[LINKFONT] = "normal.ttf";
 		this->fontFiles[ERRORFONT] = "normal.ttf";
 
-		this->sizes[TITLEFONT] = 40;
-		this->sizes[TEXTFONT] = 20;
-		this->sizes[LINKFONT] = 25;
-		this->sizes[ERRORFONT] = 20;
+		this->sizes[TITLEFONT] = 45;
+		this->sizes[TEXTFONT] = 25;
+		this->sizes[LINKFONT] = 30;
+		this->sizes[ERRORFONT] = 25;
 
 		// Chargement de la police et mise en forme
 		if (!this->font.loadFromFile(this->PATH + this->fontFiles[this->fontStyle]))
