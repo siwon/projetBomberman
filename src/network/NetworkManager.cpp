@@ -317,7 +317,7 @@ namespace PolyBomber
 		if(this->server){
 			int i=0;//indice sur le vecteur de joueur
 			int j=0;//indice sur le tableau de nom
-			while(!(names[j] == "") && i<4){ // tant qu'il y a des noms à enregistrer
+			while(i<4 && !(names[j] == "")){ // tant qu'il y a des noms à enregistrer
 				if(this->players[i].getIp() == ip){
 					this->mutexNames.lock();
 					this->players[i].setName(names[j]);
