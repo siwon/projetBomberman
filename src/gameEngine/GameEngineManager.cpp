@@ -80,12 +80,12 @@ namespace PolyBomber {
 	}
 	
 	void GameEngineManager::generateBox(int nbBox) {
-		int x=rand()%18;
+		int x=rand()%19;
 		int y=rand()%13;
 
 		for (int i=0;i<nbBox;i++) {
 			while (!board.caseIsFreeInitialisation(x,y)) {
-				x=rand()%18;
+				x=rand()%19;
 				y=rand()%13;
 			}
 			this->mutexBoard.lock();
@@ -114,7 +114,7 @@ namespace PolyBomber {
 
 		int nbPlayer = gameConfig.nbPlayers;
 		int nbBonusTemp;
-		int x=rand()%18;
+		int x=rand()%19;
 		int y=rand()%13;
 		int nbBonus=0;
 
@@ -125,7 +125,7 @@ namespace PolyBomber {
 		generateWall();
 		std::cout << "ok5" << std::endl;
 		//generation des bonus
-		for (int i=0;i<18;i++) {
+		for (int i=0;i<19;i++) {
 			std::cout << "ok6" << std::endl;
 			nbBonusTemp = gameConfig.nbBonus[i];
 			std::cout << "gb " << i << " : " << gameConfig.nbBonus[i] << std::endl;
@@ -133,7 +133,7 @@ namespace PolyBomber {
 				std::cout << "ok7 : " << nbBonusTemp << std::endl;
 				while (!board.caseIsFreeInitialisation(x,y)) {
 					std::cout << "ok8" << x << " et " << y << std::endl;
-					x=rand()%18;
+					x=rand()%19;
 					y=rand()%13;
 				}
 				std::cout << "ok9" << std::endl;

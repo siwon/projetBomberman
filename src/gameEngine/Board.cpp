@@ -619,11 +619,11 @@ namespace PolyBomber {
 		//propagation vers la droite
 		x=origineX+1;
 		y=origineY;
-		while (!isAWallInThisCase(x,y) && x-origineX<range && x<18) { 
+		while (!isAWallInThisCase(x,y) && x-origineX<range && x<19) { 
 			addFlame(Flame(x,y,ORIENTATION_RIGHT,MIDDLE,date));
 			x=x+1;
 		}
-		if (x==origineX+range && !isAWallInThisCase(x,y) && x<18) {
+		if (x==origineX+range && !isAWallInThisCase(x,y) && x<19) {
 			addFlame(Flame(x,y,ORIENTATION_RIGHT,END,date));
 		}
 		
@@ -662,7 +662,7 @@ namespace PolyBomber {
 	}
 	
 	void Board::generateFlameInfinityBomb(unsigned int indice, int date) {
-		generateFlame(bomb[indice].getLocationX(),bomb[indice].getLocationY(),19,date);
+		generateFlame(bomb[indice].getLocationX(),bomb[indice].getLocationY(),RANGEMAX,date);
 	}
 	
 	void Board::generateFlameAtomicBomb(unsigned int indice, int date) {
