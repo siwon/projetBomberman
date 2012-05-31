@@ -15,7 +15,8 @@
 // Headers
 #include "../../include/controller/Controller.hpp"
 
-using namespace PolyBomber;
-
-Controller::Controller(){}
-Controller::~Controller(){}
+namespace PolyBomber
+{
+	Controller::Controller(){}
+	Controller::~Controller(){}
+}

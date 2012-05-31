@@ -4,14 +4,11 @@
  * \author Alexandre BISIAUX
  */
  
-#define DEBUG 1
-
 /* Includes */
 
 // Bibliothèques standards 
 #include <iostream>
 #include <sstream>
-#include <map>
 
 // Bibliothèques externes
 
@@ -236,7 +233,6 @@ namespace PolyBomber
 		else
 		{
 			this->reload();
-			//this->setupWiimotes();
 			if(numFound > nbWiimotes)
 			{
 				wiimotesAssignation.insert(std::pair<int,CWiimote*>(player,&wiimotes[nbWiimotes]));

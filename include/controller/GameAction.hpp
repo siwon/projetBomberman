@@ -16,8 +16,11 @@ namespace PolyBomber
 	class GameAction
 	{
 		public :
-			bool actions[7];
+			bool actions[7]; /*!< Tableau de 7 booléens définissant si l'action indexé par EGameKeys est à effectuer */
 		
+			/*!
+			 * \brief Initialise le tableau d'actions
+			 */
 			inline void init()
 			{
 				int i;
