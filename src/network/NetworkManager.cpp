@@ -32,8 +32,11 @@ namespace PolyBomber
 		this->initialize();
 	}
 
-	NetworkManager::~NetworkManager(){
-		this->setConnect(false);
+	NetworkManager::~NetworkManager(){		
+		for(unsigned int i=0;i<this->clients.size();i++){
+			delete this->clients[i]; // destruction des clients créé dynamiquements
+		}
+		
 
 		if(this->threadClient != NULL)
 			delete this->threadClient;
@@ -206,24 +209,27 @@ namespace PolyBomber
 						}
 					}
 					this->mutexClients.unlock();
+					if(isStarted()){
+						this->gameEngine->resetConfig(); // stop le thread run() s'il est commencé
+						std::cout << "Le gameEngine a ete averti" << std::endl;
+					}
 				}
 			} else { // on prévient le serveur
 				if(this->clients[0]->send(packet) != sf::TcpSocket::Done){
 						std::cerr << ("Le serveur "+this->clients[0]->getRemoteAddress().toString() +" n'a pas pu être contacté pour le prévenir d'un Cancel")<< std::endl;
 				}
 			}
-
-			// FIXME
-			if (isStarted())
-				this->gameEngine->resetConfig(); // FIXME: // stop le thread run() s'il est commencé
 			
 			//terminer les threads 
 			this->setConnect(false);
 
 			// vider les vecteurs
-			this->players.erase(this->players.begin(),this->players.end());
-			this->clients.erase(this->clients.begin(),this->clients.end());
-			this->packets.erase(this->packets.begin(),this->packets.end());
+			this->players.clear();
+			for(unsigned int i=0;i<this->clients.size();i++){
+				delete this->clients[i]; // destruction des clients créé dynamiquements
+			}
+			this->clients.clear();;
+			this->packets.clear();
 			this->selector.clear();
 			// et libérer les threads
 			if(this->threadClient != NULL)
@@ -801,6 +807,7 @@ namespace PolyBomber
 			this->mutexClients.lock();
 			this->clients.erase(it);
 			this->mutexClients.unlock();
+			delete socket;
 			std::cout << "ok pour la suppression du socket" << std::endl;
 		} catch(PolyBomberException e) {
 			std::cerr << e.what() << std::endl;
@@ -921,52 +928,52 @@ namespace PolyBomber
 		int type;
 		packet >> j;
 		for(int i=0;i<j;i++){
-			sf::Vector2<int>* coord = new sf::Vector2<int>;
-			packet >> coord->x >> coord->y;
-			board.boxes.push_back(*coord);
+			sf::Vector2<int> coord;
+			packet >> coord.x >> coord.y;
+			board.boxes.push_back(coord);
 		}
 
 		/*Ajout des Bonus*/
 		packet >> j;
 		for(int i=0;i<j;i++){
-			SBonus* bonus = new SBonus;
-			packet >> bonus->coords.x >> bonus->coords.y >> type;
-			bonus->type = (EGameBonus)type;
-			board.bonus.push_back(*bonus);
+			SBonus bonus;
+			packet >> bonus.coords.x >> bonus.coords.y >> type;
+			bonus.type = (EGameBonus)type;
+			board.bonus.push_back(bonus);
 		}
 
 
 		/*Ajout des explosifs}*/
 		packet >> j;
 		for(int i=0;i<j;i++){
-			SExplosive* explo = new SExplosive;
-			packet >> explo->coords.x >> explo->coords.y >> type;
-			explo->type = (EExplosiveType)type;
-			board.explosives.push_back(*explo);
+			SExplosive explo;
+			packet >> explo.coords.x >> explo.coords.y >> type;
+			explo.type = (EExplosiveType)type;
+			board.explosives.push_back(explo);
 		}
 
 		/*ajout des players*/
 		packet >> j;
 		int state;
 		for(int i=0;i<j;i++){
-			SPlayer* player = new SPlayer;
-			packet >> player->coords.x >> player->coords.y >> type >> player->number >> state >> player->step;
-			player->orientation = (EOrientation)type;
-			player->state = (EPlayerState)state;
-			board.players.push_back(*player);
+			SPlayer player;
+			packet >> player.coords.x >> player.coords.y >> type >> player.number >> state >> player.step;
+			player.orientation = (EOrientation)type;
+			player.state = (EPlayerState)state;
+			board.players.push_back(player);
 		}
 
 		/*Ajout des flames*/
 		packet >> j;
 		int location;
 		for(int i=0;i<j;i++){
-			SFlame* flame = new SFlame;
+			SFlame flame;
 			
-			packet >> flame->coords.x >> flame->coords.y >> type >> flame->step >> location ;
+			packet >> flame.coords.x >> flame.coords.y >> type >> flame.step >> location ;
 			
-			flame->orientation = (EOrientation)type;
-			flame->location = (EFlameLocation)location;
-			board.flames.push_back(*flame);
+			flame.orientation = (EOrientation)type;
+			flame.location = (EFlameLocation)location;
+			board.flames.push_back(flame);
 		}
 
 		return packet;
