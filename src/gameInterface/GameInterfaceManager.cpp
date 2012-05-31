@@ -85,19 +85,22 @@ namespace PolyBomber
 		// Joueurs
 		for (itPlayers=board.players.begin(); itPlayers!=board.players.end(); itPlayers++)
 		{
-			sf::IntRect rect(0, 0, 35, 35);
+			if ((*itPlayers).state == ALIVE)
+			{
+				sf::IntRect rect(0, 0, 35, 35);
 
-			EImage image = (EImage)((EIMAGE_PLAYER1UP + (*itPlayers).number*4) + (*itPlayers).orientation);
-			
-			sf::Sprite player(*skin->loadImage(image), rect);
-			player.setPosition(ORIGX + (*itPlayers).coords.x, ORIGY + (*itPlayers).coords.y);
-			this->players.push_back(player);
+				EImage image = (EImage)((EIMAGE_PLAYER1UP + (*itPlayers).number*4) + (*itPlayers).orientation);
+				
+				sf::Sprite player(*skin->loadImage(image), rect);
+				player.setPosition(ORIGX + (*itPlayers).coords.x, ORIGY + (*itPlayers).coords.y);
+				this->players.push_back(player);
+			}
 		}
 
 		// Bonus
 		for (itBonus=board.bonus.begin(); itBonus!=board.bonus.end(); itBonus++)
 		{
-			EImage image = (EImage)(SPEEDUP + (*itBonus).type);
+			EImage image = (EImage)(EIMAGE_VITESSEPLUS + (*itBonus).type);
 			sf::Sprite bonus(*skin->loadImage(image));
 			bonus.setPosition(ORIGX + CASEPX * (*itBonus).coords.x, ORIGY + CASEPX * (*itBonus).coords.y);
 			this->bonus.push_back(bonus);
@@ -106,7 +109,7 @@ namespace PolyBomber
 		// Bombes
 		for (itExplosives=board.explosives.begin(); itExplosives!=board.explosives.end(); itExplosives++)
 		{
-			EImage image = (EImage)(EXPLOSIVE_MINE + (*itExplosives).type);
+			EImage image = (EImage)(EIMAGE_MINE + (*itExplosives).type);
 			sf::Sprite explosive(*skin->loadImage(image));
 			explosive.setPosition(ORIGX + CASEPX * (*itExplosives).coords.x, ORIGY + CASEPX * (*itExplosives).coords.y);
 			this->explosives.push_back(explosive);
@@ -115,11 +118,11 @@ namespace PolyBomber
 		// Flammes
 		for (itFlames=board.flames.begin(); itFlames!=board.flames.end(); itFlames++)
 		{
-			/*EImage image = (EImage)(EXPLOSIVE_MINE + (*itExplosives).type);
+			EImage image = (EImage)(EIMAGE_FLAME_UP + (*itExplosives).type);
 
 			sf::Sprite flame(*skin->loadImage(image));
-			flame.setPosition(ORIGX + CASEPX * (*itExplosives).coords.x, ORIGY + CASEPX * (*itExplosives).coords.y);
-			this->flames.push_back(flame);*/
+			flame.setPosition(ORIGX + CASEPX * (*itFlames).coords.x, ORIGY + CASEPX * (*itFlames).coords.y);
+			this->flames.push_back(flame);
 		}		
 	}
 }

@@ -13,6 +13,14 @@ namespace PolyBomber
 {
 	SkinManager::SkinManager() throw(PolyBomberException) : PATH("resources/skins/")
 	{
+		this->colors[TEXTCOLOR] = "text";
+		this->colors[TITLECOLOR] = "title";
+		this->colors[LINKCOLOR] = "link";
+		this->colors[SELECTEDCOLOR] = "selected";
+		this->colors[ERRORCOLOR] = "error";
+		this->colors[BGCOLOR] = "bg";
+		this->colors[SELECTEDBGCOLOR] = "selectedbg";
+
 		this->files[SPLASH] = "splash.png";
 		this->files[WIISCREEN] = "wiiScreen.png";
 		this->files[MENU_BACKGROUND] = "mback.png";
@@ -22,14 +30,6 @@ namespace PolyBomber
 		this->files[PLAYER4] = "player4.png";
 		this->files[GAME_BACKGROUND] = "gback.png";
 		this->files[EIMAGE_BOX] = "box.png";
-
-		this->colors[TEXTCOLOR] = "text";
-		this->colors[TITLECOLOR] = "title";
-		this->colors[LINKCOLOR] = "link";
-		this->colors[SELECTEDCOLOR] = "selected";
-		this->colors[ERRORCOLOR] = "error";
-		this->colors[BGCOLOR] = "bg";
-		this->colors[SELECTEDBGCOLOR] = "selectedbg";
 		
 		//BOMB
 		this->files[EIMAGE_BOMB] = "bomb.png";
@@ -50,6 +50,8 @@ namespace PolyBomber
 		this->files[EIMAGE_INFINITY] = "infinityBonus.png";
 		this->files[EIMAGE_MINEBONUS] = "mineBonus.png";
 		this->files[EIMAGE_REMOTEBONUS] = "remote.png";
+
+		this->files[EIMAGE_FLAME_UP] = "flame_middle_horizontal.png";
 		
 		//INFECTION
 		this->files[EIMAGE_CONFUSION] = "confusion.png";

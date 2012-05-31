@@ -52,6 +52,9 @@ namespace PolyBomber
 		EIMAGE_REMOTEBOMB,
 		
 		EIMAGE_BOX,
+
+		// FLAMES
+		EIMAGE_FLAME_UP,
 		
 		//PLAYER1
 		EIMAGE_PLAYER1UP,

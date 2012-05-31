@@ -151,10 +151,12 @@ namespace PolyBomber {
 	
 	void GameEngineManager::run() {
 		while (runnable) {
+			std::cout << "test1" << std::endl;
 			int time=horloge.getElapsedTime().asSeconds();
+			std::cout << "test2" << std::endl;
 			SKeyPressed sKeyPressed = network->getKeysPressed();
-			
-			std::cout << "run engine : " << sKeyPressed.keys[0][GAME_DOWN] << std::endl;
+
+			std::cout << "time : " << time << std::endl;
 			
 			if (network->isPaused()) {//si le jeu est en pause
 				if(debutPause==0) {
@@ -193,8 +195,7 @@ namespace PolyBomber {
 				
 				//gestion des touches
 				for (int i=0; i<board.getNbPlayer(); i++) { //pour chaque zoueur
-					Player& pl = getPlayerById(i);
-					if (!pl.getAlive()) {
+
 						if (sKeyPressed.keys[i][0]==true) {//touche haut
 							this->mutexBoard.lock();
 							board.actionToucheHaut(i);
@@ -227,10 +228,12 @@ namespace PolyBomber {
 							board.actionToucheAction2(i,time);
 							this->mutexBoard.unlock();
 						}
-					}
+
 				}
 			}
+			std::cout << "sleep" << std::endl;
 			sf::sleep(sf::milliseconds(50));
+			std::cout << "sleep2" << std::endl;
 			/*if (isFinished()) {
 				this->runnable=false;
 			}*/

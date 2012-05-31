@@ -132,14 +132,14 @@ namespace PolyBomber {
 			if (caseIsFree(xCase,yCase+1)) {
 				if (distanceDesAutresJoueursValide(player,x,y+pl.getSpeed())) {
 					pl.move(x,y+pl.getSpeed());
-					if (y+pl.getSpeed()%5!=2) {
+					if (((y+pl.getSpeed())%5)!=2) {
 						pl.centrerPlayerSurAxeHorizontal();
 					}
 				}
 			} else {
-				if (y+pl.getSpeed()%5<=2) {
+				if (((y+pl.getSpeed())%5)<=2) {
 					pl.move(x,y+pl.getSpeed());
-					if (y+pl.getSpeed()%5!=2) {
+					if (((y+pl.getSpeed())%5)!=2) {
 						pl.centrerPlayerSurAxeHorizontal();
 					}
 				} else {
@@ -292,14 +292,14 @@ namespace PolyBomber {
 			if (caseIsFree(xCase-1,yCase)) {
 				if (distanceDesAutresJoueursValide(player,x-pl.getSpeed(),y)) {
 					pl.move(x-pl.getSpeed(),y);
-					if (x-pl.getSpeed()%5!=2) {
+					if (((x-pl.getSpeed())%5)!=2) {
 						pl.centrerPlayerSurAxeVertical();
 					}
 				}
 			} else {
-				if (x-pl.getSpeed()%5<=2) {
+				if (((x-pl.getSpeed())%5)>2) {
 					pl.move(x-pl.getSpeed(),y);
-					if (x-pl.getSpeed()%5!=2) {
+					if (((x-pl.getSpeed())%5)!=2) {
 						pl.centrerPlayerSurAxeVertical();
 					}
 				} else {
@@ -578,7 +578,7 @@ namespace PolyBomber {
 	}
 	
 	void Board::explodeBomb(int x, int y) {
-		for (unsigned int i=0; i<bomb.size(); i++) {
+		for (int i=bomb.size(); i>=0; i--) {
 			if (bomb[i].getLocationX()==x && bomb[i].getLocationY()==y) {
 				explodeBomb(i);
 			}
@@ -589,16 +589,20 @@ namespace PolyBomber {
 		int type=bomb[indice].getType();
 		if (type==0 || type==3) {//TODO : vérifier l'utilité de "type==3"
 			generateFlame(bomb[indice].getLocationX(),bomb[indice].getLocationY(),bomb[indice].getRange(),bomb[indice].getTimeOfExplosion()+DUREEFLAMME);
+			
 			if (type==0) {
 				Player& pl = getPlayerById(bomb[indice].getPlayer());
 				pl.incrementCapacity();
+				std::cout << "increment" << std::endl;
 			}
 		} else if (type==1) {
 			generateFlameInfinityBomb(indice,bomb[indice].getTimeOfExplosion()+DUREEFLAMME);
 		} else if (type==2) {
 			generateFlameAtomicBomb(indice,bomb[indice].getTimeOfExplosion()+DUREEFLAMME);
 		}
+		
 		bomb.erase(bomb.begin()+indice);
+		std::cout << "tfin" << std::endl;
 	}
 	
 	void Board::explodeRemoteBomb(unsigned int indice, int date) {
@@ -895,8 +899,8 @@ namespace PolyBomber {
 	}
 	
 	void Board::explodeAllBomb(int date) {
-		for (unsigned int i =0; i<bomb.size(); i++) {
-			if (bomb[i].getTimeOfExplosion()>date) {
+		for (int i=bomb.size()-1; i>=0; i--) {
+			if (bomb[i].getTimeOfExplosion()<date) {
 				explodeBomb(i);
 			}
 		}
