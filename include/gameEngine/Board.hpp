@@ -75,6 +75,7 @@ namespace PolyBomber {
 		bool isAFlameInThisCase(int, int);
 		bool isABonusInThisCase(int, int);
 		bool isAMineInThisCase(int, int);
+		bool isABombInThisCase(int, int);
 		
 		
 		int nbSurvivant();

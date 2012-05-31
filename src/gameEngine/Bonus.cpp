@@ -23,7 +23,7 @@ namespace PolyBomber {
 	
 	Bonus::Bonus(int x, int y, EGameBonus type, bool visible) : Location(x,y) {
 		this->type=type;
-		this->visible=visible;
+		this->visible=true;
 	}
 	
 	Bonus::Bonus(const Bonus& bonus) : Location(bonus.getLocationX(),bonus.getLocationY()) {

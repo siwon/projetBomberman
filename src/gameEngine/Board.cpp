@@ -335,7 +335,7 @@ namespace PolyBomber {
 	void Board::actionToucheAction1(int player, int date) {
 		Player& pl = getPlayerById(player);
 		std::cout << "Bombe player : " << player << " => " << pl.getCapacity() << std::endl;
-		if (pl.getCapacity()>0) {//le joueur peut poser une bombe
+		if (pl.getCapacity()>0 && !isABombInThisCase(cranToCase(pl.getLocationX()),cranToCase(pl.getLocationY()))) {//le joueur peut poser une bombe
 			std::cout << "Puddi" << std::endl;
 			bomb.push_back(Bomb(date,pl));
 			pl.decrementCapacity();
@@ -536,6 +536,16 @@ namespace PolyBomber {
 		return toReturn;
 	}
 	
+	bool Board::isABombInThisCase(int x, int y) {
+		bool toReturn=false;
+		for (unsigned int i=0; i<bomb.size(); i++) {
+			if (bomb[i].getLocationX()==x && bomb[i].getLocationY()==y) {
+				toReturn=true;
+			}
+		}
+		return toReturn;
+	}
+	
 	int Board::nbSurvivant() {
 		int toReturn=0;
 		for (unsigned int i=0; i<player.size(); i++) {
@@ -589,7 +599,6 @@ namespace PolyBomber {
 		int type=bomb[indice].getType();
 		if (type==0 || type==3) {//TODO : vérifier l'utilité de "type==3"
 			generateFlame(bomb[indice].getLocationX(),bomb[indice].getLocationY(),bomb[indice].getRange(),bomb[indice].getTimeOfExplosion()+DUREEFLAMME);
-			
 			if (type==0) {
 				Player& pl = getPlayerById(bomb[indice].getPlayer());
 				pl.incrementCapacity();
@@ -642,22 +651,22 @@ namespace PolyBomber {
 		//propagation vers la gauche
 		x=origineX-1;
 		y=origineY;
-		while (!isAWallInThisCase(x,y) && origineX-x<range && x>0) { 
+		while (!isAWallInThisCase(x,y) && origineX-x<range && x>=0) { 
 			addFlame(Flame(x,y,ORIENTATION_LEFT,MIDDLE,date));
 			x=x-1;
 		}
-		if (x==origineX-range && !isAWallInThisCase(x,y) && x>0) {
+		if (x==origineX-range && !isAWallInThisCase(x,y) && x>=0) {
 			addFlame(Flame(x,y,ORIENTATION_LEFT,END,date));
 		}
 		
 		//propagation vers le haut
 		x=origineX;
 		y=origineY-1;
-		while (!isAWallInThisCase(x,y) && origineY-y<range && y>0) {
+		while (!isAWallInThisCase(x,y) && origineY-y<range && y>=0) {
 			addFlame(Flame(x,y,ORIENTATION_UP,MIDDLE,date));
 			y=y-1;
 		}
-		if (y==origineY-range && !isAWallInThisCase(x,y) && y>0) {
+		if (y==origineY-range && !isAWallInThisCase(x,y) && y>=0) {
 			addFlame(Flame(x,y,ORIENTATION_UP,END,date));
 		}
 		
@@ -899,9 +908,13 @@ namespace PolyBomber {
 	}
 	
 	void Board::explodeAllBomb(int date) {
-		for (int i=bomb.size()-1; i>=0; i--) {
-			if (bomb[i].getTimeOfExplosion()<date) {
-				explodeBomb(i);
+		unsigned int indice=0;
+		int size = bomb.size();
+		while (indice<bomb.size()) {
+			if (bomb[indice].getTimeOfExplosion()<date) {
+				explodeBomb(indice);
+			} else {
+				indice++;
 			}
 		}
 	}
