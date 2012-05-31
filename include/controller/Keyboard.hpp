@@ -18,6 +18,7 @@
 // Headers
 #include "Controller.hpp"
 #include "../EMenuKeys.hpp"
+#include "GameAction.hpp"
 
 namespace PolyBomber
 {
@@ -76,6 +77,8 @@ namespace PolyBomber
 		virtual void add(int player); /* Non disponible pour le clavier */
 		
 		virtual void disconnect(int player); /* Non disponible pour le clavier */
+		
+		virtual GameAction getAction(int keys[7],int, sf::RenderWindow*);
 
   };
 }

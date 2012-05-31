@@ -32,7 +32,7 @@ int main()
 	
      // Declare and create a new render-window
 	sf::RenderWindow window(sf::VideoMode(300, 150), "Bomberman - Test ControllerDeJeu");
-	
+	window.setKeyRepeatEnabled(true);
 	ControllerManager* controllerManager = ControllerManager::getInstance();
 
 	controllerManager->setWii();
@@ -46,14 +46,14 @@ int main()
 	try
 	{
 		controllerManager->setPlayerController(2,GAMEPAD);
-		controllerManager->setPlayerKey(2,GAME_UP);
+		//controllerManager->setPlayerKey(2,GAME_UP);
 	}
 	catch(PolyBomberException e)
 	{
 		std::cout << e.what();
 	}
-	//controllerManager->setPlayerController(3,WII);
-	controllerManager->printConfig(2);
+	controllerManager->setPlayerController(3,WII);
+	//controllerManager->printConfig(2);
 	//controllerManager->printConfig(3);
 	//controllerManager->setPlayerController(3,KEYBOARD);
 	/*controllerManager->printConfig(4);*/
