@@ -121,7 +121,7 @@ namespace PolyBomber {
 	}
 	
 	void Board::actionToucheHaut(int player) {//TODO : faire la vérification si le déplacement se fait dans la meme case nécessaire ?
-		Player pl = getPlayerById(player);
+		Player& pl = getPlayerById(player);
 		int x = pl.getLocationX();//position en cran
 		int y = pl.getLocationY();//position en cran
 		int xCase = cranToCase(x);
@@ -230,7 +230,7 @@ namespace PolyBomber {
 	}
 	
 	void Board::actionToucheGauche(int player) {
-		Player pl = getPlayerById(player);
+		Player& pl = getPlayerById(player);
 		EOrientation orient;
 		int x = pl.getLocationX();//position en cran
 		int y = pl.getLocationY();//position en cran
@@ -282,7 +282,7 @@ namespace PolyBomber {
 	}
 	
 	void Board::actionToucheDroite(int player) {
-		Player pl = getPlayerById(player);
+		Player& pl = getPlayerById(player);
 		EOrientation orient;
 		int x = pl.getLocationX();//position en cran
 		int y = pl.getLocationY();//position en cran
@@ -334,7 +334,7 @@ namespace PolyBomber {
 	}
 	
 	void Board::actionToucheAction1(int player, int date) {
-		Player pl = getPlayerById(player);
+		Player& pl = getPlayerById(player);
 		if (pl.getCapacity()>0) {//le joueur peut poser une bombe
 			bomb.push_back(Bomb(date,pl));
 			pl.decrementCapacity();
@@ -342,7 +342,7 @@ namespace PolyBomber {
 	}
 	
 	void Board::actionToucheAction2(int player, int date) {
-		Player pl = getPlayerById(player);
+		Player& pl = getPlayerById(player);
 		EGameBonus bon = pl.getFirstBombBonus();
 		if (pl.getBombBonus().size()>0) {
 			//utiliser le 1er bonus puis le supprimer de la liste
@@ -441,6 +441,9 @@ namespace PolyBomber {
 	bool Board::caseIsFree(int x, int y) {
 		bool toReturn = true;
 		unsigned int i=0;
+		if (x<0 || x>18 || y<0 || y>12) {
+			toReturn=false;
+		}
 		while (toReturn && i<bonus.size()) {//bonus
 			if (x==bonus[i].getLocationX() && y==bonus[i].getLocationY()) {
 				toReturn=false;
