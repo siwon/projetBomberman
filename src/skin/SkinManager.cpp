@@ -21,7 +21,7 @@ namespace PolyBomber
 		this->files[PLAYER3] = "player3.png";
 		this->files[PLAYER4] = "player4.png";
 		this->files[GAME_BACKGROUND] = "gback.png";
-		this->files[BOX] = "box.png";
+		this->files[EIMAGE_BOX] = "box.png";
 
 		this->colors[TEXTCOLOR] = "text";
 		this->colors[TITLECOLOR] = "title";
@@ -59,6 +59,27 @@ namespace PolyBomber
 		this->files[EIMAGE_HELL] = "hell.png";
 		this->files[EIMAGE_RAGE] = "rage.png";
 		this->files[EIMAGE_SPASME] = "spasme.png";
+		
+		//PLAYER1
+		this->files[EIMAGE_PLAYER1LEFT] = "red_left.png";
+		this->files[EIMAGE_PLAYER1RIGHT] = "red_right.png";
+		this->files[EIMAGE_PLAYER1UP] = "red_back.png";
+		this->files[EIMAGE_PLAYER1DOWN] = "red_front.png";
+		//PLAYER2
+		this->files[EIMAGE_PLAYER2LEFT] = "green_left.png";
+		this->files[EIMAGE_PLAYER2RIGHT] = "green_right.png";
+		this->files[EIMAGE_PLAYER2UP] = "green_back.png";
+		this->files[EIMAGE_PLAYER2DOWN] = "green_front.png";
+		//PLAYER3
+		this->files[EIMAGE_PLAYER3LEFT] = "white_left.png";
+		this->files[EIMAGE_PLAYER3RIGHT] = "white_right.png";
+		this->files[EIMAGE_PLAYER3UP] = "white_back.png";
+		this->files[EIMAGE_PLAYER3DOWN] = "white_front.png";
+		//PLAYER4
+		this->files[EIMAGE_PLAYER4LEFT] = "black_left.png";
+		this->files[EIMAGE_PLAYER4RIGHT] = "black_right.png";
+		this->files[EIMAGE_PLAYER4UP] = "black_back.png";
+		this->files[EIMAGE_PLAYER4DOWN] = "black_front.png";
 
 		reloadConfig();
 	}

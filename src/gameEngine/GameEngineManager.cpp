@@ -153,7 +153,7 @@ namespace PolyBomber {
 	}
 	
 	void GameEngineManager::run() {
-		if (runnable) {
+		while (runnable) {
 			int time=horloge.getElapsedTime().asSeconds();
 			SKeyPressed sKeyPressed = network->getKeysPressed();
 			if (network->isPaused()) {//si le jeu est en pause
@@ -225,6 +225,7 @@ namespace PolyBomber {
 					}
 				}
 			}
+			sf::sleep(sf::millisecondes(50));
 		}
 	}
 	
