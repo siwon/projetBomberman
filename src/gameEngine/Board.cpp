@@ -794,8 +794,9 @@ namespace PolyBomber {
 							break;
 					}
 				} else {
-					
+					player[i].addBonus(bon);
 				}
+				removeBonusByCoord(x,y);
 			}
 			if (isAMineInThisCase(x,y)) {
 				int indiceMine = getIndiceMineByCoord(x,y);
@@ -821,6 +822,19 @@ namespace PolyBomber {
 		for (int i=bomb.size()-1; i>=0; i--) {
 			if (isAFlameInThisCase(bomb[i].getLocationX(),bomb[i].getLocationY())) {
 				explodeBomb(bomb[i].getLocationX(),bomb[i].getLocationY());
+			}
+		}
+	}
+	
+	void Board::removeBonusByCoord(int x, int y) { //TODO : A replacer !!!
+		int indice = 0;
+		bool trouve = false;
+		while (indice < bonus.size() && !trouve) {
+			if (bonus[indice].getLocationX()==x && bonus[indice].getLocationY()==y) {
+				trouve=true;
+				bonus.erase(bonus.begin()+indice);
+			} else {
+				indice++;
 			}
 		}
 	}
