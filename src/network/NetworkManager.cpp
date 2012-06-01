@@ -105,7 +105,7 @@ namespace PolyBomber
 					nbPlayerDone++;
 			}
 			// pour chaque joueur en dehors du reseau, demander ces touches
-			/*for(int i=0;i<4;i++){ // on parcourt le tableau d'ip
+			for(int i=0;i<4;i++){ // on parcourt le tableau d'ip
 				if(this->nbPlayerByIp[i]){ // s'il y a une adresse d'enregistrée
 					try {
 						this->mutexClients.lock();
@@ -123,12 +123,12 @@ namespace PolyBomber
 							thePacket >> i >> s >> keys; // récupération des touches envoyées
 
 							//ajouter ses touches.
-							for(int j=0;j<this->nbPlayerByIp[i];j++){
+							/*for(int j=0;j<this->nbPlayerByIp[i];j++){
 								for(int k=0;k<7;k++){
 									this->keyPressed.keys[nbPlayerDone][k] = keys.keys[j][k];
 								}
 								nbPlayerDone++;
-							}
+							}*/
 						} else {
 							std::cerr << "le joueur n'est plus accessible pour demander ses touches" << std::endl;
 							for(int j=0;j<this->nbPlayerByIp[i];j++){
@@ -149,7 +149,7 @@ namespace PolyBomber
 						}
 					}
 				}
-			}*/
+			}
 			//verification de la pause par un joueur
 			unsigned int i=0;
 			while(i<this->gameConfig.nbPlayers && !this->paused){
@@ -743,7 +743,8 @@ namespace PolyBomber
 			this->mutexPacket.unlock();
 		}
 		if(!find){
-			throw PolyBomberException("Echec de la réception du paquet de l'expéditeur "+ipAddr.toString()+". Temps d'attente de 100 millisecondes dépassé");
+			std::cerr << "PAS TROUVE packet n° " << num  <<std::endl; 
+			throw PolyBomberException(num+"Echec de la réception du paquet de l'expéditeur "+ipAddr.toString()+". Temps d'attente de 100 millisecondes dépassé");
 		}
 		return it;
 	}
