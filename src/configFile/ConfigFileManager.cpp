@@ -17,10 +17,10 @@
 // Bibliothèques externes
 
 // Headers
-#include "../../include/configFile/ConfigFileManager.hpp"
-#include "../../include/PolyBomberException.hpp"
-#include "../../include/EControllerType.hpp"
-#include "../../include/controller/Gamepad.hpp"
+#include "configFile/ConfigFileManager.hpp"
+#include "PolyBomberException.hpp"
+#include "EControllerType.hpp"
+#include "controller/Gamepad.hpp"
 
 namespace PolyBomber
 {

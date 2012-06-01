@@ -42,6 +42,8 @@ namespace PolyBomber
 		
 		std::vector<CWiimote> wiimotes; /*!< Tableau de wiimotes connectées */
 		
+		GameAction* gameActions;
+		
 		int numFound; /*!< Nombre de wiimotes connectées au pc */
 		
 		CWii* wii; /*!< Gestionnaire des périphériques wiimotes */
@@ -68,22 +70,44 @@ namespace PolyBomber
 		 */
 		~Wii();
 		
-		/* Méthodes de la classe Controller */
-
+		/*!
+		 * @see Controller#getMenuKey
+		 */
 		virtual EMenuKeys getMenuKey(sf::RenderWindow* window);
-
+		
+		/*!
+		 * @see Controller#getControllerType
+		 */
 		virtual EControllerType getControllerType();
 
+		/*!
+		 * @see Controller#getCharPressed
+		 */
 		virtual char getCharPressed(sf::RenderWindow* window); /* Non disponible pour les wiimotes*/
 
+		/*!
+		 * @see Controller#getKeyPressed
+		 */
 		virtual int getKeyPressed(int player,sf::RenderWindow* window);
 
+		/*!
+		 * @see Controller#getLabel
+		 */
 		virtual std::string getLabel(int key);
 		
+		/*!
+		 * @see Controller#add
+		 */
 		virtual void add(int player);
 		
+		/*!
+		 * @see Controller#disconnect
+		 */
 		virtual void disconnect(int player);
 		
+		/*!
+		 * @see Controller#getAction
+		 */
 		virtual GameAction getAction(int keys[7],int, sf::RenderWindow*);
 
   };

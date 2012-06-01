@@ -17,14 +17,16 @@
 // Bibliothèques externes
 
 // Headers
-#include "../../include/controller/ControllerManager.hpp"
-#include "../../include/controller/Controller.hpp"
-#include "../../include/controller/Keyboard.hpp"
-#include "../../include/controller/Gamepad.hpp"
-#include "../../include/SKeysConfig.hpp"
-#include "../../include/EGameKeys.hpp"
-#include "../../include/PolyBomberException.hpp"
-#include "../../include/controller/GameAction.hpp"
+#include "controller/ControllerManager.hpp"
+#include "controller/Controller.hpp"
+#include "controller/Keyboard.hpp"
+#include "controller/Gamepad.hpp"
+#include "controller/GameAction.hpp"
+
+#include "SKeysConfig.hpp"
+#include "EGameKeys.hpp"
+#include "PolyBomberException.hpp"
+
 
 namespace PolyBomber
 {

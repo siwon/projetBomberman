@@ -13,14 +13,16 @@
 // Bibliothèques externes
 
 // Headers
-#include "../../include/EMenuKeys.hpp"
-#include "../../include/EGameKeys.hpp"
-#include "../../include/SKeysConfig.hpp"
-#include "../../include/EControllerType.hpp"
-#include "../../include/controller/Wii.hpp"
-#include "../../include/PolyBomberException.hpp"
-#include "../../include/controller/Wiicpp.hpp"
-#include "../../include/controller/GameAction.hpp"
+#include "EMenuKeys.hpp"
+#include "EGameKeys.hpp"
+#include "SKeysConfig.hpp"
+#include "EControllerType.hpp"
+#include "PolyBomberException.hpp"
+
+#include "controller/Wiicpp.hpp"
+#include "controller/GameAction.hpp"
+#include "controller/Wii.hpp"
+
 
 namespace PolyBomber
 {
@@ -58,11 +60,17 @@ namespace PolyBomber
 		keysLabel.insert(std::pair<CButtons::ButtonDefs,std::string>(CButtons::BUTTON_DOWN,"Bas"));
 		keysLabel.insert(std::pair<CButtons::ButtonDefs,std::string>(CButtons::BUTTON_UP,"Haut"));
 		keysLabel.insert(std::pair<CButtons::ButtonDefs,std::string>(CButtons::BUTTON_PLUS,"Bouton +"));
+		
+		gameActions = new GameAction[4]();
+		int i;
+		for(i=0;i<4;i++)
+			gameActions[i].init();
 	}
 
 	Wii::~Wii()
 	{
 		delete wii;
+		delete[] gameActions;
 	}
 
 
@@ -122,34 +130,35 @@ namespace PolyBomber
 	}
 
 	GameAction Wii::getAction(int keys[7],int player, sf::RenderWindow*)
-	{
-		GameAction gameAction;
-		gameAction.init();
-	
-		int i = 0;
+	{	
 	
 		CWiimote & wiimote =  *wiimotesAssignation[player];
 	
-		while(wii->Poll() && i<100)
+		while(wii->Poll())
 		{		
 			switch(wiimote.GetEvent())
 			{
 				case CWiimote::EVENT_EVENT :
 					for(int i=0;i<7;i++)
 					{
-						if(wiimote.Buttons.isPressed(keys[i]))
+						if(wiimote.Buttons.isJustPressed(keys[i]))
 						{
-							gameAction.actions[i] = true;
+							gameActions[player-1].actions[i] = true;
+							std::cout << "Player " << player << " : " << keys[i] << std::endl;
+						}
+						else if(wiimote.Buttons.isReleased(keys[i]))
+						{
+							gameActions[player-1].actions[i] = false;
 							std::cout << "Player " << player << " : " << keys[i] << std::endl;
 						}
 					}
 					break;
 				default :
 					break;
-			}	
-			i++;		
+			}
+				
 		}
-		return gameAction;
+		return gameActions[player-1];
 	}
 
 	int Wii::getKeyPressed(int player,sf::RenderWindow*)

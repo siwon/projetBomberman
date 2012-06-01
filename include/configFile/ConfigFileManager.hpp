@@ -65,16 +65,29 @@ namespace PolyBomber
 		 */
 		void setDefaultKeyboardConfig(int player);
 		
-		/* Méthodes de IConfigFile */
-
+		/*!
+		 * @see IConfigFile#setStringValue
+		 */
 		virtual void setStringValue(std::string key, std::string value);
-
+		
+		/*!
+		 * @see IConfigFile#setIntValue
+		 */
 		virtual void setIntValue(std::string key, int value);
-
+		
+		/*!
+		 * @see IConfigFile#getStringValue
+		 */
 		virtual std::string getStringValue(std::string key);
-
+		
+		/*!
+		 * @see IConfigFile#getIntValue
+		 */
 		virtual int getIntValue(std::string key);
 		
+		/*!
+		 * @see IConfigFile#getKeys
+		 */
 		virtual std::vector<std::string> getKeys();
 		
 	private :

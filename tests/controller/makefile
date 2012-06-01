@@ -2,43 +2,34 @@
 # Alexandre BISIAUX
 
 CC=g++
-CFLAGS=-W -Wall -ansi -pedantic
-LDFLAGS=-lsfml-window -lsfml-graphics -lsfml-system -lwiicpp
-LDPATH=/lib/
-EXEC=test_Controller
+CFLAGS=-W -Wall -ansi -pedantic -I ../../include/
+LDFLAGS=-L ../../lib/ -lsfml-window -lsfml-graphics -lsfml-audio -lsfml-network -lsfml-system -lwiic -lwiicpp
+MODULES=configFile controller
+EXEC=test
 
 all: $(EXEC)
 
-test_Controller: test_Controller.o ControllerManager.o ConfigFileManager.o Keyboard.o Controller.o Gamepad.o PolyBomberException.o Wii.o
-	$(CC) -o $@ $^ $(LDFLAGS)  -L$(LDPATH)
+test: test_Controller.o PolyBomberException.o $(MODULES)
+	$(CC) -o $@ bin/*.o $(LDFLAGS)
 
+build:
+	$(CC) -o $(EXEC) bin/*.o $(LDFLAGS)
+	
 test_Controller.o: test_Controller.cpp
-	$(CC) -o $@ -c $< $(CFLAGS)
+	$(CC) -o bin/$@ -c $< $(CFLAGS)
 
-ControllerManager.o: ../../src/controller/ControllerManager.cpp
-	$(CC) -o $@ -c $< $(CFLAGS)
-	
-ConfigFileManager.o: ../../src/configFile/ConfigFileManager.cpp
-	$(CC) -o $@ -c $< $(CFLAGS)
+%.o: ../../src/%.cpp
+	$(CC) -o bin/$@ -c $< $(CFLAGS)
 
-Keyboard.o: ../../src/controller/Keyboard.cpp
-	$(CC) -o $@ -c $< $(CFLAGS)
+$(MODULES):
+	$(MAKE) --no-print-directory -C ../../src/$@
 
-Wii.o: ../../src/controller/Wii.cpp
-	$(CC) -o $@ -c $< $(CFLAGS)
-	
-Gamepad.o: ../../src/controller/Gamepad.cpp
-	$(CC) -o $@ -c $< $(CFLAGS)
-
-Controller.o: ../../src/controller/Controller.cpp
-	$(CC) -o $@ -c $< $(CFLAGS)
-
-PolyBomberException.o: ../../src/PolyBomberException.cpp
-	$(CC) -o $@ -c $< $(CFLAGS)
+.PHONY: clean mrproper
 
 clean:
-	rm -f *.o
-	rm -f *~
+	-rm bin/*.o
+	for i in $(MODULES); do ($(MAKE) -w -C ../../src/$$i clean); done
+
 
 mrproper: clean
-	rm $(EXEC)
+	-rm $(EXEC)

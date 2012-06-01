@@ -160,26 +160,49 @@ namespace PolyBomber
 		 */
 		void setWii();
 		
-		/* Méthodes de l'interface IControllerToMenu */
-		
+		/*!
+		 * @see IControllerToMenu#getKeyPressed
+		 */
 		virtual EMenuKeys getKeyPressed();
 		
+		/*!
+		 * @see IControllerToMenu#getCharPressed
+		 */
 		virtual char getCharPressed();
 		
+		/*!
+		 * @see IControllerToMenu#getConfig
+		 */
 		virtual SKeysConfig getConfig(int player);
 		
+		/*!
+		 * @see IControllerToMenu#reloadConfig
+		 */
 		virtual void reloadConfig();
 		
+		/*!
+		 * @see IControllerToMenu#setPlayerKey
+		 */
 		virtual SKeysConfig setPlayerKey(int player, EGameKeys key);
 		
+		/*!
+		 * @see IControllerToMenu#setPlayerController
+		 */
 		virtual SKeysConfig setPlayerController(int player, EControllerType type);
 		
+		/*!
+		 * @see IControllerToMenu#save
+		 */
 		virtual void save();
 		
+		/*!
+		 * @see IControllerToMenu#setWindow
+		 */
 		virtual void setWindow(sf::RenderWindow* window);
 		
-		/* Méthodes de l'interface IControllerToNetwork */
-		
+		/*!
+		 * @see IControllerToNetwork#getKeysPressed
+		 */
 		virtual SKeyPressed getKeysPressed();
 	  
   };

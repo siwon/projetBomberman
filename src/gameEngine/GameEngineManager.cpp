@@ -223,7 +223,7 @@ namespace PolyBomber {
 				}
 			}
 			
-			sf::sleep(sf::milliseconds(50));
+			sf::sleep(sf::milliseconds(5));
 
 			if (board.nbSurvivant()<=1) {
 				this->runnable=false;

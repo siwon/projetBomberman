@@ -13,7 +13,7 @@
 // Bibliothèques externes
 
 // Headers
-#include "../../include/controller/Controller.hpp"
+#include "controller/Controller.hpp"
 
 namespace PolyBomber
 {

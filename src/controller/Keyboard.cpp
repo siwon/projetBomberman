@@ -17,11 +17,11 @@
 // Bibliothèques externes
 
 // Headers
-#include "../../include/EMenuKeys.hpp"
-#include "../../include/SKeysConfig.hpp"
-#include "../../include/EControllerType.hpp"
-#include "../../include/controller/Keyboard.hpp"
-#include "../../include/controller/GameAction.hpp"
+#include "EMenuKeys.hpp"
+#include "SKeysConfig.hpp"
+#include "EControllerType.hpp"
+#include "controller/Keyboard.hpp"
+#include "controller/GameAction.hpp"
 
 namespace PolyBomber
 {
@@ -150,6 +150,7 @@ namespace PolyBomber
 			if(sf::Keyboard::isKeyPressed((sf::Keyboard::Key)(keys[i])) )
 				gameAction.actions[i] = true;
 		}
+				
 		return gameAction;
 	}
 

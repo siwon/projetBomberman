@@ -53,11 +53,13 @@ namespace PolyBomber
 		 */
 		virtual ~Keyboard();
 		
-		/* Méthodes de la classe Controller */
-		
+		/*!
+		 * @see Controller#getMenuKey
+		 */
 		virtual EMenuKeys getMenuKey(sf::RenderWindow* window);
 
 		/*!
+		 * @see Controller#getCharPressed
 		 * \brief Méthode de saisie de caractères
 		 * \return Un caractère ou une valeur numérique ci-dessous :
 		 * 0 : aucun caractère alphanumérique saisi
@@ -66,16 +68,34 @@ namespace PolyBomber
 		 */
 		virtual char getCharPressed(sf::RenderWindow* window);
 		
+		/*!
+		 * @see Controller#getControllerType
+		 */
 		virtual EControllerType getControllerType();
 		
+		/*!
+		 * @see Controller#getKeyPressed
+		 */
 		virtual int getKeyPressed(int player,sf::RenderWindow* window);
 		
+		/*!
+		 * @see Controller#getLabel
+		 */
 		virtual std::string getLabel(int key);
-
+		
+		/*!
+		 * @see Controller#add
+		 */
 		virtual void add(int player); /* Non disponible pour le clavier */
 		
+		/*!
+		 * @see Controller#disconnect
+		 */
 		virtual void disconnect(int player); /* Non disponible pour le clavier */
 		
+		/*!
+		 * @see Controller#getAction
+		 */
 		virtual GameAction getAction(int keys[7],int, sf::RenderWindow*);
 
   };

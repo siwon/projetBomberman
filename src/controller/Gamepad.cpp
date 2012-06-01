@@ -18,13 +18,14 @@
 // Bibliothèques externes
 
 // Headers
-#include "../../include/EMenuKeys.hpp"
-#include "../../include/EGameKeys.hpp"
-#include "../../include/SKeysConfig.hpp"
-#include "../../include/EControllerType.hpp"
-#include "../../include/controller/Gamepad.hpp"
-#include "../../include/PolyBomberException.hpp"
-#include "../../include/controller/GameAction.hpp"
+#include "EMenuKeys.hpp"
+#include "EGameKeys.hpp"
+#include "SKeysConfig.hpp"
+#include "EControllerType.hpp"
+#include "PolyBomberException.hpp"
+
+#include "controller/Gamepad.hpp"
+#include "controller/GameAction.hpp"
 
 namespace PolyBomber
 {
