@@ -23,7 +23,7 @@ namespace PolyBomber {
 	class Flame : public Location {
 	private:
 		EOrientation orientation;
-		EFlameLocation step;
+		EFlameLocation flameLocation;
 		int dateDebutFlame;
 		
 	public:
@@ -33,7 +33,7 @@ namespace PolyBomber {
 		~Flame();
 		
 		inline EOrientation getOrientation() const {return this->orientation;}
-		inline EFlameLocation getStep() const {return this->step;}
+		inline EFlameLocation getFlameLocation() const {return this->flameLocation;}
 		inline int getDateDebutFlame() const {return this->dateDebutFlame;}
 		inline void decalerDebutFlame(int nbSecondes) {this->dateDebutFlame=this->dateDebutFlame+nbSecondes;}
 	};

@@ -150,9 +150,7 @@ namespace PolyBomber {
 	
 	void GameEngineManager::run() {
 		while (runnable) {
-			std::cout << "test1" << std::endl;
 			int time=horloge.getElapsedTime().asSeconds();
-			std::cout << "test2" << std::endl;
 			SKeyPressed sKeyPressed = network->getKeysPressed();
 
 			std::cout << "time : " << time << std::endl;
@@ -229,13 +227,12 @@ namespace PolyBomber {
 				}
 			}
 			
-			std::cout << "sleep" << std::endl;
 			sf::sleep(sf::milliseconds(50));
-			std::cout << "sleep2" << std::endl;
-			if (isFinished()!=0) {
+
+			/*if (isFinished()!=0) {
 				this->runnable=false;
 				std::cout << "Partie terminee" << std::endl;
-			}
+			}*/
 		}
 	}
 	

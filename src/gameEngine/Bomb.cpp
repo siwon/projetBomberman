@@ -23,7 +23,7 @@ namespace PolyBomber {
 	Bomb::Bomb(int date, const Player& player, int type) : Explosive(player) {
 		this->timeOfExplosion=date+BOMBTIMESTAMP;
 		this->type=type;
-		std::cout << "Je pose une bombe" << std::endl;
+		std::cout << "Je pose une bombe " << type << std::endl;
 	}
 	
 	Bomb::Bomb(int date, const Player& pl, int x, int y, int type) : Explosive(pl,x,y) {
