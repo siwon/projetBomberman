@@ -16,7 +16,7 @@ namespace PolyBomber
 	enum EScreenSignal
 	{
 		EXITGAME, /*!< Fin du programme */
-		EXITMENU, /*!< Retour au menu */
+		EXITMENU, /*!< Retour au menu ou à la partie */
 		EXITERROR /*!< Fin avec erreur */
 	};
 }

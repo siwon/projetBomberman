@@ -104,8 +104,12 @@ namespace PolyBomber
 	
 	EScreenSignal MenuManager::runPause(unsigned int player)
 	{
-		// TODO: Coder la pause
-		return EXITMENU;
+		EMenuScreen signal = this->menuScreens[PAUSEMENU]->run(this->window, RUNGAME);
+
+		if (signal == EXIT)
+			return EXITGAME;
+		else
+			return EXITMENU;
 	}
 
 	void MenuManager::initMenuConfig()

@@ -31,6 +31,7 @@ namespace PolyBomber {
 		bool alive;	/*! Statut du joueur */
 		int step;			/*! Etat de la jambe du joueur */
 		int lastMove; //date du dernier mouvement
+		int lastActionSecond; //date de la dernière action 2 en secondes
 		int range;
 		bool detonator;
 		int saveCaracBeforeInfectionDilatation;
@@ -53,6 +54,7 @@ namespace PolyBomber {
 		inline EOrientation getOrientation() const {return this->orientation;}
 		inline bool getAlive() const {return this->alive;}
 		inline int getLastMove() const {return this->lastMove;}
+		inline int getLastAction2() const {return this->lastActionSecond;}
 		inline int getStep() const {return this->step;}
 		inline int getRange() const {return this->range;}
 		inline bool getDetonator() const {return this->detonator;}
@@ -60,6 +62,7 @@ namespace PolyBomber {
 		inline EGameBonus getFirstBombBonus(){return this->bombBonus[0].getType();}
 		inline unsigned int getBombBonusSize() {return this->bombBonus.size();}
 		inline int getInfection() const {return this->infection;}
+		inline void eraseFirstBonus() {this->bombBonus.erase(this->bombBonus.begin());}
 		
 		inline void killPlayer() {this->alive=false;}
 		void addBonus(Bonus bonus);
@@ -71,6 +74,7 @@ namespace PolyBomber {
 		inline void incrementCapacity(int i=1) {this->capacity+=i;}
 		inline void decrementCapacity(int i=1) {this->capacity-=i;}
 		inline void setLastMove(int date) {this->lastMove=date;}
+		inline void setLastAction2(int date) {this->lastActionSecond=date;}
 	};
 }
 
