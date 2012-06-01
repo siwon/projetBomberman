@@ -218,14 +218,11 @@ namespace PolyBomber {
 					}
 					if (sKeyPressed.keys[i][5]==true) {//touche action2
 						this->mutexBoard.lock();
-						std::cout << " TOUUUUUUUUUUCHE 2 !!!!!" << std::endl;
-						board.actionToucheAction2(i,time);
+						board.actionToucheAction2(i,time, time2);
 						this->mutexBoard.unlock();
 					}
 				}
 			}
-			
-			sf::sleep(sf::milliseconds(8));
 
 			if (board.nbSurvivant()<=1) {
 				this->runnable=false;

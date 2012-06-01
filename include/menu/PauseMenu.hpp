@@ -7,6 +7,8 @@
  * \author Maxime GUIHAL
  */
 
+#include <SFML/Clock.hpp>
+
 #include "menu/IMenuScreen.hpp"
 
 #include "menu/ImageWidget.hpp"
@@ -51,6 +53,8 @@ namespace PolyBomber
 			TextWidget title;
 			LinkWidget resume;
 			LinkWidget quit;
+		
+			sf::Clock clock; 
 			
 	};
 }

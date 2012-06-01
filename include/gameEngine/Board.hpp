@@ -59,7 +59,7 @@ namespace PolyBomber {
 		void actionToucheGauche(int, int);
 		void actionToucheDroite(int, int);
 		void actionToucheAction1(int, int, int);
-		void actionToucheAction2(int, int);
+		void actionToucheAction2(int, int, int);
 		
 		inline void addPlayer(Player pl) {this->player.push_back(pl);}
 		inline void addWall(Wall w) {this->wall.push_back(w);}

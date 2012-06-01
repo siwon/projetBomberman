@@ -119,7 +119,7 @@ namespace PolyBomber {
 		return toReturn;
 	}
 	
-	void Board::actionToucheHaut(int player, int date) {//TODO : faire la vérification si le déplacement se fait dans la meme case nécessaire ?
+	void Board::actionToucheHaut(int player, int date) {
 		Player& pl = getPlayerById(player);
 		if (pl.getAlive() && pl.getLastMove()+pl.getSpeed()<date) {
 			int x = pl.getLocationX();//position en cran
@@ -184,7 +184,6 @@ namespace PolyBomber {
 			int y = pl.getLocationY();//position en cran
 			int xCase = cranToCase(x);
 			int yCase = cranToCase(y);
-			std::cout << "okdeb : " << x << " ; " << y << std::endl;
 			if (pl.getInfection()==1) {
 				//inversion des touches directionnelles
 				if (caseIsFree(xCase,yCase-1)) {
@@ -342,7 +341,7 @@ namespace PolyBomber {
 			pl.setLastMove(date);
 		}
 	}
-
+	
 	/*
 	 * date = secondes
 	 * date2 = millisecondes
@@ -359,19 +358,27 @@ namespace PolyBomber {
 		}
 	}
 	
-	void Board::actionToucheAction2(int player, int date) {//TODO : à gérer
+	void Board::actionToucheAction2(int player, int date, int date2) {
 		Player& pl = getPlayerById(player);
-		if (pl.getBombBonusSize()>0) { //TODO
-		EGameBonus bon = pl.getFirstBombBonus();
-		std::cout << "type de bombe : " << bon <<std::endl;
-		if (pl.getAlive() && pl.getLastMove()+pl.getSpeed()<date) {
+		std::cout << "Tests d'entrée :" << std::endl;
+		std::cout << "getAlive() : " << pl.getAlive() << std::endl;
+		std::cout << "gestion du temps : " << pl.getLastMove()+pl.getSpeed()<date << std::endl;
+		sf::sleep(sf::seconds(3));
+		if (pl.getAlive() && pl.getLastMove()+pl.getSpeed()<date2) {
 			if (pl.getBombBonus().size()>0) {
+				EGameBonus bon = pl.getFirstBombBonus();
+				std::cout << "type de bombe : " << bon <<std::endl;
 				//utiliser le 1er bonus puis le supprimer de la liste
 				if (bon==INFINITYBOMB) {
+					std::cout << "Type de bombe : INFINITYBOMB" << std::endl;
 					bomb.push_back(Bomb(date,pl,1));
 				} else if (bon==ATOMICBOMB) {
+					std::cout << "Type de bombe : ATOMICBOMB" << std::endl;
 					bomb.push_back(Bomb(date,pl,2));
+				} else if (bon==MINE) {
+					//TODO
 				} else { //bombline
+					std::cout << "Type de bombe : OTHER" << std::endl;
 					EOrientation orient = pl.getOrientation();
 					int x=cranToCase(pl.getLocationX());
 					int y=cranToCase(pl.getLocationY());
@@ -427,6 +434,7 @@ namespace PolyBomber {
 				bomb.erase(bomb.begin());
 			} else {
 				if (pl.getDetonator()) {
+					std::cout << "Type de bombe : DETONATOR" << std::endl;
 					bool remoteBombDejaPosee=false;
 					int indiceRemoteBomb;
 					for (unsigned int i=0;i<remoteBomb.size();i++) {
@@ -443,7 +451,6 @@ namespace PolyBomber {
 				}
 			}
 		}
-	}
 	}
 	
 	void Board::removeBox(int i) {
@@ -635,9 +642,9 @@ namespace PolyBomber {
 		
 		
 		std::cout << "tfin : " << type << std::endl;
-bomb.erase(bomb.begin()+indice);
+		bomb.erase(bomb.begin()+indice);
 		if (type!=0)
-		sf::sleep(sf::milliseconds(5000));
+			sf::sleep(sf::milliseconds(5000));
 	}
 	
 	void Board::explodeRemoteBomb(unsigned int indice, int date) {
@@ -751,6 +758,19 @@ bomb.erase(bomb.begin()+indice);
 		return toReturn;
 	}
 	
+	void Board::removeBonusByCoord(int x, int y) {
+		unsigned int indice = 0;
+		bool trouve = false;
+		while (indice < bonus.size() && !trouve) {
+			if (bonus[indice].getLocationX()==x && bonus[indice].getLocationY()==y) {
+				trouve=true;
+				bonus.erase(bonus.begin()+indice);
+			} else {
+				indice++;
+			}
+		}
+	}
+	
 	void Board::checkPosition(int date) {
 		//fait la vérification des joueurs (flammes, bonus)
 		for (unsigned int i=0; i<player.size(); i++) {
@@ -838,19 +858,6 @@ bomb.erase(bomb.begin()+indice);
 		for (int i=bomb.size()-1; i>=0; i--) {
 			if (isAFlameInThisCase(bomb[i].getLocationX(),bomb[i].getLocationY())) {
 				explodeBomb(bomb[i].getLocationX(),bomb[i].getLocationY());
-			}
-		}
-	}
-	
-	void Board::removeBonusByCoord(int x, int y) { //TODO : A replacer !!!
-		unsigned int indice = 0;
-		bool trouve = false;
-		while (indice < bonus.size() && !trouve) {
-			if (bonus[indice].getLocationX()==x && bonus[indice].getLocationY()==y) {
-				trouve=true;
-				bonus.erase(bonus.begin()+indice);
-			} else {
-				indice++;
 			}
 		}
 	}
