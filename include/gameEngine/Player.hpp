@@ -29,6 +29,7 @@ namespace PolyBomber {
 		EOrientation orientation;	/*! Orientation du joueur */
 		bool alive;	/*! Statut du joueur */
 		int step;			/*! Etat de la jambe du joueur */
+		int lastMove; //date du dernier mouvement
 		int range;
 		bool detonator;
 		int saveCaracBeforeInfectionDilatation;
@@ -50,6 +51,7 @@ namespace PolyBomber {
 		inline int getCapacity() const {return this->capacity;}
 		inline EOrientation getOrientation() const {return this->orientation;}
 		inline bool getAlive() const {return this->alive;}
+		inline int getLastMove() const {return this->lastMove;}
 		inline int getStep() const {return this->step;}
 		inline int getRange() const {return this->range;}
 		inline bool getDetonator() const {return this->detonator;}
@@ -66,6 +68,7 @@ namespace PolyBomber {
 		inline void setOrientation(EOrientation orient) {this->orientation=orient;}
 		inline void incrementCapacity(int i=1) {this->capacity+=i;}
 		inline void decrementCapacity(int i=1) {this->capacity-=i;}
+		inline void setLastMove(int date) {this->lastMove=date;}
 	};
 }
 

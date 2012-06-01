@@ -47,7 +47,10 @@
 #ifndef WIIC_INTERNAL_H_INCLUDED
 #define WIIC_INTERNAL_H_INCLUDED
 
-#ifndef __APPLE__
+#ifdef _WIN32
+        /* windows */
+        #include <windows.h>
+#else
 	#include <arpa/inet.h>				/* htons() */
 	#include <bluetooth/bluetooth.h>
 #endif

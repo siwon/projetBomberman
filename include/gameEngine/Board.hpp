@@ -54,10 +54,10 @@ namespace PolyBomber {
 		SBoard boardToSBoard();
 		
 		//gestion des touches
-		void actionToucheHaut(int);
-		void actionToucheBas(int);
-		void actionToucheGauche(int);
-		void actionToucheDroite(int);
+		void actionToucheHaut(int, int);
+		void actionToucheBas(int, int);
+		void actionToucheGauche(int, int);
+		void actionToucheDroite(int, int);
 		void actionToucheAction1(int, int);
 		void actionToucheAction2(int, int);
 		

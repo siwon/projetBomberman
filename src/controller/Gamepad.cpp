@@ -79,6 +79,7 @@ namespace PolyBomber
 	{
 		nbGamepad--;
 		gamepadsAssignation.erase(player);
+		sf::Joystick::update();
 	}
 
 	Gamepad::Gamepad()
