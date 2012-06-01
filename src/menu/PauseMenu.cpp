@@ -44,10 +44,19 @@ namespace PolyBomber
 
 	void PauseMenu::validPressed(EMenuScreen* nextScreen)
 	{
-		if (resume.getSelected())
-			*nextScreen = resume.activate();
+		if (this->clock.getElapsedTime().asSeconds() > 1)
+		{
+			if (resume.getSelected())
+				*nextScreen = resume.activate();
 			
-		if (quit.getSelected())
-			*nextScreen = quit.activate();
+			if (quit.getSelected())
+				*nextScreen = quit.activate();
+		}
+	}
+	
+	EMenuScreen PauseMenu::run(MainWindow& window, EMenuScreen previous)
+	{
+		this->clock.restart();
+		return IMenuScreen::run(window, previous);
 	}
 }

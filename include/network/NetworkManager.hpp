@@ -65,48 +65,209 @@ namespace PolyBomber
 			 * \brief Constructeur
 			 */
 			NetworkManager();
+			
 			/*!
 			 * \brief Destructeur
 			 */
 			~NetworkManager();
-			/******méthode ne provenant pas d'interface***/
+			
+			/*!
+			 * \brief initialise les attributs de la classe
+			 */
 			void initialize();
+			
+			/*!
+			 * \brief envoie un paquet et attent un paquet de réponse
+			 * \param entier : type du paquet qui est à envoyer
+			 * \return un iterateur sur la liste de packets
+			 */
 			std::list<sf::Packet>::iterator askServer(int);
+			
+			/*!
+			 * \brief demande synchronisée si le jeu est connecté à un ordinateur distant 
+			 * \return vrai s'il y a connexion a un ordinateur
+			 * 	faux sinon
+			 */
 			bool isConnected();
+			
+			/*!
+			 * \brief remplit l'attribut connect en mode synchronisé
+			 * \param booléen : fournit l'état de la connexion
+			 */
 			void setConnect(bool);
+			
+			/*!
+			 * \brief remplit l'attribut pause en mode synchronisé
+			 * \param entier : fournit le numéro du joueur en pause
+			 * zéro s'il n'y a pas de pause
+			 */
 			void setPause(int);
+			
+			/*!
+			 * \brief ajout de socket en mode synchronisé à l'attribut clients
+			 * \param pointeur vers un socket tcp : socket à ajouter à la collection
+			 */
 			void addSocket(sf::TcpSocket*);
+			
+			/*!
+			 * \brief supprime un socket en mode synchronisé de l'attribut clients
+			 * \param adresse ip : adresse ip du client à retirer de la collection
+			 */
 			void eraseSocket(sf::IpAddress&);
+			
+			/*!
+			 * \brief initialisé le seleteur de socket pour le serveur et gère la réception de packet
+			 * cette méthode est appelée dans un thread
+			 */
 			void createServerSocket();
+			
+			/*!
+			 * \brief initialise la connexion avec un serveur pour le client
+			 * cette méthode est appelée dans un thread
+			 */
 			void listenToServer();
+			
+			/*!
+			 * \brief supprime en mode synchronisé des joueurs de l'attribut players
+			 * \param adresse ip : adresse ip du joueur à supprimer de la collection
+			 */
 			void deletePlayer(sf::IpAddress&);
+			
+			/*!
+			 * \brief créer un packet avec son type et l'ip de l'émeteur
+			 * \param entier : numéro du type de paquet à construire
+			 * \param entier : utilisé pour réserver un nombre j de slots
+			 * \return un paquet près à être envoyé
+			 */
 			sf::Packet createPacket(int, int j =0);
+			
+			/*!
+			 * \brief recherche un socket vers un ordinateur distant
+			 * \param adresse ip : adresse du socket à rechercher
+			 * \return un pointeur vers le socket contenu dans l'attribut clients
+			 */
 			sf::TcpSocket* findSocket(sf::IpAddress&);
+			
+			/*!
+			 * \brief recherche un socket vers un ordinateur distant
+			 * \param adresse ip : adresse du socket à rechercher
+			 * \return un iterateur vers le socket contenu dans l'attribut clients
+			 */
 			std::vector<sf::TcpSocket*>::iterator findSocketIterator(sf::IpAddress&);
+			
+			/*!
+			 * \brief recherche et attend la réponse à un paquet envoyé pendant 0.1 seconde maximum
+			 * \param entier : type du paquet à attendre
+			 * \param adresse ip : adresse de l'émetteur du paquet
+			 * \return un iterateur vers le paquet contenu dans l'attribut packets
+			 */
 			std::list<sf::Packet>::iterator waitPacket(int, sf::IpAddress&);
+			
+			/*!
+			 * \brief décrypte les paquets réceptionnés
+			 * \param paquet : le paquet à décrypter
+			 */
 			void decryptPacket(sf::Packet&);
-
+			
+			/*!
+			 * \brief permet d'afficher l'état de la classe à un moment donné
+			 */
 			void etatNetwork();
+			
+			/*!
+			 * \brief permet de réserver des slots disponibles
+			 * \param entier non signé : nombre de slots à réserver
+			 * \param adresse ip : par défaut l'adresse ip de l'ordinateur des joueurs qui réservent les slots
+			 */
+			void setSlot(unsigned int nb, sf::IpAddress ip = sf::IpAddress::getLocalAddress());
+			
+			/*!
+			 * \brief permet d'enregistrer le nom de joueurs
+			 * \param tableau de chaines de caractères : contient les nom à enregistrer
+			 * \param adresse ip : par défaut l'adresse ip de l'ordinateur des joueurs qui enregistrent leur nom
+			 */
+			void setName(std::string names[4], sf::IpAddress ip = sf::IpAddress::getLocalAddress());
 
 			
 public:
+			/*!
+			 * \see INetworkToGameEngine::isPaused
+			 */
 			SKeyPressed getKeysPressed();
+			
+			/*!
+			 * \see INetworkToGameEngine::isPaused
+			 */
 			int isPaused();
+			
+			/*!
+			 * \see IGameEngineToGameInterface::resume
+			 */
 			void resume();
+			
+			/*!
+			 * \see INetworkToMenu::cancel
+			 */
 			void cancel();
+			
+			/*!
+			 * \see INetworkToMenu::joinGame
+			 */
 			void joinGame(std::string ip);
+			
+			/*!
+			 * \see INetworkToMenu::getFreeSlots
+			 */
 			int getFreeSlots();
+			
+			/*!
+			 * \see INetworkToMenu::setBookedSlots
+			 */
 			void setBookedSlots(unsigned int nb);
-			void setSlot(unsigned int nb, sf::IpAddress ip = sf::IpAddress::getLocalAddress());
+			
+			/*!
+			 * \see INetworkToMenu::setPlayerName
+			 */
 			void setPlayerName(std::string names[4]);
-			void setName(std::string names[4], sf::IpAddress ip = sf::IpAddress::getLocalAddress());
+			
+			/*!
+			 * \see INetworkToMenu::getPlayersName
+			 */
 			void getPlayersName(std::string names[4]);
+			
+			/*!
+			 * \see INetworkToMenu::getScores
+			 */
 			int* getScores();
+			
+			/*!
+			 * \see INetworkToMenu::isStarted
+			 */
 			bool isStarted();
+			
+			/*!
+			 * \see INetworkToMenu::startGame
+			 */
 			void startGame();
+			
+			/*!
+			 * \see INetworkToMenu::getIpAddress
+			 */
 			std::string getIpAddress();
+			
+			/*!
+			 * \see INetworkToMenu::setGameConfig
+			 */
 			void setGameConfig(SGameConfig&);
+			
+			/*!
+			 * \see IGameEngineToGameInterface::getBoard
+			 */
 			SBoard getBoard();
+			
+			/*!
+			 * \see IGameEngineToGameInterface::isFinished
+			 */
 			int isFinished();
 			
 	};

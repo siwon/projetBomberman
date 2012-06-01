@@ -7,6 +7,8 @@
  * \author Maxime GUIHAL
  */
 
+#include <SFML/System/Clock.hpp>
+
 #include "menu/IMenuScreen.hpp"
 
 #include "menu/ImageWidget.hpp"
@@ -46,11 +48,18 @@ namespace PolyBomber
 			 * \see IMenuScreen::validPressed
 			 */			
 			void validPressed(EMenuScreen* nextScreen);
+		
+			/*!
+			 * \see IMenuScreen::run
+			 */
+			EMenuScreen run(MainWindow& window, EMenuScreen previous);
 
 		private:
 			TextWidget title;
 			LinkWidget resume;
 			LinkWidget quit;
+		
+			sf::Clock clock; 
 			
 	};
 }
