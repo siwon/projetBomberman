@@ -842,7 +842,7 @@ namespace PolyBomber {
 				bool movePossible=false;
 				int random;
 				int x, y;
-				while (!movePossible) {
+				/*while (!movePossible) {
 					random=rand()%8;
 					switch (random) {
 						case 0://en haut à gauche
@@ -913,7 +913,7 @@ namespace PolyBomber {
 							break;
 					}
 				}
-				player[i].move(x,y);
+				player[i].move(x,y);*/
 			} else if (player[i].getInfection()==4) {//rage : pose des bombes
 				if (player[i].getCapacity()>0) {
 					bomb.push_back(Bomb(date,player[i]));
