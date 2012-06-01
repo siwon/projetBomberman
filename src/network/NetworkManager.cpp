@@ -71,21 +71,22 @@ namespace PolyBomber
 
 	std::list<sf::Packet>::iterator NetworkManager::askServer(int num){
 		if(this->isConnected()){
-		std::list<sf::Packet>::iterator it;
-		this->mutexClients.lock();
-		sf::TcpSocket* client = this->clients[0];
+			std::list<sf::Packet>::iterator it;
+			this->mutexClients.lock();
+			sf::TcpSocket* client = this->clients[0];
 
-		sf::Packet packet = this->createPacket(num);
-		std::cout << "packet n° " << num <<" pret à envoyer" << std::endl; 
-		if(client->send(packet) != sf::TcpSocket::Done){
-			throw PolyBomberException("meme pas pu envoyer le paquet");
-		}
-			
-		this->mutexClients.unlock();
+			sf::Packet packet = this->createPacket(num);
+			std::cout << "packet n° " << num <<" pret à envoyer" << std::endl; 
+			if(client->send(packet) != sf::TcpSocket::Done){
+				throw PolyBomberException("meme pas pu envoyer le paquet");
+			}
+				
+			this->mutexClients.unlock();
 
-		sf::IpAddress address = client->getRemoteAddress();
-		it = waitPacket(num, address);
-		return it;
+			sf::IpAddress address = client->getRemoteAddress();
+			std::cout << "packet n° " << num <<" a ete envoye" << std::endl; 
+			it = waitPacket(num, address);
+			return it;
 		} else {
 			throw PolyBomberException("Aucune connexion n'a été trouvée vers un serveur");
 		}
@@ -175,11 +176,13 @@ namespace PolyBomber
 		else {
 			//demander au serveur
 			try {
+				std::cout << "la pause "<<result<< std::endl;
 				std::list<sf::Packet>::iterator it2 = this->askServer(7);
+				std::cout << "la pause "<<result<< std::endl;
 				sf::Packet& thePacket = *it2;
 				int num;
 				std::string ip;
-				std::cout << "la pause"<<result<< std::endl;
+				std::cout << "la pause "<<result<< std::endl;
 				thePacket >> num >> ip  >> result;
 				this->packets.erase(it2);
 			}
@@ -736,6 +739,7 @@ namespace PolyBomber
 			while(it!=this->packets.end() && !find){
 				sf::Packet aPacket = *it; // duplique le paquet pour pouvoir le regarder
 				aPacket >> type >> ip;
+				std::cout << "lecture dans la file d'attente du packet n° " << type  <<std::endl; 
 				if(type==(num+1) && ip==ipAddr.toString()){
 					find=true;
 				} else {
