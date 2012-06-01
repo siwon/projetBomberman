@@ -194,7 +194,7 @@ namespace PolyBomber {
 						}
 					}
 				} else {
-					if (y-pl.getSpeed()%5>=2) {
+					if (y-pl.getSpeed()%5>2) {
 						pl.move(x,y-pl.getSpeed());
 						if (y-pl.getSpeed()%5!=2) {//si on est pas centré sur la case, alors la position est corrigée
 							pl.centrerPlayerSurAxeHorizontal();
