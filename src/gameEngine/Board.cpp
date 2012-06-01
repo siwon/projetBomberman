@@ -184,7 +184,6 @@ namespace PolyBomber {
 			int y = pl.getLocationY();//position en cran
 			int xCase = cranToCase(x);
 			int yCase = cranToCase(y);
-			std::cout << "okdeb : " << x << " ; " << y << std::endl;
 			if (pl.getInfection()==1) {
 				//inversion des touches directionnelles
 				if (caseIsFree(xCase,yCase-1)) {
