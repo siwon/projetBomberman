@@ -860,12 +860,8 @@ bomb.erase(bomb.begin()+indice);
 			if (player[i].getInfection()==2) {// spasme : effectue un mouvement aléatoire
 				bool movePossible=false;
 				int random;
-<<<<<<< HEAD
 				int x = player[i].getLocationX();
 				int y = player[i].getLocationY();
-=======
-				int x, y;
->>>>>>> conflit
 				while (!movePossible) {
 					random=rand()%8;
 					switch (random) {
@@ -938,11 +934,8 @@ bomb.erase(bomb.begin()+indice);
 					}
 				}
 				player[i].move(x,y);
-<<<<<<< HEAD
 				player[i].centrerPlayerSurAxeHorizontal();
 				player[i].centrerPlayerSurAxeVertical();
-=======
->>>>>>> conflit
 			} else if (player[i].getInfection()==4) {//rage : pose des bombes
 				if (player[i].getCapacity()>0) {
 					bomb.push_back(Bomb(date,player[i]));
