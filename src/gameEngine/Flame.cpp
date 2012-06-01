@@ -20,15 +20,15 @@
 
 namespace PolyBomber {
 	
-	Flame::Flame(int x, int y, EOrientation orientation, EFlameLocation step, int date) : Location(x,y) {
+	Flame::Flame(int x, int y, EOrientation orientation, EFlameLocation flameLocation, int date) : Location(x,y) {
 		this->orientation=orientation;
-		this->step=step;
+		this->flameLocation=flameLocation;
 		this->dateDebutFlame=date;
 	}
 	
 	Flame::Flame(const Flame& flamme) : Location(flamme.getLocationX(),flamme.getLocationY()) {
 		this->orientation=flamme.getOrientation();
-		this->step=flamme.getStep();
+		this->flameLocation=flamme.getFlameLocation();
 		this->dateDebutFlame=flamme.getDateDebutFlame();;
 	}
 	

@@ -71,7 +71,7 @@ namespace PolyBomber {
 			SFlame f;
 			f.coords=sf::Vector2<int>(flame[i].getLocationX(),flame[i].getLocationY());
 			f.orientation=flame[i].getOrientation();
-			f.step=flame[i].getStep();
+			f.location=flame[i].getFlameLocation();
 			toReturn.flames.push_back(f);
 		}
 		
@@ -102,9 +102,9 @@ namespace PolyBomber {
 			toReturn.explosives.push_back(e);
 		}
 		
-		for (unsigned int i=0; i<bomb.size(); i++) {//remoteBomb
+		for (unsigned int i=0; i<remoteBomb.size(); i++) {//remoteBomb
 			SExplosive e;
-			e.coords=sf::Vector2<int>(bomb[i].getLocationX(),bomb[i].getLocationY());
+			e.coords=sf::Vector2<int>(remoteBomb[i].getLocationX(),remoteBomb[i].getLocationY());
 			e.type=EXPLOSIVE_REMOTE;
 			toReturn.explosives.push_back(e);
 		}
@@ -929,6 +929,9 @@ namespace PolyBomber {
 	
 	void Board::explodeAllBomb(int date) {
 		unsigned int indice=0;
+
+		//FIXME: Boucle infinie si on pose une bombe puis une autre avant
+		//       que la première explose
 		while (indice<bomb.size()) {
 			if (bomb[indice].getTimeOfExplosion()<date) {
 				explodeBomb(indice);

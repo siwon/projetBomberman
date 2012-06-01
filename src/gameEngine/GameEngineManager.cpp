@@ -224,6 +224,7 @@ namespace PolyBomber {
 			}
 			
 			sf::sleep(sf::milliseconds(50));
+
 			if (board.nbSurvivant()<=1) {
 				this->runnable=false;
 				std::cout << "Partie terminee" << std::endl;

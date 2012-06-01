@@ -109,8 +109,10 @@ namespace PolyBomber
 		}
 
 		// Bombes
+		std::cout << "nb ex : " << board.explosives.size() << std::endl;
 		for (itExplosives=board.explosives.begin(); itExplosives!=board.explosives.end(); itExplosives++)
 		{
+			std::cout << "explo : " << (*itExplosives).type << std::endl;
 			EImage image = (EImage)(EIMAGE_MINE + (*itExplosives).type);
 			sf::Sprite explosive(*skin->loadImage(image));
 			explosive.setPosition(ORIGX + CASEPX * (*itExplosives).coords.x, ORIGY + CASEPX * (*itExplosives).coords.y);
@@ -121,7 +123,6 @@ namespace PolyBomber
 		for (itFlames=board.flames.begin(); itFlames!=board.flames.end(); itFlames++)
 		{
 			EImage image;
-
 			if ((*itFlames).location == ORIGIN)
 				image = EIMAGE_FLAME_ORIG;
 			else if ((*itFlames).location == MIDDLE)
