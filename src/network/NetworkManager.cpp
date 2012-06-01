@@ -105,26 +105,30 @@ namespace PolyBomber
 					nbPlayerDone++;
 			}
 			// pour chaque joueur en dehors du reseau, demander ces touches
-			/*for(int i=0;i<4;i++){ // on parcourt le tableau d'ip
-				if(this->nbPlayerByIp[i]){ // s'il y a une adresse d'enregistrée
+			for(int i=0;i<4;i++){ // on parcourt le tableau d'ip
+				if(this->nbPlayerByIp[i] != 0){ // s'il y a une adresse d'enregistrée
 					try {
 						this->mutexClients.lock();
 						sf::TcpSocket* client = this->findSocket(this->ip[i]);
 						this->mutexClients.unlock();
 						sf::Packet packet = this->createPacket(3);
 						if(client->send(packet) == sf::TcpSocket::Done){
-
 							sf::IpAddress address = client->getRemoteAddress();
-							std::list<sf::Packet>::iterator it2 = waitPacket(3, address);
-
-							sf::Packet& thePacket =  *it2 ;
-							int i;
+							std::list<sf::Packet>::iterator it = waitPacket(3, address);
+							
+							sf::Packet& thePacket =  *it ;
+							int a;
 							std::string s;
-							thePacket >> i >> s >> keys; // récupération des touches envoyées
-
+							thePacket >> a >> s >> keys; // récupération des touches envoyées
+							this->mutexPacket.lock();
+							this->packets.erase(it);
+							this->mutexPacket.unlock();
+							
 							//ajouter ses touches.
+							std::cout << "nbPlayerByIp[i]" <<i<<";"<<this->nbPlayerByIp[i]<< std::endl;
 							for(int j=0;j<this->nbPlayerByIp[i];j++){
 								for(int k=0;k<7;k++){
+									std::cout << "nbplayerdone et j" <<nbPlayerDone<<j<< std::endl;
 									this->keyPressed.keys[nbPlayerDone][k] = keys.keys[j][k];
 								}
 								nbPlayerDone++;
@@ -149,7 +153,7 @@ namespace PolyBomber
 						}
 					}
 				}
-			}*/
+			}
 			//verification de la pause par un joueur
 			unsigned int i=0;
 			while(i<this->gameConfig.nbPlayers && !this->paused){
@@ -554,6 +558,7 @@ namespace PolyBomber
 									 decryptPacket(packet);
 								 } else { //ajouter le packet !!!!! mutex !!!!
 									 this->mutexPacket.lock();
+									 std::cout << "AJOUT DU PAQUET NUMERO "<<num<< std::endl;
 									 this->packets.push_back(packet);
 									 this->mutexPacket.unlock();
 								 }
@@ -572,7 +577,7 @@ namespace PolyBomber
 		server->setBlocking(false);
 		sf::Packet packet;
 		while(this->isConnected()){
-			sf::sleep(sf::milliseconds(30));
+			sf::sleep(sf::milliseconds(5));
 			if (server->receive(packet) == sf::Socket::Done){
 				//Vérifier le premier numéro s'il est impaire
 				sf::Packet testPacket = packet; // recopie du paquet reçu
@@ -998,7 +1003,7 @@ namespace PolyBomber
 	sf::Packet& operator>>(sf::Packet& packet, SKeyPressed& key){
 		bool val;
 		for(int i=0;i<4;i++){
-			for(int j=0;j<7;i++){
+			for(int j=0;j<7;j++){
 				packet >> val;
 				key.keys[i][j]=val;
 			}
