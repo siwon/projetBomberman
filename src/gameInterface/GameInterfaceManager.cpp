@@ -56,6 +56,8 @@ namespace PolyBomber
 
 			/*if (network->isPaused())
 				menu->runPause();*/
+
+			sf::sleep(sf::milliseconds(20));
 		}
 
 		return EXITGAME;

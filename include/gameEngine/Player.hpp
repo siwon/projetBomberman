@@ -8,6 +8,7 @@
  */
 
 #include <vector>
+#include <iostream>
 
 #include "Bonus.hpp"
 #include "Location.hpp"
@@ -57,6 +58,7 @@ namespace PolyBomber {
 		inline bool getDetonator() const {return this->detonator;}
 		inline std::vector<Bonus> getBombBonus(){return this->bombBonus;}
 		inline EGameBonus getFirstBombBonus(){return this->bombBonus[0].getType();}
+		inline unsigned int getBombBonusSize() {return this->bombBonus.size();}
 		inline int getInfection() const {return this->infection;}
 		
 		inline void killPlayer() {this->alive=false;}

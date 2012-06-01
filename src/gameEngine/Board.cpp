@@ -11,7 +11,7 @@
 #include <cstdlib>
 
 // Bibliotheques SFML
-
+#include <SFML/System.hpp>
 
 // Bibliotheques externes
 
@@ -290,9 +290,7 @@ namespace PolyBomber {
 	
 	void Board::actionToucheDroite(int player, int date) {
 		Player& pl = getPlayerById(player);
-		std::cout << "t1" << std::endl;
 		if (pl.getAlive() && pl.getLastMove()+pl.getSpeed()<date) {
-			std::cout << "t2" << std::endl;
 			EOrientation orient;
 			int x = pl.getLocationX();//position en cran
 			int y = pl.getLocationY();//position en cran
@@ -344,14 +342,18 @@ namespace PolyBomber {
 			pl.setLastMove(date);
 		}
 	}
-	
-	void Board::actionToucheAction1(int player, int date) {
+
+	/*
+	 * date = secondes
+	 * date2 = millisecondes
+	 */
+	void Board::actionToucheAction1(int player, int date, int date2) {
 		Player& pl = getPlayerById(player);
-		if (pl.getAlive() && pl.getLastMove()+pl.getSpeed()<date) { 
+		if (pl.getAlive() && pl.getLastMove()+pl.getSpeed()<date2) { 
 			std::cout << "Bombe player : " << player << " => " << pl.getCapacity() << std::endl;
 			if (pl.getCapacity()>0 && !isABombInThisCase(cranToCase(pl.getLocationX()),cranToCase(pl.getLocationY()))) {//le joueur peut poser une bombe
 				std::cout << "Puddi" << std::endl;
-				bomb.push_back(Bomb(date,pl));
+				bomb.push_back(Bomb(date,pl,0));
 				pl.decrementCapacity();
 			}
 		}
@@ -359,7 +361,9 @@ namespace PolyBomber {
 	
 	void Board::actionToucheAction2(int player, int date) {//TODO : à gérer
 		Player& pl = getPlayerById(player);
+		if (pl.getBombBonusSize()>0) { //TODO
 		EGameBonus bon = pl.getFirstBombBonus();
+		std::cout << "type de bombe : " << bon <<std::endl;
 		if (pl.getAlive() && pl.getLastMove()+pl.getSpeed()<date) {
 			if (pl.getBombBonus().size()>0) {
 				//utiliser le 1er bonus puis le supprimer de la liste
@@ -438,7 +442,8 @@ namespace PolyBomber {
 					}
 				}
 			}
-		}/**/
+		}
+	}
 	}
 	
 	void Board::removeBox(int i) {
@@ -598,30 +603,41 @@ namespace PolyBomber {
 	}
 	
 	void Board::explodeBomb(int x, int y) {
-		for (int i=bomb.size()-1; i>=0; i--) {
+		for (unsigned int i=bomb.size()-1; i!=0; i--) {
 			if (bomb[i].getLocationX()==x && bomb[i].getLocationY()==y) {
 				explodeBomb(i);
 			}
+		}
+		if (bomb[0].getLocationX()==x && bomb[0].getLocationY()==y) {
+			explodeBomb(0);
 		}
 	}
 	
 	void Board::explodeBomb(unsigned int indice) {
 		int type=bomb[indice].getType();
+		std::cout << "Debut" << type << std::endl;
 		if (type==0 || type==3) {//TODO : vérifier l'utilité de "type==3"
+			std::cout << "Puddi 2" << std::endl;
 			generateFlame(bomb[indice].getLocationX(),bomb[indice].getLocationY(),bomb[indice].getRange(),bomb[indice].getTimeOfExplosion()+DUREEFLAMME);
-			if (type==0) {
+			if (type==0) { //TODO : ajouter type 3 ?
 				Player& pl = getPlayerById(bomb[indice].getPlayer());
+				std::cout << "Puddi 2" << std::endl;
 				pl.incrementCapacity();
 				std::cout << "increment" << std::endl;
 			}
 		} else if (type==1) {
+			std::cout << "Puddi 3" << std::endl;
 			generateFlameInfinityBomb(indice,bomb[indice].getTimeOfExplosion()+DUREEFLAMME);
 		} else if (type==2) {
+			std::cout << "Puddi 4" << std::endl;
 			generateFlameAtomicBomb(indice,bomb[indice].getTimeOfExplosion()+DUREEFLAMME);
 		}
 		
-		bomb.erase(bomb.begin()+indice);
-		std::cout << "tfin" << std::endl;
+		
+		std::cout << "tfin : " << type << std::endl;
+bomb.erase(bomb.begin()+indice);
+		if (type!=0)
+		sf::sleep(sf::milliseconds(5000));
 	}
 	
 	void Board::explodeRemoteBomb(unsigned int indice, int date) {
@@ -793,6 +809,7 @@ namespace PolyBomber {
 							break;
 					}
 				} else {
+					std::cout << "sur un bonus" << std::endl;
 					player[i].addBonus(bon);
 				}
 				removeBonusByCoord(x,y);
@@ -843,14 +860,15 @@ namespace PolyBomber {
 			if (player[i].getInfection()==2) {// spasme : effectue un mouvement aléatoire
 				bool movePossible=false;
 				int random;
-				int x, y;
-				/*while (!movePossible) {
+				int x = player[i].getLocationX();
+				int y = player[i].getLocationY();
+				while (!movePossible) {
 					random=rand()%8;
 					switch (random) {
 						case 0://en haut à gauche
 							if (caseIsFree(cranToCase(x)-1,cranToCase(y)-1)) {
-								x=x-1;
-								y=y-1;
+								x=x-5;
+								y=y-5;
 								movePossible=true;
 							}
 							break;
@@ -858,22 +876,22 @@ namespace PolyBomber {
 						case 1://en haut
 							if (caseIsFree(cranToCase(x),cranToCase(y)-1)) {
 								x=x;
-								y=y-1;
+								y=y-5;
 								movePossible=true;
 							}
 							break;
 							
 						case 2://en haut à droite
 							if (caseIsFree(cranToCase(x)+1,cranToCase(y)-1)) {
-								x=x+1;
-								y=y-1;
+								x=x+5;
+								y=y-5;
 								movePossible=true;
 							}
 							break;
 							
 						case 3://a droite
 							if (caseIsFree(cranToCase(x)+1,cranToCase(y))) {
-								x=x+1;
+								x=x+5;
 								y=y;
 								movePossible=true;
 							}
@@ -881,8 +899,8 @@ namespace PolyBomber {
 							
 						case 4://en bas à droite
 							if (caseIsFree(cranToCase(x)+1,cranToCase(y)+1)) {
-								x=x+1;
-								y=y+1;
+								x=x+5;
+								y=y+5;
 								movePossible=true;
 							}
 							break;
@@ -890,22 +908,22 @@ namespace PolyBomber {
 						case 5://en bas
 							if (caseIsFree(cranToCase(x),cranToCase(y)+1)) {
 								x=x;
-								y=y+1;
+								y=y+5;
 								movePossible=true;
 							}
 							break;
 							
 						case 6://en bas à gauche
 							if (caseIsFree(cranToCase(x)-1,cranToCase(y)+1)) {
-								x=x-1;
-								y=y+1;
+								x=x-5;
+								y=y+5;
 								movePossible=true;
 							}
 							break;
 							
 						case 7://a gauche
 							if (caseIsFree(cranToCase(x)-1,cranToCase(y))) {
-								x=x-1;
+								x=x-5;
 								y=y;
 								movePossible=true;
 							}
@@ -915,7 +933,9 @@ namespace PolyBomber {
 							break;
 					}
 				}
-				player[i].move(x,y);*/
+				player[i].move(x,y);
+				player[i].centrerPlayerSurAxeHorizontal();
+				player[i].centrerPlayerSurAxeVertical();
 			} else if (player[i].getInfection()==4) {//rage : pose des bombes
 				if (player[i].getCapacity()>0) {
 					bomb.push_back(Bomb(date,player[i]));
@@ -935,12 +955,13 @@ namespace PolyBomber {
 	
 	void Board::explodeAllBomb(int date) {
 		unsigned int indice=0;
-
+		unsigned int size=bomb.size();
 		//FIXME: Boucle infinie si on pose une bombe puis une autre avant
 		//       que la première explose
-		while (indice<bomb.size()) {
+		while (indice<size) {
 			if (bomb[indice].getTimeOfExplosion()<date) {
 				explodeBomb(indice);
+				size=bomb.size();
 			} else {
 				indice++;
 			}

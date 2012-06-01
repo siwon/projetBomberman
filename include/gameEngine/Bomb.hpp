@@ -30,14 +30,14 @@ namespace PolyBomber {
 		 * 3 => BOMBLINE
 		 */
 	public:
-		Bomb(int, const Player&, int=0);
-		Bomb(int, const Player&, int, int, int=0);
+		Bomb(int, const Player&, int type=0);
+		Bomb(int, const Player&, int, int, int type=0);
 		Bomb(const Bomb&);
 		//Bomb& operator=(Bomb&);
 		~Bomb();
 		
 		inline int getTimeOfExplosion() const {return this->timeOfExplosion;}
-		inline int getType() const {return this->type;}
+		inline int getType() const {std::cout << "get type " << type << std::endl; return this->type;}
 		inline void decalerExplosion(int nbSecondes) {this->timeOfExplosion=this->timeOfExplosion+nbSecondes;}
 	};
 }
