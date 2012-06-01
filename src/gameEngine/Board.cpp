@@ -290,7 +290,9 @@ namespace PolyBomber {
 	
 	void Board::actionToucheDroite(int player, int date) {
 		Player& pl = getPlayerById(player);
+		std::cout << "t1" << std::endl;
 		if (pl.getAlive() && pl.getLastMove()+pl.getSpeed()<date) {
+			std::cout << "t2" << std::endl;
 			EOrientation orient;
 			int x = pl.getLocationX();//position en cran
 			int y = pl.getLocationY();//position en cran

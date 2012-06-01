@@ -153,7 +153,7 @@ namespace PolyBomber {
 			int time=horloge.getElapsedTime().asSeconds();
 			int time2=horloge.getElapsedTime().asMilliseconds();
 			SKeyPressed sKeyPressed = network->getKeysPressed();
-			
+			std::cout << "time = " << time << std::endl;
 			if (network->isPaused()) {//si le jeu est en pause
 				if(debutPause==0) {
 					debutPause=time;//stockage du début de la pause
@@ -192,6 +192,7 @@ namespace PolyBomber {
 				//gestion des touches
 				for (int i=0; i<board.getNbPlayer(); i++) { //pour chaque zoueur
 					if (sKeyPressed.keys[i][0]==true) {//touche haut
+						std::cout << "haut " << i << std::endl;
 						this->mutexBoard.lock();
 						board.actionToucheHaut(i, time2);
 						this->mutexBoard.unlock();

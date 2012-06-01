@@ -28,10 +28,11 @@ namespace PolyBomber
 	EScreenSignal GameInterfaceManager::run(sf::RenderWindow* window, unsigned int score[4], int& winner)
 	{		
 		INetworkToGameInterface* network = PolyBomberApp::getINetworkToGameInterface();
+		IMenuToGameInterface* menu = PolyBomberApp::getIMenuToGameInterface();
 
 		std::cout << "debut interface" << std::endl;
 
-		while (window->isOpen() && !network->isPaused())
+		while (window->isOpen())// && !network->isFinished())
 		{			
 			sf::Event event;
 			while (window->pollEvent(event))
@@ -52,6 +53,9 @@ namespace PolyBomber
 			for (i=0; i<this->flames.size(); i++)		window->draw(this->flames[i]);
 
 			window->display();
+
+			/*if (network->isPaused())
+				menu->runPause();*/
 		}
 
 		return EXITGAME;
@@ -109,10 +113,8 @@ namespace PolyBomber
 		}
 
 		// Bombes
-		std::cout << "nb ex : " << board.explosives.size() << std::endl;
 		for (itExplosives=board.explosives.begin(); itExplosives!=board.explosives.end(); itExplosives++)
 		{
-			std::cout << "explo : " << (*itExplosives).type << std::endl;
 			EImage image = (EImage)(EIMAGE_MINE + (*itExplosives).type);
 			sf::Sprite explosive(*skin->loadImage(image));
 			explosive.setPosition(ORIGX + CASEPX * (*itExplosives).coords.x, ORIGY + CASEPX * (*itExplosives).coords.y);
