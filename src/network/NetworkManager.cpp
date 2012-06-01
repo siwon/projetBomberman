@@ -251,7 +251,6 @@ namespace PolyBomber
 		if(this->server){
 			this->gameEngine->resetConfig(); // stop le thread run() s'il est commencé
 			std::cout << "Le gameEngine a ete averti" << std::endl;
-			}
 		}
 		this->players.clear();
 		this->initialize();
