@@ -68,6 +68,7 @@ namespace PolyBomber {
 		inline void setOrientation(EOrientation orient) {this->orientation=orient;}
 		inline void incrementCapacity(int i=1) {this->capacity+=i;}
 		inline void decrementCapacity(int i=1) {this->capacity-=i;}
+		inline void setLastMove(int date) {this->lastMove=date;}
 	};
 }
 

@@ -172,6 +172,7 @@ namespace PolyBomber {
 			}
 			pl.incrementStep();
 			pl.setOrientation(orient);
+			pl.setLastMove(date);
 		}
 	}
 	
@@ -228,6 +229,7 @@ namespace PolyBomber {
 			}
 			pl.incrementStep();
 			pl.setOrientation(orient);
+			pl.setLastMove(date);
 		}
 	}
 	
@@ -282,6 +284,7 @@ namespace PolyBomber {
 			}
 			pl.incrementStep();
 			pl.setOrientation(orient);
+			pl.setLastMove(date);
 		}
 	}
 	
@@ -336,6 +339,7 @@ namespace PolyBomber {
 			}
 			pl.incrementStep();
 			pl.setOrientation(orient);
+			pl.setLastMove(date);
 		}
 	}
 	
