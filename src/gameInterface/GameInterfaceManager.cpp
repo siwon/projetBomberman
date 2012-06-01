@@ -66,7 +66,7 @@ namespace PolyBomber
 				else if (signal == EXITMENU)
 				{
 					std::cout << "exit menu" << std::endl;
-					//network->resume();
+					network->resume();
 				}
 			}
 

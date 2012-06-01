@@ -44,7 +44,7 @@ namespace PolyBomber
 
 	void PauseMenu::validPressed(EMenuScreen* nextScreen)
 	{
-		if (this->clock.getElapsedTime().asSeconds() > 1)
+		if (this->clock.getElapsedTime().asMilliseconds() > 250)
 		{
 			if (resume.getSelected())
 				*nextScreen = resume.activate();
