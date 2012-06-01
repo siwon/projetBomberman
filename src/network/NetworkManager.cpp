@@ -578,7 +578,7 @@ namespace PolyBomber
 				sf::Packet testPacket = packet; // recopie du paquet reçu
 				int num;
 				testPacket >> num;
-
+				std::cout << "reception "<< num << std::endl;
 				if(num%2){ // si c'est impaire
 					decryptPacket(packet);
 				} else { //ajouter le packet !!!!! mutex !!!!
@@ -769,7 +769,7 @@ namespace PolyBomber
 			etatNetwork();
 			break;
 		case 17 :
-			std::cout << "num=" << num << " et ip=" << ip << std::endl;
+			std::cout << "17num=" << num << " et ip=" << ip << std::endl;
 			for(int i=0;i<4;i++){
 				packet >> names[i];
 			}
@@ -785,12 +785,15 @@ namespace PolyBomber
 			break;
 		default : // c'est une demande qui nécessite une réponse
 			result = createPacket(num+1);
-			std::cout << "num=" << num << " et ip=" << ip << std::endl;
+			
 			this->mutexClients.lock();
 			try {
-			sf::TcpSocket* client = this->findSocket(ip1);
-			if (client->send(result) != sf::TcpSocket::Done)
-				std::cerr << "la réponse n°" << num << " n'à pas pu être renvoyée" << std::endl;
+				sf::TcpSocket* client = this->findSocket(ip1);
+				std::cout << "debut envoi "<< num+1 << std::endl;
+				if (client->send(result) != sf::TcpSocket::Done){
+					std::cerr << "la réponse n°" << num << " n'à pas pu être renvoyée" << std::endl;
+				}
+				std::cout << "fin envoi "<< num+1 << std::endl;
 			} catch(PolyBomberException e) {
 				std::cout << "decrypt packet ne trouve pas le socket" << std::endl;
 			}
