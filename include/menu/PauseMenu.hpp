@@ -48,6 +48,11 @@ namespace PolyBomber
 			 * \see IMenuScreen::validPressed
 			 */			
 			void validPressed(EMenuScreen* nextScreen);
+		
+			/*!
+			 * \see IMenuScreen::run
+			 */
+			EMenuScreen run(MainWindow& window, EMenuScreen previous);
 
 		private:
 			TextWidget title;

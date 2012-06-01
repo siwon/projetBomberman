@@ -362,7 +362,7 @@ namespace PolyBomber {
 		Player& pl = getPlayerById(player);
 		std::cout << "Tests d'entrée :" << std::endl;
 		std::cout << "getAlive() : " << pl.getAlive() << std::endl;
-		std::cout << "gestion du temps : " << pl.getLastMove()+pl.getSpeed()<date << std::endl;
+		std::cout << "gestion du temps : " << (pl.getLastMove()+pl.getSpeed()<date) << std::endl;
 		sf::sleep(sf::seconds(3));
 		if (pl.getAlive() && pl.getLastMove()+pl.getSpeed()<date2) {
 			if (pl.getBombBonus().size()>0) {

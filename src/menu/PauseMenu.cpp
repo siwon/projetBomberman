@@ -54,7 +54,7 @@ namespace PolyBomber
 		}
 	}
 	
-	EMenuScreen run(MainWindow& window, EMenuScreen previous)
+	EMenuScreen PauseMenu::run(MainWindow& window, EMenuScreen previous)
 	{
 		this->clock.restart();
 		return IMenuScreen::run(window, previous);
