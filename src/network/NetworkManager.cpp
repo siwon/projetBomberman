@@ -127,6 +127,8 @@ namespace PolyBomber
 							//ajouter ses touches.
 							std::cout << "nbPlayerByIp[i]" <<i<<";"<<this->nbPlayerByIp[i]<< std::endl;
 							for(int j=0;j<this->nbPlayerByIp[i];j++){
+
+
 								for(int k=0;k<7;k++){
 									std::cout << "nbplayerdone et j" <<nbPlayerDone<<j<< std::endl;
 									this->keyPressed.keys[nbPlayerDone][k] = keys.keys[j][k];
@@ -748,7 +750,8 @@ namespace PolyBomber
 			this->mutexPacket.unlock();
 		}
 		if(!find){
-			throw PolyBomberException("Echec de la réception du paquet de l'expéditeur "+ipAddr.toString()+". Temps d'attente de 100 millisecondes dépassé");
+			std::cerr << "PAS TROUVE packet n° " << num  <<std::endl; 
+			throw PolyBomberException(num+"Echec de la réception du paquet de l'expéditeur "+ipAddr.toString()+". Temps d'attente de 100 millisecondes dépassé");
 		}
 		return it;
 	}
