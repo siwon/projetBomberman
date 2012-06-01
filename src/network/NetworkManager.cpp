@@ -879,56 +879,35 @@ namespace PolyBomber
 
 	/*surcharge des opérateurs de flux des sf::Packet*/
 	sf::Packet& operator<<(sf::Packet& packet, SBoard& b){
-		std::vector<sf::Vector2<int> > boxes = b.boxes;
-		std::vector<SBonus> bonus = b.bonus;
-		std::vector<SExplosive> explosive = b.explosives;
-		std::vector<SPlayer> player= b.players;
-		std::vector<SFlame> flame = b.flames;
 
 		/*Ajout des Boxes*/
-		packet << (int)boxes.size();
-		for (unsigned int i=0;i<boxes.size();i++){
-			sf::Vector2<int> tempVect = boxes[i];
-			packet << tempVect.x << tempVect.y;
+		packet << (int)b.boxes.size();
+		for (unsigned int i=0;i<b.boxes.size();i++){
+			packet << b.boxes[i].x << b.boxes[i].y;
 		}
 
 		/*Ajout des Bonus*/
-		packet << (int)bonus.size();
-		for(unsigned int i=0;i<bonus.size();i++){
-			sf::Vector2<int> tempCoord = bonus[i].coords;
-			int tempBonus = bonus[i].type;
-			packet << tempCoord.x << tempCoord.y << tempBonus;
+		packet << (int)b.bonus.size();
+		for(unsigned int i=0;i<b.bonus.size();i++){
+			packet << b.bonus[i].coords.x << b.bonus[i].coords.y << b.bonus[i].type;
 		}
 
 		/*Ajout des explosifs*/
-		packet << (int)explosive.size();
-		for(unsigned int i=0;i<explosive.size();i++){
-			sf::Vector2<int> tempCoord = explosive[i].coords;
-			int tempExplo = explosive[i].type;
-			packet << tempCoord.x << tempCoord.y << tempExplo;
+		packet << (int)b.explosives.size();
+		for(unsigned int i=0;i<b.explosives.size();i++){
+			packet << b.explosives[i].coords.x << b.explosives[i].coords.y << b.explosives[i].type;
 		}
 
 		/*ajout des players*/
-		packet << (int)player.size();
-		for (unsigned int i=0;i<player.size();i++){
-			sf::Vector2<int> tempCoord = player[i].coords;
-			int tempOrient = player[i].orientation;
-			unsigned int tempNum = player[i].number;
-			int tempState = player[i].state;
-			unsigned int tempStep = player[i].step;
-
-			packet << tempCoord.x << tempCoord.y << tempOrient << tempNum << tempState << tempStep;
+		packet << (int)b.players.size();
+		for (unsigned int i=0;i<b.players.size();i++){
+			packet << b.players[i].coords.x << b.players[i].coords.y << b.players[i].orientation << b.players[i].number << b.players[i].state << b.players[i].step;
 		}
 
 		/*Ajout des flames*/
-		packet << (int)flame.size();
-		for(unsigned int i=0;i<flame.size();i++){
-			sf::Vector2<int> tempCoord = flame[i].coords;
-			int tempOrient = flame[i].orientation;
-			unsigned int tempStep = flame[i].step;
-			int tempLocat = flame[i].location;
-			
-			packet << tempCoord.x << tempCoord.y << tempOrient << tempStep << tempLocat;
+		packet << (int)b.flames.size();
+		for(unsigned int i=0;i<b.flames.size();i++){			
+			packet << b.flames[i].coords.x << b.flames[i].coords.y << b.flames[i].orientation << b.flames[i].step << b.flames[i].location;
 		}
 
 		return packet;
