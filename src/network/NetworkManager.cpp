@@ -24,7 +24,7 @@
 #include "../../include/EGameKeys.hpp"
 #include "../../include/PolyBomberException.hpp"
 
-#include "PolyBomberApp.hpp"
+#include "../../include/PolyBomberApp.hpp"
 
 namespace PolyBomber
 {
@@ -108,22 +108,33 @@ namespace PolyBomber
 					try {
 						this->mutexClients.lock();
 						sf::TcpSocket* client = this->findSocket(this->ip[i]);
-						sf::Packet packet = this->createPacket(3);
-						client->send(packet);
-			
 						this->mutexClients.unlock();
+						sf::Packet packet = this->createPacket(3);
+						if(client->send(packet) == sf::TcpSocket::Done){
 
-						sf::IpAddress address = client->getRemoteAddress();
-						std::list<sf::Packet>::iterator it2 = waitPacket(3, address);
+							sf::IpAddress address = client->getRemoteAddress();
+							std::list<sf::Packet>::iterator it2 = waitPacket(3, address);
 
-						sf::Packet& thePacket =  *it2 ;
-						thePacket >> keys; // récupération des touches envoyées
-						//ajouter ses touches.
-						for(int j=0;j<this->nbPlayerByIp[i];j++){
-							for(int k=0;k<7;k++){
-								this->keyPressed.keys[nbPlayerDone][k] = keys.keys[j][k];
+							sf::Packet& thePacket =  *it2 ;
+							int i;
+							std::string s;
+							thePacket >> i >> s >> keys; // récupération des touches envoyées
+
+							//ajouter ses touches.
+							for(int j=0;j<this->nbPlayerByIp[i];j++){
+								for(int k=0;k<7;k++){
+									this->keyPressed.keys[nbPlayerDone][k] = keys.keys[j][k];
+								}
+								nbPlayerDone++;
 							}
-							nbPlayerDone++;
+						} else {
+							std::cerr << "le joueur n'est plus accessible pour demander ses touches" << std::endl;
+							for(int j=0;j<this->nbPlayerByIp[i];j++){
+								for(int k=0;k<7;k++){
+									this->keyPressed.keys[nbPlayerDone][k] = false;
+								}
+								nbPlayerDone++;
+							}
 						}
 					}
 					catch(PolyBomberException e) {
@@ -236,11 +247,10 @@ namespace PolyBomber
 				delete this->threadServer;
 
 			
-		} else {
-			if(this->server){
-				this->gameEngine->resetConfig(); // stop le thread run() s'il est commencé
-		std::cout << "Le gameEngine a ete averti" << std::endl;
-			}
+		}
+		if(this->server){
+			this->gameEngine->resetConfig(); // stop le thread run() s'il est commencé
+			std::cout << "Le gameEngine a ete averti" << std::endl;
 		}
 		this->players.clear();
 		this->initialize();
@@ -629,10 +639,7 @@ namespace PolyBomber
 
 				break;
 			case 4 : // envoi d'un SKeyPressed
-				if(this->server){
-					SKeyPressed keys = this->getKeysPressed();
-					packet << keys;
-				} else {
+				if(!this->server){
 					SKeyPressed keys = this->controller->getKeysPressed();
 					packet << keys;
 				}
