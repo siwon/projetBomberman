@@ -70,14 +70,14 @@ namespace PolyBomber {
 		removeInfection();
 		switch (bonus.getType()) {
 			case SPEEDUP:
-				speed=speed+PASVITESSE;
+				speed=speed-PASVITESSE;
 				if (speed>VITESSEMAX) {
 					speed=VITESSEMAX;
 				}
 				break;
 				
 			case SPEEDDOWN:
-				speed=speed-PASVITESSE;
+				speed=speed+PASVITESSE;
 				if (speed<VITESSEMIN) {
 					speed=VITESSEMIN;
 				}
@@ -133,21 +133,21 @@ namespace PolyBomber {
 				break;
 				
 			case CONFUSION:
-				infection=1;
+				this->infection=1;
 				break;
 				
 			case SPASME:
-				infection=2; //TODO : plantage lorsque l'on prend ce bonus
+				this->infection=2; //TODO : plantage lorsque l'on prend ce bonus
 				break;
 				
 			case DILATATION:
 				this->saveCaracBeforeInfectionDilatation=this->speed;
-				infection=3;
+				this->infection=3;
 				this->speed=VITESSEMIN;
 				break;
 				
 			case RAGE:
-				infection=4;
+				this->infection=4;
 				break;
 				
 			default:

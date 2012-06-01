@@ -345,7 +345,7 @@ namespace PolyBomber {
 	
 	void Board::actionToucheAction1(int player, int date) {
 		Player& pl = getPlayerById(player);
-		if (pl.getAlive()) { 
+		if (pl.getAlive() && pl.getLastMove()+pl.getSpeed()<date) { 
 			std::cout << "Bombe player : " << player << " => " << pl.getCapacity() << std::endl;
 			if (pl.getCapacity()>0 && !isABombInThisCase(cranToCase(pl.getLocationX()),cranToCase(pl.getLocationY()))) {//le joueur peut poser une bombe
 				std::cout << "Puddi" << std::endl;
@@ -358,7 +358,7 @@ namespace PolyBomber {
 	void Board::actionToucheAction2(int player, int date) {//TODO : à gérer
 		Player& pl = getPlayerById(player);
 		EGameBonus bon = pl.getFirstBombBonus();
-		if (pl.getAlive()) {
+		if (pl.getAlive() && pl.getLastMove()+pl.getSpeed()<date) {
 			if (pl.getBombBonus().size()>0) {
 				//utiliser le 1er bonus puis le supprimer de la liste
 				if (bon==INFINITYBOMB) {
@@ -842,7 +842,7 @@ namespace PolyBomber {
 				bool movePossible=false;
 				int random;
 				int x, y;
-				while (!movePossible) {
+				/*while (!movePossible) {
 					random=rand()%8;
 					switch (random) {
 						case 0://en haut à gauche
@@ -913,7 +913,7 @@ namespace PolyBomber {
 							break;
 					}
 				}
-				player[i].move(x,y);
+				player[i].move(x,y);*/
 			} else if (player[i].getInfection()==4) {//rage : pose des bombes
 				if (player[i].getCapacity()>0) {
 					bomb.push_back(Bomb(date,player[i]));
