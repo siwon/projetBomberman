@@ -7,7 +7,7 @@
  * \author Maxime GUIHAL
  */
 
-#include <SFML/Clock.hpp>
+#include <SFML/System/Clock.hpp>
 
 #include "menu/IMenuScreen.hpp"
 
