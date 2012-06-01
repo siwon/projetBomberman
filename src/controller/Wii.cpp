@@ -259,8 +259,7 @@ namespace PolyBomber
 		wiimotesAssignation[player]->SetRumbleMode(CWiimote::ON);
 		usleep(100000);
 		wiimotesAssignation[player]->SetRumbleMode(CWiimote::OFF);
-	
-		wiimotesAssignation[player]->Disconnect();
+		
 		wiimotesAssignation.erase(player);
 		nbWiimotes--;
 	}
