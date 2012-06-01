@@ -342,7 +342,7 @@ namespace PolyBomber {
 			pl.setLastMove(date);
 		}
 	}
-
+	
 	/*
 	 * date = secondes
 	 * date2 = millisecondes
@@ -359,91 +359,94 @@ namespace PolyBomber {
 		}
 	}
 	
-	void Board::actionToucheAction2(int player, int date) {//TODO : à gérer
+	void Board::actionToucheAction2(int player, int date) {
 		Player& pl = getPlayerById(player);
-		if (pl.getBombBonusSize()>0) { //TODO
-		EGameBonus bon = pl.getFirstBombBonus();
-		std::cout << "type de bombe : " << bon <<std::endl;
-		if (pl.getAlive() && pl.getLastMove()+pl.getSpeed()<date) {
-			if (pl.getBombBonus().size()>0) {
-				//utiliser le 1er bonus puis le supprimer de la liste
-				if (bon==INFINITYBOMB) {
-					bomb.push_back(Bomb(date,pl,1));
-				} else if (bon==ATOMICBOMB) {
-					bomb.push_back(Bomb(date,pl,2));
-				} else { //bombline
-					EOrientation orient = pl.getOrientation();
-					int x=cranToCase(pl.getLocationX());
-					int y=cranToCase(pl.getLocationY());
-					switch (orient) {
-						case ORIENTATION_UP:
-							bomb.push_back(Bomb(date,pl,x,y));
-							pl.decrementCapacity();
-							y=y-1;
-							while (pl.getCapacity()>0 && caseIsFree(x,y)) {
+		if (pl.getBombBonusSize()>0) {
+			EGameBonus bon = pl.getFirstBombBonus();
+			std::cout << "type de bombe : " << bon <<std::endl;
+			if (pl.getAlive() && pl.getLastMove()+pl.getSpeed()<date) {
+				if (pl.getBombBonus().size()>0) {
+					//utiliser le 1er bonus puis le supprimer de la liste
+					if (bon==INFINITYBOMB) {
+						std::cout << "Type de bombe : INFINITYBOMB" << std::endl;
+						bomb.push_back(Bomb(date,pl,1));
+					} else if (bon==ATOMICBOMB) {
+						std::cout << "Type de bombe : ATOMICBOMB" << std::endl;
+						bomb.push_back(Bomb(date,pl,2));
+					} else { //bombline
+						std::cout << "Type de bombe : OTHER" << std::endl;
+						EOrientation orient = pl.getOrientation();
+						int x=cranToCase(pl.getLocationX());
+						int y=cranToCase(pl.getLocationY());
+						switch (orient) {
+							case ORIENTATION_UP:
 								bomb.push_back(Bomb(date,pl,x,y));
 								pl.decrementCapacity();
 								y=y-1;
-							}
-							break;
-							
-						case ORIENTATION_DOWN:
-							bomb.push_back(Bomb(date,pl,x,y));
-							pl.decrementCapacity();
-							y=y+1;
-							while (pl.getCapacity()>0 && caseIsFree(x,y)) {
+								while (pl.getCapacity()>0 && caseIsFree(x,y)) {
+									bomb.push_back(Bomb(date,pl,x,y));
+									pl.decrementCapacity();
+									y=y-1;
+								}
+								break;
+								
+							case ORIENTATION_DOWN:
 								bomb.push_back(Bomb(date,pl,x,y));
 								pl.decrementCapacity();
 								y=y+1;
-							}
-							break;
-							
-						case ORIENTATION_LEFT:
-							bomb.push_back(Bomb(date,pl,x,y));
-							pl.decrementCapacity();
-							x=x-1;
-							while (pl.getCapacity()>0 && caseIsFree(x,y)) {
+								while (pl.getCapacity()>0 && caseIsFree(x,y)) {
+									bomb.push_back(Bomb(date,pl,x,y));
+									pl.decrementCapacity();
+									y=y+1;
+								}
+								break;
+								
+							case ORIENTATION_LEFT:
 								bomb.push_back(Bomb(date,pl,x,y));
 								pl.decrementCapacity();
 								x=x-1;
-							}
-							break;
-							
-						case ORIENTATION_RIGHT:
-							bomb.push_back(Bomb(date,pl,x,y));
-							pl.decrementCapacity();
-							x=x+1;
-							while (pl.getCapacity()>0 && caseIsFree(x,y)) {
+								while (pl.getCapacity()>0 && caseIsFree(x,y)) {
+									bomb.push_back(Bomb(date,pl,x,y));
+									pl.decrementCapacity();
+									x=x-1;
+								}
+								break;
+								
+							case ORIENTATION_RIGHT:
 								bomb.push_back(Bomb(date,pl,x,y));
 								pl.decrementCapacity();
 								x=x+1;
-							}
-							break;
-							
-						default:
-							break;
-					}
-				}
-				bomb.erase(bomb.begin());
-			} else {
-				if (pl.getDetonator()) {
-					bool remoteBombDejaPosee=false;
-					int indiceRemoteBomb;
-					for (unsigned int i=0;i<remoteBomb.size();i++) {
-						if (remoteBomb[i].getPlayer()==player) {
-							remoteBombDejaPosee=true;
-							indiceRemoteBomb=i;
+								while (pl.getCapacity()>0 && caseIsFree(x,y)) {
+									bomb.push_back(Bomb(date,pl,x,y));
+									pl.decrementCapacity();
+									x=x+1;
+								}
+								break;
+								
+							default:
+								break;
 						}
 					}
-					if (remoteBombDejaPosee) {
-						explodeRemoteBomb(indiceRemoteBomb, date);
-					} else {
-						remoteBomb.push_back(RemoteBomb(pl));
+					bomb.erase(bomb.begin());
+				} /*else {
+					if (pl.getDetonator()) {
+						bool remoteBombDejaPosee=false;
+						int indiceRemoteBomb;
+						for (unsigned int i=0;i<remoteBomb.size();i++) {
+							if (remoteBomb[i].getPlayer()==player) {
+								remoteBombDejaPosee=true;
+								indiceRemoteBomb=i;
+							}
+						}
+						if (remoteBombDejaPosee) {
+							explodeRemoteBomb(indiceRemoteBomb, date);
+						} else {
+							remoteBomb.push_back(RemoteBomb(pl));
+						}
 					}
-				}
+				}*/
 			}
 		}
-	}
 	}
 	
 	void Board::removeBox(int i) {
@@ -635,9 +638,9 @@ namespace PolyBomber {
 		
 		
 		std::cout << "tfin : " << type << std::endl;
-bomb.erase(bomb.begin()+indice);
+		bomb.erase(bomb.begin()+indice);
 		if (type!=0)
-		sf::sleep(sf::milliseconds(5000));
+			sf::sleep(sf::milliseconds(5000));
 	}
 	
 	void Board::explodeRemoteBomb(unsigned int indice, int date) {
