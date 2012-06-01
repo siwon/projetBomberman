@@ -95,7 +95,7 @@ namespace PolyBomber
 
 	SKeyPressed NetworkManager::getKeysPressed(){
 		SKeyPressed keys;
-		/*if(this->server){
+		if(this->server){
 			this->keyPressed = this->controller->getKeysPressed();
 
 			// chercher le nombre de joueur sur le réseau
@@ -105,7 +105,7 @@ namespace PolyBomber
 					nbPlayerDone++;
 			}
 			// pour chaque joueur en dehors du reseau, demander ces touches
-			for(int i=0;i<4;i++){ // on parcourt le tableau d'ip
+			/*for(int i=0;i<4;i++){ // on parcourt le tableau d'ip
 				if(this->nbPlayerByIp[i]){ // s'il y a une adresse d'enregistrée
 					try {
 						this->mutexClients.lock();
@@ -149,7 +149,7 @@ namespace PolyBomber
 						}
 					}
 				}
-			}
+			}*/
 			//verification de la pause par un joueur
 			unsigned int i=0;
 			while(i<this->gameConfig.nbPlayers && !this->paused){
@@ -162,7 +162,7 @@ namespace PolyBomber
 		} else { // on est le client
 			//message d'erreur car le client ne peut demander les touche au gameEngine
 			std::cerr << "le client ne peut demander les touches au gameEngine" << std::endl;
-		}*/
+		}
 
 		return this->keyPressed;
 	}
@@ -177,13 +177,10 @@ namespace PolyBomber
 		else {
 			//demander au serveur
 			try {
-				std::cout << "la pause "<<result<< std::endl;
 				std::list<sf::Packet>::iterator it2 = this->askServer(7);
-				std::cout << "la pause "<<result<< std::endl;
 				sf::Packet& thePacket = *it2;
 				int num;
 				std::string ip;
-				std::cout << "la pause "<<result<< std::endl;
 				thePacket >> num >> ip  >> result;
 				this->packets.erase(it2);
 			}
@@ -554,7 +551,6 @@ namespace PolyBomber
 								 int num;
 								 testPacket >> num;
 								 if(num%2){ // si c'est impaire
-									 std::cout << " decrypt num=" << num << std::endl;
 									 decryptPacket(packet);
 								 } else { //ajouter le packet !!!!! mutex !!!!
 									 this->mutexPacket.lock();
@@ -582,7 +578,6 @@ namespace PolyBomber
 				sf::Packet testPacket = packet; // recopie du paquet reçu
 				int num;
 				testPacket >> num;
-				std::cout << "reception "<< num << std::endl;
 				if(num%2){ // si c'est impaire
 					decryptPacket(packet);
 				} else { //ajouter le packet !!!!! mutex !!!!
@@ -662,11 +657,9 @@ namespace PolyBomber
 				std::cout << "demande de la pause" << std::endl;
 				break;
 			case 8 : // envoi s'il y a une pause
-				std::cout << "debut denvoie des donnees de pause : " << this->paused <<std::endl;
 				this->mutexPause.lock();
 				packet << this->paused;
 				this->mutexPause.unlock();
-				std::cout << "fin denvoie des donnees de pause" << std::endl;
 				break;
 			case 9 : // demande s'il c'est fini
 				break;
@@ -750,7 +743,6 @@ namespace PolyBomber
 			this->mutexPacket.unlock();
 		}
 		if(!find){
-			std::cout << "le paquet "<<num<<" n'a pas été trouvé provenant de l'addresse"<<ipAddr.toString()<< std::endl;
 			throw PolyBomberException("Echec de la réception du paquet de l'expéditeur "+ipAddr.toString()+". Temps d'attente de 100 millisecondes dépassé");
 		}
 		return it;
@@ -774,7 +766,6 @@ namespace PolyBomber
 			etatNetwork();
 			break;
 		case 17 :
-			std::cout << "17num=" << num << " et ip=" << ip << std::endl;
 			for(int i=0;i<4;i++){
 				packet >> names[i];
 			}
@@ -794,7 +785,6 @@ namespace PolyBomber
 			this->mutexClients.lock();
 			try {
 				sf::TcpSocket* client = this->findSocket(ip1);
-				std::cout << "debut envoi "<< num+1 << std::endl;
 				if (client->send(result) != sf::TcpSocket::Done){
 					std::cerr << "la réponse n°" << num << " n'à pas pu être renvoyée" << std::endl;
 				}
