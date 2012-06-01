@@ -149,8 +149,8 @@ namespace PolyBomber
 				}
 			}
 			//verification de la pause par un joueur
-			unsigned int i=0;
-			/*while(i<this->gameConfig.nbPlayers && !this->paused){
+			/*unsigned int i=0;
+			while(i<this->gameConfig.nbPlayers && !this->paused){
 				if(this->keyPressed.keys[i][GAME_PAUSE]) {
 					this->setPause(i+1);
 				}
@@ -626,9 +626,11 @@ namespace PolyBomber
 		packet << i << ipLocal.toString();
 		switch(i){
 			case 1 : // demande de getboard d'un client
+			std::cout << "demande du plateau" << std::endl;
 				break;
 			case 2 : // envoi d'un SBoard
 				if(this->server){
+					std::cout << "debut denvoie du plateau" << std::endl;
 					SBoard gameBoard = this->gameEngine->getBoard();
 					packet <<  gameBoard;
 				} else {
@@ -636,12 +638,14 @@ namespace PolyBomber
 				}
 				break;
 			case 3 : // demande des touches pressées
-
+				std::cout << "demande des touches" << std::endl;
 				break;
 			case 4 : // envoi d'un SKeyPressed
 				if(!this->server){
+					std::cout << "debut denvoie des touches" << std::endl;
 					SKeyPressed keys = this->controller->getKeysPressed();
 					packet << keys;
+					
 				}
 				break;
 			case 5 : // demande des slots disponible
@@ -651,11 +655,14 @@ namespace PolyBomber
 				packet << this->getFreeSlots();
 				break;
 			case 7 : // demande s'il y a une pause
+				std::cout << "demande de la pause" << std::endl;
 				break;
 			case 8 : // envoi s'il y a une pause
+				std::cout << "debut denvoie des donnees de pause : " << this->paused <<std::endl;
 				this->mutexPause.lock();
 				packet << this->paused;
 				this->mutexPause.unlock();
+				std::cout << "fin denvoie des donnees de pause" << std::endl;
 				break;
 			case 9 : // demande s'il c'est fini
 				break;
