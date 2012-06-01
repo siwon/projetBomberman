@@ -541,7 +541,6 @@ namespace PolyBomber
 						 sf::TcpSocket* client = this->clients[i];
 						 if (this->selector.isReady(*client))
 						 {
-							std::cout << "réception d'un paquet" << std::endl;
 							 // The client has sent some data, we can receive it
 							 sf::Packet packet;
 							 if (client->receive(packet) == sf::Socket::Done)
@@ -551,6 +550,7 @@ namespace PolyBomber
 								 int num;
 								 testPacket >> num;
 								 if(num%2){ // si c'est impaire
+									 std::cout << " decrypt num=" << num << std::endl;
 									 decryptPacket(packet);
 								 } else { //ajouter le packet !!!!! mutex !!!!
 									 this->mutexPacket.lock();
@@ -758,7 +758,6 @@ namespace PolyBomber
 		packet >> num >> ip;
 		sf::IpAddress ip1(ip);
 		std::string names[4] = {"", "", "", ""};
-		std::cout << "num=" << num << " et ip=" << ip << std::endl;
 		switch(num){
 		case 101 :
 			if(this->server){
@@ -770,6 +769,7 @@ namespace PolyBomber
 			etatNetwork();
 			break;
 		case 17 :
+			std::cout << "num=" << num << " et ip=" << ip << std::endl;
 			for(int i=0;i<4;i++){
 				packet >> names[i];
 			}
@@ -785,6 +785,7 @@ namespace PolyBomber
 			break;
 		default : // c'est une demande qui nécessite une réponse
 			result = createPacket(num+1);
+			std::cout << "num=" << num << " et ip=" << ip << std::endl;
 			this->mutexClients.lock();
 			try {
 			sf::TcpSocket* client = this->findSocket(ip1);
