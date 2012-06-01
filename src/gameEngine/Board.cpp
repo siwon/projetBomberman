@@ -39,8 +39,10 @@ namespace PolyBomber {
 	}
 	
 	void Board::generateFlameHorizontal(int x, int y, int range, int date) {
+		std::cout << range << std::endl;
+		sf::sleep(sf::seconds(3));
 		for (int i=1; i<range; i++) {
-			if (x+i%2==0 && y%2==0) {
+			if ((x+i)%2==0 && y%2==0) {
 				flame.push_back(Flame(x+i,y,ORIENTATION_RIGHT,ORIGIN,date+DUREEFLAMME));
 				flame.push_back(Flame(x-i,y,ORIENTATION_LEFT,ORIGIN,date+DUREEFLAMME));
 			} else {
@@ -355,6 +357,7 @@ namespace PolyBomber {
 				bomb.push_back(Bomb(date,pl,0));
 				pl.decrementCapacity();
 			}
+			pl.setLastMove(date2);
 		}
 	}
 	
@@ -362,8 +365,8 @@ namespace PolyBomber {
 		Player& pl = getPlayerById(player);
 		std::cout << "Tests d'entrée :" << std::endl;
 		std::cout << "getAlive() : " << pl.getAlive() << std::endl;
-		std::cout << "gestion du temps : " << pl.getLastMove()+pl.getSpeed()<date << std::endl;
-		sf::sleep(sf::seconds(3));
+		std::cout << "gestion du temps : " << (pl.getLastMove()+pl.getSpeed()<date2) << std::endl;
+		//sf::sleep(sf::seconds(3));
 		if (pl.getAlive() && pl.getLastMove()+pl.getSpeed()<date2) {
 			if (pl.getBombBonus().size()>0) {
 				EGameBonus bon = pl.getFirstBombBonus();
@@ -376,52 +379,53 @@ namespace PolyBomber {
 					std::cout << "Type de bombe : ATOMICBOMB" << std::endl;
 					bomb.push_back(Bomb(date,pl,2));
 				} else if (bon==MINE) {
-					//TODO
-				} else { //bombline
+					std::cout << "Type de bombe : ATOMICBOMB" << std::endl;
+					mine.push_back(Mine(pl));
+				} else { //bombline => fonctionne
 					std::cout << "Type de bombe : OTHER" << std::endl;
 					EOrientation orient = pl.getOrientation();
 					int x=cranToCase(pl.getLocationX());
 					int y=cranToCase(pl.getLocationY());
 					switch (orient) {
 						case ORIENTATION_UP:
-							bomb.push_back(Bomb(date,pl,x,y));
+							bomb.push_back(Bomb(date,pl,x,y,0));
 							pl.decrementCapacity();
 							y=y-1;
 							while (pl.getCapacity()>0 && caseIsFree(x,y)) {
-								bomb.push_back(Bomb(date,pl,x,y));
+								bomb.push_back(Bomb(date,pl,x,y,0));
 								pl.decrementCapacity();
 								y=y-1;
 							}
 							break;
 							
 						case ORIENTATION_DOWN:
-							bomb.push_back(Bomb(date,pl,x,y));
+							bomb.push_back(Bomb(date,pl,x,y,0));
 							pl.decrementCapacity();
 							y=y+1;
 							while (pl.getCapacity()>0 && caseIsFree(x,y)) {
-								bomb.push_back(Bomb(date,pl,x,y));
+								bomb.push_back(Bomb(date,pl,x,y,0));
 								pl.decrementCapacity();
 								y=y+1;
 							}
 							break;
 							
 						case ORIENTATION_LEFT:
-							bomb.push_back(Bomb(date,pl,x,y));
+							bomb.push_back(Bomb(date,pl,x,y,0));
 							pl.decrementCapacity();
 							x=x-1;
 							while (pl.getCapacity()>0 && caseIsFree(x,y)) {
-								bomb.push_back(Bomb(date,pl,x,y));
+								bomb.push_back(Bomb(date,pl,x,y,0));
 								pl.decrementCapacity();
 								x=x-1;
 							}
 							break;
 							
 						case ORIENTATION_RIGHT:
-							bomb.push_back(Bomb(date,pl,x,y));
+							bomb.push_back(Bomb(date,pl,x,y,0));
 							pl.decrementCapacity();
 							x=x+1;
 							while (pl.getCapacity()>0 && caseIsFree(x,y)) {
-								bomb.push_back(Bomb(date,pl,x,y));
+								bomb.push_back(Bomb(date,pl,x,y,0));
 								pl.decrementCapacity();
 								x=x+1;
 							}
@@ -431,7 +435,8 @@ namespace PolyBomber {
 							break;
 					}
 				}
-				bomb.erase(bomb.begin());
+				//bomb.erase(bomb.begin());
+				pl.eraseFirstBonus();
 			} else {
 				if (pl.getDetonator()) {
 					std::cout << "Type de bombe : DETONATOR" << std::endl;
@@ -450,6 +455,7 @@ namespace PolyBomber {
 					}
 				}
 			}
+			pl.setLastAction2(date2);
 		}
 	}
 	

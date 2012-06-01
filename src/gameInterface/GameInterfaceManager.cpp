@@ -30,6 +30,8 @@ namespace PolyBomber
 		INetworkToGameInterface* network = PolyBomberApp::getINetworkToGameInterface();
 		IMenuToGameInterface* menu = PolyBomberApp::getIMenuToGameInterface();
 
+		int pause = 0;
+
 		std::cout << "debut interface" << std::endl;
 
 		while (window->isOpen())// && !network->isFinished())
@@ -54,10 +56,21 @@ namespace PolyBomber
 
 			window->display();
 
-			/*if (network->isPaused())
-				menu->runPause();*/
+			if ((pause = network->isPaused()) != 0)
+			{
+				std::cout << "avant pause" << std::endl;
+				EScreenSignal signal = menu->runPause(pause);
+				std::cout << "apres pause" << std::endl;
+				if (signal == EXITGAME)
+					window->close();
+				else if (signal == EXITMENU)
+				{
+					std::cout << "exit menu" << std::endl;
+					//network->resume();
+				}
+			}
 
-			sf::sleep(sf::milliseconds(20));
+			sf::sleep(sf::milliseconds(50));
 		}
 
 		return EXITGAME;

@@ -24,6 +24,11 @@ namespace PolyBomber
 			virtual int isPaused() =0;
 
 			/*!
+			 * \brief Reprendre la partie après une pause
+			 */
+			virtual void resume() = 0;
+
+			/*!
 			 * \brief Destructeur virtuel
 			 */
 			virtual ~INetworkToGameInterface() {};
