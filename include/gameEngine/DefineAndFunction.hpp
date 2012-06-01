@@ -7,10 +7,10 @@
  * \author Simon Rousseau
  */
 
-#define VITESSEPARDEFAUT 2
-#define VITESSEMIN 1
-#define VITESSEMAX 4
-#define PASVITESSE 1
+#define VITESSEPARDEFAUT 50
+#define VITESSEMIN 200
+#define VITESSEMAX 10
+#define PASVITESSE 10
 #define NOMBREBOMBEDEFAUT 2
 #define RANGEDEFAUT 1
 #define RANGEMIN 1
