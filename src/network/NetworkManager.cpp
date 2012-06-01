@@ -78,6 +78,7 @@ namespace PolyBomber
 			sf::Packet packet = this->createPacket(num);
 			std::cout << "packet n° " << num <<" pret à envoyer" << std::endl; 
 			if(client->send(packet) != sf::TcpSocket::Done){
+				std::cerr << "packet n° " << num <<" n'a pas pu etre envoye" << std::endl; 
 				throw PolyBomberException("meme pas pu envoyer le paquet");
 			}
 				
@@ -94,7 +95,7 @@ namespace PolyBomber
 
 	SKeyPressed NetworkManager::getKeysPressed(){
 		SKeyPressed keys;
-		if(this->server){
+		/*if(this->server){
 			this->keyPressed = this->controller->getKeysPressed();
 
 			// chercher le nombre de joueur sur le réseau
@@ -150,18 +151,18 @@ namespace PolyBomber
 				}
 			}
 			//verification de la pause par un joueur
-			/*unsigned int i=0;
+			unsigned int i=0;
 			while(i<this->gameConfig.nbPlayers && !this->paused){
 				if(this->keyPressed.keys[i][GAME_PAUSE]) {
 					this->setPause(i+1);
 				}
 				else
 					i++;
-			}*/
+			}
 		} else { // on est le client
 			//message d'erreur car le client ne peut demander les touche au gameEngine
 			std::cerr << "le client ne peut demander les touches au gameEngine" << std::endl;
-		}
+		}*/
 
 		return this->keyPressed;
 	}
