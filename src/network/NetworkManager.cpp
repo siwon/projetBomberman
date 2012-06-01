@@ -149,14 +149,14 @@ namespace PolyBomber
 				}
 			}
 			//verification de la pause par un joueur
-			unsigned int i=0;
+			/*unsigned int i=0;
 			while(i<this->gameConfig.nbPlayers && !this->paused){
 				if(this->keyPressed.keys[i][GAME_PAUSE]) {
 					this->setPause(i+1);
 				}
 				else
 					i++;
-			}
+			}*/
 		} else { // on est le client
 			//message d'erreur car le client ne peut demander les touche au gameEngine
 			std::cerr << "le client ne peut demander les touches au gameEngine" << std::endl;
@@ -179,6 +179,7 @@ namespace PolyBomber
 				sf::Packet& thePacket = *it2;
 				int num;
 				std::string ip;
+				std::cout << "la pause"<<result<< std::endl;
 				thePacket >> num >> ip  >> result;
 				this->packets.erase(it2);
 			}
@@ -337,7 +338,6 @@ namespace PolyBomber
 					j++;
 				}
 				i++;
-				std::cout << "boucle i=" << i << std::endl;
 			}
 		} else { // envoyer la demande au serveur
 			this->mutexClients.lock();
@@ -626,9 +626,11 @@ namespace PolyBomber
 		packet << i << ipLocal.toString();
 		switch(i){
 			case 1 : // demande de getboard d'un client
+			std::cout << "demande du plateau" << std::endl;
 				break;
 			case 2 : // envoi d'un SBoard
 				if(this->server){
+					std::cout << "debut denvoie du plateau" << std::endl;
 					SBoard gameBoard = this->gameEngine->getBoard();
 					packet <<  gameBoard;
 				} else {
@@ -636,12 +638,14 @@ namespace PolyBomber
 				}
 				break;
 			case 3 : // demande des touches pressées
-
+				std::cout << "demande des touches" << std::endl;
 				break;
 			case 4 : // envoi d'un SKeyPressed
 				if(!this->server){
+					std::cout << "debut denvoie des touches" << std::endl;
 					SKeyPressed keys = this->controller->getKeysPressed();
 					packet << keys;
+					
 				}
 				break;
 			case 5 : // demande des slots disponible
@@ -651,11 +655,14 @@ namespace PolyBomber
 				packet << this->getFreeSlots();
 				break;
 			case 7 : // demande s'il y a une pause
+				std::cout << "demande de la pause" << std::endl;
 				break;
 			case 8 : // envoi s'il y a une pause
+				std::cout << "debut denvoie des donnees de pause : " << this->paused <<std::endl;
 				this->mutexPause.lock();
 				packet << this->paused;
 				this->mutexPause.unlock();
+				std::cout << "fin denvoie des donnees de pause" << std::endl;
 				break;
 			case 9 : // demande s'il c'est fini
 				break;
@@ -781,7 +788,7 @@ namespace PolyBomber
 			this->mutexClients.lock();
 			try {
 			sf::TcpSocket* client = this->findSocket(ip1);
-			if (!client->send(result) == sf::TcpSocket::Done)
+			if (client->send(result) != sf::TcpSocket::Done)
 				std::cerr << "la réponse n°" << num << " n'à pas pu être renvoyée" << std::endl;
 			} catch(PolyBomberException e) {
 				std::cout << "decrypt packet ne trouve pas le socket" << std::endl;
