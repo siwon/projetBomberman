@@ -151,6 +151,7 @@ namespace PolyBomber {
 	void GameEngineManager::run() {
 		while (runnable) {
 			int time=horloge.getElapsedTime().asSeconds();
+			int time2=horloge.getElapsedTime().asMilliseconds();
 			SKeyPressed sKeyPressed = network->getKeysPressed();
 			
 			if (network->isPaused()) {//si le jeu est en pause
@@ -192,22 +193,22 @@ namespace PolyBomber {
 				for (int i=0; i<board.getNbPlayer(); i++) { //pour chaque zoueur
 					if (sKeyPressed.keys[i][0]==true) {//touche haut
 						this->mutexBoard.lock();
-						board.actionToucheHaut(i);
+						board.actionToucheHaut(i, time2);
 						this->mutexBoard.unlock();
 					}
 					if (sKeyPressed.keys[i][1]==true) {//touche bas
 						this->mutexBoard.lock();
-						board.actionToucheBas(i);
+						board.actionToucheBas(i, time2);
 						this->mutexBoard.unlock();
 					}
 					if (sKeyPressed.keys[i][2]==true) {//touche gauche
 						this->mutexBoard.lock();
-						board.actionToucheGauche(i);
+						board.actionToucheGauche(i, time2);
 						this->mutexBoard.unlock();
 					}
 					if (sKeyPressed.keys[i][3]==true) {//touche droite
 						this->mutexBoard.lock();
-						board.actionToucheDroite(i);
+						board.actionToucheDroite(i, time2);
 						this->mutexBoard.unlock();
 					}
 					if (sKeyPressed.keys[i][4]==true) {//touche action1
