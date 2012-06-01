@@ -579,7 +579,7 @@ namespace PolyBomber
 		server->setBlocking(false);
 		sf::Packet packet;
 		while(this->isConnected()){
-			sf::sleep(sf::milliseconds(5));
+			//sf::sleep(sf::milliseconds(2));
 			if (server->receive(packet) == sf::Socket::Done){
 				//Vérifier le premier numéro s'il est impaire
 				sf::Packet testPacket = packet; // recopie du paquet reçu
