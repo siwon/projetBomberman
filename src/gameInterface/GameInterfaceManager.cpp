@@ -29,11 +29,7 @@ namespace PolyBomber
 		this->finishText.setCharacterSize(30);
 		this->finishText.setColor(skin->getColor(ERRORCOLOR));
 		this->finishText.setString("Partie terminee");
-		this->finishText.setPosition(320, -550);
 	}
-
-	GameInterfaceManager::~GameInterfaceManager()
-	{}
 
 	EScreenSignal GameInterfaceManager::run(sf::RenderWindow* window, unsigned int score[4], int& winner)
 	{		
@@ -53,7 +49,9 @@ namespace PolyBomber
 				if (event.type == sf::Event::Closed) window->close();
 
 			// On teste la fin du jeu
-			if (network->isFinished() > 0)
+			winner = network->isFinished();
+		
+			if (winner != 0)
 			{
 				running = false;
 				this->finishText.setPosition(320, 550);
@@ -89,7 +87,7 @@ namespace PolyBomber
 			sf::sleep(sf::milliseconds(50));
 		}
 
-		if (network->isFinished() > 0)
+		if (winner != 0)
 			sf::sleep(sf::seconds(5));
 
 		return EXITGAME;
@@ -101,7 +99,6 @@ namespace PolyBomber
 		ISkin* skin = PolyBomberApp::getISkin();
 
 		SBoard board = network->getBoard();
-		std::cout << "getboard" << std::endl;
 		
 		std::vector<sf::Vector2<int> >::iterator itBoxes;
 		std::vector<SPlayer>::iterator itPlayers;

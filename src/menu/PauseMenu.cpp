@@ -52,6 +52,7 @@ namespace PolyBomber
 			{
 				*nextScreen = resume.activate();
 				this->network->resume();
+				std::cout << "methode resume appelee" << std::endl;
 			}
 			
 			if (quit.getSelected())

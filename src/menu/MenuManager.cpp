@@ -35,7 +35,7 @@ namespace PolyBomber
 		for (int i=0; i<3; i++)
 			this->scores[i] = 0;
 
-		this->winner = -1;
+		this->winner = 0;
 
 		initMenuConfig();
 
