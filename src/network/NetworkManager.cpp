@@ -493,7 +493,6 @@ namespace PolyBomber
 		int result = 0;
 		if(this->server){
 			result = this->gameEngine->isFinished();
-			std::cout << "nm : " << result << std::endl;
 		} else {
 		//demander au réseau
 			try {

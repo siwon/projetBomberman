@@ -40,7 +40,7 @@ namespace PolyBomber
 			/*!
 			 * \brief Destructeur
 			 */
-			~GameInterfaceManager();
+			~GameInterfaceManager() {}
 
 			/*!
 			 * \brief Méthode pour mettre à jour les informations du plateau de jeu
