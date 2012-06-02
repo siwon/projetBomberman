@@ -76,15 +76,15 @@ namespace PolyBomber
 			sf::TcpSocket* client = this->clients[0];
 
 			sf::Packet packet = this->createPacket(num);
-			std::cout << "packet n° " << num <<" pret à envoyer" << std::endl; 
+			std::cout << "packet n° " << num <<" pret a envoyer" << std::endl; 
 			if(client->send(packet) != sf::TcpSocket::Done){
+				this->mutexClients.unlock();
 				std::cerr << "packet n° " << num <<" n'a pas pu etre envoye" << std::endl; 
 				throw PolyBomberException("meme pas pu envoyer le paquet");
 			}
-				
-			this->mutexClients.unlock();
 
 			sf::IpAddress address = client->getRemoteAddress();
+			this->mutexClients.unlock();
 			std::cout << "packet n° " << num <<" a ete envoye" << std::endl; 
 			it = waitPacket(num, address);
 			return it;
@@ -109,7 +109,7 @@ namespace PolyBomber
 				if(this->nbPlayerByIp[i] != 0){ // s'il y a une adresse d'enregistrée
 					try {
 						this->mutexClients.lock();
-						sf::TcpSocket* client = this->findSocket(this->ip[i]);
+						sf::TcpSocket* client = this->findSocket(this->ip[i]); //peut renvoyer une exception
 						this->mutexClients.unlock();
 						sf::Packet packet = this->createPacket(3);
 						if(client->send(packet) == sf::TcpSocket::Done){
@@ -125,12 +125,12 @@ namespace PolyBomber
 							this->mutexPacket.unlock();
 							
 							//ajouter ses touches.
-							std::cout << "nbPlayerByIp[i]" <<i<<";"<<this->nbPlayerByIp[i]<< std::endl;
+							//std::cout << "nbPlayerByIp[i]" <<i<<";"<<this->nbPlayerByIp[i]<< std::endl;
 							for(int j=0;j<this->nbPlayerByIp[i];j++){
 
 
 								for(int k=0;k<7;k++){
-									std::cout << "nbplayerdone et j" <<nbPlayerDone<<j<< std::endl;
+									//std::cout << "nbplayerdone et j" <<nbPlayerDone<<j<< std::endl;
 									this->keyPressed.keys[nbPlayerDone][k] = keys.keys[j][k];
 								}
 								nbPlayerDone++;
@@ -208,8 +208,10 @@ namespace PolyBomber
 			sf::TcpSocket* client = this->clients[0];
 
 			sf::Packet packet = this->createPacket(21);
-			if(client->send(packet) != sf::TcpSocket::Done) // pas besoin de réponse
+			if(client->send(packet) != sf::TcpSocket::Done) {// pas besoin de réponse
+				this->mutexClients.unlock();
 				throw PolyBomberException("l'envoie de la reprise à échoué");
+			}
 			this->mutexClients.unlock();
 		}
 	}
@@ -322,8 +324,10 @@ namespace PolyBomber
 			sf::TcpSocket* client = this->clients[0];
 
 			sf::Packet packet = this->createPacket(19,nb);
-			if(client->send(packet) != sf::TcpSocket::Done) // pas besoin de réponse
+			if(client->send(packet) != sf::TcpSocket::Done) {// pas besoin de réponse
+				this->mutexClients.unlock();
 				throw PolyBomberException("échec de la réservation de slot");
+			}
 			this->mutexClients.unlock();
 		}
 		this->mutexSlots.unlock();
@@ -354,8 +358,10 @@ namespace PolyBomber
 			for(int i=0;i<4;i++){
 				packet << names[i];
 			}
-			if(client->send(packet) != sf::TcpSocket::Done) // pas besoin de réponse
+			if(client->send(packet) != sf::TcpSocket::Done) {// pas besoin de réponse
+				this->mutexClients.unlock();
 				throw PolyBomberException("échec lors de l'envoi des noms");
+			}
 			this->mutexClients.unlock();
 		}
 	}
@@ -585,6 +591,7 @@ namespace PolyBomber
 				sf::Packet testPacket = packet; // recopie du paquet reçu
 				int num;
 				testPacket >> num;
+				std::cout << "reception d'un paquet numero "<< num << std::endl;
 				if(num%2){ // si c'est impaire
 					decryptPacket(packet);
 				} else { //ajouter le packet !!!!! mutex !!!!
@@ -630,6 +637,7 @@ namespace PolyBomber
 		sf::Packet packet;
 		sf::IpAddress ipLocal = sf::IpAddress::getLocalAddress();
 		packet << i << ipLocal.toString();
+		std::cout << "creation du paquet numero : " << i << std::cout;
 		switch(i){
 			case 1 : // demande de getboard d'un client
 			std::cout << "demande du plateau" << std::endl;
@@ -706,8 +714,12 @@ namespace PolyBomber
 	}
 
 	sf::TcpSocket* NetworkManager::findSocket(sf::IpAddress& ip){
-		std::vector<sf::TcpSocket*>::iterator it = findSocketIterator(ip);
-		return *it;
+		if(!this->server){
+			return this->clients[0];
+		} else {
+			std::vector<sf::TcpSocket*>::iterator it = findSocketIterator(ip);
+			return *it;
+		}
 	}
 
 	std::vector<sf::TcpSocket*>::iterator NetworkManager::findSocketIterator(sf::IpAddress& ip){
@@ -722,8 +734,13 @@ namespace PolyBomber
 				it++;
 		}
 		if(!find) {
-			throw PolyBomberException ("Le serveur n'a pas pu trouver le socket pour communiquer avec le client "+ip.toString());
+			std::cerr << "taille du vecteur de socket : "<<this->clients.size() << std::endl;
+			if(this->clients.size() !=0){
+				std::cerr << "addrr ip  : "<<this->clients[0]->getRemoteAddress()<<std::endl;
 			}
+			this->mutexClients.unlock();
+			throw PolyBomberException ("Le serveur n'a pas pu trouver le socket pour communiquer avec le client "+ip.toString());
+		}
 		return it;
 	}
 
