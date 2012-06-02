@@ -47,7 +47,8 @@ namespace PolyBomber
 			DataPlayer& operator=(const DataPlayer &obj);
 			
 			/*!
-			 * \brief Constructeur
+			 * \brief permet de récupérer l'adresse ip du joueur
+			 * \return l'adresse ip du joueur
 			 */
 			inline sf::IpAddress getIp() const {return this->ip;}
 			

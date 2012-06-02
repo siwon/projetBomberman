@@ -45,6 +45,7 @@ namespace PolyBomber
 			std::vector<sf::TcpSocket*> clients;//ME
 			std::list<sf::Packet> packets; // segment de mémoire partagé
 			bool server;
+			bool deconnect;
 			sf::SocketSelector selector; // le selecteur pour le serveur
 			SKeyPressed keyPressed;
 			sf::Thread* threadServer;
@@ -59,6 +60,7 @@ namespace PolyBomber
 			sf::Mutex mutexSlots;
 			sf::Mutex mutexNames;
 			sf::Mutex mutexConnect;
+			sf::Mutex mutexDeconnect;
 			sf::Mutex mutexPause;
 
 			/*!
@@ -187,6 +189,13 @@ namespace PolyBomber
 			 * \param adresse ip : par défaut l'adresse ip de l'ordinateur des joueurs qui enregistrent leur nom
 			 */
 			void setName(std::string names[4], sf::IpAddress ip = sf::IpAddress::getLocalAddress());
+			
+			/*!
+			 * \brief permet de réserver des slots disponibles
+			 * \return vrai si le serveur est deconnecté,
+			 * faux sinon
+			 */
+			bool isDeconnected();
 
 			
 public:
@@ -234,11 +243,6 @@ public:
 			 * \see INetworkToMenu::getPlayersName
 			 */
 			void getPlayersName(std::string names[4]);
-			
-			/*!
-			 * \see INetworkToMenu::getScores
-			 */
-			int* getScores();
 			
 			/*!
 			 * \see INetworkToMenu::isStarted

@@ -19,7 +19,6 @@
 
 // Headers
 #include "gameEngine/DefineAndFunction.hpp"
-#include "SBoard.hpp"
 #include "gameEngine/Board.hpp"
 
 

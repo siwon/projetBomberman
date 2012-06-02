@@ -47,7 +47,7 @@ namespace PolyBomber
 				this->menuScreens[WAITINGMENU] = new WaitingMenu(&menuConfig);
 
 			this->menuScreens[PAUSEMENU] = new PauseMenu();
-			this->menuScreens[SCOREMENU] = new ScoreMenu();
+			this->menuScreens[SCOREMENU] = new ScoreMenu(&menuConfig);
 				
 			this->menuScreens[CONFIGMENU] = new ConfigMenu();
 				this->menuScreens[GRAPHICSCONFIGMENU] = new GraphicsConfigMenu();
