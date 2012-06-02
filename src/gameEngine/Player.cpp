@@ -7,15 +7,19 @@
 
 /** Includes **/
 // Bibliotheques standards
-
+#include <vector>
+#include <iostream>
 
 // Bibliotheques SFML
-
+#include <SFML/System/Vector2.hpp>
 
 // Bibliotheques externes
 
 
 // Headers
+#include "gameEngine/Bonus.hpp"
+#include "EOrientation.hpp"
+#include "gameEngine/DefineAndFunction.hpp"
 #include "gameEngine/Player.hpp"
 
 namespace PolyBomber {
