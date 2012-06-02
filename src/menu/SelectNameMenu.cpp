@@ -122,7 +122,9 @@ namespace PolyBomber
 
 				if (!error)
 				{
-					network->setPlayerName(names);				
+					std::cout << "avant set player" << std::endl;
+					network->setPlayerName(names);
+					std::cout << "apres set player" << std::endl;
 					*nextScreen = next.activate();
 				}
 				else

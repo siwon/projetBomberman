@@ -23,6 +23,7 @@
 #include "menu/JoinGameMenu.hpp"
 #include "menu/SelectSlotsMenu.hpp"
 #include "menu/PauseMenu.hpp"
+#include "menu/ScoreMenu.hpp"
 
 #include "PolyBomberApp.hpp"
 
@@ -46,6 +47,7 @@ namespace PolyBomber
 				this->menuScreens[WAITINGMENU] = new WaitingMenu(&menuConfig);
 
 			this->menuScreens[PAUSEMENU] = new PauseMenu();
+			this->menuScreens[SCOREMENU] = new ScoreMenu();
 				
 			this->menuScreens[CONFIGMENU] = new ConfigMenu();
 				this->menuScreens[GRAPHICSCONFIGMENU] = new GraphicsConfigMenu();
@@ -92,7 +94,7 @@ namespace PolyBomber
 				{
 					INetworkToMenu* network = PolyBomberApp::getINetworkToMenu();
 					network->cancel();
-					screen = MAINMENU;
+					screen = SCOREMENU;
 				}
 			}
 		}

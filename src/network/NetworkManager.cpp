@@ -392,6 +392,7 @@ namespace PolyBomber
 				for(int i=0;i<4;i++){
 					thePacket >> names[i];
 				}
+				std::cout << "fin for get" << std::endl;
 				this->packets.erase(it);	
 			}
 			catch(PolyBomberException& e){
