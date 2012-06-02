@@ -93,7 +93,7 @@ namespace PolyBomber {
 	}
 	
 	void GameEngineManager::generateFlame(int origineX, int origineY, int range, int date) {
-		this->mutexBoard.unlock();
+		this->mutexBoard.lock();
 		board.generateFlame(origineX, origineY, range, date);
 		this->mutexBoard.unlock();
 	}
@@ -243,8 +243,9 @@ namespace PolyBomber {
 	
 	int GameEngineManager::isFinished() {
 		this->mutexBoard.lock();
-		return board.getIdSurvivant();
+		int result = board.getIdSurvivant();
 		this->mutexBoard.unlock();
+		return result;
 	}
 	
 	void GameEngineManager::resetConfig() {

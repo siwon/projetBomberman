@@ -586,9 +586,10 @@ namespace PolyBomber {
 	}
 	
 	int Board::getIdSurvivant() {
-		int toReturn;
-		unsigned int cpt;
+		int toReturn = 0;
+		unsigned int cpt = 0;
 		int nbSurv = nbSurvivant();
+
 		if (nbSurv==1) {
 			toReturn=1;
 			while (cpt<player.size() && !player[cpt].getAlive()) {
@@ -600,6 +601,7 @@ namespace PolyBomber {
 		} else {
 			toReturn=0;
 		}
+
 		return toReturn;
 	}
 	
