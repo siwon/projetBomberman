@@ -40,9 +40,10 @@ namespace PolyBomber {
 	
 	void Board::generateFlameHorizontal(int x, int y, int range, int date) {
 		std::cout << range << std::endl;
-		sf::sleep(sf::seconds(3));
+		//sf::sleep(sf::seconds(3));
 		for (int i=1; i<range; i++) {
-			if ((x+i)%2==0 && y%2==0) {
+			std::cout << x << ":" << y << std::endl;
+			if ((x)%2==0 && y+i%2==0) {
 				flame.push_back(Flame(x+i,y,ORIENTATION_RIGHT,ORIGIN,date+DUREEFLAMME));
 				flame.push_back(Flame(x-i,y,ORIENTATION_LEFT,ORIGIN,date+DUREEFLAMME));
 			} else {
@@ -364,8 +365,8 @@ namespace PolyBomber {
 	void Board::actionToucheAction2(int player, int date, int date2) {
 		Player& pl = getPlayerById(player);
 		std::cout << "Tests d'entrée :" << std::endl;
-		std::cout << "getAlive() : " << pl.getAlive() << std::endl;
-		std::cout << "gestion du temps : " << (pl.getLastMove()+pl.getSpeed()<date2) << std::endl;
+		//std::cout << "getAlive() : " << pl.getAlive() << std::endl;
+		//std::cout << "gestion du temps : " << (pl.getLastMove()+pl.getSpeed()<date2) << std::endl;
 		//sf::sleep(sf::seconds(3));
 
 		if (pl.getAlive() && pl.getLastMove()+pl.getSpeed()<date2 && pl.getLastAction2()+1<date) {
@@ -592,9 +593,10 @@ namespace PolyBomber {
 	}
 	
 	int Board::getIdSurvivant() {
-		int toReturn;
-		unsigned int cpt;
+		int toReturn = 0;
+		unsigned int cpt = 0;
 		int nbSurv = nbSurvivant();
+
 		if (nbSurv==1) {
 			toReturn=1;
 			while (cpt<player.size() && !player[cpt].getAlive()) {
@@ -606,6 +608,7 @@ namespace PolyBomber {
 		} else {
 			toReturn=0;
 		}
+
 		return toReturn;
 	}
 	
@@ -654,10 +657,10 @@ namespace PolyBomber {
 		}
 		
 		
-		std::cout << "tfin : " << type << std::endl;
+		//std::cout << "tfin : " << type << std::endl;
 		bomb.erase(bomb.begin()+indice);
-		if (type!=0)
-			sf::sleep(sf::milliseconds(5000));
+		//if (type!=0)
+			//sf::sleep(sf::milliseconds(5000));
 	}
 	
 	void Board::explodeRemoteBomb(unsigned int indice, int date) {
@@ -737,14 +740,21 @@ namespace PolyBomber {
 		int y = bomb[indice].getLocationY();
 		int range = bomb[indice].getRange();
 		
+		std::cout << "x " << x << std::endl;
+		std::cout << "y " << y << std::endl;
+		std::cout << "range " << range << std::endl;
+		
+		//sf::sleep(sf::seconds(5));
+		
 		generateFlame(x,y,range,date);
+		std::cout << "generateFlame DONE ! " << std::endl;
 		
 		for (int i=1; i<range; i++) {//génération de toutes les flammes horizontales
-			generateFlameHorizontal(x+i,y,range-i,date);
-			generateFlameHorizontal(x-i,y,range-i,date);
+			generateFlameHorizontal(x,y+i,range-i,date);
+			generateFlameHorizontal(x,y-i,range-i,date);
 		}
-		
-		bomb.erase(bomb.begin()+indice);
+		//sf::sleep(sf::seconds(5));
+		//bomb.erase(bomb.begin()+indice);
 	}
 	
 	Bonus Board::getBonusByCoord(int x, int y) {//on suppose que le bonus existe
@@ -1014,6 +1024,7 @@ namespace PolyBomber {
 			} else {
 				indice++;
 			}
+			std::cout << "je boucle" << std::endl;
 		}
 	}
 	

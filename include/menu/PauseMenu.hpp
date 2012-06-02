@@ -9,6 +9,7 @@
 
 #include <SFML/System/Clock.hpp>
 
+#include "INetworkToMenu.hpp"
 #include "menu/IMenuScreen.hpp"
 
 #include "menu/ImageWidget.hpp"
@@ -59,8 +60,9 @@ namespace PolyBomber
 			LinkWidget resume;
 			LinkWidget quit;
 		
-			sf::Clock clock; 
-			
+			sf::Clock clock;
+
+			INetworkToMenu* network;			
 	};
 }
 

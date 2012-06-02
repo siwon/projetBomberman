@@ -9,6 +9,8 @@
 
 #include <vector>
 
+#include <SFML/Graphics.hpp>
+
 #include "IGameInterfaceToMenu.hpp"
 #include "TSingleton.hpp"
 
@@ -53,6 +55,9 @@ namespace PolyBomber
 			std::vector<sf::Sprite> bonus; /*!< Sprites pour les bonus */
 			std::vector<sf::Sprite> explosives; /*!< Sprites pour les bombes */
 			std::vector<sf::Sprite> flames; /*!< Sprites pour les flammes */
+
+			sf::Font font;
+			sf::Text finishText;
 	};
 }
 

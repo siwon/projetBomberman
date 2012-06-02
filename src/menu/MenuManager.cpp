@@ -92,7 +92,11 @@ namespace PolyBomber
 				signal = gameInterface->run(window.getWindow(), this->scores, this->winner);
 				
 				if (signal == EXITGAME)
-					screen = EXIT;
+				{
+					INetworkToMenu* network = PolyBomberApp::getINetworkToMenu();
+					network->cancel();
+					screen = MAINMENU;
+				}
 			}
 		}
 
