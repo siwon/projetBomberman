@@ -15,11 +15,13 @@
 // Bibliothèques SFML
 #include <SFML/Window.hpp>
 
+// Bibliothèques externes
+#include "Wiicpp.hpp"
+
 // Headers
 #include "Controller.hpp"
-#include "../EMenuKeys.hpp"
-#include "../EControllerType.hpp"
-#include "Wiicpp.hpp"
+#include "EMenuKeys.hpp"
+#include "EControllerType.hpp"
 #include "GameAction.hpp"
 
 namespace PolyBomber
@@ -71,42 +73,42 @@ namespace PolyBomber
 		~Wii();
 		
 		/*!
-		 * @see Controller#getMenuKey
+		 * \see Controller#getMenuKey
 		 */
 		virtual EMenuKeys getMenuKey(sf::RenderWindow* window);
 		
 		/*!
-		 * @see Controller#getControllerType
+		 * \see Controller#getControllerType
 		 */
 		virtual EControllerType getControllerType();
 
 		/*!
-		 * @see Controller#getCharPressed
+		 * \see Controller#getCharPressed
 		 */
 		virtual char getCharPressed(sf::RenderWindow* window); /* Non disponible pour les wiimotes*/
 
 		/*!
-		 * @see Controller#getKeyPressed
+		 * \see Controller#getKeyPressed
 		 */
 		virtual int getKeyPressed(int player,sf::RenderWindow* window);
 
 		/*!
-		 * @see Controller#getLabel
+		 * \see Controller#getLabel
 		 */
 		virtual std::string getLabel(int key);
 		
 		/*!
-		 * @see Controller#add
+		 * \see Controller#add
 		 */
 		virtual void add(int player);
 		
 		/*!
-		 * @see Controller#disconnect
+		 * \see Controller#disconnect
 		 */
 		virtual void disconnect(int player);
 		
 		/*!
-		 * @see Controller#getAction
+		 * \see Controller#getAction
 		 */
 		virtual GameAction getAction(int keys[7],int, sf::RenderWindow*);
 
