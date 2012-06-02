@@ -16,9 +16,8 @@ namespace PolyBomber
 	enum ESound
 	{
 		CLICKSOUND, /*!< Son du clic */
-		SPLASHSOUND, /*!< Son de l'écrans */
+		SPLASHSOUND, /*!< Son de l'écran de présentation */
 		PAUSESOUND /*!< Son de pause */
-		// TODO: Remplir avec les autres libellés des sons
 	};
 }
 

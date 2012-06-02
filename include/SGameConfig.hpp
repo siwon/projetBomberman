@@ -17,10 +17,10 @@ namespace PolyBomber
 	*/
 	struct SGameConfig
 	{
-		bool isLocal;
-		unsigned int nbPlayers;
-		std::string playersName[4];
-		unsigned int nbBonus[18];
+		bool isLocal; /*!< Indique si la partie est locale ou en réseau */
+		unsigned int nbPlayers; /*!< Indique le nombre de joueurs de la partie */
+		std::string playersName[4]; /*!< Indique les noms des joueurs */
+		unsigned int nbBonus[18]; /*!< Indique le nombre de bonus de la partie */
 	};
 }
 

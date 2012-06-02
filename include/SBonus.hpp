@@ -7,15 +7,8 @@
  * \author Simon Rousseau
  */
 
-/** Includes **/
-//Bibliothèque standard
-
-
 //Bibliothèque SFML
 #include <SFML/System/Vector2.hpp>
-
-//Bibliothèque externes
-
 
 //Headers du projet
 #include "EGameBonus.hpp"
@@ -27,8 +20,8 @@ namespace PolyBomber {
 	 * 
 	 */
 	struct SBonus {
-		sf::Vector2<int> coords;	/*! Coordonnées du bonus */
-		EGameBonus type;		/*! Type de bonus */
+		sf::Vector2<int> coords;	/*!< Coordonnées du bonus */
+		EGameBonus type;		/*!< Type de bonus */
 	};
 }
 

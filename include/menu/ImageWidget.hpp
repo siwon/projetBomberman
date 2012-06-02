@@ -30,11 +30,13 @@ namespace PolyBomber
 
 			/*!
 			 * \brief Constructeur de copie
+			 * \param obj : Objet à copier
 			 */
 			ImageWidget(const ImageWidget& obj);
 
 			/*!
 			* \brief Opérateur d'affectation
+			* \param obj : Objet à copier
 			*/
 			ImageWidget& operator=(const ImageWidget& obj);
 

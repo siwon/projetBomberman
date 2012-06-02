@@ -34,11 +34,13 @@ namespace PolyBomber
 
 			/*!
 			 * \brief Constructeur de copie
+			 * \param obj : Objet à copier
 			 */
 			MainWindow(const MainWindow& obj);
 
 			/*!
 			* \brief Opérateur d'affectation
+			* \param obj : Objet à copier
 			*/
 			MainWindow& operator=(const MainWindow& obj);
 

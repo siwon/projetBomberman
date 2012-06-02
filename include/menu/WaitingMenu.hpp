@@ -26,6 +26,7 @@ namespace PolyBomber
 		public:
 			/*!
 			 * Constructeur
+			 * \param menuConfig : Structure de configuration du menu
 			 */
 			WaitingMenu(SMenuConfig* menuConfig);
 
@@ -60,16 +61,16 @@ namespace PolyBomber
 			void backPressed(EMenuScreen* nextScreen);
 
 		private:
-			TextWidget title;
-			TextWidget ip;
+			TextWidget title; /*!< Titre du menu */
+			TextWidget ip; /*!< Adresse IP s'affichant pour le serveur */
 
-			ImageWidget* pictures[4];
-			TextWidget* names[4];
+			ImageWidget* pictures[4]; /*!< Images des 4 joueurs */
+			TextWidget* names[4]; /*!< Noms des 4 joueurs */
 						
-			LinkWidget cancel;
-			LinkWidget start;
+			LinkWidget cancel; /*!< Lien pour annuler vers le menu de jeu */
+			LinkWidget start; /*!< Lien pour le serveur, pour commencer la partie */
 
-			SMenuConfig* menuConfig;
+			SMenuConfig* menuConfig; /*!< Structure de configuration du menu */
 
 			INetworkToMenu* network; /*!< Lien vers le module réseau */
 

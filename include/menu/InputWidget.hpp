@@ -19,6 +19,9 @@ namespace PolyBomber
 	/*!
 	 * \class InputWidget
 	 * \brief Classe du widget de saisie
+	 *
+	 * Ce widget permet à l'utilisateur d'écrire du texte,
+	 * supportant les caractères alphanumériques
 	 */
 	class InputWidget : public sf::Drawable,
 						public sf::Transformable,
@@ -41,11 +44,13 @@ namespace PolyBomber
 
 			/*!
 			 * \brief Constructeur de copie
+			 * \param obj : Objet à copier
 			 */
 			InputWidget(const InputWidget& obj);
 
 			/*!
 			* \brief Opérateur d'affectation
+			* \param obj : Objet à copier
 			*/
 			InputWidget& operator=(const InputWidget& obj);
 
@@ -111,8 +116,8 @@ namespace PolyBomber
 			 */
 			virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 
-			TextWidget text;
-			sf::RectangleShape area;
+			TextWidget text; /*!< Texte affiché */
+			sf::RectangleShape area; /*!< Fond de la zone de saisie */
 
 			bool visible; /*!< Indique si le widget est visible */
 

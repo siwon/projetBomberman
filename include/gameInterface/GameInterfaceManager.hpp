@@ -23,7 +23,7 @@ namespace PolyBomber
 	class GameInterfaceManager : public IGameInterfaceToMenu,
 						         public Singleton<GameInterfaceManager>
 	{
-		friend class Singleton<GameInterfaceManager>;
+		friend class Singleton<GameInterfaceManager>; // Utilisation du singlaton
 
 		public:
 			/*!
@@ -56,8 +56,8 @@ namespace PolyBomber
 			std::vector<sf::Sprite> explosives; /*!< Sprites pour les bombes */
 			std::vector<sf::Sprite> flames; /*!< Sprites pour les flammes */
 
-			sf::Font font;
-			sf::Text finishText;
+			sf::Font font; /*!< Police utilisée pour le texte de fin */
+			sf::Text finishText; /*! Texte de fin de partie */
 	};
 }
 

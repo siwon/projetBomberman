@@ -16,7 +16,6 @@ namespace PolyBomber
 	enum EMusic
 	{
 		PAUSEMUSIC /*!< Musique de pause */
-		// TODO: Remplir avec les autres libellés des musiques
 	};
 }
 

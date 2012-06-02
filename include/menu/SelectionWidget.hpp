@@ -20,6 +20,8 @@ namespace PolyBomber
 	/*!
 	 * \class SelectionWidget
 	 * \brief Classe du widget de sélection
+	 *
+	 * Ce widget permet de sélectionner une valeur parmi une liste
 	 */
 	class SelectionWidget : public sf::Drawable,
 							public sf::Transformable,
@@ -42,11 +44,13 @@ namespace PolyBomber
 
 			/*!
 			 * \brief Constructeur de copie
+			 * \param obj : objet à copier
 			 */
 			SelectionWidget(const SelectionWidget& obj);
 
 			/*!
 			* \brief Opérateur d'affectation
+			* \param obj : objet à copier
 			*/
 			SelectionWidget& operator=(const SelectionWidget& obj);
 
@@ -58,23 +62,23 @@ namespace PolyBomber
 
 			/*!
 			 * \brief Sélectionne l'item indiqué
-			 * \param index : item à sélectionner
+			 * \param index : item à sélectionner (commençant à 0)
 			 */
 			void setCurrentItem(unsigned int index);
 
 			/*!
 			 * \brief Récupère l'index de l'item sélectionné
-			 * \return L'index de l'item sélectionné
+			 * \return L'index de l'item sélectionné (commençant à 0)
 			 */
 			inline unsigned int getCurrentItem() {return this->selectedItem;}
 
 			/*!
-			 * \brief Sélectionne l'item suivant
+			 * \brief Sélectionne l'item suivant si le widget est sélectionné
 			 */
 			void goNextItem();
 
 			/*!
-			 * \brief Sélectionne l'item précédent
+			 * \brief Sélectionne l'item précédent si le widget est sélectionné
 			 */
 			void goPreviousItem();
 

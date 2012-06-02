@@ -41,11 +41,13 @@ namespace PolyBomber
 
 			/*!
 			 * \brief Constructeur de copie
+			 * \param obj : Objet copié
 			 */
 			TextWidget(const TextWidget& obj) throw(PolyBomberException);
 
 			/*!
 			* \brief Opérateur d'affectation
+			* \param obj : Objet copié
 			*/
 			TextWidget& operator=(const TextWidget& obj) throw(PolyBomberException);
 

@@ -7,18 +7,11 @@
  * \author Simon Rousseau
  */
 
-/** Includes **/
-//Bibliothèque standard
-
-
 //Bibliothèque SFML
 #include <SFML/System/Vector2.hpp>
 
-//Bibliothèque externes
-
-
 //Headers du projet
-#include "./EExplosiveType.hpp"
+#include "EExplosiveType.hpp"
 
 namespace PolyBomber {
   /*!
@@ -27,8 +20,8 @@ namespace PolyBomber {
   * 
   */
   struct SExplosive {
-    sf::Vector2<int> coords;	/*! Coordonnées de l'explosif */
-    EExplosiveType type;		/*! Type d'explosif */
+    sf::Vector2<int> coords;	/*!< Coordonnées de l'explosif */
+    EExplosiveType type;		/*!< Type d'explosif */
   };
 }
 

@@ -70,19 +70,19 @@ namespace PolyBomber
 			void backPressed(EMenuScreen* nextScreen);
 
 		private:
-			TextWidget title;
-			TextWidget typeText;
-			TextWidget playersText;
+			TextWidget title; /*!< Titre du menu */
+			TextWidget typeText; /*!< Texte pour le type de partie */
+			TextWidget playersText; /*!< Texte pour nombre de joueurs */
 
-			SelectionWidget type;
-			SelectionWidget players;
+			SelectionWidget type; /*!< Widget de sélection du type de partie */
+			SelectionWidget players; /*!< Widget de sélection du nombre de joueurs */
 
-			LinkWidget options;
+			LinkWidget options; /*!< Lien vers le menu pour sélectionner les bonus */
 			
-			LinkWidget cancel;
-			LinkWidget next;
+			LinkWidget cancel; /*!< Lien pour annuler */
+			LinkWidget next; /*!< Lien pour valider et passer au menu suivant */
 
-			SMenuConfig* menuConfig;
+			SMenuConfig* menuConfig; /*!< Structure de configuration du menu */
 
 			/*!
 			 * \brief Méthode pour initialiser les widgets

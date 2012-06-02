@@ -48,11 +48,10 @@ namespace PolyBomber
 			void validPressed(EMenuScreen* nextScreen);
 
 		private:
-			TextWidget title;
-			LinkWidget play;
-			LinkWidget options;
-			LinkWidget quit;
-			
+			TextWidget title; /*!< Titre du menu */
+			LinkWidget play; /*!< Lien pour aller au menu de jeu */
+			LinkWidget options; /*!< Lien pour aller au menu de configuration */
+			LinkWidget quit; /*!< Lien pour quitter */			
 	};
 }
 

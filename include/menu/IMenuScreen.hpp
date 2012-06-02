@@ -25,6 +25,10 @@ namespace PolyBomber
 	/*!
 	 * \class IMenuScreen
 	 * \brief Interface des ecrans du menu
+	 *
+	 * Cette classe abstraite est la classe de base pour les menus,
+	 * définissant les méthodes pour un appui sur une touche ainsi
+	 * que la boucle d'exécution
 	 */
 	class IMenuScreen
 	{
@@ -59,17 +63,20 @@ namespace PolyBomber
 
 			/*!
 			 * \brief Exécution pendant la boucle d'affichage
+			 * \param Menu suivant à afficher
 			 */
 			virtual void loopAction(EMenuScreen*) {}
 
 			/*!
 			 * \brief Appui sur la touche Valider
+			 * \param Menu suivant à afficher
 			 * \param Ecran suivant
 			 */
 			virtual void validPressed(EMenuScreen*) {}
 
 			/*!
 			 * \brief Appui sur la touche Retour
+			 * \param Menu suivant à afficher
 			 * \param Ecran suivant
 			 */
 			virtual void backPressed(EMenuScreen*) {}
@@ -88,7 +95,7 @@ namespace PolyBomber
 			std::vector<sf::Drawable*> widgets; /*!< Liste des widgets des écrans */
 
 		private:
-			ImageWidget background;
+			ImageWidget background; /*!< Image de fond du menu */
 	};
 }
 

@@ -25,6 +25,7 @@ namespace PolyBomber
 		public:
 			/*!
 			 * Constructeur
+			 * \param menuConfig : Structure de configuration du menu
 			 */
 			GameOptionsMenu(SMenuConfig* menuConfig);
 
@@ -69,16 +70,16 @@ namespace PolyBomber
 			void backPressed(EMenuScreen* nextScreen);
 
 		private:
-			TextWidget title;
-			SelectionWidget category;
+			TextWidget title; /*!< Titre du menu */
+			SelectionWidget category; /*!< Widget de sélection de la catégorie */
 
-			ImageWidget* images[18];
-			SelectionWidget* bonus[18];
+			ImageWidget* images[18]; /*!< Images des bonus */
+			SelectionWidget* bonus[18]; /*!< Widget de sélection du nombre de bonus */
 						
-			LinkWidget cancel;
-			LinkWidget save;
+			LinkWidget cancel; /*!< Lien pour annuler */
+			LinkWidget save; /*!< Lien pour valider */
 
-			SMenuConfig* menuConfig;
+			SMenuConfig* menuConfig; /*!< Structure de configuration du menu */
 
 			/*!
 			 * \brief Procédure d'initialisation des bonus

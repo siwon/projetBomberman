@@ -52,10 +52,10 @@ namespace PolyBomber
 			void backPressed(EMenuScreen* nextScreen);
 
 		private:
-			TextWidget title;
-			LinkWidget create;
-			LinkWidget join;
-			LinkWidget back;
+			TextWidget title; /*!< Titre du menu */
+			LinkWidget create; /*!< Lien pour créer une partie */
+			LinkWidget join; /*!< Lien pour rejoindre une partie */
+			LinkWidget back; /*!< Lien pour retourner au menu principal */
 	};
 }
 

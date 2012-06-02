@@ -7,19 +7,12 @@
  * \author Simon Rousseau
  */
 
-/** Includes **/
-//Bibliothèque standard
-
-
 //Bibliothèque SFML
 #include <SFML/System/Vector2.hpp>
 
-//Bibliothèque externes
-
-
 //Headers du projet
-#include "./EOrientation.hpp"
-#include "./EFlameLocation.hpp"
+#include "EOrientation.hpp"
+#include "EFlameLocation.hpp"
 
 namespace PolyBomber {
 	/*!
@@ -28,10 +21,10 @@ namespace PolyBomber {
 	 * 
 	 */
 	struct SFlame {
-		sf::Vector2<int> coords;		/*! Coordonnées de la déflagration */
-		EOrientation orientation;	/*! Orientation de la déflagration */
-		EFlameLocation location;	/*! Position de la déflagration */
-		unsigned int step;
+		sf::Vector2<int> coords; /*!< Coordonnées de la déflagration */
+		EOrientation orientation; /*!< Orientation de la déflagration */
+		EFlameLocation location; /*!< Position de la déflagration */
+		unsigned int step; /*!< Compteur pour l'animation de la flamme - Non implémenté */
 	};
 }
 

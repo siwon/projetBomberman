@@ -15,14 +15,15 @@ namespace PolyBomber
 	 */
 	enum EImage
 	{
-		SPLASH, /*!< Ecran d'accueil du programme */
-		MENU_BACKGROUND, /*!< Fond du menu */
-		WIISCREEN, /*!< Ecran recherche des wiimotes */
+		//MENU
+		SPLASH,
+		MENU_BACKGROUND,
+		WIISCREEN,
 		PLAYER1,
 		PLAYER2,
 		PLAYER3,
 		PLAYER4,
-		GAME_BACKGROUND, /*!< Fond du jeu */
+		GAME_BACKGROUND,
 
 		//BONUS
 		EIMAGE_VITESSEPLUS,
@@ -53,7 +54,7 @@ namespace PolyBomber
 		
 		EIMAGE_BOX,
 
-		// FLAMES
+		//FLAMES
 		EIMAGE_FLAME_UP,
 		EIMAGE_FLAME_DOWN,
 		EIMAGE_FLAME_LEFT,

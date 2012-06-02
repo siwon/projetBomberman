@@ -55,13 +55,13 @@ namespace PolyBomber
 			EMenuScreen run(MainWindow& window, EMenuScreen previous);
 
 		private:
-			TextWidget title;
-			LinkWidget resume;
-			LinkWidget quit;
+			TextWidget title; /*!< Titre du menu */
+			LinkWidget resume; /*!< Lien pour retourner à la partie */
+			LinkWidget quit; /*!< Lien pour quitter le programme */
 		
-			sf::Clock clock;
+			sf::Clock clock; /*! Horloge pour empêcher les clics instantanés sur le menu */
 
-			INetworkToMenu* network;			
+			INetworkToMenu* network; /*!< Interface vers le composant réseau */
 	};
 }
 

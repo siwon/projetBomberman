@@ -52,11 +52,11 @@ namespace PolyBomber
 			void backPressed(EMenuScreen* nextScreen);
 
 		private:
-			TextWidget title;
-			LinkWidget keys;		
-			LinkWidget audio;		
-			LinkWidget graphics;		
-			LinkWidget back;
+			TextWidget title; /*!< Titre du menu */
+			LinkWidget keys; /*! Lien vers le menu de configuration des contrôleurs */		
+			LinkWidget audio; /*!< Lien vers le menu de configuration audio */		
+			LinkWidget graphics; /*!< Lien vers le menu de configuration graphique */		
+			LinkWidget back; /*!< Lien pour revenir au menu précédent */
 	};
 }
 

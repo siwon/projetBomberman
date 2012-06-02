@@ -15,9 +15,9 @@ namespace PolyBomber
 	 */
 	enum ETextPosition
 	{
-		LEFT,
-		CENTER,
-		RIGHT
+		LEFT, /*!< Aligné à gauche */
+		CENTER, /*!< Centré */
+		RIGHT /*!< Aligné à droite */
 	};
 }
 

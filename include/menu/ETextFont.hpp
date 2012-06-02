@@ -15,10 +15,10 @@ namespace PolyBomber
 	 */
 	enum ETextFont
 	{
-		TITLEFONT,
-		TEXTFONT,
-		LINKFONT,
-		ERRORFONT
+		TITLEFONT, /*!< Police pour les titres */
+		TEXTFONT, /*!< Police pour le texte normal */
+		LINKFONT, /*!< Police pour les liens */
+		ERRORFONT /*!< Police pour les messages d'erreur */
 	};
 }
 

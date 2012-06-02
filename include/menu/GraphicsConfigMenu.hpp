@@ -68,14 +68,14 @@ namespace PolyBomber
 			void backPressed(EMenuScreen* nextScreen);
 
 		private:
-			TextWidget title;
-			TextWidget textFullscreen;
-			SelectionWidget fullscreen;
-			TextWidget noFullscreen;
-			TextWidget skinText;
-			SelectionWidget skinList;
-			LinkWidget cancel;
-			LinkWidget save;
+			TextWidget title; /*!< Titre du menu */
+			TextWidget textFullscreen; /*!< Texte pour le plein ecran */
+			SelectionWidget fullscreen; /*!< Widget de sélection du mode plein ecran */
+			TextWidget noFullscreen; /*!< Texte indiquant que le mode plein ecran est indisponible */
+			TextWidget skinText; /*!< Texte pour sélectionner le skin */
+			SelectionWidget skinList; /*!< Widget de sélection des skins */
+			LinkWidget cancel; /*!< Lien pour annuler et revenir au menu de configuration */
+			LinkWidget save; /*!< Lien pour valider et revenir au menu de configuration */
 
 			MainWindow* window; /*!< Pointeur vers la fenêtre du programme */
 	};

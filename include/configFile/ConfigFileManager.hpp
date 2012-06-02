@@ -14,15 +14,11 @@
 #include <fstream>
 #include <map>
 
-// Bibliothèques SFML
-
-// Bibliothèques externes
-
 // Headers
 #include "IConfigFile.hpp"
 
 
-#define DEFAULT_FILENAME "resources/PolyBomber.conf" /* Chemin et nom par défaut du fichier de configuration */
+#define DEFAULT_FILENAME "resources/PolyBomber.conf" /*!< Chemin et nom par défaut du fichier de configuration */
 
 namespace PolyBomber
 {
@@ -51,7 +47,7 @@ namespace PolyBomber
 		
 		/*!
 		 * \brief Constructeur de la classe ConfigFileManager
-		 * \param Chemin du fichier de configuration
+		 * \param path : Chemin du fichier de configuration
 		 */
 		ConfigFileManager(std::string path);
 		
@@ -62,31 +58,32 @@ namespace PolyBomber
 		
 		/*!
 		 * \brief Ecriture de la configuration clavier par défaut du joueur donné
+		 * \param player : Numéro du joueur (de 1 à 4)
 		 */
 		void setDefaultKeyboardConfig(int player);
 		
 		/*!
-		 * \see IConfigFile#setStringValue
+		 * \see IConfigFile::setStringValue
 		 */
 		virtual void setStringValue(std::string key, std::string value);
 		
 		/*!
-		 * \see IConfigFile#setIntValue
+		 * \see IConfigFile::setIntValue
 		 */
 		virtual void setIntValue(std::string key, int value);
 		
 		/*!
-		 * \see IConfigFile#getStringValue
+		 * \see IConfigFile::getStringValue
 		 */
 		virtual std::string getStringValue(std::string key);
 		
 		/*!
-		 * \see IConfigFile#getIntValue
+		 * \see IConfigFile::getIntValue
 		 */
 		virtual int getIntValue(std::string key);
 		
 		/*!
-		 * \see IConfigFile#getKeys
+		 * \see IConfigFile::getKeys
 		 */
 		virtual std::vector<std::string> getKeys();
 		
@@ -104,22 +101,21 @@ namespace PolyBomber
 		
 		/*!
 		 * \brief Vérifie la présence d'une clé dans le fichier de configuration
-		 * \param Clé recherchée
+		 * \param key : Clé recherchée
 		 * \return Vrai si la clé est présente, Faux sinon
 		 */
 		bool contains(std::string key);
 		
 		/*!
 		 * \brief Supprime l'entrée clé,valeur dont la clé correspond à key
-		 * \param Clé de l'entrée à supprimer
+		 * \param key : Clé de l'entrée à supprimer
 		 */
 		void remove(std::string key);
 		
 		/*!
 		 * \brief Création d'un fichier de configuration par défaut si celui-ci n'existe pas
 		 */
-		void createDefault();
-		
+		void createDefault();		
   };
 }
 

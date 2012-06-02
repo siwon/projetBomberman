@@ -25,6 +25,7 @@ namespace PolyBomber
 		public:
 			/*!
 			 * Constructeur
+			 * \param menuConfig : Structure de configuration du menu
 			 */
 			SelectNameMenu(SMenuConfig* menuConfig);
 
@@ -74,16 +75,16 @@ namespace PolyBomber
 			void loopAction(EMenuScreen*);
 
 		private:
-			TextWidget title;
-			TextWidget error;
+			TextWidget title; /*!< Titre du menu */
+			TextWidget error; /*!< Message d'erreur */
 
-			TextWidget* nameTexts[4];
-			InputWidget* names[4];
+			TextWidget* nameTexts[4]; /*!< Textes des noms des joueurs */
+			InputWidget* names[4]; /*!< Zones de saisie des noms */
 			
-			LinkWidget cancel;
-			LinkWidget next;
+			LinkWidget cancel; /*!< Lien pour annuler et revenir au menu de jeu */
+			LinkWidget next; /*!< Lien pour valider et aller au menu d'attente */
 
-			SMenuConfig* menuConfig;
+			SMenuConfig* menuConfig; /*!< Structure de configuration des menus */
 
 			/*!
 			 * \brief Méthode pour initialiser les widgets

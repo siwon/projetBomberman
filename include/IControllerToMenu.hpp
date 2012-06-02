@@ -18,9 +18,6 @@ namespace PolyBomber
 	 */
 	class IControllerToMenu
 	{
-		
-
-
 		public:
 			/*!
 			 * \brief Récupération de la touche appuyée

@@ -12,6 +12,9 @@ namespace PolyBomber
 	/*!
 	 * \class ClickableWidget
 	 * \brief Classe du widget interactif
+	 *
+	 * Les widgets héritant cette classe pourront être
+	 * sélectionner avec le clavier
 	 */
 	class ClickableWidget
 	{
@@ -28,11 +31,13 @@ namespace PolyBomber
 
 			/*!
 			 * \brief Constructeur de copie
+			 * \param obj : Objet à copier
 			 */
 			ClickableWidget(const ClickableWidget& obj);
 
 			/*!
 			* \brief Opérateur d'affectation
+			* \param obj : Objet à copier
 			*/
 			ClickableWidget& operator=(const ClickableWidget& obj);
 

@@ -7,19 +7,12 @@
  * \author Simon Rousseau
  */
 
-/** Includes **/
-//Bibliothèque standard
-
-
 //Bibliothèque SFML
 #include <SFML/System/Vector2.hpp>
 
-//Bibliothèque externes
-
-
 //Headers du projet
-#include "./EOrientation.hpp"
-#include "./EPlayerState.hpp"
+#include "EOrientation.hpp"
+#include "EPlayerState.hpp"
 
 namespace PolyBomber {
   /*!
@@ -30,9 +23,9 @@ namespace PolyBomber {
   struct SPlayer {
     sf::Vector2<int> coords;	/*! Coordonnées du joueur */
     EOrientation orientation;	/*! Orientation du joueur */
-    unsigned int number;		/*!  */
+    unsigned int number;		/*! Numéro du joueur (1-4) */
     EPlayerState state;		/*! Etat du joueur (vivant ou pas) */
-    unsigned int step;		/*!  */
+    unsigned int step;		/*! Compteur incrémentant les pas du joueur */
   };
 }
 

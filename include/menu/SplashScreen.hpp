@@ -34,8 +34,8 @@ namespace PolyBomber
 			EMenuScreen run(MainWindow& window, EMenuScreen previous);
 
 		private:
-			ImageWidget splash;
-			ImageWidget wiiScreen;
+			ImageWidget splash; /*!< Image de présentation */
+			ImageWidget wiiScreen; /*!< Image pour brancher la Wii */
 	};
 }
 

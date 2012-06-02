@@ -25,7 +25,7 @@ namespace PolyBomber
 		public:
 			/*!
 			 * Constructeur
-			 * \param menuConfig : Structure de configuration des parties
+			 * \param menuConfig : Structure de configuration du menu
 			 */
 			JoinGameMenu(SMenuConfig* menuConfig);
 
@@ -70,16 +70,16 @@ namespace PolyBomber
 			void loopAction(EMenuScreen*);
 
 		private:
-			TextWidget title;
-			TextWidget error;
+			TextWidget title; /*!< Titre du menu */
+			TextWidget error; /*!< Message d'erreur */
 			
-			TextWidget ipText;
-			InputWidget ipInput;
+			TextWidget ipText; /*!< Label pour la zone de texte */
+			InputWidget ipInput; /*!< Zone de texte pour rentrer l'adresse IP du serveur */
 						
-			LinkWidget cancel;
-			LinkWidget next;
+			LinkWidget cancel; /*!< Lien pour annuler et retourner au menu de jeu */
+			LinkWidget next; /*!< Lien pour valider et sélectionner le nombre de joueurs locaux */
 
-			SMenuConfig* menuConfig;
+			SMenuConfig* menuConfig; /*!< Structure de configuration du menu */
 	};
 }
 

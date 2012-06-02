@@ -68,11 +68,11 @@ namespace PolyBomber
 			EMenuScreen run(MainWindow& window, EMenuScreen previous);
 
 		private:
-			TextWidget title;
-			TextWidget error;
-			TextWidget* playerText[4];
-			SelectionWidget* playerController[4];
-			LinkWidget cancel;
+			TextWidget title; /*!< Titre du menu */
+			TextWidget error; /*!< Message d'erreur */
+			TextWidget* playerText[4]; /*!< Noms des joueurs */
+			SelectionWidget* playerController[4]; /*!< Widget de sélection du contrôleur */
+			LinkWidget cancel; /*!< Lien pour retourner au menu précédent */
 
 			/*!
 			 * \brief Initialisation des contrôleurs

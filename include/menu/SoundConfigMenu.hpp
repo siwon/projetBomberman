@@ -68,13 +68,13 @@ namespace PolyBomber
 			EMenuScreen run(MainWindow& window, EMenuScreen previous);
 
 		private:
-			TextWidget title;
-			TextWidget soundText;
-			TextWidget musicText;
-			SelectionWidget soundVolume;
-			SelectionWidget musicVolume;
-			LinkWidget cancel;
-			LinkWidget save;
+			TextWidget title; /*!< Titre du menu */
+			TextWidget soundText; /*!< Texte pour le volume du son */
+			TextWidget musicText; /*!< Texte pour le volume de la musique */
+			SelectionWidget soundVolume; /*!< Widget de sélection du volume des sons */
+			SelectionWidget musicVolume; /*!< Widget de sélection du volume des musiques */
+			LinkWidget cancel; /*!< Lien pour annuler vers le menu d'options */
+			LinkWidget save; /*!< Lien pour sauvegarder la configuration du son et retourner au menu d'options */
 	};
 }
 

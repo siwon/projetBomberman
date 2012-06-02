@@ -25,6 +25,7 @@ namespace PolyBomber
 		public:
 			/*!
 			 * \brief Constructeur
+			 * \param menuConfig : Structure de configuration du menu
 			 */
 			ScoreMenu(SMenuConfig* menuConfig);
 
@@ -44,16 +45,19 @@ namespace PolyBomber
 			EMenuScreen run(MainWindow& window, EMenuScreen previous);
 
 		private:
-			TextWidget title;
-			TextWidget winner;
+			TextWidget title; /*!< Titre du menu */
+			TextWidget winner; /*!< Texte indiquant le gagnant de la partie */
 
-			ImageWidget* pictures[4];
-			TextWidget* names[4];
+			ImageWidget* pictures[4]; /*!< Images des joueurs */
+			TextWidget* names[4]; /*!< Noms et scores des joueurs */
 			
-			LinkWidget back;
+			LinkWidget back; /*!< Lien pour retourner au menu principal */
 
-			SMenuConfig* menuConfig;
+			SMenuConfig* menuConfig; /*!< Structure de configuration du menu */
 
+			/*!
+			 * \brief Méthode pour initialiser les widgets du menu
+			 */
 			void initWidgets();
 	};
 }

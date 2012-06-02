@@ -13,9 +13,9 @@ namespace PolyBomber {
   * \brief Enumération des différents types de flammes
   */
   enum EFlameLocation {
-    ORIGIN =0,	/*! Origine de la flamme */
-    MIDDLE,	/*! Milieu de la flamme */
-    END		/*! Fin de la flamme */
+    ORIGIN =0,	/*!< Origine de la flamme */
+    MIDDLE,	/*!< Milieu de la flamme */
+    END		/*!< Fin de la flamme */
   };
 }
 

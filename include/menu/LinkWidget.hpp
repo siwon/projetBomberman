@@ -38,11 +38,13 @@ namespace PolyBomber
 
 			/*!
 			 * \brief Constructeur de copie
+			 * \param obj : Objet à copier
 			 */
 			LinkWidget(const LinkWidget& obj) throw(PolyBomberException);
 
 			/*!
 			* \brief Opérateur d'affectation
+			* \param obj : Objet à copier
 			*/
 			LinkWidget& operator=(const LinkWidget& obj) throw(PolyBomberException);
 

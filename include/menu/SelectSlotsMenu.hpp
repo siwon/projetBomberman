@@ -21,13 +21,15 @@ namespace PolyBomber
 	/*!
 	 * \class SelectSlotsMenu
 	 * \brief Classe de gestion du menu pour rejoindre une partie
+	 *
+	 * Ce menu permet de sélectionner le nombre de joueurs sur l'ordinateur courant
 	 */
 	class SelectSlotsMenu : public IMenuScreen
 	{
 		public:
 			/*!
 			 * Constructeur
-			 * \param menuConfig : Structure de configuration des parties
+			 * \param menuConfig : Structure de configuration du menu
 			 */
 			SelectSlotsMenu(SMenuConfig* menuConfig);
 
@@ -77,16 +79,16 @@ namespace PolyBomber
 			void loopAction(EMenuScreen* nextScreen);
 
 		private:
-			TextWidget title;
-			TextWidget error;
+			TextWidget title; /*!< Titre du menu */
+			TextWidget error; /*!< Message d'erreur */
 			
-			TextWidget nbPlayersText;
-			SelectionWidget nbPlayers;
+			TextWidget nbPlayersText; /*!< Texte du nombre de joueurs locaux */
+			SelectionWidget nbPlayers; /*!< Widget de sélection du nombre de joueurs */
 						
-			LinkWidget cancel;
-			LinkWidget next;
+			LinkWidget cancel; /*!< Lien pour annuler et revenir au menu de jeu */
+			LinkWidget next; /*!< Lien pour valider et sélectionner les noms des joueurs */
 
-			SMenuConfig* menuConfig;
+			SMenuConfig* menuConfig;/*!< Structure de configuration du menu */
 
 			INetworkToMenu* network; /*!< Lien vers le module réseau */
 	};
