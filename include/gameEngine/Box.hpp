@@ -9,8 +9,6 @@
 
 #include "Location.hpp"
 
-#include "DefineAndFunction.hpp"
-
 namespace PolyBomber {
 	/*!
 	 * \class Box
@@ -20,9 +18,22 @@ namespace PolyBomber {
 	class Box : public Location {
 		
 	public:
+		/*!
+		 * \brief Constructeur de la classe Box
+		 * \param x : Abscisse de la caisse (en case)
+		 * \param y : Ordonné de la caisse (en case)
+		 */
 		Box(int, int);
+		
+		/*!
+		 * \brief Constructeur par recopie de la classe Box
+		 * \param boite : Caisse à recopier
+		 */
 		Box(const Box&);
-		//Box& operator=(Box&);
+		
+		/*!
+		 * \brief Destructeur de la classe Box
+		 */
 		~Box();
 	};
 }

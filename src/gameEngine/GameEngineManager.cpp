@@ -161,7 +161,6 @@ namespace PolyBomber {
 			int time=horloge.getElapsedTime().asSeconds();
 			int time2=horloge.getElapsedTime().asMilliseconds();
 			SKeyPressed sKeyPressed = network->getKeysPressed();
-			std::cout << "numero du joueur en pause : "<< network->isPaused() << std::endl;
 			if (network->isPaused()) {//si le jeu est en pause
 				if(debutPause==0) {
 					debutPause=time;//stockage du début de la pause

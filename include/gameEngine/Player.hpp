@@ -12,10 +12,7 @@
 
 #include "Bonus.hpp"
 #include "Location.hpp"
-
 #include "EOrientation.hpp"
-
-#include "gameEngine/DefineAndFunction.hpp"
 
 namespace PolyBomber {
 	/*!
@@ -24,20 +21,20 @@ namespace PolyBomber {
 	 */
 	class Player : public Location {
     protected:
-		int id;				/*! Identifiant du joueur */
-		int speed;			/*! Vitesse du joueur */
-		int capacity;		/*! Nombre de bombes qu un joueur peut poser */
-		EOrientation orientation;	/*! Orientation du joueur */
-		bool alive;	/*! Statut du joueur */
-		int step;			/*! Etat de la jambe du joueur */
-		int lastMove; //date du dernier mouvement
-		int lastActionSecond; //date de la dernière action 2 en secondes
-		int range;
-		bool detonator;
-		int saveCaracBeforeInfectionDilatation;
+		int id;				/*< Identifiant du joueur */
+		int speed;			/*< Vitesse du joueur */
+		int capacity;		/*< Nombre de bombes qu un joueur peut poser */
+		EOrientation orientation;	/*< Orientation du joueur */
+		bool alive;	/*< Statut du joueur */
+		int step;			/*< Etat de la jambe du joueur */
+		int lastMove; /*< Date du dernier mouvement */
+		int lastActionSecond; /*< Date de la dernière action 2 en secondes */
+		int range; /*< Portée du joueur */
+		bool detonator; /*< Le joueur possède un détonateur */
+		int saveCaracBeforeInfectionDilatation; /*< Permet une sauvegarde des caractéristiques avant l'infection dilatation */
 		//Bonus du joueur
-		std::vector<Bonus> bombBonus;
-		int infection;
+		std::vector<Bonus> bombBonus; /*< Vecteur des bonus attribués au joueur */
+		int infection; /*< Type d'infection que le joueur a */
 		
 	private:
 		void removeInfection();
