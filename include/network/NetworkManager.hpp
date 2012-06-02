@@ -196,6 +196,11 @@ namespace PolyBomber
 			 * faux sinon
 			 */
 			bool isDeconnected();
+			
+			/*!
+			 * \brief permet d'attribuer une valeur à l'attribut deconnect de façon synchronisée
+			 */
+			void setDeconnected(bool);
 
 			
 public:

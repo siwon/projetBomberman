@@ -28,6 +28,9 @@ namespace PolyBomber
 		public:
 			/*!
 			 * \brief Constructeur
+			 * \param entier : identifient du joueur
+			 * \param adresse ip : adresse ip du joueur
+			 * \param chaine de caractère : nom du joueur, par defaut None
 			 */
 			DataPlayer(int, sf::IpAddress, std::string pName ="None");
 
@@ -54,21 +57,23 @@ namespace PolyBomber
 			
 			/*!
 			 * \brief enregistre un nom pour le joueur
+			 * \param le nom du joueur
 			 */
 			inline void setName(std::string pName) {this->name=pName;}
 			
 			/*!
-			 * \brief Constructeur
+			 * \brief enregistre l'état du joueur
+			 * \param état du joueur
 			 */
 			inline void setConnected(bool a) {this->connected=a;}
 			
 			/*!
-			 * \brief Constructeur
+			 * \brief accesseur sur le nom du joueur;
 			 */
 			inline std::string getName() {return this->name;}
 			
 			/*!
-			 * \brief Constructeur
+			 * \brief accesseur sur l'etat du joueur;
 			 */
 			inline bool isConnected() {return this->connected;}
 
