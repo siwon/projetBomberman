@@ -870,7 +870,7 @@ namespace PolyBomber {
 			}
 		}
 		//fait la vérification des bombes (flamme qui déclenche les autres)
-		for (int i=bomb.size()-1; i>=0; i--) {//TODO faire aussi la vérification des mines et remote bomb sur des flammes
+		for (int i=bomb.size()-1; i>=0; i--) {
 			if (isAFlameInThisCase(bomb[i].getLocationX(),bomb[i].getLocationY())) {
 				explodeBomb(bomb[i].getLocationX(),bomb[i].getLocationY());
 			}

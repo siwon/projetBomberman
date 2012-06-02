@@ -80,3 +80,14 @@ sudo rm -rf lib/SFML2.0/tools/pkg-config/sfml-graphics.pc
 sudo rm -rf lib/SFML2.0/tools/pkg-config/sfml-network.pc
 sudo rm -rf lib/SFML2.0/tools/pkg-config/sfml-system.pc
 sudo rm -rf lib/SFML2.0/tools/pkg-config/sfml-window.pc
+
+sudo cp /usr/local/lib/libsfml-audio.2.0 /usr/lib
+sudo cp /usr/local/lib/libsfml-graphics.2.0 /usr/lib
+sudo cp /usr/local/lib/libsfml-network.2.0 /usr/lib
+sudo cp /usr/local/lib/libsfml-window.2.0 /usr/lib
+sudo cp /usr/local/lib/libsfml-system.2.0 /usr/lib
+sudo cp /usr/local/lib/libsfml-audio.2 /usr/lib
+sudo cp /usr/local/lib/libsfml-graphics.2 /usr/lib
+sudo cp /usr/local/lib/libsfml-network.2 /usr/lib
+sudo cp /usr/local/lib/libsfml-window.2 /usr/lib
+sudo cp /usr/local/lib/libsfml-system.2 /usr/lib
