@@ -7,8 +7,12 @@
  * \author Simon ROUSSEAU
  */
 
+#include <vector>
+#include <iostream>
+
 #include "Bonus.hpp"
 #include "Location.hpp"
+#include "EOrientation.hpp"
 
 namespace PolyBomber {
 	/*!
