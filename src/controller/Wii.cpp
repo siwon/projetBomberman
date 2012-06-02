@@ -141,7 +141,7 @@ namespace PolyBomber
 				case CWiimote::EVENT_EVENT :
 					for(int i=0;i<7;i++)
 					{
-						if(wiimote.Buttons.isJustPressed(keys[i]))
+						if(wiimote.Buttons.isPressed(keys[i]))
 							gameActions[player-1].actions[i] = true;
 						else if(wiimote.Buttons.isReleased(keys[i]))
 							gameActions[player-1].actions[i] = false;
