@@ -875,6 +875,20 @@ namespace PolyBomber {
 				explodeBomb(bomb[i].getLocationX(),bomb[i].getLocationY());
 			}
 		}
+		
+		//fait la vérification des remoteBomb
+		for (unsigned int i=0; i<remoteBomb.size(); i++) {
+			if (isAFlameInThisCase(remoteBomb[i].getLocationX(),remoteBomb[i].getLocationY())) {
+				explodeRemoteBomb(i,date);
+			}
+		}
+		
+		//fait la vérification des mines
+		for (unsigned int i=0; i<mine.size(); i++) {
+			if (isAFlameInThisCase(mine[i].getLocationX(),mine[i].getLocationY())) {
+				explodeMine(mine[i].getLocationX(),mine[i].getLocationY(),date);
+			}
+		}
 	}
 	
 	void Board::activateAllMine() {
