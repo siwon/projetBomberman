@@ -32,11 +32,6 @@ namespace PolyBomber
 	{
 		PolyBomberApp::getIControllerToMenu()->setWindow(window.getWindow());
 
-		for (int i=0; i<3; i++)
-			this->scores[i] = 0;
-
-		this->winner = -1;
-
 		initMenuConfig();
 
 		// Ajout des menus
@@ -83,13 +78,15 @@ namespace PolyBomber
 		{			
 			if (screen != RUNGAME)
 			{
+				// Changement de menu
 				next = this->menuScreens[screen]->run(this->window, old);
 				old = screen;
 				screen = next;
 			}
 			else
 			{
-				signal = gameInterface->run(window.getWindow(), this->scores, this->winner);
+				// Lancement d'une partie
+				signal = gameInterface->run(window.getWindow(), this->menuConfig.scores, this->menuConfig.winner);
 				
 				if (signal == EXITGAME)
 				{
@@ -128,10 +125,18 @@ namespace PolyBomber
 		this->menuConfig.gameConfig.isLocal = true;
 		this->menuConfig.gameConfig.nbPlayers = 2;
 
+		// Nom des joueurs
 		for (i=0; i<4; i++)		
 			this->menuConfig.gameConfig.playersName[i] = "";
 
+		// Nombre de bonus
 		for (i=0; i<18; i++)
 			this->menuConfig.gameConfig.nbBonus[i] = nbBonus[i];
+
+		// Score
+		for (int i=0; i<3; i++)
+			this->menuConfig.scores[i] = 0;
+
+		this->menuConfig.winner = 0;			
 	}
 }

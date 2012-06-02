@@ -39,11 +39,9 @@ namespace PolyBomber {
 	}
 	
 	void Board::generateFlameHorizontal(int x, int y, int range, int date) {
-		std::cout << range << std::endl;
 		//sf::sleep(sf::seconds(3));
 		if (y>=0 && y<13) {
 		for (int i=1; i<range; i++) {
-			std::cout << x << ":" << y << std::endl;
 			if ((x)%2==0 && y+i%2==0) {
 				if ((x+i)<19)
 					flame.push_back(Flame(x+i,y,ORIENTATION_RIGHT,ORIGIN,date+DUREEFLAMME));
@@ -205,7 +203,7 @@ namespace PolyBomber {
 						}
 					}
 				} else {
-					if (y-1%5>2) {
+					if (y-1%5<2) {
 						pl.move(x,y-1);
 						if (y-1%5!=2) {//si on est pas centré sur la case, alors la position est corrigée
 							pl.centrerPlayerSurAxeHorizontal();
@@ -261,7 +259,7 @@ namespace PolyBomber {
 						}
 					}
 				} else {
-					if (((x+1)%5)>=2) {
+					if (((x+1)%5)<2) {
 						pl.move(x+1,y);
 						if (((x+1)%5)!=2) {
 							pl.centrerPlayerSurAxeVertical();
@@ -359,10 +357,8 @@ namespace PolyBomber {
 	 */
 	void Board::actionToucheAction1(int player, int date, int date2) {
 		Player& pl = getPlayerById(player);
-		if (pl.getAlive() && pl.getLastMove()+pl.getSpeed()<date2) { 
-			std::cout << "Bombe player : " << player << " => " << pl.getCapacity() << std::endl;
+		if (pl.getAlive() && pl.getLastMove()+pl.getSpeed()<date2) {
 			if (pl.getCapacity()>0 && !isABombInThisCase(cranToCase(pl.getLocationX()),cranToCase(pl.getLocationY()))) {//le joueur peut poser une bombe
-				std::cout << "Puddi" << std::endl;
 				bomb.push_back(Bomb(date,pl,0));
 				pl.decrementCapacity();
 			}
@@ -372,27 +368,18 @@ namespace PolyBomber {
 	
 	void Board::actionToucheAction2(int player, int date, int date2) {
 		Player& pl = getPlayerById(player);
-		std::cout << "Tests d'entrée :" << std::endl;
-		//std::cout << "getAlive() : " << pl.getAlive() << std::endl;
-		//std::cout << "gestion du temps : " << (pl.getLastMove()+pl.getSpeed()<date2) << std::endl;
-		//sf::sleep(sf::seconds(3));
 
 		if (pl.getAlive() && pl.getLastMove()+pl.getSpeed()<date2 && pl.getLastAction2()+1<date) {
 			if (pl.getBombBonus().size()>0) {
 				EGameBonus bon = pl.getFirstBombBonus();
-				std::cout << "type de bombe : " << bon <<std::endl;
 				//utiliser le 1er bonus puis le supprimer de la liste
 				if (bon==INFINITYBOMB) {
-					std::cout << "Type de bombe : INFINITYBOMB" << std::endl;
 					bomb.push_back(Bomb(date,pl,1));
 				} else if (bon==ATOMICBOMB) {
-					std::cout << "Type de bombe : ATOMICBOMB" << std::endl;
 					bomb.push_back(Bomb(date,pl,2));
 				} else if (bon==MINE) {
-					std::cout << "Type de bombe : ATOMICBOMB" << std::endl;
 					mine.push_back(Mine(pl));
-				} else { //bombline => fonctionne
-					std::cout << "Type de bombe : OTHER" << std::endl;
+				} else {
 					EOrientation orient = pl.getOrientation();
 					int x=cranToCase(pl.getLocationX());
 					int y=cranToCase(pl.getLocationY());
@@ -445,26 +432,19 @@ namespace PolyBomber {
 							break;
 					}
 				}
-				//bomb.erase(bomb.begin());
 				pl.eraseFirstBonus();
 			} else {
 				if (pl.getDetonator()) {
-					std::cout << "Type de bombe : DETONATOR" << std::endl;
 					bool remoteBombDejaPosee=false;
 					int indiceRemoteBomb;
 					for (unsigned int i=0;i<remoteBomb.size();i++) {
 						if (remoteBomb[i].getPlayer()==player) {
 							remoteBombDejaPosee=true;
-							std::cout << "puddi was here " << std::endl;
 							indiceRemoteBomb=i;
 						}
-						std::cout << "puddi was here3s " << std::endl;
 					}
-					std::cout << "deja posee : " << remoteBombDejaPosee << std::endl;
 					if (remoteBombDejaPosee)
-					std::cout << "position : " << (cranToCase(pl.getLocationX())) << ":" << remoteBomb[indiceRemoteBomb].getLocationX() <<":"<<cranToCase(pl.getLocationY()) << "," <<remoteBomb[indiceRemoteBomb].getLocationY() << std::endl;
 					if (remoteBombDejaPosee && (cranToCase(pl.getLocationX())!=remoteBomb[indiceRemoteBomb].getLocationX() || cranToCase(pl.getLocationY())!=remoteBomb[indiceRemoteBomb].getLocationY())) {
-						std::cout << "puddi was here2 " << std::endl;
 						explodeRemoteBomb(indiceRemoteBomb, date);
 					} else {
 						remoteBomb.push_back(RemoteBomb(pl));
@@ -646,29 +626,18 @@ namespace PolyBomber {
 	
 	void Board::explodeBomb(unsigned int indice) {
 		int type=bomb[indice].getType();
-		std::cout << "Debut" << type << std::endl;
-		if (type==0 || type==3) {//TODO : vérifier l'utilité de "type==3"
-			std::cout << "Puddi 2" << std::endl;
+		if (type==0 || type==3) {
 			generateFlame(bomb[indice].getLocationX(),bomb[indice].getLocationY(),bomb[indice].getRange(),bomb[indice].getTimeOfExplosion()+DUREEFLAMME);
-			if (type==0) { //TODO : ajouter type 3 ?
+			if (type==0) {
 				Player& pl = getPlayerById(bomb[indice].getPlayer());
-				std::cout << "Puddi 2" << std::endl;
 				pl.incrementCapacity();
-				std::cout << "increment" << std::endl;
 			}
 		} else if (type==1) {
-			std::cout << "Puddi 3" << std::endl;
 			generateFlameInfinityBomb(indice,bomb[indice].getTimeOfExplosion()+DUREEFLAMME);
 		} else if (type==2) {
-			std::cout << "Puddi 4" << std::endl;
 			generateFlameAtomicBomb(indice,bomb[indice].getTimeOfExplosion()+DUREEFLAMME);
 		}
-		
-		
-		//std::cout << "tfin : " << type << std::endl;
 		bomb.erase(bomb.begin()+indice);
-		//if (type!=0)
-			//sf::sleep(sf::milliseconds(5000));
 	}
 	
 	void Board::explodeRemoteBomb(unsigned int indice, int date) {
@@ -748,21 +717,12 @@ namespace PolyBomber {
 		int y = bomb[indice].getLocationY();
 		int range = bomb[indice].getRange();
 		
-		std::cout << "x " << x << std::endl;
-		std::cout << "y " << y << std::endl;
-		std::cout << "range " << range << std::endl;
-		
-		//sf::sleep(sf::seconds(5));
-		
 		generateFlame(x,y,range,date);
-		std::cout << "generateFlame DONE ! " << std::endl;
 		
 		for (int i=1; i<range; i++) {//génération de toutes les flammes horizontales
 			generateFlameHorizontal(x,y+i,range-i,date);
 			generateFlameHorizontal(x,y-i,range-i,date);
 		}
-		//sf::sleep(sf::seconds(5));
-		//bomb.erase(bomb.begin()+indice);
 	}
 	
 	Bonus Board::getBonusByCoord(int x, int y) {//on suppose que le bonus existe
@@ -860,7 +820,6 @@ namespace PolyBomber {
 							break;
 					}
 				} else {
-					std::cout << "sur un bonus" << std::endl;
 					player[i].addBonus(bon);
 				}
 				removeBonusByCoord(x,y);
@@ -1032,7 +991,6 @@ namespace PolyBomber {
 			} else {
 				indice++;
 			}
-			std::cout << "je boucle" << std::endl;
 		}
 	}
 	

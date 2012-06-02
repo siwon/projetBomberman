@@ -37,7 +37,7 @@ namespace PolyBomber {
 		~Bomb();
 		
 		inline int getTimeOfExplosion() const {return this->timeOfExplosion;}
-		inline int getType() const {std::cout << "get type " << type << std::endl; return this->type;}
+		inline int getType() const {return this->type;}
 		inline void decalerExplosion(int nbSecondes) {this->timeOfExplosion=this->timeOfExplosion+nbSecondes;}
 	};
 }

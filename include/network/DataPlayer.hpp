@@ -35,14 +35,40 @@ namespace PolyBomber
 			 * \brief Destructeur
 			 */
 			~DataPlayer();
+			
+			/*!
+			 * \brief Constructeur par recopie
+			 */
 			DataPlayer(const DataPlayer &obj);
+			
+			/*!
+			 * \brief surcharge de l'opérateur d'affectation
+			 */
 			DataPlayer& operator=(const DataPlayer &obj);
-
+			
+			/*!
+			 * \brief Constructeur
+			 */
 			inline sf::IpAddress getIp() const {return this->ip;}
-
+			
+			/*!
+			 * \brief Constructeur
+			 */
 			inline void setName(std::string pName) {this->name=pName;}
+			
+			/*!
+			 * \brief Constructeur
+			 */
 			inline void setConnected(bool a) {this->connected=a;}
+			
+			/*!
+			 * \brief Constructeur
+			 */
 			inline std::string getName() {return this->name;}
+			
+			/*!
+			 * \brief Constructeur
+			 */
 			inline bool isConnected() {return this->connected;}
 
 

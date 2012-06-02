@@ -109,7 +109,6 @@ namespace PolyBomber {
 		if (!gameConfigIsSet) {
 			resetConfig();
 		}
-		std::cout << gameConfig.nbPlayers<< std::endl;
 		int nbPlayer = gameConfig.nbPlayers;
 		int nbBonusTemp;
 		int x=rand()%19;
@@ -153,7 +152,7 @@ namespace PolyBomber {
 			int time=horloge.getElapsedTime().asSeconds();
 			int time2=horloge.getElapsedTime().asMilliseconds();
 			SKeyPressed sKeyPressed = network->getKeysPressed();
-			//std::cout << "time = " << time << std::endl;
+			std::cout << "numero du joueur en pause : "<< network->isPaused() << std::endl;
 			if (network->isPaused()) {//si le jeu est en pause
 				if(debutPause==0) {
 					debutPause=time;//stockage du début de la pause
@@ -194,14 +193,6 @@ namespace PolyBomber {
 				
 				//gestion des touches
 				for (unsigned int i=0; i<board.getNbPlayer(); i++) { //pour chaque zoueur
-					/*std::cout << "Player : " << i << " :" << std::endl;
-					std::cout << "\tHaut : " << sKeyPressed.keys[i][0] << std::endl;
-					std::cout << "\tBas : " << sKeyPressed.keys[i][1] << std::endl;
-					std::cout << "\tGauche : " << sKeyPressed.keys[i][2] << std::endl;
-					std::cout << "\tDroite : " << sKeyPressed.keys[i][3] << std::endl;
-					std::cout << "\tAction 1 : " << sKeyPressed.keys[i][4] << std::endl;
-					std::cout << "\tAction 2 : " << sKeyPressed.keys[i][5] << std::endl;*/
-					
 					if (sKeyPressed.keys[i][0]==true) {//touche haut
 						this->mutexBoard.lock();
 						board.actionToucheHaut(i, time2);
@@ -239,7 +230,6 @@ namespace PolyBomber {
 
 			if (board.nbSurvivant()<=1) {
 				this->runnable=false;
-				std::cout << "Partie terminee" << std::endl;
 			}
 		}
 	}

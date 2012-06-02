@@ -60,9 +60,6 @@ namespace PolyBomber
 			std::map<EMenuScreen, IMenuScreen*> menuScreens; /*!< Liste des différents menus du jeu */
 
 			SMenuConfig menuConfig; /*!< Configuration des parties */
-
-			unsigned int scores[4]; /*!< Score des joueurs */
-			int winner; /*!< Gagnant de la dernière partie */
 	};
 }
 
