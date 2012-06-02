@@ -45,7 +45,7 @@ namespace PolyBomber
 
 		private:
 			TextWidget title;
-			//TextWidget winner;
+			TextWidget winner;
 
 			ImageWidget* pictures[4];
 			TextWidget* names[4];
