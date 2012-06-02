@@ -4,10 +4,10 @@
  * \author Maxime GUIHAL
  */
 
-#include <SFML/Graphics.hpp>
-
 #include "gameInterface/GameInterfaceManager.hpp"
 #include "PolyBomberApp.hpp"
+
+#include "EColorKey.hpp"
 
 #define ORIGX 68
 #define ORIGY 72
@@ -20,6 +20,16 @@ namespace PolyBomber
 		ISkin* skin = PolyBomberApp::getISkin();
 
 		this->background.setTexture(*skin->loadImage(GAME_BACKGROUND));
+
+		// Chargement de la police pour le texte
+		if (!this->font.loadFromFile("resources/fonts/normal.ttf"))
+			throw PolyBomberException("Impossible de charger la police du GameInterface");
+
+		this->finishText.setFont(this->font);
+		this->finishText.setCharacterSize(30);
+		this->finishText.setColor(skin->getColor(ERRORCOLOR));
+		this->finishText.setString("Partie terminee");
+		this->finishText.setPosition(320, -550);
 	}
 
 	GameInterfaceManager::~GameInterfaceManager()
@@ -31,21 +41,32 @@ namespace PolyBomber
 		IMenuToGameInterface* menu = PolyBomberApp::getIMenuToGameInterface();
 
 		int pause = 0;
+		bool running = true;
 
-		std::cout << "debut interface" << std::endl;
+		// On cache le texte de fin
+		this->finishText.setPosition(320, -550);
 
-		while (window->isOpen())// && !network->isFinished())
-		{			
+		while (running && window->isOpen()) 
+		{
 			sf::Event event;
 			while (window->pollEvent(event))
 				if (event.type == sf::Event::Closed) window->close();
 
+			// On teste la fin du jeu
+			if (network->isFinished() > 0)
+			{
+				running = false;
+				this->finishText.setPosition(320, 550);
+			}
+
   			window->clear();
 
   			update();
-  			
-			window->draw(this->background);
 
+  			// On dessine les sprites
+			window->draw(this->background);
+			window->draw(this->finishText);
+			
 			unsigned int i;
 
 			for (i=0; i<this->boxes.size(); i++)		window->draw(this->boxes[i]);
@@ -56,22 +77,20 @@ namespace PolyBomber
 
 			window->display();
 
+			// Gestion de la pause
 			if ((pause = network->isPaused()) != 0)
 			{
-				std::cout << "avant pause" << std::endl;
 				EScreenSignal signal = menu->runPause(pause);
-				std::cout << "apres pause" << std::endl;
-				if (signal == EXITGAME)
-					window->close();
-				else if (signal == EXITMENU)
-				{
-					std::cout << "exit menu" << std::endl;
-					network->resume();
-				}
+
+				if (signal == EXITGAME || signal == EXITERROR)
+					running = false;
 			}
 
 			sf::sleep(sf::milliseconds(50));
 		}
+
+		if (network->isFinished() > 0)
+			sf::sleep(sf::seconds(5));
 
 		return EXITGAME;
 	}
@@ -82,6 +101,7 @@ namespace PolyBomber
 		ISkin* skin = PolyBomberApp::getISkin();
 
 		SBoard board = network->getBoard();
+		std::cout << "getboard" << std::endl;
 		
 		std::vector<sf::Vector2<int> >::iterator itBoxes;
 		std::vector<SPlayer>::iterator itPlayers;

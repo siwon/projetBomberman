@@ -75,6 +75,18 @@ namespace PolyBomber
 			 * \brief remplit le tableau de noms des joueurs
 			 */
 			virtual void getPlayersName(std::string names[4]) =0;
+
+			/*!
+			 * \brief Obtenir le joueur qui a mis le jeu en pause
+			 * \return Numéro du joueur
+			 */
+			virtual int isPaused() =0;
+
+			/*!
+			 * \brief Reprendre la partie après une pause
+			 */
+			virtual void resume() = 0;
+
 			/*!
 			 * \brief Destructeur virtuel
 			 */

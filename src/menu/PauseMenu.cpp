@@ -27,6 +27,8 @@ namespace PolyBomber
 
 		resume.setSelected(true);
 
+		this->network = PolyBomberApp::getINetworkToMenu();
+
 		this->widgets.push_back(&title);
 		this->widgets.push_back(&resume);
 		this->widgets.push_back(&quit);
@@ -47,7 +49,10 @@ namespace PolyBomber
 		if (this->clock.getElapsedTime().asMilliseconds() > 250)
 		{
 			if (resume.getSelected())
+			{
 				*nextScreen = resume.activate();
+				this->network->resume();
+			}
 			
 			if (quit.getSelected())
 				*nextScreen = quit.activate();
@@ -56,7 +61,51 @@ namespace PolyBomber
 	
 	EMenuScreen PauseMenu::run(MainWindow& window, EMenuScreen previous)
 	{
+		this->resume.setSelected(true);
+		this->quit.setSelected(false);
 		this->clock.restart();
-		return IMenuScreen::run(window, previous);
+
+		IControllerToMenu* controller = PolyBomberApp::getIControllerToMenu();
+
+		EMenuScreen nextScreen = NONEMENU;
+			
+		while (nextScreen == NONEMENU)
+		{			
+			window.clear();
+			window.display(this->widgets);
+
+			EMenuKeys key = MENU_NONE;
+			int pause = 0;
+			
+			while ((key = controller->getKeyPressed()) == MENU_NONE && window.isOpen())
+			{
+				pause = this->network->isPaused();
+				if (pause == 0)
+				{
+					resume.activate();
+					break;
+				}
+			}
+
+			switch(key)
+			{
+				case MENU_DOWN:
+					downPressed();
+					break;
+				case MENU_UP:
+					upPressed();
+					break;
+				case MENU_VALID:
+					validPressed(&nextScreen);
+					break;
+				default:
+					break;
+			}
+
+			if (!window.isOpen())
+				nextScreen = EXIT;
+		}		
+
+		return nextScreen;
 	}
 }
