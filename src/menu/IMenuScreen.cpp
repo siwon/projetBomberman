@@ -21,48 +21,57 @@ namespace PolyBomber
 		IControllerToMenu* controller = PolyBomberApp::getIControllerToMenu();
 
 		EMenuScreen nextScreen = NONEMENU;
-			
-		while (nextScreen == NONEMENU)
-		{			
-			window.clear();
-			window.display(this->widgets);
 
-			loopAction(&nextScreen);
+		try
+		{
+			while (nextScreen == NONEMENU)
+			{			
+				window.clear();
+				window.display(this->widgets);
 
-			window.clear();
-			window.display(this->widgets);
+				loopAction(&nextScreen);
 
-			EMenuKeys key = MENU_NONE;
-			while ((key = controller->getKeyPressed()) == MENU_NONE && window.isOpen());
+				window.clear();
+				window.display(this->widgets);
 
-			switch(key)
-			{
-				case MENU_DOWN:
-					downPressed();
-					break;
-				case MENU_UP:
-					upPressed();
-					break;
-				case MENU_LEFT:
-					leftPressed();
-					break;
-				case MENU_RIGHT:
-					rightPressed();
-					break;
-				case MENU_VALID:
-					validPressed(&nextScreen);
-					break;
-				case MENU_BACK:
-					backPressed(&nextScreen);
-					break;
-				default:
-					break;
+				EMenuKeys key = MENU_NONE;
+				while ((key = controller->getKeyPressed()) == MENU_NONE && window.isOpen());
+
+				switch(key)
+				{
+					case MENU_DOWN:
+						downPressed();
+						break;
+					case MENU_UP:
+						upPressed();
+						break;
+					case MENU_LEFT:
+						leftPressed();
+						break;
+					case MENU_RIGHT:
+						rightPressed();
+						break;
+					case MENU_VALID:
+						validPressed(&nextScreen);
+						break;
+					case MENU_BACK:
+						backPressed(&nextScreen);
+						break;
+					default:
+						break;
+				}
+
+				if (!window.isOpen())
+					nextScreen = EXIT;
 			}
-
-			if (!window.isOpen())
-				nextScreen = EXIT;
 		}
-
+		catch (PolyBomberException& e)
+		{
+			std::cerr << e.what() << std::endl;
+			PolyBomberApp::getINetworkToMenu()->cancel();
+			nextScreen = GAMEMENU;
+		}
+		
 		return nextScreen;
 	}
 }

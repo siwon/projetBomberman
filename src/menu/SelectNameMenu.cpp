@@ -109,8 +109,8 @@ namespace PolyBomber
 		
 		if (next.getSelected())
 		{						
-			try
-			{
+			//try
+			//{
 				std::string names[4] = {"", "", "", ""};
 				bool error = false;
 				
@@ -129,14 +129,14 @@ namespace PolyBomber
 				}
 				else
 					this->error.setVisible(true);
-			}
+			/*}
 			catch (PolyBomberException& e)
 			{
 				std::cerr << e.what() << std::endl;
 				//FIXME: msg err
 				network->cancel();
 				*nextScreen = cancel.activate();
-			}
+			}*/
 		}
 	}
 

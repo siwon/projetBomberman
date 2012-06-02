@@ -89,7 +89,6 @@ namespace PolyBomber
 			SMenuConfig* menuConfig;
 
 			INetworkToMenu* network; /*!< Lien vers le module réseau */
-			bool errorException;
 	};
 }
 
