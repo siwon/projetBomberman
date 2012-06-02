@@ -638,7 +638,7 @@ namespace PolyBomber
 		sf::Packet packet;
 		sf::IpAddress ipLocal = sf::IpAddress::getLocalAddress();
 		packet << i << ipLocal.toString();
-		std::cout << "creation du paquet numero : " << i << std::cout;
+		std::cout << "creation du paquet numero : " << i << std::endl;
 		switch(i){
 			case 1 : // demande de getboard d'un client
 			std::cout << "demande du plateau" << std::endl;
@@ -660,14 +660,15 @@ namespace PolyBomber
 					std::cout << "debut denvoie des touches" << std::endl;
 					SKeyPressed keys = this->controller->getKeysPressed();
 					packet << keys;
-					
 				}
 				break;
 			case 5 : // demande des slots disponible
 
 				break;
 			case 6 : // envoi des slots disponibles
-				packet << this->getFreeSlots();
+				int w;
+				w = this->getFreeSlots();
+				packet << w;
 				break;
 			case 7 : // demande s'il y a une pause
 				std::cout << "demande de la pause" << std::endl;
@@ -680,12 +681,20 @@ namespace PolyBomber
 			case 9 : // demande s'il c'est fini
 				break;
 			case 10 : // envoi si c'est fini
-				packet << this->isFinished();
+				int w;
+				w = this->isFinished()
+				packet << w;
+				sf::Packet p;
+				p=packet;
+				p>>w
+				std::cout << "le paquet isfinish est de type "<<w<<std:endl;
 				break;
 			case 11 : // demande si c'est commencé
 				break;
 			case 12 : // envoi si c'est commencé
-				packet << this->isStarted();
+				bool w;
+				w = this->isStarted();
+				packet << w;
 				break;
 			case 13 : // demande du score
 				break;
@@ -697,8 +706,10 @@ namespace PolyBomber
 				break;
 			case 16 : // envoi des noms
 				for(unsigned int i=0;i<4;i++) {
-					if(i<players.size())
-						packet << this->players[i].getName();
+					if(i<players.size()){
+						std::string s = this->players[i].getName();
+						packet << s;
+					}
 					else
 						packet << "";
 				}
