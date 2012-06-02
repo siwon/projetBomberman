@@ -155,7 +155,6 @@ namespace PolyBomber
 					if (name.compare(value) == 0)
 					{
 						this->folder = *it;
-						std::cout << "setskin" << std::endl;
 						reloadName();
 						reloadTextures();
 					}
