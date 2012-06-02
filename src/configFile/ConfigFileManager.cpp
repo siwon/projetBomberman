@@ -105,7 +105,8 @@ namespace PolyBomber
 		for(int i=0; i<4; i++)
 			this->setDefaultKeyboardConfig(i+1);
 	
-		// A compléter pour les skins,...
+		this->setStringValue("skin.folder", "default");
+		this->setIntValue("window.fullscreen.enabled",0);
 	
 	}
 
