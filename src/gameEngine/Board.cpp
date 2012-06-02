@@ -43,23 +43,23 @@ namespace PolyBomber {
 	void Board::generateFlameHorizontal(int x, int y, int range, int date) {
 		//sf::sleep(sf::seconds(3));
 		if (y>=0 && y<13) {
-		for (int i=1; i<range; i++) {
-			if ((x)%2==0 && y+i%2==0) {
-				if ((x+i)<19)
-					flame.push_back(Flame(x+i,y,ORIENTATION_RIGHT,ORIGIN,date+DUREEFLAMME));
-				if ((x-i)>=0)
-					flame.push_back(Flame(x-i,y,ORIENTATION_LEFT,ORIGIN,date+DUREEFLAMME));
-			} else {
-				if ((x+i)<19)
-					flame.push_back(Flame(x+i,y,ORIENTATION_RIGHT,MIDDLE,date+DUREEFLAMME));
-				if ((x-i)>=0)
-					flame.push_back(Flame(x-i,y,ORIENTATION_LEFT,MIDDLE,date+DUREEFLAMME));
+			for (int i=1; i<range; i++) {
+				if ((x)%2==0 && y+i%2==0) {
+					if ((x+i)<19)
+						flame.push_back(Flame(x+i,y,ORIENTATION_RIGHT,ORIGIN,date+DUREEFLAMME));
+					if ((x-i)>=0)
+						flame.push_back(Flame(x-i,y,ORIENTATION_LEFT,ORIGIN,date+DUREEFLAMME));
+				} else {
+					if ((x+i)<19)
+						flame.push_back(Flame(x+i,y,ORIENTATION_RIGHT,MIDDLE,date+DUREEFLAMME));
+					if ((x-i)>=0)
+						flame.push_back(Flame(x-i,y,ORIENTATION_LEFT,MIDDLE,date+DUREEFLAMME));
+				}
 			}
-		}
-		if ((x+range)<19)
-			flame.push_back(Flame(x+range,y,ORIENTATION_RIGHT,END,date+DUREEFLAMME));
-		if ((x-range)>=0)
-			flame.push_back(Flame(x-range,y,ORIENTATION_LEFT,END,date+DUREEFLAMME));
+			if ((x+range)<19)
+				flame.push_back(Flame(x+range,y,ORIENTATION_RIGHT,END,date+DUREEFLAMME));
+			if ((x-range)>=0)
+				flame.push_back(Flame(x-range,y,ORIENTATION_LEFT,END,date+DUREEFLAMME));
 		}
 	}
 	
@@ -461,6 +461,19 @@ namespace PolyBomber {
 		box.erase(box.begin()+i);
 	}
 	
+	void Board::removeBonusByCoord(int x, int y) {
+		unsigned int indice = 0;
+		bool trouve = false;
+		while (indice < bonus.size() && !trouve) {
+			if (bonus[indice].getLocationX()==x && bonus[indice].getLocationY()==y) {
+				trouve=true;
+				bonus.erase(bonus.begin()+indice);
+			} else {
+				indice++;
+			}
+		}
+	}
+	
 	bool Board::caseIsFreeInitialisation(int x, int y) {
 		bool toReturn = true;
 		//test si c'est une coordonnee reservee
@@ -602,10 +615,6 @@ namespace PolyBomber {
 		return toReturn;
 	}
 	
-	void Board::applyBonus(int pl, Bonus b) {
-		player[pl].addBonus(b);
-	}
-	
 	void Board::effectuerDecalage(int nbSecondes) {
 		for (unsigned int i=0; i<this->flame.size(); i++) {
 			this->flame[i].decalerDebutFlame(nbSecondes);
@@ -613,6 +622,10 @@ namespace PolyBomber {
 		for (unsigned int i=0; i<this->bomb.size(); i++) {
 			this->bomb[i].decalerExplosion(nbSecondes);
 		}
+	}
+	
+	void Board::applyBonus(int pl, Bonus b) {
+		player[pl].addBonus(b);
 	}
 	
 	void Board::explodeBomb(int x, int y) {
@@ -749,19 +762,6 @@ namespace PolyBomber {
 			}
 		}
 		return toReturn;
-	}
-	
-	void Board::removeBonusByCoord(int x, int y) {
-		unsigned int indice = 0;
-		bool trouve = false;
-		while (indice < bonus.size() && !trouve) {
-			if (bonus[indice].getLocationX()==x && bonus[indice].getLocationY()==y) {
-				trouve=true;
-				bonus.erase(bonus.begin()+indice);
-			} else {
-				indice++;
-			}
-		}
 	}
 	
 	void Board::checkPosition(int date) {
