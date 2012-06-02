@@ -12,7 +12,7 @@
 #define VITESSEMAX 10
 #define PASVITESSE 40
 #define NOMBREBOMBEDEFAUT 2
-#define RANGEDEFAUT 1
+#define RANGEDEFAUT 5
 #define RANGEMIN 1
 #define RANGEMAX 19
 #define PASRANGE 1

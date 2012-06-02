@@ -194,13 +194,13 @@ namespace PolyBomber {
 				
 				//gestion des touches
 				for (unsigned int i=0; i<board.getNbPlayer(); i++) { //pour chaque zoueur
-					std::cout << "Player : " << i << " :" << std::endl;
+					/*std::cout << "Player : " << i << " :" << std::endl;
 					std::cout << "\tHaut : " << sKeyPressed.keys[i][0] << std::endl;
 					std::cout << "\tBas : " << sKeyPressed.keys[i][1] << std::endl;
 					std::cout << "\tGauche : " << sKeyPressed.keys[i][2] << std::endl;
 					std::cout << "\tDroite : " << sKeyPressed.keys[i][3] << std::endl;
 					std::cout << "\tAction 1 : " << sKeyPressed.keys[i][4] << std::endl;
-					std::cout << "\tAction 2 : " << sKeyPressed.keys[i][5] << std::endl;
+					std::cout << "\tAction 2 : " << sKeyPressed.keys[i][5] << std::endl;*/
 					
 					if (sKeyPressed.keys[i][0]==true) {//touche haut
 						this->mutexBoard.lock();
