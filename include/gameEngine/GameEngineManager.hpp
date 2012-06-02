@@ -35,7 +35,7 @@ namespace PolyBomber {
 		GameEngineManager();
 		
 		/*!
-		 * \brief Déstructeur de la classe GameEngineManager
+		 * \brief Destructeur de la classe GameEngineManager
 		 */
 		~GameEngineManager();
 
@@ -62,14 +62,14 @@ namespace PolyBomber {
 		 * \param origineX : Abscisse de la source de la flamme (en case)
 		 * \param origineY : Ordonné de la source de la flamme (en case)
 		 * \param range : Portée de la flamme
-		 * \param date : Date du jeu
+		 * \param date : Date du jeu (en secondes)
 		 */
 		void generateFlame(int, int, int, int);
 		
 		//decalageHoraire
 		/*!
 		 * \brief Effectue un décalage de toutes les horloges en cas de pause
-		 * \param secondes : Nombre de secondes de décalage
+		 * \param secondes : Temps de décalage (en secondes)
 		 */
 		void decalageHoraire(int);
 			
