@@ -13,9 +13,9 @@
 #include "Bonus.hpp"
 #include "Location.hpp"
 
-#include "../EOrientation.hpp"
+#include "EOrientation.hpp"
 
-#include "../gameEngine/DefineAndFunction.hpp"
+#include "gameEngine/DefineAndFunction.hpp"
 
 namespace PolyBomber {
 	/*!

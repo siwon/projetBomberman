@@ -9,6 +9,7 @@
 // Bibliotheques standards
 #include <ctime>
 #include <cstdlib>
+#include <vector>
 
 // Bibliotheques SFML
 #include <SFML/System.hpp>
@@ -17,7 +18,8 @@
 
 
 // Headers
-#include "../../include/gameEngine/Board.hpp"
+#include "gameEngine/DefineAndFunction.hpp"
+#include "gameEngine/Board.hpp"
 
 
 namespace PolyBomber {
@@ -443,7 +445,6 @@ namespace PolyBomber {
 							indiceRemoteBomb=i;
 						}
 					}
-					if (remoteBombDejaPosee)
 					if (remoteBombDejaPosee && (cranToCase(pl.getLocationX())!=remoteBomb[indiceRemoteBomb].getLocationX() || cranToCase(pl.getLocationY())!=remoteBomb[indiceRemoteBomb].getLocationY())) {
 						explodeRemoteBomb(indiceRemoteBomb, date);
 					} else {

@@ -30,19 +30,12 @@ namespace PolyBomber
 			virtual int getFreeSlots() = 0;
 			/*!
 			 * \brief Réservation des slots pour un nombre de joueur donné
-			 * \return rien
 			 */
 			virtual void setBookedSlots(unsigned int nb) = 0;
 			/*!
 			 * \brief Enregistrement du nom des joueurs
-			 * \return rien
 			 */
 			virtual void setPlayerName(std::string []) = 0;
-			/*!
-			 * \brief Obtention du score de chaque joueur
-			 * \return Tableau de 4 entiers
-			 */
-			virtual int* getScores() =0;
 			/*!
 			 * \brief 
 			 * \return VRAI si startGame() à déjà été déclanché
@@ -51,7 +44,6 @@ namespace PolyBomber
 			virtual bool isStarted() = 0;
 			/*!
 			 * \brief Signal du début de partie
-			 * \return rien
 			 */
 			virtual void startGame() =0;
 			/*!
@@ -61,32 +53,25 @@ namespace PolyBomber
 			virtual std::string getIpAddress() =0;
 			/*!
 			 * \brief Enregistrer les configuration de jeu
-			 * \return rien
 			 */
-
 			virtual void setGameConfig(SGameConfig& gameConfig) =0;
-
 			/*!
 			 * \brief annulation de la config de jeu en cours
 			 */
 			virtual void cancel() =0;
-
 			/*!
 			 * \brief remplit le tableau de noms des joueurs
 			 */
 			virtual void getPlayersName(std::string names[4]) =0;
-
 			/*!
 			 * \brief Obtenir le joueur qui a mis le jeu en pause
 			 * \return Numéro du joueur
 			 */
 			virtual int isPaused() =0;
-
 			/*!
 			 * \brief Reprendre la partie après une pause
 			 */
 			virtual void resume() = 0;
-
 			/*!
 			 * \brief Destructeur virtuel
 			 */

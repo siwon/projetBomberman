@@ -34,7 +34,7 @@ namespace PolyBomber
 
 	NetworkManager::~NetworkManager(){		
 		for(unsigned int i=0;i<this->clients.size();i++){
-			//delete this->clients[i]; // destruction des clients créé dynamiquements
+			delete this->clients[i]; // destruction des clients créés dynamiquements
 		}
 		
 
@@ -49,24 +49,25 @@ namespace PolyBomber
 	void NetworkManager::initialize(){
 		for(int i=0;i<4;i++){
 			this->ip[i] = sf::IpAddress::None;
-			this->nbPlayerByIp[i]=0;
-			this->scores[i]=0;
+			this->nbPlayerByIp[i] = 0;
+			this->scores[i] = 0;
 		}
 		this->setPause(0);
 		this->started=false;
 		this->setConnect(false);
 		this->server=false;
+		this->deconnect=false;
 		for(int i=0;i<4;i++){
 			for(int j=0;j<7;j++){
 				this->keyPressed.keys[i][j] = false;
 			}
 		}
 
-		this->controller = PolyBomberApp::getIControllerToNetwork();//FIXME: 
+		this->controller = PolyBomberApp::getIControllerToNetwork();
 		this->gameEngine = NULL;
 		this->threadClient = NULL;
-		this->threadRun =NULL;
-		this->threadServer =NULL;
+		this->threadRun = NULL;
+		this->threadServer = NULL;
 	}
 
 	std::list<sf::Packet>::iterator NetworkManager::askServer(int num){
@@ -76,16 +77,13 @@ namespace PolyBomber
 			sf::TcpSocket* client = this->clients[0];
 
 			sf::Packet packet = this->createPacket(num);
-			std::cout << "packet n° " << num <<" pret a envoyer" << std::endl; 
 			if(client->send(packet) != sf::TcpSocket::Done){
 				this->mutexClients.unlock();
-				std::cerr << "packet n° " << num <<" n'a pas pu etre envoye" << std::endl; 
 				throw PolyBomberException("meme pas pu envoyer le paquet");
 			}
 
 			sf::IpAddress address = client->getRemoteAddress();
 			this->mutexClients.unlock();
-			std::cout << "packet n° " << num <<" a ete envoye" << std::endl; 
 			it = waitPacket(num, address);
 			return it;
 		} else {
@@ -125,18 +123,15 @@ namespace PolyBomber
 							this->mutexPacket.unlock();
 							
 							//ajouter ses touches.
-							//std::cout << "nbPlayerByIp[i]" <<i<<";"<<this->nbPlayerByIp[i]<< std::endl;
 							for(int j=0;j<this->nbPlayerByIp[i];j++){
 
 
 								for(int k=0;k<7;k++){
-									//std::cout << "nbplayerdone et j" <<nbPlayerDone<<j<< std::endl;
 									this->keyPressed.keys[nbPlayerDone][k] = keys.keys[j][k];
 								}
 								nbPlayerDone++;
 							}
 						} else {
-							std::cerr << "le joueur n'est plus accessible pour demander ses touches" << std::endl;
 							for(int j=0;j<this->nbPlayerByIp[i];j++){
 								for(int k=0;k<7;k++){
 									this->keyPressed.keys[nbPlayerDone][k] = false;
@@ -165,9 +160,6 @@ namespace PolyBomber
 				else
 					i++;
 			}
-		} else { // on est le client
-			//message d'erreur car le client ne peut demander les touche au gameEngine
-			std::cerr << "le client ne peut demander les touches au gameEngine" << std::endl;
 		}
 
 		return this->keyPressed;
@@ -182,17 +174,15 @@ namespace PolyBomber
 		}
 		else {
 			//demander au serveur
-			try {
-				std::list<sf::Packet>::iterator it2 = this->askServer(7);
-				sf::Packet& thePacket = *it2;
-				int num;
-				std::string ip;
-				thePacket >> num >> ip  >> result;
-				this->packets.erase(it2);
+			if(isDeconnected()){
+				throw PolyBomberException("Le serveur vient de quitter");
 			}
-			catch(PolyBomberException e){
-				std::cerr << e.what() << std::endl;
-			}
+			std::list<sf::Packet>::iterator it2 = this->askServer(7);
+			sf::Packet& thePacket = *it2;
+			int num;
+			std::string ip;
+			thePacket >> num >> ip  >> result;
+			this->packets.erase(it2);
 		}
 		return result;
 	}
@@ -217,7 +207,6 @@ namespace PolyBomber
 	}
 
 	void NetworkManager::cancel(){
-	etatNetwork();
 		if(this->isConnected()){
 			sf::Packet packet;
 			packet = createPacket(101);
@@ -234,7 +223,7 @@ namespace PolyBomber
 				}
 			} else { // on prévient le serveur
 				if(this->clients[0]->send(packet) != sf::TcpSocket::Done){
-						std::cerr << ("Le serveur "+this->clients[0]->getRemoteAddress().toString() +" n'a pas pu être contacté pour le prévenir d'un Cancel")<< std::endl;
+					throw PolyBomberException("Le serveur n'est plus accessible");
 				}
 			}
 			
@@ -260,15 +249,13 @@ namespace PolyBomber
 		}
 		if(this->server){
 			this->gameEngine->resetConfig(); // stop le thread run() s'il est commencé
-			std::cout << "Le gameEngine a ete averti" << std::endl;
 		}
 		this->players.clear();
 		this->initialize();
-		etatNetwork();
 	}
 
 	void NetworkManager::joinGame(std::string ip){
-		this->server=false;
+		this->initialize();
 		sf::TcpSocket* server = new sf::TcpSocket;
 		sf::IpAddress ip2(ip);
 		if(server->connect(ip, 2222, sf::milliseconds(1000)) != sf::TcpSocket::Done){
@@ -277,11 +264,7 @@ namespace PolyBomber
 			this->addSocket(server);
 			this->setConnect(true);
 			threadClient = new sf::Thread(&NetworkManager::listenToServer, this);
-			try{
-				threadClient->launch();
-			} catch(PolyBomberException e){
-				throw e;
-			}
+			threadClient->launch();
 		}
 		
 	}
@@ -292,6 +275,9 @@ namespace PolyBomber
 			result = (this->gameConfig.nbPlayers - this->players.size());
 		} else {
 			// demande au serveur
+			if(isDeconnected()){
+				throw PolyBomberException("Le serveur vient de quitter");
+			}
 			std::list<sf::Packet>::iterator it2 = this->askServer(5);
 			sf::Packet& thePacket = *it2;
 			int num;
@@ -368,6 +354,7 @@ namespace PolyBomber
 			}
 			this->mutexClients.unlock();
 		}
+		this->etatNetwork();
 	}
 
 	void NetworkManager::getPlayersName(std::string names[4]){
@@ -382,72 +369,48 @@ namespace PolyBomber
 					names[i]="";
 			}
 		} else {
-			try {
-				//envoyer un paquet pour demander les noms aux serveur	
-				std::list<sf::Packet>::iterator it = this->askServer(15);
-				sf::Packet& thePacket = *it;
-				int num;
-				std::string ip;
-				thePacket >> num >> ip;
-				for(int i=0;i<4;i++){
-					thePacket >> names[i];
-				}
-				this->packets.erase(it);	
+			//envoyer un paquet pour demander les noms aux serveur	
+			if(isDeconnected()){
+				throw PolyBomberException("Le serveur vient de quitter");
 			}
-			catch(PolyBomberException& e){
-				throw PolyBomberException(e.what());
-			}
-		}
-	}
-
-	int* NetworkManager::getScores(){
-		if(!this->server){
-			//demander au serveur
-			std::list<sf::Packet>::iterator it2 = this->askServer(7);
-			sf::Packet& thePacket = *it2;
+			std::list<sf::Packet>::iterator it = this->askServer(15);
+			sf::Packet& thePacket = *it;
 			int num;
 			std::string ip;
 			thePacket >> num >> ip;
 			for(int i=0;i<4;i++){
-				thePacket >> this->scores[i];
+				thePacket >> names[i];
 			}
-			this->packets.erase(it2);
+			this->packets.erase(it);	
 		}
-		return this->scores;
 	}
 
 	bool NetworkManager::isStarted(){
 		bool result;
 		if(this->server){
 			result = this->started;
-			} else {
-			//demander au serveur
-				try {
-					std::list<sf::Packet>::iterator it2 = this->askServer(11);
-					sf::Packet& thePacket = *it2;
-					int num;
-					std::string ip;
-					thePacket >> num >> ip  >> result;
-					this->started = result;
-					this->packets.erase(it2);
-				}
-				catch (PolyBomberException e){
-					std::cerr << e.what() <<std::endl;
-				}
+		} else {
+		//demander au serveur
+			if(isDeconnected()){
+				throw PolyBomberException("Le serveur vient de quitter");
+			}
+			std::list<sf::Packet>::iterator it2 = this->askServer(11);
+			sf::Packet& thePacket = *it2;
+			int num;
+			std::string ip;
+			thePacket >> num >> ip  >> result;
+			this->started = result;
+			this->packets.erase(it2);
 		}
 		return result;
 	}
 
 	void NetworkManager::startGame() {//threader la fonction de run
-		if(this->server){
-			std::cout << "c'est parti" << std::endl;
-			
+		if(this->server){			
 			threadRun = new sf::Thread(&IGameEngineToNetwork::run, this->gameEngine);
 			threadRun->launch();
 			this->started=true;
-		} else {
-			std::cerr << "le client ne peut pas donner le départ du jeu. Appel de startGame interdit" << std::endl;
-		}
+		} 
 	}
 
 	std::string NetworkManager::getIpAddress(){
@@ -456,22 +419,19 @@ namespace PolyBomber
 	}
 
 	void NetworkManager::setGameConfig(SGameConfig& pGameConfig){
-		this->gameEngine = PolyBomberApp::getIGameEngineToNetwork();//FIXME: 
+		this->initialize();
+		this->gameEngine = PolyBomberApp::getIGameEngineToNetwork();
 
 		this->gameConfig = pGameConfig;
 
 		this->server=true; //l'ordinateur sera le serveur
 
-		this->gameEngine->setGameConfig(this->gameConfig);//FIXME: // on envoie également au gameEngine
+		this->gameEngine->setGameConfig(this->gameConfig);
 		// création du listener qui écoute tous les clients
 		
 		if(!this->gameConfig.isLocal) {
 			threadServer = new sf::Thread(&NetworkManager::createServerSocket, this);
-			try {
-				threadServer->launch();
-			} catch(PolyBomberException e){
-				throw e;
-			}
+			threadServer->launch();
 		}
 	}
 
@@ -532,38 +492,34 @@ namespace PolyBomber
 		listener.listen(2222);
 		this->selector.add(listener);
 
-		// Endless loop that waits for new connections
 		while (this->isConnected())
 		 {
-			 // Make the selector wait for data on any socket
 			 if (selector.wait(sf::milliseconds(100)))
 			 {
 				
-				 // Test the listener
+				 // Test du listener
 				 if (selector.isReady(listener))
 				 {
-					 // The listener is ready: il y a une connexion en attente
+					 // il y a une connexion en attente
 					 sf::TcpSocket* client = new sf::TcpSocket;
 					 if (listener.accept(*client) == sf::Socket::Done)
 					 {
-						 std::cout << "nouveau client " << client->getRemoteAddress() << std::endl;
 						 // ajout à la liste des sockets connectés
 						 this->addSocket(client);
 
-						 // ajout au sélector pour être averti lors de l'activité du socket
+						 // ajout au sélecteur pour être averti lors de l'activité du socket
 						 selector.add(*client);
 					 }
 				 }
 				 else
 				 {
-					 // The listener socket is not ready, test all other sockets (the clients)
 					 this->mutexClients.lock();
 					 for (unsigned int i=0;i<this->clients.size();i++)
 					 {
 						 sf::TcpSocket* client = this->clients[i];
 						 if (this->selector.isReady(*client))
 						 {
-							 // The client has sent some data, we can receive it
+							 // le client envoie des données
 							 sf::Packet packet;
 							 if (client->receive(packet) == sf::Socket::Done)
 							 {
@@ -575,7 +531,6 @@ namespace PolyBomber
 									 decryptPacket(packet);
 								 } else { //ajouter le packet !!!!! mutex !!!!
 									 this->mutexPacket.lock();
-									 std::cout << "AJOUT DU PAQUET NUMERO "<<num<< std::endl;
 									 this->packets.push_back(packet);
 									 this->mutexPacket.unlock();
 								 }
@@ -586,7 +541,6 @@ namespace PolyBomber
 				 }
 			 }
 		 }
-		std::cout << "fin du thread serveur" << std::endl;
 	}
 
 	void NetworkManager::listenToServer(){
@@ -594,13 +548,11 @@ namespace PolyBomber
 		server->setBlocking(false);
 		sf::Packet packet;
 		while(this->isConnected()){
-			//sf::sleep(sf::milliseconds(2));
 			if (server->receive(packet) == sf::Socket::Done){
 				//Vérifier le premier numéro s'il est impaire
 				sf::Packet testPacket = packet; // recopie du paquet reçu
 				int num;
 				testPacket >> num;
-				std::cout << "reception d'un paquet numero "<< num << std::endl;
 				if(num%2){ // si c'est impaire
 					decryptPacket(packet);
 				} else { //ajouter le packet !!!!! mutex !!!!
@@ -610,7 +562,6 @@ namespace PolyBomber
 				}
 			}
 		}
-		std::cout << "fin du thread client" << std::endl;
 	}
 
 	void NetworkManager::etatNetwork(){
@@ -641,74 +592,65 @@ namespace PolyBomber
 
 		std::cout << std::endl;
 	}
+	
+	bool NetworkManager::isDeconnected(){
+		bool result;
+		this->mutexDeconnect.lock();
+		result = this->deconnect;
+		this->mutexDeconnect.unlock();
+		return result;
+	}
 
 	sf::Packet NetworkManager::createPacket(int i, int j){
 		sf::Packet packet;
 		sf::IpAddress ipAddr = sf::IpAddress::getLocalAddress();
 		std::string ipLocal = ipAddr.toString();
 		packet << i << ipLocal;
-		//std::cout << "creation du paquet numero : " << i << std::endl;
 		switch(i){
-			case 1 : // demande de getboard d'un client
-			//std::cout << "demande du plateau" << std::endl;
-				break;
+			//case 1 : demande de getboard d'un client
 			case 2 : // envoi d'un SBoard
 				if(this->server){
-					//std::cout << "debut denvoie du plateau" << std::endl;
 					SBoard gameBoard = this->gameEngine->getBoard();
 					packet <<  gameBoard;
-				} else {
-					std::cerr << "le plateau ne peut être obtenu car un Client n'a pas accès à un GameEngine" << std::endl;
 				}
 				break;
-			case 3 : // demande des touches pressées
-				//std::cout << "demande des touches" << std::endl;
-				break;
+			//case 3 : demande des touches pressées
 			case 4 : // envoi d'un SKeyPressed
 				if(!this->server){
-					//std::cout << "debut denvoie des touches" << std::endl;
 					SKeyPressed keys = this->controller->getKeysPressed();
 					packet << keys;
 				}
 				break;
-			case 5 : // demande des slots disponible
-
-				break;
+			//case 5 :  demande des slots disponible
 			case 6 : // envoi des slots disponibles
 				int w;
 				w = this->getFreeSlots();
 				packet << w;
 				break;
-			case 7 : // demande s'il y a une pause
-				//std::cout << "demande de la pause" << std::endl;
-				break;
+			//case 7 :  demande s'il y a une pause
 			case 8 : // envoi s'il y a une pause
 				this->mutexPause.lock();
 				packet << this->paused;
 				this->mutexPause.unlock();
 				break;
-			case 9 : // demande s'il c'est fini
-				break;
+			//case 9 :  demande s'il c'est fini
 			case 10 : // envoi si c'est fini
 				int a;
 				a = this->isFinished();
 				packet << a;
 				break;
-			case 11 : // demande si c'est commencé
-				break;
+			//case 11 :  demande si c'est commencé
 			case 12 : // envoi si c'est commencé
 				bool b;
 				b = this->isStarted();
 				packet << b;
 				break;
-			case 13 : // demande du score
-				break;
+			//case 13 :  demande du score
 			case 14 : // envoi du score
 				for(int i=0;i<4;i++)
 					packet << this->scores[i];
 				break;
-			case 15 : // demande des noms
-				break;
+			//case 15 : demande des noms
 			case 16 : // envoi des noms
 				for(unsigned int i=0;i<4;i++) {
 					if(i<players.size()){
@@ -723,9 +665,7 @@ namespace PolyBomber
 			case 19 : // envoi réservation d'un slot
 				packet << j;
 				break;
-			case 21 : // envoi de la reprise du jeu
-				break;
-			
+			//case 21 :  envoi de la reprise du jeu			
 		}
 		return packet;
 	}
@@ -751,10 +691,6 @@ namespace PolyBomber
 				it++;
 		}
 		if(!find) {
-			std::cerr << "taille du vecteur de socket : "<<this->clients.size() << std::endl;
-			if(this->clients.size() !=0){
-				std::cerr << "addrr ip  : "<<this->clients[0]->getRemoteAddress()<<std::endl;
-			}
 			this->mutexClients.unlock();
 			throw PolyBomberException ("Le serveur n'a pas pu trouver le socket pour communiquer avec le client "+ip.toString());
 		}
@@ -774,7 +710,6 @@ namespace PolyBomber
 			while(it!=this->packets.end() && !find){
 				sf::Packet aPacket = *it; // duplique le paquet pour pouvoir le regarder
 				aPacket >> type >> ip;
-				//std::cout << "lecture dans la file d'attente du packet n° " << type  <<std::endl; 
 				if(type==(num+1) && ip==ipAddr.toString()){
 					find=true;
 				} else {
@@ -784,7 +719,6 @@ namespace PolyBomber
 			this->mutexPacket.unlock();
 		}
 		if(!find){
-			std::cerr << "PAS TROUVE packet n° " << num  <<std::endl; 
 			throw PolyBomberException(num+"Echec de la réception du paquet de l'expéditeur "+ipAddr.toString()+". Temps d'attente de 100 millisecondes dépassé");
 		}
 		return it;
@@ -800,12 +734,12 @@ namespace PolyBomber
 		switch(num){
 		case 101 :
 			if(this->server){
-				std::cerr << "le client " << ip <<" vient de se deconnecter" << std::endl;
 				eraseSocket(ip1);
 			} else {
-				throw PolyBomberException("Le serveur vient de quitter la partie");
+				this->mutexDeconnect.lock();
+				this->deconnect = true;
+				this->mutexDeconnect.unlock();
 			}
-			etatNetwork();
 			break;
 		case 17 :
 			for(int i=0;i<4;i++){
@@ -833,9 +767,6 @@ namespace PolyBomber
 				//std::cout << "fin envoi "<< num+1 << std::endl;
 			} catch(PolyBomberException& e) {
 				std::cerr << "decrypt packet ne trouve pas le socket" << std::endl;
-				if(this->started && !this->server){
-					throw e;
-				}
 			}
 			this->mutexClients.unlock();
 		}
@@ -886,7 +817,7 @@ namespace PolyBomber
 			}
 		} else { // il faut les supprimer pour laisser la place à d'autre
 			for(std::vector<DataPlayer>::iterator it = players.begin();it<players.end();it++){
-				while((it<players.end())&&(it->getIp() == ip1)){ // s'il y a plusieurs joueurs, obligé de faire un while car le vector décale après la supression et la boucle for augmente. DU coup il y a une occurrence qui échappe a la vérification
+				while((it<players.end())&&(it->getIp() == ip1)){ // while car le vector décale après la supression et la boucle for augmente. DU coup il y a une occurrence qui échappe a la vérification
 					players.erase(it); // suppression dans le vecteur
 				}
 			}
