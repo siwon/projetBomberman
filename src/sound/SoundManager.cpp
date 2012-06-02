@@ -17,10 +17,12 @@ namespace PolyBomber
 		PATH("resources/audio/")
 	{
 		// Initialisation des listes de fichiers
-		this->soundFiles[CLICKSOUND] = this->PATH + "click.ogg";
-
-		this->musicFiles[MENUMUSIC] = this->PATH + "menu.ogg";
-
+		this->soundFiles[CLICKSOUND] = this->PATH + "click.wav";
+		this->soundFiles[SPLASHSOUND] = this->PATH + "explosion.ogg";
+		this->soundFiles[PAUSESOUND] = this->PATH + "pause.ogg";
+		this->musicFiles[PAUSEMUSIC] = this->PATH + "pause.ogg";
+		
+		buffer =  new sf::SoundBuffer();
 		reloadConfig();
 	}
 
@@ -30,20 +32,24 @@ namespace PolyBomber
 
 		for (it=this->musicPlayers.begin(); it!=this->musicPlayers.end(); it++)
 			delete (*it).second;
+			
+		delete buffer;
 	}
 
 	void SoundManager::playSound(ESound sound)
 	{
 		try
 		{
-			sf::SoundBuffer buffer;
-			buffer.loadFromFile(this->soundFiles[sound]);
-
-			sf::Sound so;
-			so.setBuffer(buffer);
+			if(buffer != NULL)
+				delete buffer;
+				
+			buffer = new sf::SoundBuffer();
+			
+			buffer->loadFromFile(this->soundFiles[sound]);
+			
+			so.setBuffer(*buffer);
 			so.setVolume(this->soundVolume);
 			so.play();
-			std::cout << "son ok" << std::endl;
 		}
 		catch (...) {}
 	}
@@ -75,12 +81,18 @@ namespace PolyBomber
 	{
 		if (volume <= 100)
 			this->soundVolume = volume;
+		this->playSound(CLICKSOUND);
 	}
 	
 	void SoundManager::setMusicVolume(unsigned int volume)
 	{
 		if (volume <= 100)
 			this->musicVolume = volume;
+			
+		unsigned int tmpVol = this->soundVolume;
+		this->soundVolume = this->musicVolume;
+		this->playSound(PAUSESOUND);
+		this->soundVolume = tmpVol;
 	}
 	
 	void SoundManager::saveConfig()

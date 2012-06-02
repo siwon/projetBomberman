@@ -39,7 +39,8 @@ namespace PolyBomber
 	{		
 		INetworkToGameInterface* network = PolyBomberApp::getINetworkToGameInterface();
 		IMenuToGameInterface* menu = PolyBomberApp::getIMenuToGameInterface();
-
+		ISound* music = PolyBomberApp::getISound();
+		
 		int pause = 0;
 		bool running = true;
 
@@ -80,8 +81,9 @@ namespace PolyBomber
 			// Gestion de la pause
 			if ((pause = network->isPaused()) != 0)
 			{
+				music->playMusic(PAUSEMUSIC);
 				EScreenSignal signal = menu->runPause(pause);
-
+				music->stopMusic(PAUSEMUSIC);
 				if (signal == EXITGAME || signal == EXITERROR)
 					running = false;
 			}

@@ -65,6 +65,9 @@ namespace PolyBomber
 			std::map<EMusic, sf::Music*> musicPlayers; /*!< Ressources pour les musiques */
 
 			const std::string PATH; /*!< Chemin d'accès aux fichiers */
+			
+			sf::SoundBuffer* buffer;
+			sf::Sound so;
 	};
 }
 

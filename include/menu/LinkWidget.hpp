@@ -56,7 +56,7 @@ namespace PolyBomber
 			 * \brief Méthode qui active le lien
 			 * \return La cible du lien
 			 */
-			inline EMenuScreen activate() {return this->target;}
+			EMenuScreen activate();
 
 			/*!
 			 * \brief Méthode pour déterminer la cible du lien
