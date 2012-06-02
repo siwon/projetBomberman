@@ -43,6 +43,9 @@ namespace PolyBomber
 		int pause = 0;
 		bool running = true;
 
+		// On cache le texte de fin
+		this->finishText.setPosition(320, -550);
+
 		while (running && window->isOpen()) 
 		{
 			sf::Event event;
