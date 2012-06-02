@@ -29,6 +29,9 @@ namespace PolyBomber {
 		this->alive=true;
 		this->step=0;
 		this->saveCaracBeforeInfectionDilatation=0;
+		this->detonator=false;
+		this->lastMove=0;
+		this->lastActionSecond=0;
 		
 		this->bombBonus=std::vector<Bonus>();
 		this->infection=0;
@@ -50,6 +53,9 @@ namespace PolyBomber {
 		this->alive=pl.getAlive();
 		this->step=pl.getStep();
 		this->saveCaracBeforeInfectionDilatation=0;
+		this->detonator=false;
+		this->lastMove=0;
+		this->lastActionSecond=0;
 		
 		this->bombBonus=std::vector<Bonus>();
 		this->infection=pl.getInfection();

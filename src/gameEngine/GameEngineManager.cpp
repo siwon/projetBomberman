@@ -165,6 +165,9 @@ namespace PolyBomber {
 					debutPause=0;
 				}
 				
+				//TODO : faire la vérification des remotes bomb et des mines sur des flammes
+				board.activateAllMine();//TODO
+				
 				//provoque les actions associees aux infections
 				if (time%TEMPSENTREDEUXACTIONSINFECTION==0) {
 					if (time!=this->lastInfectionAction) {

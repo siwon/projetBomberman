@@ -368,7 +368,7 @@ namespace PolyBomber {
 		std::cout << "gestion du temps : " << (pl.getLastMove()+pl.getSpeed()<date2) << std::endl;
 		//sf::sleep(sf::seconds(3));
 
-		if (pl.getAlive() && pl.getLastMove()+pl.getSpeed()<date2) {
+		if (pl.getAlive() && pl.getLastMove()+pl.getSpeed()<date2 && pl.getLastAction2()+1<date) {
 			if (pl.getBombBonus().size()>0) {
 				EGameBonus bon = pl.getFirstBombBonus();
 				std::cout << "type de bombe : " << bon <<std::endl;
@@ -446,17 +446,23 @@ namespace PolyBomber {
 					for (unsigned int i=0;i<remoteBomb.size();i++) {
 						if (remoteBomb[i].getPlayer()==player) {
 							remoteBombDejaPosee=true;
+							std::cout << "puddi was here " << std::endl;
 							indiceRemoteBomb=i;
 						}
+						std::cout << "puddi was here3s " << std::endl;
 					}
-					if (remoteBombDejaPosee) {
+					std::cout << "deja posee : " << remoteBombDejaPosee << std::endl;
+					if (remoteBombDejaPosee)
+					std::cout << "position : " << (cranToCase(pl.getLocationX())) << ":" << remoteBomb[indiceRemoteBomb].getLocationX() <<":"<<cranToCase(pl.getLocationY()) << "," <<remoteBomb[indiceRemoteBomb].getLocationY() << std::endl;
+					if (remoteBombDejaPosee && (cranToCase(pl.getLocationX())!=remoteBomb[indiceRemoteBomb].getLocationX() || cranToCase(pl.getLocationY())!=remoteBomb[indiceRemoteBomb].getLocationY())) {
+						std::cout << "puddi was here2 " << std::endl;
 						explodeRemoteBomb(indiceRemoteBomb, date);
 					} else {
 						remoteBomb.push_back(RemoteBomb(pl));
 					}
 				}
 			}
-			pl.setLastAction2(date2);
+			pl.setLastAction2(date);
 		}
 	}
 	
@@ -843,10 +849,12 @@ namespace PolyBomber {
 			}
 			if (isAMineInThisCase(x,y)) {
 				int indiceMine = getIndiceMineByCoord(x,y);
-				//création de la flamme
-				generateFlame(mine[indiceMine].getLocationX(),mine[indiceMine].getLocationY(),mine[indiceMine].getRange(),date+DUREEFLAMME);
-				//suppression dans la liste des bombes
-				mine.erase(mine.begin()+indiceMine);
+				if (mine[indiceMine].isActive()) {
+					//création de la flamme
+					generateFlame(mine[indiceMine].getLocationX(),mine[indiceMine].getLocationY(),mine[indiceMine].getRange(),date+DUREEFLAMME);
+					//suppression dans la liste des bombes
+					mine.erase(mine.begin()+indiceMine);
+				}
 			}
 		}
 		//fait la vérification des caisses (flammes)
@@ -862,9 +870,22 @@ namespace PolyBomber {
 			}
 		}
 		//fait la vérification des bombes (flamme qui déclenche les autres)
-		for (int i=bomb.size()-1; i>=0; i--) {
+		for (int i=bomb.size()-1; i>=0; i--) {//TODO faire aussi la vérification des mines et remote bomb sur des flammes
 			if (isAFlameInThisCase(bomb[i].getLocationX(),bomb[i].getLocationY())) {
 				explodeBomb(bomb[i].getLocationX(),bomb[i].getLocationY());
+			}
+		}
+	}
+	
+	void Board::activateAllMine() {
+		for (unsigned int i=0;i<mine.size();i++) {
+			if (!mine[i].isActive()) {
+				mine[i].activate();
+				for (unsigned int j=0;j<player.size();j++) {
+					if (mine[i].getLocationX()==cranToCase(player[j].getLocationX()) && mine[i].getLocationY()==cranToCase(player[j].getLocationY())) {
+						mine[i].desactivate();
+					}
+				}
 			}
 		}
 	}

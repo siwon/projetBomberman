@@ -102,6 +102,7 @@ namespace PolyBomber {
 		void removeBonusByCoord(int x, int y);
 		
 		void checkPosition(int);
+		void activateAllMine();
 		void makeInfectionAction(int);
 		void removeObseleteFlame(int);
 		void explodeAllBomb(int);
