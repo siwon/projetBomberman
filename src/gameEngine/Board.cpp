@@ -9,6 +9,7 @@
 // Bibliotheques standards
 #include <ctime>
 #include <cstdlib>
+#include <vector>
 
 // Bibliotheques SFML
 #include <SFML/System.hpp>
@@ -17,7 +18,9 @@
 
 
 // Headers
-#include "../../include/gameEngine/Board.hpp"
+#include "gameEngine/DefineAndFunction.hpp"
+#include "SBoard.hpp"
+#include "gameEngine/Board.hpp"
 
 
 namespace PolyBomber {

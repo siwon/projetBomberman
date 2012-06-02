@@ -16,7 +16,7 @@
 
 
 // Headers
-#include "../../include/gameEngine/Bomb.hpp"
+#include "gameEngine/Bomb.hpp"
 
 namespace PolyBomber {	
 	Bomb::Bomb(int date, const Player& player, int type) : Explosive(player) {

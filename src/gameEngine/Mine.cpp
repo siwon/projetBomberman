@@ -16,7 +16,7 @@
 
 
 // Headers
-#include "../../include/gameEngine/Mine.hpp"
+#include "gameEngine/Mine.hpp"
 
 namespace PolyBomber {
 	

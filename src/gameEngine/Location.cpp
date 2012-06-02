@@ -16,7 +16,7 @@
 
 
 // Headers
-#include "../../include/gameEngine/Location.hpp"
+#include "gameEngine/Location.hpp"
 
 
 namespace PolyBomber {

@@ -7,7 +7,7 @@
  * \author Simon ROUSSEAU
  */
 
-#include "../EGameBonus.hpp"
+#include "EGameBonus.hpp"
 
 #include "Location.hpp"
 
