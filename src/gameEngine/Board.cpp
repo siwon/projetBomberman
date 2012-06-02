@@ -19,7 +19,6 @@
 
 // Headers
 #include "gameEngine/DefineAndFunction.hpp"
-#include "SBoard.hpp"
 #include "gameEngine/Board.hpp"
 
 
@@ -446,7 +445,6 @@ namespace PolyBomber {
 							indiceRemoteBomb=i;
 						}
 					}
-					if (remoteBombDejaPosee)
 					if (remoteBombDejaPosee && (cranToCase(pl.getLocationX())!=remoteBomb[indiceRemoteBomb].getLocationX() || cranToCase(pl.getLocationY())!=remoteBomb[indiceRemoteBomb].getLocationY())) {
 						explodeRemoteBomb(indiceRemoteBomb, date);
 					} else {

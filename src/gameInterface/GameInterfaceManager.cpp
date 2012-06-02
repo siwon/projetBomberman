@@ -130,7 +130,7 @@ namespace PolyBomber
 		{
 			if ((*itPlayers).state == ALIVE)
 			{
-				sf::IntRect rect(0, 0, 35, 35);
+				sf::IntRect rect(((*itPlayers).step % 8)*35, 0, 35, 35);
 
 				EImage image = (EImage)((EIMAGE_PLAYER1UP + (*itPlayers).number*4) + (*itPlayers).orientation);
 				
