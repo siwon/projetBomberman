@@ -277,7 +277,11 @@ namespace PolyBomber
 			this->addSocket(server);
 			this->setConnect(true);
 			threadClient = new sf::Thread(&NetworkManager::listenToServer, this);
-			threadClient->launch();
+			try{
+				threadClient->launch();
+			} catch(PolyBomberException e){
+				throw e;
+			}
 		}
 		
 	}
