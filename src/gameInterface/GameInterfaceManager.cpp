@@ -60,33 +60,40 @@ namespace PolyBomber
 
   			window->clear();
 
-  			update();
-
-  			// On dessine les sprites
-			window->draw(this->background);
-			window->draw(this->finishText);
-			
-			unsigned int i;
-
-			for (i=0; i<this->boxes.size(); i++)		window->draw(this->boxes[i]);
-			for (i=0; i<this->players.size(); i++)		window->draw(this->players[i]);
-			for (i=0; i<this->bonus.size(); i++)		window->draw(this->bonus[i]);
-			for (i=0; i<this->explosives.size(); i++)	window->draw(this->explosives[i]);
-			for (i=0; i<this->flames.size(); i++)		window->draw(this->flames[i]);
-
-			window->display();
-
-			// Gestion de la pause
-			if ((pause = network->isPaused()) != 0)
+			try
 			{
-				music->playMusic(PAUSEMUSIC);
-				EScreenSignal signal = menu->runPause(pause);
-				music->stopMusic(PAUSEMUSIC);
-				if (signal == EXITGAME || signal == EXITERROR)
-					running = false;
-			}
+				update();
 
-			sf::sleep(sf::milliseconds(50));
+				// On dessine les sprites
+				window->draw(this->background);
+				window->draw(this->finishText);
+				
+				unsigned int i;
+
+				for (i=0; i<this->boxes.size(); i++)		window->draw(this->boxes[i]);
+				for (i=0; i<this->players.size(); i++)		window->draw(this->players[i]);
+				for (i=0; i<this->bonus.size(); i++)		window->draw(this->bonus[i]);
+				for (i=0; i<this->explosives.size(); i++)	window->draw(this->explosives[i]);
+				for (i=0; i<this->flames.size(); i++)		window->draw(this->flames[i]);
+
+				window->display();
+
+				// Gestion de la pause
+				if ((pause = network->isPaused()) != 0)
+				{
+					music->playMusic(PAUSEMUSIC);
+					EScreenSignal signal = menu->runPause(pause);
+					music->stopMusic(PAUSEMUSIC);
+					if (signal == EXITGAME || signal == EXITERROR)
+						running = false;
+				}
+
+				sf::sleep(sf::milliseconds(50));
+			}
+			catch (PolyBomberException& e)
+			{
+				running = false;
+			}
 		}
 
 		if (winner != 0)
