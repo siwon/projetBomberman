@@ -38,10 +38,18 @@ namespace PolyBomber
 		ClickableWidget::setSelected(selected);
 
 		ISkin* skin = PolyBomberApp::getISkin();
-
+		
 		if (selected)
 			this->setColor(skin->getColor(SELECTEDCOLOR));
 		else
 			this->setColor(skin->getColor(LINKCOLOR));			
+	}
+	
+	EMenuScreen LinkWidget::activate()
+	{
+		ISound* sound = PolyBomberApp::getISound();
+		sound->playSound(CLICKSOUND);
+		
+		return this->target;
 	}
 }

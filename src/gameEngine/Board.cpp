@@ -9,6 +9,7 @@
 // Bibliotheques standards
 #include <ctime>
 #include <cstdlib>
+#include <vector>
 
 // Bibliotheques SFML
 #include <SFML/System.hpp>
@@ -17,7 +18,9 @@
 
 
 // Headers
-#include "../../include/gameEngine/Board.hpp"
+#include "gameEngine/DefineAndFunction.hpp"
+#include "SBoard.hpp"
+#include "gameEngine/Board.hpp"
 
 
 namespace PolyBomber {
@@ -40,17 +43,25 @@ namespace PolyBomber {
 	
 	void Board::generateFlameHorizontal(int x, int y, int range, int date) {
 		//sf::sleep(sf::seconds(3));
+		if (y>=0 && y<13) {
 		for (int i=1; i<range; i++) {
 			if ((x)%2==0 && y+i%2==0) {
-				flame.push_back(Flame(x+i,y,ORIENTATION_RIGHT,ORIGIN,date+DUREEFLAMME));
-				flame.push_back(Flame(x-i,y,ORIENTATION_LEFT,ORIGIN,date+DUREEFLAMME));
+				if ((x+i)<19)
+					flame.push_back(Flame(x+i,y,ORIENTATION_RIGHT,ORIGIN,date+DUREEFLAMME));
+				if ((x-i)>=0)
+					flame.push_back(Flame(x-i,y,ORIENTATION_LEFT,ORIGIN,date+DUREEFLAMME));
 			} else {
-				flame.push_back(Flame(x+i,y,ORIENTATION_RIGHT,MIDDLE,date+DUREEFLAMME));
-				flame.push_back(Flame(x-i,y,ORIENTATION_LEFT,MIDDLE,date+DUREEFLAMME));
+				if ((x+i)<19)
+					flame.push_back(Flame(x+i,y,ORIENTATION_RIGHT,MIDDLE,date+DUREEFLAMME));
+				if ((x-i)>=0)
+					flame.push_back(Flame(x-i,y,ORIENTATION_LEFT,MIDDLE,date+DUREEFLAMME));
 			}
 		}
-		flame.push_back(Flame(x+range,y,ORIENTATION_RIGHT,END,date+DUREEFLAMME));
-		flame.push_back(Flame(x-range,y,ORIENTATION_LEFT,END,date+DUREEFLAMME));
+		if ((x+range)<19)
+			flame.push_back(Flame(x+range,y,ORIENTATION_RIGHT,END,date+DUREEFLAMME));
+		if ((x-range)>=0)
+			flame.push_back(Flame(x-range,y,ORIENTATION_LEFT,END,date+DUREEFLAMME));
+		}
 	}
 	
 	SBoard Board::boardToSBoard() {

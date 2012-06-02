@@ -11,16 +11,21 @@
 #include <cstdlib>
 
 // Bibliotheques SFML
-
+#include <SFML/System/Mutex.hpp>
+#include <SFML/System/Time.hpp>
+#include <SFML/System/Clock.hpp>
 
 // Bibliotheques externes
 
 
 // Headers
-#include "../../include/gameEngine/GameEngineManager.hpp"
-#include "../../include/gameEngine/DefineAndFunction.hpp"
-
-#include "../../include/PolyBomberApp.hpp"
+#include "IGameEngineToNetwork.hpp"
+#include "IGameEngineToGameInterface.hpp"
+#include "INetworkToGameEngine.hpp"
+#include "TSingleton.hpp"
+#include "gameEngine/DefineAndFunction.hpp"
+#include "gameEngine/GameEngineManager.hpp"
+#include "PolyBomberApp.hpp"
 
 namespace PolyBomber {
 	
@@ -226,12 +231,18 @@ namespace PolyBomber {
 				}
 			}
 
-			//sf::sleep(sf::milliseconds(250));
-
 			if (board.nbSurvivant()<=1) {
 				this->runnable=false;
 			}
 		}
+	}
+	
+	void GameEngineManager::resetConfig() {
+		this->runnable=false;
+		this->mutexBoard.lock();
+		board.resetConfig();
+		this->mutexBoard.unlock();
+		this->gameConfigIsSet=false;
 	}
 	
 	//IGameEngineToGameInterface
@@ -247,13 +258,5 @@ namespace PolyBomber {
 		int result = board.getIdSurvivant();
 		this->mutexBoard.unlock();
 		return result;
-	}
-	
-	void GameEngineManager::resetConfig() {
-		this->runnable=false;
-		this->mutexBoard.lock();
-		board.resetConfig();
-		this->mutexBoard.unlock();
-		this->gameConfigIsSet=false;
 	}
 }

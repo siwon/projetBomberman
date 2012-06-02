@@ -12,7 +12,7 @@ namespace PolyBomber
 	SoundConfigMenu::SoundConfigMenu() :
 		title("Configuration audio", TITLEFONT, 100),
 		soundText("Volume des bruitages : ", TEXTFONT, 200),
-		musicText("Volume de la musique : ", TEXTFONT, 300),
+		musicText("Volume de la musique de pause : ", TEXTFONT, 300),
 		soundVolume(TEXTFONT, 250),
 		musicVolume(TEXTFONT, 350),
 		cancel("Annuler", 450, CONFIGMENU),
@@ -87,27 +87,29 @@ namespace PolyBomber
 	void SoundConfigMenu::leftPressed()
 	{
 		ISound* sound = PolyBomberApp::getISound();
-
+		
 		save.goNext();
 		soundVolume.goPreviousItem();
 		musicVolume.goPreviousItem();
-
-		sound->setSoundVolume(soundVolume.getCurrentItem()*10);
-		sound->setMusicVolume(musicVolume.getCurrentItem()*10);
+		
+		if(soundVolume.getSelected())
+			sound->setSoundVolume(soundVolume.getCurrentItem()*10);
+		else if(musicVolume.getSelected())
+			sound->setMusicVolume(musicVolume.getCurrentItem()*10);
 	}
 
 	void SoundConfigMenu::rightPressed()
 	{
 		ISound* sound = PolyBomberApp::getISound();
-
+		
 		cancel.goNext();
 		soundVolume.goNextItem();
 		musicVolume.goNextItem();
 
-		sound->setSoundVolume(soundVolume.getCurrentItem()*10);
-		sound->setMusicVolume(musicVolume.getCurrentItem()*10);
-
-		sound->playSound(CLICKSOUND);
+		if(soundVolume.getSelected())
+			sound->setSoundVolume(soundVolume.getCurrentItem()*10);
+		else if(musicVolume.getSelected())
+			sound->setMusicVolume(musicVolume.getCurrentItem()*10);
 	}
 
 	void SoundConfigMenu::validPressed(EMenuScreen* nextScreen)

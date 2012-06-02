@@ -9,8 +9,8 @@
 
 #include "Location.hpp"
 
-#include "../EOrientation.hpp"
-#include "../EFlameLocation.hpp"
+#include "EOrientation.hpp"
+#include "EFlameLocation.hpp"
 
 #include "DefineAndFunction.hpp"
 

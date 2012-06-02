@@ -14,8 +14,7 @@ namespace PolyBomber
 	ControllersConfigMenu::ControllersConfigMenu() :
 		title("Configuration des controleurs", TITLEFONT, 100),
 		error("Aucun controleur detecte", TEXTFONT, 200),
-		cancel("Annuler", 500, CONFIGMENU),
-		save("Valider", 500, CONFIGMENU)
+		cancel("Retour", 500, CONFIGMENU)
 	{
 		ISkin* skin = PolyBomberApp::getISkin();	
 		title.setColor(skin->getColor(TITLECOLOR));
@@ -24,7 +23,6 @@ namespace PolyBomber
 		this->widgets.push_back(&title);
 		this->widgets.push_back(&error);
 		this->widgets.push_back(&cancel);
-		this->widgets.push_back(&save);
 
 		error.setVisible(false);
 
@@ -38,8 +36,8 @@ namespace PolyBomber
 
 			playerController[i] = new SelectionWidget(LINKFONT, 250 + 50*i);
 
-			playerController[i]->push_back("Clavier");
 			playerController[i]->push_back("Gamepad");
+			playerController[i]->push_back("Clavier");
 			playerController[i]->push_back("Wii");
 
 			playerController[i]->move(100, 0);
@@ -56,15 +54,7 @@ namespace PolyBomber
 		playerController[2]->setNext(playerController[3]);
 		playerController[3]->setNext(&cancel);
 
-		cancel.move(-100, 0);
-		save.move(100, 0);
-
 		cancel.setPrevious(playerController[3]);
-		cancel.setNext(&save);
-			
-		save.setPrevious(playerController[3]);
-		save.setNext(&cancel);
-
 		cancel.setSelected(true);
 	}
 
@@ -91,23 +81,19 @@ namespace PolyBomber
 			playerController[i]->goPrevious();
 
 		cancel.goPrevious();
-		save.goPrevious();
-
 		error.setVisible(false);
 	}
 
 	void ControllersConfigMenu::leftPressed()
 	{
 		error.setVisible(false);
-		changeController(false);
-		save.goNext();		
+		changeController(false);	
 	}
 
 	void ControllersConfigMenu::rightPressed()
 	{
 		error.setVisible(false);
 		changeController(true);
-		cancel.goNext();
 	}
 
 	void ControllersConfigMenu::validPressed(EMenuScreen* nextScreen)
@@ -117,19 +103,16 @@ namespace PolyBomber
 		for (int i=0; i<4; i++)
 		{
 			if (playerController[i]->getSelected())
+			{
+				controller->save();
 				*nextScreen = static_cast<EMenuScreen>((int)KEYASSIGNMENU1 + i);
+			}
 		}
 
 		if (cancel.getSelected())
 		{
 			controller->reloadConfig();
 			*nextScreen = cancel.activate();
-		}
-		
-		if (save.getSelected())
-		{						
-			controller->save();
-			*nextScreen = save.activate();
 		}
 	}
 
@@ -150,8 +133,19 @@ namespace PolyBomber
 
 		for (int i=0; i<4; i++)
 		{
-			SKeysConfig keys = controller->getConfig(i + 1);			
-			playerController[i]->setCurrentItem(keys.controllerType);
+			SKeysConfig keys = controller->getConfig(i + 1);
+			switch(keys.controllerType)
+			{
+				case KEYBOARD:
+					playerController[i]->setCurrentItem(1);
+					break;
+				case GAMEPAD:
+					playerController[i]->setCurrentItem(0);
+					break;
+				case WII:
+					playerController[i]->setCurrentItem(2);
+					break;
+			}
 		}
 	}
 
@@ -168,7 +162,18 @@ namespace PolyBomber
 				else
 					playerController[i]->goPreviousItem();
 					
-				controller->setPlayerController(i+1, (EControllerType)playerController[i]->getCurrentItem());
+				switch(playerController[i]->getCurrentItem())
+				{
+					case 0:
+						controller->setPlayerController(i+1, GAMEPAD);
+						break;
+					case 1:
+						controller->setPlayerController(i+1, KEYBOARD);
+						break;
+					case 2:
+						controller->setPlayerController(i+1, WII);
+						break;
+				}
 			}
 		}
 		catch (...)

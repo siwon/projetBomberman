@@ -72,7 +72,7 @@ namespace PolyBomber
 			TextWidget title;
 			SelectionWidget category;
 
-			TextWidget* texts[18];
+			ImageWidget* images[18];
 			SelectionWidget* bonus[18];
 						
 			LinkWidget cancel;

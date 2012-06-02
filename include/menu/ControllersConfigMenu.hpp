@@ -73,7 +73,6 @@ namespace PolyBomber
 			TextWidget* playerText[4];
 			SelectionWidget* playerController[4];
 			LinkWidget cancel;
-			LinkWidget save;
 
 			/*!
 			 * \brief Initialisation des contrôleurs
