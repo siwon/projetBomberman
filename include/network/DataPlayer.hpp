@@ -53,7 +53,7 @@ namespace PolyBomber
 			inline sf::IpAddress getIp() const {return this->ip;}
 			
 			/*!
-			 * \brief Constructeur
+			 * \brief enregistre un nom pour le joueur
 			 */
 			inline void setName(std::string pName) {this->name=pName;}
 			

@@ -29,7 +29,9 @@
 namespace PolyBomber
 {
 	NetworkManager::NetworkManager(){
+		std::cout << "puddi" << std::endl;
 		this->initialize();
+		std::cout << "puddi" << std::endl;
 	}
 
 	NetworkManager::~NetworkManager(){		
