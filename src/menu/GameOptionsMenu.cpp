@@ -6,6 +6,7 @@
 
 #include "menu/GameOptionsMenu.hpp"
 #include "PolyBomberApp.hpp"
+#include "EImage.hpp"
 
 namespace PolyBomber
 {
@@ -44,7 +45,7 @@ namespace PolyBomber
 	{
 		for (int i=0; i<18; i++)
 		{
-			delete this->texts[i];
+			delete this->images[i];
 			delete this->bonus[i];
 		}
 	}
@@ -118,11 +119,11 @@ namespace PolyBomber
 	{				
 		ISkin* skin = PolyBomberApp::getISkin();
 
-		std::string labels[18] = {"Bombe Up :", "Bombe Down :", "Flamme jaune :", "Flamme bleue :",
-								"Flamme rouge :", "Mine :", "Bombe a pics :", "Bombe atomique :",
-								"Patins :", "Sabots :", "Ligne de bombes :", "Detonateur :",
-								"Crane :", "Enfer :", "Confusion :", "Spasmes :", "Dilatation :",
-								"Fureur"};
+		EImage icones[18] = {EIMAGE_BOMBPLUS, EIMAGE_BOMBMOINS, EIMAGE_RANGEPLUS, EIMAGE_RANGEMOINS,
+								EIMAGE_RANGEMAX, EIMAGE_MINEBONUS, EIMAGE_INFINITY, EIMAGE_ATOMIC,
+								EIMAGE_VITESSEPLUS, EIMAGE_VITESSEMOINS, EIMAGE_BOMBLINE, EIMAGE_REMOTEBONUS,
+								EIMAGE_CRANE, EIMAGE_HELL, EIMAGE_CONFUSION,	EIMAGE_SPASME,	EIMAGE_DILATATION,
+								EIMAGE_RAGE};
 		int i;
 		
 		for (i=0; i<18; i++)
@@ -131,10 +132,10 @@ namespace PolyBomber
 			if (i >= 12) j -= 12;
 			else if (i >= 8) j -= 8;
 
-			this->texts[i] = new TextWidget(labels[i], TEXTFONT, 200 + 40*j, RIGHT);
-			this->texts[i]->setColor(skin->getColor(TEXTCOLOR));
-			this->texts[i]->move(-420, 0);
-
+			this->images[i] = new ImageWidget();
+			this->images[i]->setImage(skin->loadImage(icones[i]));
+			this->images[i]->setPosition(300,200+40*j);			
+			
 			this->bonus[i] = new SelectionWidget(TEXTFONT, 200 + 40*j);
 			this->bonus[i]->push_back("0");
 			this->bonus[i]->push_back("1");
@@ -155,7 +156,7 @@ namespace PolyBomber
 			else
 				this->bonus[i]->setPrevious(&category);
 			
-			this->widgets.push_back(this->texts[i]);
+			this->widgets.push_back(this->images[i]);
 			this->widgets.push_back(this->bonus[i]);
 		}
 
@@ -183,7 +184,7 @@ namespace PolyBomber
 		{
 			if (category == 0)
 			{
-				this->texts[i]->setVisible(i < 8);
+				this->images[i]->setVisible(i < 8);
 				this->bonus[i]->setVisible(i < 8);
 				this->category.setNext(this->bonus[0]);
 				this->cancel.setPrevious(this->bonus[7]);
@@ -191,7 +192,7 @@ namespace PolyBomber
 			}
 			else if (category == 1)
 			{
-				this->texts[i]->setVisible(i >= 8 && i < 12);
+				this->images[i]->setVisible(i >= 8 && i < 12);
 				this->bonus[i]->setVisible(i >= 8 && i < 12);
 				this->category.setNext(this->bonus[8]);
 				this->cancel.setPrevious(this->bonus[11]);
@@ -199,7 +200,7 @@ namespace PolyBomber
 			}
 			else
 			{
-				this->texts[i]->setVisible(i >= 12);
+				this->images[i]->setVisible(i >= 12);
 				this->bonus[i]->setVisible(i >= 12);
 				this->category.setNext(this->bonus[12]);
 				this->cancel.setPrevious(this->bonus[17]);
