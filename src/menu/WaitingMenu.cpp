@@ -91,6 +91,23 @@ namespace PolyBomber
 			std::string names[4] = {"", "", "", ""};
 			this->network->getPlayersName(names);
 
+			if (!menuConfig->isServer)
+			{
+				// On remet à jour le nombre de joueurs de la partie
+				unsigned int nb = 0;
+				while (nb < 4 && names[nb].compare("") != 0)
+					nb++;
+
+				this->menuConfig->gameConfig.nbPlayers = nb;
+			}
+
+			for (unsigned int i=0; i<4; i++)
+			{
+				menuConfig->gameConfig.playersName[i] = names[i];
+				this->pictures[i]->setVisible(i < this->menuConfig->gameConfig.nbPlayers);
+				this->names[i]->setVisible(i < this->menuConfig->gameConfig.nbPlayers);
+			}
+
 			for (unsigned int i=0; i<this->menuConfig->gameConfig.nbPlayers; i++)
 			{
 				if (names[i].compare("None") == 0 || names[i].compare("") == 0)
@@ -101,6 +118,7 @@ namespace PolyBomber
 		}
 		catch (PolyBomberException& e)
 		{
+			this->network->cancel();
 			std::cerr << e.what() << std::endl;
 		}
 
@@ -113,6 +131,8 @@ namespace PolyBomber
 		IControllerToMenu* controller = PolyBomberApp::getIControllerToMenu();
 
 		EMenuScreen nextScreen = NONEMENU;
+
+		sf::Clock clock;
 			
 		while (nextScreen == NONEMENU)
 		{			
@@ -122,14 +142,18 @@ namespace PolyBomber
 			EMenuKeys key = MENU_NONE;
 			while ((key = controller->getKeyPressed()) == MENU_NONE && window.isOpen())
 			{
-				update();
-				window.clear();
-				window.display(this->widgets);
-
-				if (this->network->isStarted())
+				if (clock.getElapsedTime().asMilliseconds() > 250)
 				{
-					nextScreen = start.activate();
-					break;
+					clock.restart();
+					update();
+					window.clear();
+					window.display(this->widgets);
+
+					if (this->network->isStarted())
+					{
+						nextScreen = start.activate();
+						break;
+					}
 				}
 			}
 
@@ -159,43 +183,13 @@ namespace PolyBomber
 
 			if (!window.isOpen())
 				nextScreen = EXIT;
-		}
-
-		
+		}		
 
 		return nextScreen;
 	}
 
 	void WaitingMenu::initWidgets()
 	{
-		// On récupère le nombre de joueurs sur la partie si on est client
-		if (!menuConfig->isServer)
-		{
-			unsigned int nb = 0;
-
-			try
-			{
-				std::string names[4] = {"", "", "", ""};
-				this->network->getPlayersName(names);
-				while (names[nb].compare("") != 0)
-					nb++;
-			}
-			catch (PolyBomberException& e)
-			{
-				std::cerr << e.what() << std::endl;
-				this->network->cancel();
-				// FIXME: Changer de menu
-			}
-
-			this->menuConfig->gameConfig.nbPlayers = nb;
-		}
-
-		for (unsigned int i=0; i<4; i++)
-		{
-			this->pictures[i]->setVisible(i < this->menuConfig->gameConfig.nbPlayers);
-			this->names[i]->setVisible(i < this->menuConfig->gameConfig.nbPlayers);
-		}
-
 		ip.setVisible(this->menuConfig->isServer && !this->menuConfig->gameConfig.isLocal);
 		start.setVisible(this->menuConfig->isServer);
 

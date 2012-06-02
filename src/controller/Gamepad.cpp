@@ -157,7 +157,7 @@ namespace PolyBomber
 	{
 		sf::Event event;
 		window->pollEvent(event);
-
+		
 		if(sf::Joystick::isButtonPressed(gamepadsAssignation[player], 0))
 			return BUT1;
 		if(sf::Joystick::isButtonPressed(gamepadsAssignation[player], 1))

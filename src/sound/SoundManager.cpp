@@ -19,7 +19,7 @@ namespace PolyBomber
 		// Initialisation des listes de fichiers
 		this->soundFiles[CLICKSOUND] = this->PATH + "click.wav";
 		this->soundFiles[SPLASHSOUND] = this->PATH + "explosion.ogg";
-		this->soundFiles[PAUSESOUND] = this->PATH + "pause.ogg";
+		this->soundFiles[PAUSESOUND] = this->PATH + "pauseExtract.ogg";
 		this->musicFiles[PAUSEMUSIC] = this->PATH + "pause.ogg";
 		
 		buffer =  new sf::SoundBuffer();

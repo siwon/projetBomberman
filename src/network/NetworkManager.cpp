@@ -71,24 +71,24 @@ namespace PolyBomber
 	}
 
 	std::list<sf::Packet>::iterator NetworkManager::askServer(int num){
+		std::list<sf::Packet>::iterator it;
 		if(this->isConnected()){
-			std::list<sf::Packet>::iterator it;
 			this->mutexClients.lock();
 			sf::TcpSocket* client = this->clients[0];
 
 			sf::Packet packet = this->createPacket(num);
 			if(client->send(packet) != sf::TcpSocket::Done){
 				this->mutexClients.unlock();
-				throw PolyBomberException("meme pas pu envoyer le paquet");
+				setDeconnected(true);
 			}
 
 			sf::IpAddress address = client->getRemoteAddress();
 			this->mutexClients.unlock();
 			it = waitPacket(num, address);
-			return it;
 		} else {
-			throw PolyBomberException("Aucune connexion n'a été trouvée vers un serveur");
+			setDeconnected(true);
 		}
+		return it;
 	}
 
 	SKeyPressed NetworkManager::getKeysPressed(){
@@ -174,15 +174,15 @@ namespace PolyBomber
 		}
 		else {
 			//demander au serveur
-			if(isDeconnected()){
-				throw PolyBomberException("Le serveur vient de quitter");
-			}
 			std::list<sf::Packet>::iterator it2 = this->askServer(7);
 			sf::Packet& thePacket = *it2;
 			int num;
 			std::string ip;
 			thePacket >> num >> ip  >> result;
 			this->packets.erase(it2);
+			if(isDeconnected()){
+				throw PolyBomberException("Le serveur vient de quitter");
+			}
 		}
 		return result;
 	}
@@ -200,9 +200,12 @@ namespace PolyBomber
 			sf::Packet packet = this->createPacket(21);
 			if(client->send(packet) != sf::TcpSocket::Done) {// pas besoin de réponse
 				this->mutexClients.unlock();
-				throw PolyBomberException("l'envoie de la reprise à échoué");
+				setDeconnected(true);
 			}
 			this->mutexClients.unlock();
+			if(isDeconnected()){
+				throw PolyBomberException("Le serveur vient de quitter");
+			}
 		}
 	}
 
@@ -223,7 +226,7 @@ namespace PolyBomber
 				}
 			} else { // on prévient le serveur
 				if(this->clients[0]->send(packet) != sf::TcpSocket::Done){
-					throw PolyBomberException("Le serveur n'est plus accessible");
+					setDeconnected(true);
 				}
 			}
 			
@@ -275,15 +278,15 @@ namespace PolyBomber
 			result = (this->gameConfig.nbPlayers - this->players.size());
 		} else {
 			// demande au serveur
-			if(isDeconnected()){
-				throw PolyBomberException("Le serveur vient de quitter");
-			}
 			std::list<sf::Packet>::iterator it2 = this->askServer(5);
 			sf::Packet& thePacket = *it2;
 			int num;
 			std::string ip;
 			thePacket >> num >> ip  >> result;
 			this->packets.erase(it2);
+			if(isDeconnected()){
+				throw PolyBomberException("Le serveur vient de quitter");
+			}
 		}
 
 		return result;
@@ -315,12 +318,14 @@ namespace PolyBomber
 
 			sf::Packet packet = this->createPacket(19,nb);
 			if(client->send(packet) != sf::TcpSocket::Done) {// pas besoin de réponse
-				this->mutexClients.unlock();
-				throw PolyBomberException("échec de la réservation de slot");
+				setDeconnected(true);
 			}
 			this->mutexClients.unlock();
 		}
 		this->mutexSlots.unlock();
+		if(isDeconnected()){
+			throw PolyBomberException("Le serveur vient de quitter");
+		}
 	}
 
 	void NetworkManager::setPlayerName(std::string names[4]){
@@ -350,11 +355,13 @@ namespace PolyBomber
 			}
 			if(client->send(packet) != sf::TcpSocket::Done) {// pas besoin de réponse
 				this->mutexClients.unlock();
-				throw PolyBomberException("échec lors de l'envoi des noms");
+				setDeconnected(true);
 			}
 			this->mutexClients.unlock();
+			if(isDeconnected()){
+				throw PolyBomberException("Le serveur vient de quitter");
+			}
 		}
-		this->etatNetwork();
 	}
 
 	void NetworkManager::getPlayersName(std::string names[4]){
@@ -370,9 +377,6 @@ namespace PolyBomber
 			}
 		} else {
 			//envoyer un paquet pour demander les noms aux serveur	
-			if(isDeconnected()){
-				throw PolyBomberException("Le serveur vient de quitter");
-			}
 			std::list<sf::Packet>::iterator it = this->askServer(15);
 			sf::Packet& thePacket = *it;
 			int num;
@@ -382,6 +386,9 @@ namespace PolyBomber
 				thePacket >> names[i];
 			}
 			this->packets.erase(it);	
+			if(isDeconnected()){
+				throw PolyBomberException("Le serveur vient de quitter");
+			}
 		}
 	}
 
@@ -391,9 +398,6 @@ namespace PolyBomber
 			result = this->started;
 		} else {
 		//demander au serveur
-			if(isDeconnected()){
-				throw PolyBomberException("Le serveur vient de quitter");
-			}
 			std::list<sf::Packet>::iterator it2 = this->askServer(11);
 			sf::Packet& thePacket = *it2;
 			int num;
@@ -401,6 +405,9 @@ namespace PolyBomber
 			thePacket >> num >> ip  >> result;
 			this->started = result;
 			this->packets.erase(it2);
+			if(isDeconnected()){
+				throw PolyBomberException("Le serveur vient de quitter");
+			}
 		}
 		return result;
 	}
@@ -464,16 +471,14 @@ namespace PolyBomber
 			result = this->gameEngine->isFinished();
 		} else {
 		//demander au réseau
-			try {
-				std::list<sf::Packet>::iterator it2 = this->askServer(9);
-				sf::Packet& thePacket = *it2;
-				int num;
-				std::string ip;
-				thePacket >> num >> ip  >> result;
-				this->packets.erase(it2);
-			}
-			catch(PolyBomberException e) {
-				std::cerr << e.what() << std::endl;
+			std::list<sf::Packet>::iterator it2 = this->askServer(9);
+			sf::Packet& thePacket = *it2;
+			int num;
+			std::string ip;
+			thePacket >> num >> ip  >> result;
+			this->packets.erase(it2);
+			if(isDeconnected()){
+				throw PolyBomberException("Le serveur vient de quitter");
 			}
 		}
 		return result;
@@ -600,6 +605,12 @@ namespace PolyBomber
 		this->mutexDeconnect.unlock();
 		return result;
 	}
+	
+	void NetworkManager::setDeconnected(bool state){
+		this->mutexDeconnect.lock();
+		this->deconnect = state;
+		this->mutexDeconnect.unlock();
+	}
 
 	sf::Packet NetworkManager::createPacket(int i, int j){
 		sf::Packet packet;
@@ -719,7 +730,7 @@ namespace PolyBomber
 			this->mutexPacket.unlock();
 		}
 		if(!find){
-			throw PolyBomberException(num+"Echec de la réception du paquet de l'expéditeur "+ipAddr.toString()+". Temps d'attente de 100 millisecondes dépassé");
+			this->setDeconnected(true);
 		}
 		return it;
 	}
@@ -736,9 +747,7 @@ namespace PolyBomber
 			if(this->server){
 				eraseSocket(ip1);
 			} else {
-				this->mutexDeconnect.lock();
-				this->deconnect = true;
-				this->mutexDeconnect.unlock();
+				setDeconnected(true);
 			}
 			break;
 		case 17 :

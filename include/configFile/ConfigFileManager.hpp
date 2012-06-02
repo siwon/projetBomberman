@@ -19,7 +19,7 @@
 // Bibliothèques externes
 
 // Headers
-#include "../IConfigFile.hpp"
+#include "IConfigFile.hpp"
 
 
 #define DEFAULT_FILENAME "resources/PolyBomber.conf" /* Chemin et nom par défaut du fichier de configuration */
@@ -66,27 +66,27 @@ namespace PolyBomber
 		void setDefaultKeyboardConfig(int player);
 		
 		/*!
-		 * @see IConfigFile#setStringValue
+		 * \see IConfigFile#setStringValue
 		 */
 		virtual void setStringValue(std::string key, std::string value);
 		
 		/*!
-		 * @see IConfigFile#setIntValue
+		 * \see IConfigFile#setIntValue
 		 */
 		virtual void setIntValue(std::string key, int value);
 		
 		/*!
-		 * @see IConfigFile#getStringValue
+		 * \see IConfigFile#getStringValue
 		 */
 		virtual std::string getStringValue(std::string key);
 		
 		/*!
-		 * @see IConfigFile#getIntValue
+		 * \see IConfigFile#getIntValue
 		 */
 		virtual int getIntValue(std::string key);
 		
 		/*!
-		 * @see IConfigFile#getKeys
+		 * \see IConfigFile#getKeys
 		 */
 		virtual std::vector<std::string> getKeys();
 		

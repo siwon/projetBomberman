@@ -72,6 +72,8 @@ namespace PolyBomber
 
 	void JoinGameMenu::validPressed(EMenuScreen* nextScreen)
 	{
+		error.setVisible(false);
+
 		if (cancel.getSelected())
 			*nextScreen = cancel.activate();
 		

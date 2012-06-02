@@ -23,6 +23,7 @@
 #include "menu/JoinGameMenu.hpp"
 #include "menu/SelectSlotsMenu.hpp"
 #include "menu/PauseMenu.hpp"
+#include "menu/ScoreMenu.hpp"
 
 #include "PolyBomberApp.hpp"
 
@@ -46,6 +47,7 @@ namespace PolyBomber
 				this->menuScreens[WAITINGMENU] = new WaitingMenu(&menuConfig);
 
 			this->menuScreens[PAUSEMENU] = new PauseMenu();
+			this->menuScreens[SCOREMENU] = new ScoreMenu(&menuConfig);
 				
 			this->menuScreens[CONFIGMENU] = new ConfigMenu();
 				this->menuScreens[GRAPHICSCONFIGMENU] = new GraphicsConfigMenu();
@@ -92,7 +94,7 @@ namespace PolyBomber
 				{
 					INetworkToMenu* network = PolyBomberApp::getINetworkToMenu();
 					network->cancel();
-					screen = MAINMENU;
+					screen = SCOREMENU;
 				}
 			}
 		}
@@ -119,7 +121,7 @@ namespace PolyBomber
 		this->menuConfig.nbLocalPlayers = 0;
 
 		int nbBonus[18] = {5,3,5,3,1,4,4,1,   7,4,3,2,   3,1,2,2,2,2};
-		//int nbBonus[18] =   {0,0,0,0,0,0,0,0,   0,30,0,0,   0,0,0,0,0,0};
+		
 		int i;
 
 		this->menuConfig.gameConfig.isLocal = true;
@@ -134,7 +136,7 @@ namespace PolyBomber
 			this->menuConfig.gameConfig.nbBonus[i] = nbBonus[i];
 
 		// Score
-		for (int i=0; i<3; i++)
+		for (i=0; i<4; i++)
 			this->menuConfig.scores[i] = 0;
 
 		this->menuConfig.winner = 0;			
