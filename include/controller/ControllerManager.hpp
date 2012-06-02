@@ -153,6 +153,11 @@ namespace PolyBomber
 		 */
 		bool keyUsed(int key, int player);
 		
+		/*!
+		 * \brief Charge la configuration des contrôleurs
+		 */
+		void loadControllerConfig();
+		
 	public:
 		
 		/*!

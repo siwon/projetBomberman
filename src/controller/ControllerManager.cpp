@@ -164,10 +164,11 @@ namespace PolyBomber
 	void ControllerManager::setWii()
 	{
 		wii = new Wii();
+		loadControllerConfig();
 		reloadConfig();
 	}
 
-	void ControllerManager::reloadConfig()
+	void ControllerManager::loadControllerConfig()
 	{
 		EControllerType type;
 		stringstream ss;
@@ -187,7 +188,7 @@ namespace PolyBomber
 						break;
 					
 					case GAMEPAD :
-						sf::Joystick::update();
+						//sf::Joystick::update();
 						gamepad->add(i+1);
 						controllerAssignation[i].setController(gamepad);
 						break;
@@ -207,7 +208,19 @@ namespace PolyBomber
 				std::cout << e->what() << std::flush;
 				delete e;
 			}
+		}
+	}
+	void ControllerManager::reloadConfig()
+	{
+		EControllerType type;
+		stringstream ss;
+		int i;
 		
+		/*delete gamepad;
+		gamepad = new Gamepad();*/
+		
+		for(i=0; i<4; i++)
+		{
 			ss.str("");
 			ss << "controller.player" << i+1 << ".up";
 			controllerAssignation[i].setKeys(GAME_UP,configFileManager->getIntValue(ss.str()));
@@ -381,7 +394,7 @@ namespace PolyBomber
 				case GAMEPAD:
 					try
 					{
-						sf::Joystick::update();
+						//sf::Joystick::update();
 						gamepad->add(player);
 						if(controllerType == WII)
 						{

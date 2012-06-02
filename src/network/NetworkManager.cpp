@@ -638,7 +638,7 @@ namespace PolyBomber
 		sf::Packet packet;
 		sf::IpAddress ipLocal = sf::IpAddress::getLocalAddress();
 		packet << i << ipLocal.toString();
-		std::cout << "creation du paquet numero : " << i << std::cout;
+		std::cout << "creation du paquet numero : " << i << std::endl;
 		switch(i){
 			case 1 : // demande de getboard d'un client
 			std::cout << "demande du plateau" << std::endl;
@@ -648,6 +648,11 @@ namespace PolyBomber
 					std::cout << "debut denvoie du plateau" << std::endl;
 					SBoard gameBoard = this->gameEngine->getBoard();
 					packet <<  gameBoard;
+					sf::Packet paquetTest;
+					paquetTest = packet;
+					int k;
+					paquetTest >> k;
+					std::cout << "l'ajout du gameboard donne le type suivant : "<<k << std::endl;
 				} else {
 					std::cerr << "le plateau ne peut être obtenu car un Client n'a pas accès à un GameEngine" << std::endl;
 				}
