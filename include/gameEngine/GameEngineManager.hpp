@@ -19,6 +19,7 @@ namespace PolyBomber {
 	friend class Singleton<GameEngineManager>; /* Utilisation du template singleton */
 	private:
 		sf::Mutex mutexBoard;
+		sf::Mutex mutexRunnable;
 	protected:
 		INetworkToGameEngine* network; /*! Réseau assigné */
 		Board board; /*! Objet stockant le plateau de jeu */
@@ -72,6 +73,11 @@ namespace PolyBomber {
 		 * \param secondes : Temps de décalage (en secondes)
 		 */
 		void decalageHoraire(int);
+
+		/*!
+		 * \brief Teste si le thread peut s'exécuter
+		 */
+		bool isRunnable();
 			
     public:
 		//IGameEngineToNetwork

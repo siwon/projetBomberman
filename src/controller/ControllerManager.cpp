@@ -212,12 +212,8 @@ namespace PolyBomber
 	}
 	void ControllerManager::reloadConfig()
 	{
-		EControllerType type;
 		stringstream ss;
 		int i;
-		
-		/*delete gamepad;
-		gamepad = new Gamepad();*/
 		
 		for(i=0; i<4; i++)
 		{

@@ -24,6 +24,6 @@ int main()
 		std::cerr << e.what() << std::endl;
 		signal = EXIT_FAILURE;
 	}
-
+	
 	return signal;
 }

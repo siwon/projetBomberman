@@ -31,7 +31,7 @@ namespace PolyBomber
 			/*!
 			 * \brief Destructeur
 			 */
-			~ScoreMenu() {}
+			~ScoreMenu();
 
 			/*!
 			 * \see IMenuScreen::validPressed

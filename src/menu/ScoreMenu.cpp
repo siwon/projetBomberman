@@ -46,6 +46,15 @@ namespace PolyBomber
 		}
 	}
 
+	ScoreMenu::~ScoreMenu()
+	{
+		for (int i=0; i<4; i++)
+		{
+			delete this->pictures[i];
+			delete this->names[i];
+		}
+	}
+
 	void ScoreMenu::validPressed(EMenuScreen* nextScreen)
 	{
 		*nextScreen = back.activate();

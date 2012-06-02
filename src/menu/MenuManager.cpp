@@ -64,7 +64,10 @@ namespace PolyBomber
 		// On parcourt la liste pour désallouer les menus
 		std::map<EMenuScreen, IMenuScreen*>::iterator it;
 		for (it = this->menuScreens.begin(); it != this->menuScreens.end(); it++)
-			delete (*it).second;
+		{
+			//std::cout << "boucle" << std::endl;
+			//delete (*it).second;
+		}
 	}
 
 	EScreenSignal MenuManager::run()
@@ -102,8 +105,9 @@ namespace PolyBomber
 					screen = GAMEMENU;
 			}
 		}
-
+		std::cout << "ok1" << std::endl;
 		PolyBomberApp::getINetworkToMenu()->cancel();
+		std::cout << "ok2" << std::endl;
 		return EXITGAME;
 	}
 

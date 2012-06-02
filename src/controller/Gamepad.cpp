@@ -92,7 +92,7 @@ namespace PolyBomber
 
 	Gamepad::~Gamepad()
 	{
-
+		
 	}
 
 	EMenuKeys Gamepad::getMenuKey(sf::RenderWindow* window)

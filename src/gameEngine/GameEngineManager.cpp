@@ -33,7 +33,11 @@ namespace PolyBomber {
 		this->network=PolyBomberApp::getINetworkToGameEngine();
 		this->board=Board();
 		this->gameConfigIsSet=false;
+		
+		this->mutexRunnable.lock();
 		this->runnable=false;
+		this->mutexRunnable.unlock();
+				
 		this->horloge=sf::Clock();
 		this->debutPause=0;
 		this->lastInfectionAction=0;
@@ -153,7 +157,7 @@ namespace PolyBomber {
 	}
 	
 	void GameEngineManager::run() {
-		while (runnable) {
+		while (isRunnable()) {
 			int time=horloge.getElapsedTime().asSeconds();
 			int time2=horloge.getElapsedTime().asMilliseconds();
 			SKeyPressed sKeyPressed = network->getKeysPressed();
@@ -232,14 +236,20 @@ namespace PolyBomber {
 			}
 
 			if (board.nbSurvivant()<=1) {
+				this->mutexRunnable.lock();
 				this->runnable=false;
+				this->mutexRunnable.unlock();
 			}
+			std::cout << "run simon :" << runnable << std::endl;
 		}
+		std::cout << "fin run" << std::endl;
 	}
 	
 	void GameEngineManager::resetConfig() {
 		std::cout << "puddi2" << std::endl;
+		this->mutexRunnable.lock();
 		this->runnable=false;
+		this->mutexRunnable.unlock();
 		this->mutexBoard.lock();
 		std::cout << "puddi3" << std::endl;
 		board.resetConfig();
@@ -262,5 +272,13 @@ namespace PolyBomber {
 		int result = board.getIdSurvivant();
 		this->mutexBoard.unlock();
 		return result;
+	}
+
+	bool GameEngineManager::isRunnable() {
+		bool toReturn;
+		this->mutexRunnable.lock();
+		toReturn = this->runnable;
+		this->mutexRunnable.unlock();
+		return toReturn;
 	}
 }
