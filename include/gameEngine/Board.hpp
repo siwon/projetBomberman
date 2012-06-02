@@ -16,6 +16,8 @@
 #include "Player.hpp"
 #include "Wall.hpp"
 
+#include "SBoard.hpp"
+
 namespace PolyBomber {
 	/*!
 	 * \class Board
