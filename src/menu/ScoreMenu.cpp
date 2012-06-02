@@ -17,8 +17,8 @@ namespace PolyBomber
 {
 	ScoreMenu::ScoreMenu(SMenuConfig* menuConfig) :
 		title("Score de la partie", TITLEFONT, 100),
-		winner("Le joueur i a gagné !", TEXTFONT, 200),
-		back("Retour au menu", 500, MAINMENU),
+		winner("Le joueur i a gagne !", TEXTFONT, 170),
+		back("Retour au menu", 550, MAINMENU),
 		menuConfig(menuConfig)
 	{
 		ISkin* skin = PolyBomberApp::getISkin();
@@ -35,12 +35,11 @@ namespace PolyBomber
 		for (int i=0; i<4; i++)
 		{
 			this->pictures[i] = new ImageWidget();
-			this->pictures[i]->setPosition(300, 200 + 60*i);				
+			this->pictures[i]->setPosition(300, 250 + 60*i);				
 			this->pictures[i]->setImage(skin->loadImage((EImage)(PLAYER1 + i)));				
 
-			this->names[i] = new TextWidget("", TEXTFONT, 210 + 60*i);
+			this->names[i] = new TextWidget("", TEXTFONT, 250 + 60*i);
 			this->names[i]->setColor(skin->getColor(TEXTCOLOR));
-			this->names[i]->move(100, 0);
 
 			this->widgets.push_back(this->pictures[i]);
 			this->widgets.push_back(this->names[i]);
@@ -65,7 +64,7 @@ namespace PolyBomber
 		else
 		{
 			std::ostringstream text;
-			text << "Le joueur " << menuConfig->winner << " a gagné !";
+			text << menuConfig->gameConfig.playersName[menuConfig->winner-1] << " a gagne !";
 			winner.setString(text.str());
 		}
 
