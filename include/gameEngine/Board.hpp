@@ -49,7 +49,7 @@ namespace PolyBomber {
 		//Board& operator=(Board&);
 		~Board();
 		
-		inline int getNbPlayer() {return this->player.size();}
+		inline unsigned int getNbPlayer() {return this->player.size();}
 		
 		SBoard boardToSBoard();
 		
