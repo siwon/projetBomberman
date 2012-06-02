@@ -16,8 +16,8 @@
 
 
 // Headers
-#include "../../include/gameEngine/Wall.hpp"
-#include "../../include/gameEngine/DefineAndFunction.hpp"
+#include "gameEngine/Wall.hpp"
+#include "gameEngine/DefineAndFunction.hpp"
 
 namespace PolyBomber {
 	

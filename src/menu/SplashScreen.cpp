@@ -7,6 +7,7 @@
 #include "menu/SplashScreen.hpp"
 #include "PolyBomberApp.hpp"
 #include "menu/ImageWidget.hpp"
+#include "sound/SoundManager.hpp"
 
 namespace PolyBomber
 {
@@ -29,6 +30,9 @@ namespace PolyBomber
 		
 		clock.restart();
 		
+		ISound* sound = PolyBomberApp::getISound();
+		sound->playSound(SPLASHSOUND);
+		
 		while (true)
 		{
 			sf::Time elapsed = clock.getElapsedTime();
@@ -36,7 +40,7 @@ namespace PolyBomber
 			// Fondus de transition
 			if (elapsed.asSeconds() > 3.f && elapsed.asSeconds() <= 4.f)
 				splash.setColor(sf::Color(255,255,255, 765 - 255 * elapsed.asSeconds()));
-
+				
 			if (elapsed.asSeconds() > 7.f && elapsed.asSeconds() <= 8.f)
 				wiiScreen.setColor(sf::Color(255,255,255, 2040 - 255 * elapsed.asSeconds()));
 

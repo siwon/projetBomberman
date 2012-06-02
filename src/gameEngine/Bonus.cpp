@@ -16,7 +16,7 @@
 
 
 // Headers
-#include "../../include/gameEngine/Bonus.hpp"
+#include "gameEngine/Bonus.hpp"
 
 
 namespace PolyBomber {

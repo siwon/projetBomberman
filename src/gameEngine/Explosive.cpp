@@ -16,8 +16,8 @@
 
 
 // Headers
-#include "../../include/gameEngine/Explosive.hpp"
-#include "../../include/gameEngine/Board.hpp"
+#include "gameEngine/Explosive.hpp"
+#include "gameEngine/Board.hpp"
 
 
 namespace PolyBomber {

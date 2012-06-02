@@ -142,15 +142,9 @@ namespace PolyBomber
 					for(int i=0;i<7;i++)
 					{
 						if(wiimote.Buttons.isJustPressed(keys[i]))
-						{
 							gameActions[player-1].actions[i] = true;
-							std::cout << "Player " << player << " : " << keys[i] << std::endl;
-						}
 						else if(wiimote.Buttons.isReleased(keys[i]))
-						{
 							gameActions[player-1].actions[i] = false;
-							std::cout << "Player " << player << " : " << keys[i] << std::endl;
-						}
 					}
 					break;
 				default :
@@ -256,11 +250,14 @@ namespace PolyBomber
 
 	void Wii::disconnect(int player)
 	{
-		wiimotesAssignation[player]->SetRumbleMode(CWiimote::ON);
-		usleep(100000);
-		wiimotesAssignation[player]->SetRumbleMode(CWiimote::OFF);
+		if(wiimotesAssignation.count(player) >= 1)
+		{
+			wiimotesAssignation[player]->SetRumbleMode(CWiimote::ON);
+			usleep(100000);
+			wiimotesAssignation[player]->SetRumbleMode(CWiimote::OFF);
 		
-		wiimotesAssignation.erase(player);
-		nbWiimotes--;
+			wiimotesAssignation.erase(player);
+			nbWiimotes--;
+		}
 	}
 }

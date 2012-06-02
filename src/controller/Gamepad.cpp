@@ -48,7 +48,6 @@ namespace PolyBomber
 				find = true;
 			i++;
 		}
-
 		return find;
 	}
 
@@ -56,6 +55,7 @@ namespace PolyBomber
 	{
 		bool assignated = false;
 		int i = 0;
+		
 		while( i < sf::Joystick::Count && !assignated )
 		{
 			if(!gamepadUsed(i) && sf::Joystick::isConnected(i))
@@ -77,9 +77,12 @@ namespace PolyBomber
 
 	void Gamepad::disconnect(int player)
 	{
-		nbGamepad--;
-		gamepadsAssignation.erase(player);
-		sf::Joystick::update();
+		if(gamepadsAssignation.count(player) >= 1)
+		{
+			nbGamepad--;
+			gamepadsAssignation.erase(player);
+			sf::Joystick::update();
+		}
 	}
 
 	Gamepad::Gamepad()

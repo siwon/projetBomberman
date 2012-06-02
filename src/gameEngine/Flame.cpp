@@ -16,7 +16,7 @@
 
 
 // Headers
-#include "../../include/gameEngine/Flame.hpp"
+#include "gameEngine/Flame.hpp"
 
 namespace PolyBomber {
 	

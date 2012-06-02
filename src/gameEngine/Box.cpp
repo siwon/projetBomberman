@@ -16,7 +16,7 @@
 
 
 // Headers
-#include "../../include/gameEngine/Box.hpp"
+#include "gameEngine/Box.hpp"
 
 namespace PolyBomber {
 	

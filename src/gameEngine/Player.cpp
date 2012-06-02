@@ -16,7 +16,7 @@
 
 
 // Headers
-#include "../../include/gameEngine/Player.hpp"
+#include "gameEngine/Player.hpp"
 
 namespace PolyBomber {
 	
