@@ -24,8 +24,7 @@ if [ $? -ne 0 ];then
 	exit 1
 fi
 
-cp ./default/splash.png "$name/"
-cp ./default/wiiScreen.png "$name/"
+cp -R ./default/* "$name/"
 
 cd $name
 

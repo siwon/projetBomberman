@@ -77,14 +77,14 @@ namespace PolyBomber {
 		switch (bonus.getType()) {
 			case SPEEDUP:
 				speed=speed-PASVITESSE;
-				if (speed>VITESSEMAX) {
+				if (speed<VITESSEMAX) {
 					speed=VITESSEMAX;
 				}
 				break;
 				
 			case SPEEDDOWN:
 				speed=speed+PASVITESSE;
-				if (speed<VITESSEMIN) {
+				if (speed>VITESSEMIN) {
 					speed=VITESSEMIN;
 				}
 				break;
