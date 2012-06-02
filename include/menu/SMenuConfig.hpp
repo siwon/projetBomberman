@@ -20,6 +20,8 @@ namespace PolyBomber
 		bool isServer;
 		unsigned int nbLocalPlayers;
 		SGameConfig gameConfig;
+		unsigned int scores[4]; /*!< Score des joueurs */
+		int winner; /*!< Gagnant de la dernière partie */
 	};
 }
 

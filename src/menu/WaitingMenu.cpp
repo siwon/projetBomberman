@@ -176,7 +176,6 @@ namespace PolyBomber
 			try
 			{
 				std::string names[4] = {"", "", "", ""};
-				std::cout << "ij" << std::endl;
 				this->network->getPlayersName(names);
 				while (names[nb].compare("") != 0)
 					nb++;

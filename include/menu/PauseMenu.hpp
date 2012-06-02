@@ -12,7 +12,6 @@
 #include "INetworkToMenu.hpp"
 #include "menu/IMenuScreen.hpp"
 
-#include "menu/ImageWidget.hpp"
 #include "menu/TextWidget.hpp"
 #include "menu/LinkWidget.hpp"
 
