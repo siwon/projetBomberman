@@ -216,6 +216,11 @@ namespace PolyBomber
 	}
 
 	void NetworkManager::cancel(){
+		if(this->server){
+			std::cout << "puddiDeb" << std::endl;
+			this->gameEngine->resetConfig(); // stop le thread run() s'il est commencé
+			std::cout << "puddiAfter" << std::endl;
+		}
 		if(this->isConnected()){
 			sf::Packet packet;
 			packet = createPacket(101);
@@ -256,11 +261,10 @@ namespace PolyBomber
 
 			
 		}
-		if(this->server){
-			this->gameEngine->resetConfig(); // stop le thread run() s'il est commencé
-		}
+		
 		this->players.clear();
 		this->initialize();
+		std::cout << "puddiFin" << std::endl;
 	}
 
 	void NetworkManager::joinGame(std::string ip){
@@ -706,7 +710,7 @@ namespace PolyBomber
 	}
 
 	sf::TcpSocket* NetworkManager::findSocket(sf::IpAddress& ip){
-		if(!this->server){
+		if(!this->server && (this->clients.size() > 0)){
 			return this->clients[0];
 		} else {
 			std::vector<sf::TcpSocket*>::iterator it = findSocketIterator(ip);
