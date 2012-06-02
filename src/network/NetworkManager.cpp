@@ -635,6 +635,7 @@ namespace PolyBomber
 
 	sf::Packet NetworkManager::createPacket(int i, int j){
 		sf::Packet packet;
+		sf::Packet puddi;
 		sf::IpAddress ipLocal = sf::IpAddress::getLocalAddress();
 		packet << i << ipLocal.toString();
 		std::cout << "creation du paquet numero : " << i << std::endl;
@@ -680,20 +681,19 @@ namespace PolyBomber
 			case 9 : // demande s'il c'est fini
 				break;
 			case 10 : // envoi si c'est fini
-				int w;
-				w = this->isFinished()
-				packet << w;
-				sf::Packet p;
-				p=packet;
-				p>>w
-				std::cout << "le paquet isfinish est de type "<<w<<std:endl;
+				int a;
+				a = this->isFinished();
+				packet << a;
+				puddi = packet;
+				puddi>>a;
+				std::cout << "le paquet isfinish est de type "<<a<<std::endl;
 				break;
 			case 11 : // demande si c'est commencé
 				break;
 			case 12 : // envoi si c'est commencé
-				bool w;
-				w = this->isStarted();
-				packet << w;
+				bool b;
+				b = this->isStarted();
+				packet << b;
 				break;
 			case 13 : // demande du score
 				break;
