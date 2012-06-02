@@ -89,18 +89,21 @@ namespace PolyBomber
 			{
 				// Lancement d'une partie
 				signal = gameInterface->run(window.getWindow(), this->menuConfig.scores, this->menuConfig.winner);
+				PolyBomberApp::getINetworkToMenu()->cancel();
 				
 				if (signal == EXITGAME)
 				{
-					INetworkToMenu* network = PolyBomberApp::getINetworkToMenu();
-					network->cancel();
-					screen = SCOREMENU;
+					if (window.isOpen())
+						screen = SCOREMENU;
+					else
+						screen = EXIT;
 				}
+				else
+					screen = GAMEMENU;
 			}
 		}
 
 		PolyBomberApp::getINetworkToMenu()->cancel();
-		
 		return EXITGAME;
 	}
 

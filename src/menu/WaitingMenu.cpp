@@ -86,105 +86,105 @@ namespace PolyBomber
 
 	void WaitingMenu::update()
 	{
-		try
+		std::string names[4] = {"", "", "", ""};
+		this->network->getPlayersName(names);
+
+		if (!menuConfig->isServer)
 		{
-			std::string names[4] = {"", "", "", ""};
-			this->network->getPlayersName(names);
+			// On remet à jour le nombre de joueurs de la partie
+			unsigned int nb = 0;
+			while (nb < 4 && names[nb].compare("") != 0)
+				nb++;
 
-			if (!menuConfig->isServer)
-			{
-				// On remet à jour le nombre de joueurs de la partie
-				unsigned int nb = 0;
-				while (nb < 4 && names[nb].compare("") != 0)
-					nb++;
-
-				this->menuConfig->gameConfig.nbPlayers = nb;
-			}
-
-			for (unsigned int i=0; i<4; i++)
-			{
-				menuConfig->gameConfig.playersName[i] = names[i];
-				this->pictures[i]->setVisible(i < this->menuConfig->gameConfig.nbPlayers);
-				this->names[i]->setVisible(i < this->menuConfig->gameConfig.nbPlayers);
-			}
-
-			for (unsigned int i=0; i<this->menuConfig->gameConfig.nbPlayers; i++)
-			{
-				if (names[i].compare("None") == 0 || names[i].compare("") == 0)
-					this->names[i]->setString("...");
-				else
-					this->names[i]->setString(names[i]);
-			}
-		}
-		catch (PolyBomberException& e)
-		{
-			this->network->cancel();
-			std::cerr << e.what() << std::endl;
+			this->menuConfig->gameConfig.nbPlayers = nb;
 		}
 
+		for (unsigned int i=0; i<4; i++)
+		{
+			menuConfig->gameConfig.playersName[i] = names[i];
+			this->pictures[i]->setVisible(i < this->menuConfig->gameConfig.nbPlayers);
+			this->names[i]->setVisible(i < this->menuConfig->gameConfig.nbPlayers);
+		}
+
+		for (unsigned int i=0; i<this->menuConfig->gameConfig.nbPlayers; i++)
+		{
+			if (names[i].compare("None") == 0 || names[i].compare("") == 0)
+				this->names[i]->setString("...");
+			else
+				this->names[i]->setString(names[i]);
+		}
 	}
 
 	EMenuScreen WaitingMenu::run(MainWindow& window, EMenuScreen)
 	{
-		initWidgets();
-
 		IControllerToMenu* controller = PolyBomberApp::getIControllerToMenu();
 
 		EMenuScreen nextScreen = NONEMENU;
 
-		sf::Clock clock;
-			
-		while (nextScreen == NONEMENU)
-		{			
-			window.clear();
-			window.display(this->widgets);
+		try
+		{
+			initWidgets();
 
-			EMenuKeys key = MENU_NONE;
-			while ((key = controller->getKeyPressed()) == MENU_NONE && window.isOpen())
-			{
-				if (clock.getElapsedTime().asMilliseconds() > 250)
+			sf::Clock clock;
+				
+			while (nextScreen == NONEMENU)
+			{			
+				window.clear();
+				window.display(this->widgets);
+
+				EMenuKeys key = MENU_NONE;
+				while ((key = controller->getKeyPressed()) == MENU_NONE && window.isOpen())
 				{
-					clock.restart();
-					update();
-					window.clear();
-					window.display(this->widgets);
-
-					if (this->network->isStarted())
+					if (clock.getElapsedTime().asMilliseconds() > 250)
 					{
-						nextScreen = start.activate();
-						break;
+						clock.restart();
+						update();
+						window.clear();
+						window.display(this->widgets);
+
+						if (this->network->isStarted())
+						{
+							nextScreen = start.activate();
+							break;
+						}
 					}
 				}
-			}
 
-			switch(key)
-			{
-				case MENU_DOWN:
-					downPressed();
-					break;
-				case MENU_UP:
-					upPressed();
-					break;
-				case MENU_LEFT:
-					leftPressed();
-					break;
-				case MENU_RIGHT:
-					rightPressed();
-					break;
-				case MENU_VALID:
-					validPressed(&nextScreen);
-					break;
-				case MENU_BACK:
-					backPressed(&nextScreen);
-					break;
-				default:
-					break;
-			}
+				switch(key)
+				{
+					case MENU_DOWN:
+						downPressed();
+						break;
+					case MENU_UP:
+						upPressed();
+						break;
+					case MENU_LEFT:
+						leftPressed();
+						break;
+					case MENU_RIGHT:
+						rightPressed();
+						break;
+					case MENU_VALID:
+						validPressed(&nextScreen);
+						break;
+					case MENU_BACK:
+						backPressed(&nextScreen);
+						break;
+					default:
+						break;
+				}
 
-			if (!window.isOpen())
-				nextScreen = EXIT;
-		}		
-
+				if (!window.isOpen())
+					nextScreen = EXIT;
+			}		
+		}
+		catch(PolyBomberException& e)
+		{
+			std::cerr << e.what() << std::endl;
+			this->network->cancel();
+			nextScreen = GAMEMENU;
+		}
+		
 		return nextScreen;
 	}
 

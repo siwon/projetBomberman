@@ -17,8 +17,7 @@ namespace PolyBomber
 		nbPlayers(TEXTFONT, 300),
 		cancel("Annuler", 450, GAMEMENU),
 		next("Valider", 450, SELECTNAMEMENU),
-		menuConfig(menuConfig),
-		errorException(false)
+		menuConfig(menuConfig)
 	{
 		ISkin* skin = PolyBomberApp::getISkin();
 		
@@ -84,25 +83,25 @@ namespace PolyBomber
 			*nextScreen = cancel.activate();
 		}
 		
-		if (next.getSelected() && !errorException)
+		if (next.getSelected())
 		{				
 			if (this->network->getFreeSlots() <= (int)nbPlayers.getCurrentItem())
 				error.setVisible(true);
 			else
 			{			
-				try
-				{
+				//try
+				//{
 					this->network->setBookedSlots(nbPlayers.getCurrentItem() + 1);
 					this->menuConfig->nbLocalPlayers = nbPlayers.getCurrentItem() + 1;
 					*nextScreen = next.activate();
-				}
+				/*}
 				catch (PolyBomberException& e)
 				{
 					std::cerr << e.what() << std::endl;
 					// FIXME: Msg d'erreur
 					this->network->cancel();
 					*nextScreen = cancel.activate();
-				}
+				}*/
 			}
 		}
 	}
@@ -120,18 +119,18 @@ namespace PolyBomber
 		{
 			this->menuConfig->nbLocalPlayers = this->menuConfig->gameConfig.nbPlayers;
 
-			try
-			{
+			//try
+			//{
 				this->network->setBookedSlots(this->menuConfig->nbLocalPlayers);
 				return next.activate();
-			}
+			/*}
 			catch (PolyBomberException& e)
 			{
 				// FIXME : Msg erreur
 				std::cerr << e.what() << std::endl;
 				this->network->cancel();
 				return cancel.activate();
-			}
+			}*/
 		}
 
 		if (previous == CREATEGAMEMENU)
@@ -144,8 +143,8 @@ namespace PolyBomber
 
 	void SelectSlotsMenu::loopAction(EMenuScreen* nextScreen)
 	{
-		try
-		{
+		//try
+		//{
 			std::cout << "debut : " << std::endl;
 			int nb = this->network->getFreeSlots();
 			int sel = nbPlayers.getCurrentItem();
@@ -175,7 +174,7 @@ namespace PolyBomber
 				nbPlayers.setCurrentItem(nb - 1);
 			else
 				nbPlayers.setCurrentItem(sel);
-		}
+		/*}
 		catch (PolyBomberException& e)
 		{
 			std::cout << "catch" << std::endl;
@@ -183,6 +182,6 @@ namespace PolyBomber
 			this->errorException = true;
 			this->network->cancel();
 			*nextScreen = cancel.activate();
-		}
+		}*/
 	}
 }

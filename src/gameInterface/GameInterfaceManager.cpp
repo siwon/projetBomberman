@@ -33,6 +33,8 @@ namespace PolyBomber
 
 	EScreenSignal GameInterfaceManager::run(sf::RenderWindow* window, unsigned int score[4], int& winner)
 	{		
+		EScreenSignal result = EXITGAME;
+
 		INetworkToGameInterface* network = PolyBomberApp::getINetworkToGameInterface();
 		IMenuToGameInterface* menu = PolyBomberApp::getIMenuToGameInterface();
 		ISound* music = PolyBomberApp::getISound();
@@ -93,6 +95,7 @@ namespace PolyBomber
 			catch (PolyBomberException& e)
 			{
 				running = false;
+				result = EXITERROR;
 			}
 		}
 
@@ -102,7 +105,7 @@ namespace PolyBomber
 			sf::sleep(sf::seconds(5));
 		}
 
-		return EXITGAME;
+		return result;
 	}
 
 	void GameInterfaceManager::update()

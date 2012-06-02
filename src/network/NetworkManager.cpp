@@ -216,6 +216,7 @@ namespace PolyBomber
 	}
 
 	void NetworkManager::cancel(){
+		this->etatNetwork();
 		if(this->isConnected()){
 			sf::Packet packet;
 			packet = createPacket(101);
@@ -261,6 +262,7 @@ namespace PolyBomber
 		}
 		this->players.clear();
 		this->initialize();
+		this->etatNetwork();
 	}
 
 	void NetworkManager::joinGame(std::string ip){
