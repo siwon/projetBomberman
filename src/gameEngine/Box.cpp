@@ -10,12 +10,14 @@
 
 
 // Bibliotheques SFML
-
+#include <SFML/System/Vector2.hpp>
 
 // Bibliotheques externes
 
 
 // Headers
+
+#include "gameEngine/DefineAndFunction.hpp"
 #include "gameEngine/Box.hpp"
 
 namespace PolyBomber {
