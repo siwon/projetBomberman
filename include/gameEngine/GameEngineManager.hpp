@@ -7,19 +7,7 @@
  * \author Simon Rousseau
  */
 
-#include <SFML/System/Mutex.hpp>
-#include <SFML/System/Time.hpp>
-#include <SFML/System/Clock.hpp>
-
-#include "../IGameEngineToNetwork.hpp"
-#include "../IGameEngineToGameInterface.hpp"
-#include "../INetworkToGameEngine.hpp"
-#include "../TSingleton.hpp"
-
 #include "Board.hpp"
-
-#include "DefineAndFunction.hpp"
-
 
 namespace PolyBomber {
 	/*!
@@ -28,45 +16,95 @@ namespace PolyBomber {
 	 */
 	class GameEngineManager : public IGameEngineToNetwork, public Singleton<GameEngineManager> {
 
-	friend class Singleton<GameEngineManager>; 
+	friend class Singleton<GameEngineManager>; /* Utilisation du template singleton */
 	private:
 		sf::Mutex mutexBoard;
 	protected:
-		INetworkToGameEngine* network;
+		INetworkToGameEngine* network; /*! Réseau assigné */
 		Board board; /*! Objet stockant le plateau de jeu */
-		bool gameConfigIsSet;
-		bool runnable;
-		sf::Clock horloge;
-		int debutPause;
-		int lastInfectionAction;
+		bool gameConfigIsSet; /*! Détermine si le jeu est configuré ou pas */
+		bool runnable; /*! Détermine si la partie doit tourner */
+		sf::Clock horloge; /*! Stockage de l'horloge du jeu */
+		int debutPause; /*! Date du début de la pause */
+		int lastInfectionAction; /*! Date de la dernière action due à une infection */
 		
 	private:
+		/*!
+		 * \brief Constructeur de la classe GameEngineManager
+		 */
 		GameEngineManager();
+		
+		/*!
+		 * \brief Déstructeur de la classe GameEngineManager
+		 */
 		~GameEngineManager();
 
-		//generation de la map
+		//Fonction de génération de la map
+		/*!
+		 * \brief Génère les murs sur la carte
+		 */
 		void generateWall();
+		
+		/*!
+		 * \brief Génère les joueurs sur la carte
+		 * \param nbPlayer : Nombre de joueurs
+		 */
 		void generatePlayer(int);
+		
+		/*!
+		 * \brief Génère les caisses
+		 * \param nbBox : Nombre de caisses à générer
+		 */
 		void generateBox(int);
+		
+		/*!
+		 * \brief Génère les flammes
+		 * \param origineX : Abscisse de la source de la flamme (en case)
+		 * \param origineY : Ordonné de la source de la flamme (en case)
+		 * \param range : Portée de la flamme
+		 * \param date : Date du jeu
+		 */
 		void generateFlame(int, int, int, int);
 		
 		//decalageHoraire
+		/*!
+		 * \brief Effectue un décalage de toutes les horloges en cas de pause
+		 * \param secondes : Nombre de secondes de décalage
+		 */
 		void decalageHoraire(int);
 			
     public:
 		//IGameEngineToNetwork
+		/*!
+		 * \brief Génère les objets d'initialisation de la partie
+		 * \param gameConfig : Structure contenant les informations de la partie
+		 * Cette méthode fera appelle aux différentes fonctions privées de génération d'objets
+		 */
 		void setGameConfig(SGameConfig);
+		
+		/*!
+		 * \brief Fonction générale permettant de jouer
+		 */
 		void run();
+		
+		/*!
+		 * \brief Efface le contenu du board
+		 */
 		void resetConfig();
 		
 		//IGameEngineToGameInterface
-		SBoard getBoard();
-		int isFinished();
-		/*
-		 * -1 : pas de gagnant et partie terminée
-		 * 0 : partie non terminée
-		 * 1-4 : renvoie l'id du joueur +1
+		
+		/*!
+		 * \brief Génère une structure SBoard afin de l'envoyer au réseau
+		 * \return Structure contenant les informations du SBoard
 		 */
+		SBoard getBoard();
+		
+		/*!
+		 * \brief Détermine si la partie est terminée ou pas
+		 * \return Retourne 0 si la partie n'est pas terminée, retourne -1 si il n'y a plus de survivants, retourne l'identifiant du joueur plus 1 si il n'y a plus qu'un survivant
+		 */
+		int isFinished();
 	};
 }
 
