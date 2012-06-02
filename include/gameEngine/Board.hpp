@@ -49,7 +49,7 @@ namespace PolyBomber {
 		//Board& operator=(Board&);
 		~Board();
 		
-		inline int getNbPlayer() {return this->player.size();}
+		inline unsigned int getNbPlayer() {return this->player.size();}
 		
 		SBoard boardToSBoard();
 		
@@ -102,6 +102,7 @@ namespace PolyBomber {
 		void removeBonusByCoord(int x, int y);
 		
 		void checkPosition(int);
+		void activateAllMine();
 		void makeInfectionAction(int);
 		void removeObseleteFlame(int);
 		void explodeAllBomb(int);

@@ -17,11 +17,17 @@ namespace PolyBomber {
 	 * \brief Classe Mine
 	 */
 	class Mine : public Explosive {
+	private:
+		bool active;
 	public:
 		Mine(const Player&);
 		Mine(const Mine&);
 		//Mine& operator=(Mine&);
 		~Mine();
+		
+		inline bool isActive() {return this->active;}
+		inline void activate() {this->active=true;}
+		inline void desactivate() {this->active=false;}
 	};
 }
 
