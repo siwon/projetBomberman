@@ -18,7 +18,7 @@ namespace PolyBomber
 		cancel("Annuler", 450, GAMEMENU),
 		next("Valider", 450, SELECTNAMEMENU),
 		menuConfig(menuConfig),
-		error(false)
+		errorException(false)
 	{
 		ISkin* skin = PolyBomberApp::getISkin();
 		
@@ -84,7 +84,7 @@ namespace PolyBomber
 			*nextScreen = cancel.activate();
 		}
 		
-		if (next.getSelected() && !error)
+		if (next.getSelected() && !errorException)
 		{				
 			if (this->network->getFreeSlots() <= (int)nbPlayers.getCurrentItem())
 				error.setVisible(true);
@@ -180,7 +180,7 @@ namespace PolyBomber
 		{
 			std::cout << "catch" << std::endl;
 			std::cerr << e.what() << std::endl;
-			this->error = true;
+			this->errorException = true;
 			this->network->cancel();
 			*nextScreen = cancel.activate();
 		}
