@@ -27,7 +27,7 @@ namespace PolyBomber
 
 		this->finishText.setFont(this->font);
 		this->finishText.setCharacterSize(30);
-		this->finishText.setColor(skin->getColor(ERRORCOLOR));
+		this->finishText.setColor(skin->getColor(TEXTCOLOR));
 		this->finishText.setString("Partie terminee");
 	}
 
@@ -88,7 +88,10 @@ namespace PolyBomber
 		}
 
 		if (winner != 0)
+		{
+			score[winner-1]++;
 			sf::sleep(sf::seconds(5));
+		}
 
 		return EXITGAME;
 	}

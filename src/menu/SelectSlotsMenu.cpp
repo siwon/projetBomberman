@@ -145,6 +145,7 @@ namespace PolyBomber
 	{
 		try
 		{
+			std::cout << "debut : " << std::endl;
 			int nb = this->network->getFreeSlots();
 			int sel = nbPlayers.getCurrentItem();
 
@@ -155,6 +156,8 @@ namespace PolyBomber
 			error.setVisible(nb == 0);
 			nbPlayers.setVisible(nb > 0);
 			next.setVisible(nb > 0);
+
+			std::cout << "free slots 2: " << nb << std::endl;
 			
 			if (nb > 0)
 				nbPlayers.push_back("1");
@@ -165,6 +168,8 @@ namespace PolyBomber
 			if (nb > 2)	nbPlayers.push_back("3");
 			if (nb > 3)	nbPlayers.push_back("4");
 
+			std::cout << "free slots 3: " << nb << std::endl;
+
 			if (nb <= sel && nb > 0)
 				nbPlayers.setCurrentItem(nb - 1);
 			else
@@ -172,8 +177,8 @@ namespace PolyBomber
 		}
 		catch (PolyBomberException& e)
 		{
+			std::cout << "catch" << std::endl;
 			std::cerr << e.what() << std::endl;
-			// FIXME: Msg d'erreur
 			this->network->cancel();
 			*nextScreen = cancel.activate();
 		}

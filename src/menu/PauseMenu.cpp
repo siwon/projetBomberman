@@ -83,7 +83,7 @@ namespace PolyBomber
 				pause = this->network->isPaused();
 				if (pause == 0)
 				{
-					resume.activate();
+					nextScreen = resume.activate();
 					break;
 				}
 			}
@@ -106,7 +106,7 @@ namespace PolyBomber
 			if (!window.isOpen())
 				nextScreen = EXIT;
 		}		
-
+		std::cout << "fin de pause 2" << std::endl;
 		return nextScreen;
 	}
 }
