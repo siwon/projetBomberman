@@ -42,7 +42,6 @@ namespace PolyBomber
 		this->wii = new CWii();
 		this->nbWiimotes = 0;
 	
-		cout << "Recherche des périphériques wiimotes....... Allumez les !" << endl;
 		this->numFound = wii->Find(3);
 	
 		wiimotes = wii->Connect();

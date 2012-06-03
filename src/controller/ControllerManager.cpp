@@ -205,7 +205,6 @@ namespace PolyBomber
 			{
 				controllerAssignation[i].setController(keyboard);
 				configFileManager->setDefaultKeyboardConfig(i+1);
-				std::cout << e->what() << std::flush;
 				delete e;
 			}
 		}
