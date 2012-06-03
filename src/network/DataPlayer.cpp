@@ -1,10 +1,10 @@
 /*!
  * \file DataPlayer.cpp
- * \brief Implémentation de classe DataPlayer
+ * \brief ImplÃ©mentation de classe DataPlayer
  * \author Brice GUILLERMIC
  */
 
-// Bibliothèques SFML
+// BibliothÃ¨ques SFML
 #include <SFML/Network.hpp>
 
 //Headers

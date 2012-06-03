@@ -3,7 +3,7 @@
 
 /*!
  * \file NetworkManager.hpp
- * \brief gestionnaire réseau
+ * \brief gestionnaire rÃ©seau
  * \author Brice GUILLERMIC
  */
 
@@ -26,7 +26,7 @@ namespace PolyBomber
 {
 	/*!
 	 * \class NetworkManager
-	 * \brief singleton du gestionnaire réseau
+	 * \brief singleton du gestionnaire rÃ©seau
 	 */
 	class  NetworkManager : public INetworkToGameInterface,
 		public INetworkToMenu, 
@@ -43,8 +43,8 @@ namespace PolyBomber
 			bool started;
 			bool connect;
 			std::vector<DataPlayer> players;
-			std::vector<sf::TcpSocket*> clients;//segment de m�moire partag�
-			std::list<sf::Packet> packets; // segment de m�moire partag�
+			std::vector<sf::TcpSocket*> clients;//segment de mémoire partagé
+			std::list<sf::Packet> packets; // segment de mémoire partagé
 			bool server;
 			bool deconnect;
 			sf::SocketSelector selector; // le selecteur pour le serveur
@@ -85,131 +85,131 @@ namespace PolyBomber
 			
 			/*!
 <<<<<<< HEAD
-			 * \brief envoie un paquet et attent un paquet de réponse
-			 * \param entier : type du paquet qui est à envoyer
+			 * \brief envoie un paquet et attent un paquet de rÃ©ponse
+			 * \param entier : type du paquet qui est Ã  envoyer
 			 * \return un iterateur sur la liste de packets
 =======
-			 * \brief envoie un paquet et attent un paquet de r�ponse
-			 * \param entier : type du paquet qui est � envoyer
-			 * \return un iterateur sur un paquet qui est la r�ponse � la question
+			 * \brief envoie un paquet et attent un paquet de réponse
+			 * \param entier : type du paquet qui est à envoyer
+			 * \return un iterateur sur un paquet qui est la réponse à la question
 >>>>>>> f5bbc5bc779ed35226a94bce61c8c7788880f50c
 			 */
 			std::list<sf::Packet>::iterator askServer(int);
 			
 			/*!
-			 * \brief demande synchronisée si le jeu est connecté à un ordinateur distant 
+			 * \brief demande synchronisÃ©e si le jeu est connectÃ© Ã  un ordinateur distant 
 			 * \return vrai s'il y a connexion a un ordinateur
 			 * 	faux sinon
 			 */
 			bool isConnected();
 			
 			/*!
-			 * \brief remplit l'attribut connect en mode synchronisé
-			 * \param booléen : fournit l'état de la connexion
+			 * \brief remplit l'attribut connect en mode synchronisÃ©
+			 * \param boolÃ©en : fournit l'Ã©tat de la connexion
 			 */
 			void setConnect(bool);
 			
 			/*!
-			 * \brief remplit l'attribut pause en mode synchronisé
-			 * \param entier : fournit le numéro du joueur en pause
-			 * zéro s'il n'y a pas de pause
+			 * \brief remplit l'attribut pause en mode synchronisÃ©
+			 * \param entier : fournit le numÃ©ro du joueur en pause
+			 * zÃ©ro s'il n'y a pas de pause
 			 */
 			void setPause(int);
 			
 			/*!
-			 * \brief ajout de socket en mode synchronisé à l'attribut clients
-			 * \param pointeur vers un socket tcp : socket à ajouter à la collection
+			 * \brief ajout de socket en mode synchronisÃ© Ã  l'attribut clients
+			 * \param pointeur vers un socket tcp : socket Ã  ajouter Ã  la collection
 			 */
 			void addSocket(sf::TcpSocket*);
 			
 			/*!
-			 * \brief supprime un socket en mode synchronisé de l'attribut clients
-			 * \param adresse ip : adresse ip du client à retirer de la collection
+			 * \brief supprime un socket en mode synchronisÃ© de l'attribut clients
+			 * \param adresse ip : adresse ip du client Ã  retirer de la collection
 			 */
 			void eraseSocket(sf::IpAddress&);
 			
 			/*!
-			 * \brief initialisé le seleteur de socket pour le serveur et gère la réception de packet
-			 * cette méthode est appelée dans un thread
+			 * \brief initialisÃ© le seleteur de socket pour le serveur et gÃ¨re la rÃ©ception de packet
+			 * cette mÃ©thode est appelÃ©e dans un thread
 			 */
 			void createServerSocket();
 			
 			/*!
 			 * \brief initialise la connexion avec un serveur pour le client
-			 * cette méthode est appelée dans un thread
+			 * cette mÃ©thode est appelÃ©e dans un thread
 			 */
 			void listenToServer();
 			
 			/*!
-			 * \brief supprime en mode synchronisé des joueurs de l'attribut players
-			 * \param adresse ip : adresse ip du joueur à supprimer de la collection
+			 * \brief supprime en mode synchronisÃ© des joueurs de l'attribut players
+			 * \param adresse ip : adresse ip du joueur Ã  supprimer de la collection
 			 */
 			void deletePlayer(sf::IpAddress&);
 			
 			/*!
-			 * \brief créer un packet avec son type et l'ip de l'émeteur
-			 * \param entier : numéro du type de paquet à construire
-			 * \param entier : utilisé pour réserver un nombre j de slots
-			 * \return un paquet près à être envoyé
+			 * \brief crÃ©er un packet avec son type et l'ip de l'Ã©meteur
+			 * \param entier : numÃ©ro du type de paquet Ã  construire
+			 * \param entier : utilisÃ© pour rÃ©server un nombre j de slots
+			 * \return un paquet prÃ¨s Ã  Ãªtre envoyÃ©
 			 */
 			sf::Packet createPacket(int, int j =0);
 			
 			/*!
 			 * \brief recherche un socket vers un ordinateur distant
-			 * \param adresse ip : adresse du socket à rechercher
+			 * \param adresse ip : adresse du socket Ã  rechercher
 			 * \return un pointeur vers le socket contenu dans l'attribut clients
 			 */
 			sf::TcpSocket* findSocket(sf::IpAddress&);
 			
 			/*!
 			 * \brief recherche un socket vers un ordinateur distant
-			 * \param adresse ip : adresse du socket à rechercher
+			 * \param adresse ip : adresse du socket Ã  rechercher
 			 * \return un iterateur vers le socket contenu dans l'attribut clients
 			 */
 			std::vector<sf::TcpSocket*>::iterator findSocketIterator(sf::IpAddress&);
 			
 			/*!
-			 * \brief recherche et attend la réponse à un paquet envoyé pendant 0.1 seconde maximum
-			 * \param entier : type du paquet à attendre
-			 * \param adresse ip : adresse de l'émetteur du paquet
+			 * \brief recherche et attend la rÃ©ponse Ã  un paquet envoyÃ© pendant 0.1 seconde maximum
+			 * \param entier : type du paquet Ã  attendre
+			 * \param adresse ip : adresse de l'Ã©metteur du paquet
 			 * \return un iterateur vers le paquet contenu dans l'attribut packets
 			 */
 			std::list<sf::Packet>::iterator waitPacket(int, sf::IpAddress&);
 			
 			/*!
-			 * \brief décrypte les paquets réceptionnés
-			 * \param paquet : le paquet à décrypter
+			 * \brief dÃ©crypte les paquets rÃ©ceptionnÃ©s
+			 * \param paquet : le paquet Ã  dÃ©crypter
 			 */
 			void decryptPacket(sf::Packet&);
 			
 			/*!
-			 * \brief permet d'afficher l'état de la classe à un moment donné
+			 * \brief permet d'afficher l'Ã©tat de la classe Ã  un moment donnÃ©
 			 */
 			void etatNetwork();
 			
 			/*!
-			 * \brief permet de réserver des slots disponibles
-			 * \param entier non signé : nombre de slots à réserver
-			 * \param adresse ip : par défaut l'adresse ip de l'ordinateur des joueurs qui réservent les slots
+			 * \brief permet de rÃ©server des slots disponibles
+			 * \param entier non signÃ© : nombre de slots Ã  rÃ©server
+			 * \param adresse ip : par dÃ©faut l'adresse ip de l'ordinateur des joueurs qui rÃ©servent les slots
 			 */
 			void setSlot(unsigned int nb, sf::IpAddress ip = sf::IpAddress::getLocalAddress());
 			
 			/*!
 			 * \brief permet d'enregistrer le nom de joueurs
-			 * \param tableau de chaines de caractères : contient les nom à enregistrer
-			 * \param adresse ip : par défaut l'adresse ip de l'ordinateur des joueurs qui enregistrent leur nom
+			 * \param tableau de chaines de caractÃ¨res : contient les nom Ã  enregistrer
+			 * \param adresse ip : par dÃ©faut l'adresse ip de l'ordinateur des joueurs qui enregistrent leur nom
 			 */
 			void setName(std::string names[4], sf::IpAddress ip = sf::IpAddress::getLocalAddress());
 			
 			/*!
-			 * \brief permet de réserver des slots disponibles
-			 * \return vrai si le serveur est deconnecté,
+			 * \brief permet de rÃ©server des slots disponibles
+			 * \return vrai si le serveur est deconnectÃ©,
 			 * faux sinon
 			 */
 			bool isDeconnected();
 			
 			/*!
-			 * \brief permet d'attribuer une valeur à l'attribut deconnect de façon synchronisée
+			 * \brief permet d'attribuer une valeur Ã  l'attribut deconnect de faÃ§on synchronisÃ©e
 			 */
 			void setDeconnected(bool);
 

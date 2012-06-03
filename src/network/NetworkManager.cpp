@@ -1,10 +1,10 @@
 /*!
  * \file NetworkManager.cpp
- * \brief Implémentation de classe NetworkManager
+ * \brief ImplÃ©mentation de classe NetworkManager
  * \author Brice GUILLERMIC
  */
 
-// Bibliothèques SFML
+// BibliothÃ¨ques SFML
 #include <SFML/Network.hpp>
 
 //Headers
@@ -34,7 +34,7 @@ namespace PolyBomber
 
 	NetworkManager::~NetworkManager(){		
 		for(unsigned int i=0;i<this->clients.size();i++){
-			delete this->clients[i]; // destruction des clients créés dynamiquements
+			delete this->clients[i]; // destruction des clients crÃ©Ã©s dynamiquements
 		}
 		
 
@@ -95,7 +95,7 @@ namespace PolyBomber
 		if(this->server){
 			this->keyPressed = this->controller->getKeysPressed();
 
-			// chercher le nombre de joueur sur le réseau
+			// chercher le nombre de joueur sur le rÃ©seau
 			unsigned int nbPlayerDone = 0;
 			for(unsigned int i = 0;i < this->players.size();i++){
 				if(this->players[i].getIp() == sf::IpAddress::getLocalAddress()) // l'adresse local est celle du serveur
@@ -103,7 +103,7 @@ namespace PolyBomber
 			}
 			// pour chaque joueur en dehors du reseau, demander ces touches
 			for(int i=0;i<4;i++){ // on parcourt le tableau d'ip
-				if(this->nbPlayerByIp[i] != 0){ // s'il y a une adresse d'enregistrée
+				if(this->nbPlayerByIp[i] != 0){ // s'il y a une adresse d'enregistrÃ©e
 					try {
 						this->mutexClients.lock();
 						sf::TcpSocket* client = this->findSocket(this->ip[i]); //peut renvoyer une exception
@@ -116,7 +116,7 @@ namespace PolyBomber
 							sf::Packet& thePacket =  *it ;
 							int a;
 							std::string s;
-							thePacket >> a >> s >> keys; // récupération des touches envoyées
+							thePacket >> a >> s >> keys; // rÃ©cupÃ©ration des touches envoyÃ©es
 							this->mutexPacket.lock();
 							this->packets.erase(it);
 							this->mutexPacket.unlock();
@@ -195,7 +195,7 @@ namespace PolyBomber
 			this->setPause(0);
 
 		} else {
-			//envoyer un paquet (sans réponse) au serveur pour lui dire de reprendre
+			//envoyer un paquet (sans rÃ©ponse) au serveur pour lui dire de reprendre
 			if(isDeconnected()){
 				throw PolyBomberException("Le serveur vient de quitter");
 			}
@@ -203,7 +203,7 @@ namespace PolyBomber
 			sf::TcpSocket* client = this->clients[0];
 
 			sf::Packet packet = this->createPacket(21);
-			if(client->send(packet) != sf::TcpSocket::Done) {// pas besoin de réponse
+			if(client->send(packet) != sf::TcpSocket::Done) {// pas besoin de rÃ©ponse
 				this->mutexClients.unlock();
 				setDeconnected(true);
 			}
@@ -216,23 +216,23 @@ namespace PolyBomber
 
 	void NetworkManager::cancel(){
 		if(this->server){
-			this->gameEngine->resetConfig(); // stop le thread run() s'il est commencé
+			this->gameEngine->resetConfig(); // stop le thread run() s'il est commencÃ©
 		}
 		if(this->isConnected()){
 			sf::Packet packet;
 			packet = createPacket(101);
-			if(this->server){ // on prévient les clients
+			if(this->server){ // on prÃ©vient les clients
 				if(!this->gameConfig.isLocal){
 					this->mutexClients.lock();
 					for(unsigned int i = 0;i < this->clients.size();i++){
 						if(this->clients[i]->send(packet) != sf::TcpSocket::Done){
-							std::cerr << ("Le client "+this->clients[i]->getRemoteAddress().toString() +" n'a pas pu être contacté pour appeler sa méthode Cancel")<< std::endl;
+							std::cerr << ("Le client "+this->clients[i]->getRemoteAddress().toString() +" n'a pas pu Ãªtre contactÃ© pour appeler sa mÃ©thode Cancel")<< std::endl;
 						}
 					}
 					this->mutexClients.unlock();
 					
 				}
-			} else { // on prévient le serveur
+			} else { // on prÃ©vient le serveur
 				if(this->clients[0]->send(packet) != sf::TcpSocket::Done){
 					setDeconnected(true);
 				}
@@ -243,12 +243,12 @@ namespace PolyBomber
 
 			// vider les vecteurs
 			for(unsigned int i = 0;i < this->clients.size();i++){
-				delete this->clients[i]; // destruction des clients créé dynamiquements
+				delete this->clients[i]; // destruction des clients crÃ©Ã© dynamiquements
 			}
 			this->clients.clear();;
 			this->packets.clear();
 			this->selector.clear();
-			// et libérer les threads
+			// et libÃ©rer les threads
 			if(this->threadClient != NULL)
 			delete this->threadClient;
 			if(this->threadRun != NULL)
@@ -329,7 +329,7 @@ namespace PolyBomber
 			sf::TcpSocket* client = this->clients[0];
 
 			sf::Packet packet = this->createPacket(19,nb);
-			if(client->send(packet) != sf::TcpSocket::Done) {// pas besoin de réponse
+			if(client->send(packet) != sf::TcpSocket::Done) {// pas besoin de rÃ©ponse
 				setDeconnected(true);
 			}
 			this->mutexClients.unlock();
@@ -348,7 +348,7 @@ namespace PolyBomber
 		if(this->server){
 			int i = 0; //indice sur le vecteur de joueur
 			int j = 0; //indice sur le tableau de nom
-			while(i<4 && !(names[j] == "")){ // tant qu'il y a des noms à enregistrer
+			while(i<4 && !(names[j] == "")){ // tant qu'il y a des noms Ã  enregistrer
 				if(this->players[i].getIp() == ip){
 					this->mutexNames.lock();
 					this->players[i].setName(names[j]);
@@ -363,12 +363,12 @@ namespace PolyBomber
 			}
 			this->mutexClients.lock();
 			sf::TcpSocket* client = this->clients[0];
-			sf::Packet packet; //paquet créé sur place car modification de createPacket pour passer les params
+			sf::Packet packet; //paquet crÃ©Ã© sur place car modification de createPacket pour passer les params
 			packet << 17 << sf::IpAddress::getLocalAddress().toString();
 			for(int i = 0;i < 4;i++){
 				packet << names[i];
 			}
-			if(client->send(packet) != sf::TcpSocket::Done) {// pas besoin de réponse
+			if(client->send(packet) != sf::TcpSocket::Done) {// pas besoin de rÃ©ponse
 				this->mutexClients.unlock();
 				setDeconnected(true);
 			}
@@ -455,7 +455,7 @@ namespace PolyBomber
 		this->server=true; //l'ordinateur sera le serveur
 
 		this->gameEngine->setGameConfig(this->gameConfig);
-		// création du listener qui écoute tous les clients
+		// crÃ©ation du listener qui Ã©coute tous les clients
 		
 		if(!this->gameConfig.isLocal) {
 			threadServer = new sf::Thread(&NetworkManager::createServerSocket, this);
@@ -491,7 +491,7 @@ namespace PolyBomber
 		if(this->server){
 			result = this->gameEngine->isFinished();
 		} else {
-		//demander au réseau
+		//demander au rÃ©seau
 			if(isDeconnected()){
 				throw PolyBomberException("Le serveur vient de quitter");
 			}
@@ -509,10 +509,10 @@ namespace PolyBomber
 	}
 
 
-	/******méthode ne provenant pas d'interface***/
+	/******mÃ©thode ne provenant pas d'interface***/
 
 	/*!
-	 * \brief Création d'un Listener pour le serveur
+	 * \brief CrÃ©ation d'un Listener pour le serveur
 	 */
 	void NetworkManager::createServerSocket(){
 		sf::TcpListener listener;
@@ -533,10 +533,10 @@ namespace PolyBomber
 					 sf::TcpSocket* client = new sf::TcpSocket;
 					 if (listener.accept(*client) == sf::Socket::Done)
 					 {
-						 // ajout à la liste des sockets connectés
+						 // ajout Ã  la liste des sockets connectÃ©s
 						 this->addSocket(client);
 
-						 // ajout au sélecteur pour être averti lors de l'activité du socket
+						 // ajout au sÃ©lecteur pour Ãªtre averti lors de l'activitÃ© du socket
 						 selector.add(*client);
 					 }
 				 }
@@ -548,12 +548,12 @@ namespace PolyBomber
 						 sf::TcpSocket* client = this->clients[i];
 						 if (this->selector.isReady(*client))
 						 {
-							 // le client envoie des données
+							 // le client envoie des donnÃ©es
 							 sf::Packet packet;
 							 if (client->receive(packet) == sf::Socket::Done)
 							 {
-								 //Vérifier le premier numéro s'il est impaire
-								 sf::Packet testPacket = packet; // recopie du paquet reçu
+								 //VÃ©rifier le premier numÃ©ro s'il est impaire
+								 sf::Packet testPacket = packet; // recopie du paquet reÃ§u
 								 int num;
 								 testPacket >> num;
 								 if(num%2){ // si c'est impaire
@@ -578,8 +578,8 @@ namespace PolyBomber
 		sf::Packet packet;
 		while(this->isConnected()){
 			if (server->receive(packet) == sf::Socket::Done){
-				//Vérifier le premier numéro s'il est impaire
-				sf::Packet testPacket = packet; // recopie du paquet reçu
+				//VÃ©rifier le premier numÃ©ro s'il est impaire
+				sf::Packet testPacket = packet; // recopie du paquet reÃ§u
 				int num;
 				testPacket >> num;
 				if(num%2){ // si c'est impaire
@@ -593,8 +593,8 @@ namespace PolyBomber
 		}
 	}
 
-	// Cette méthode sert au débugguage du module réseau
-	// Jamais appelée dans la version rendue
+	// Cette mÃ©thode sert au dÃ©bugguage du module rÃ©seau
+	// Jamais appelÃ©e dans la version rendue
 	void NetworkManager::etatNetwork(){
 		std::cout << "sf::IpAddress ip[4] ";
 		for(int i = 0;i < 4;i++)
@@ -651,7 +651,7 @@ namespace PolyBomber
 					packet <<  gameBoard;
 				}
 				break;
-			//case 3 : demande des touches pressées
+			//case 3 : demande des touches pressÃ©es
 			case 4 : // envoi d'un SKeyPressed
 				if(!this->server){
 					SKeyPressed keys = this->controller->getKeysPressed();
@@ -676,14 +676,14 @@ namespace PolyBomber
 				a = this->isFinished();
 				packet << a;
 				break;
-			//case 11 :  demande si c'est commencé
-			case 12 : // envoi si c'est commencé
+			//case 11 :  demande si c'est commencÃ©
+			case 12 : // envoi si c'est commencÃ©
 				bool b;
 				b = this->isStarted();
 				packet << b;
 				break;
-			//case 13 : inutilisé
-			//case 14 : inutilisé
+			//case 13 : inutilisÃ©
+			//case 14 : inutilisÃ©
 			//case 15 : demande des noms
 			case 16 : // envoi des noms
 				for(unsigned int i=0;i<4;i++) {
@@ -695,8 +695,8 @@ namespace PolyBomber
 						packet << "";
 				}
 				break;
-			//le cas 17 est directement géré dans la fonction setPlayersName
-			case 19 : // envoi réservation d'un slot
+			//le cas 17 est directement gÃ©rÃ© dans la fonction setPlayersName
+			case 19 : // envoi rÃ©servation d'un slot
 				packet << j;
 				break;
 			//case 21 :  envoi de la reprise du jeu			
@@ -789,14 +789,14 @@ namespace PolyBomber
 		case 21 :
 			resume();
 			break;
-		default : // c'est une demande qui nécessite une réponse
+		default : // c'est une demande qui nÃ©cessite une rÃ©ponse
 			result = createPacket(num+1);
 			
 			this->mutexClients.lock();
 			try {
 				sf::TcpSocket* client = this->findSocket(ip1);
 				if (client->send(result) != sf::TcpSocket::Done){
-					std::cerr << "la réponse n°" << num << " n'à pas pu être renvoyée" << std::endl;
+					std::cerr << "la rÃ©ponse nÂ°" << num << " n'Ã  pas pu Ãªtre renvoyÃ©e" << std::endl;
 				}
 			} catch(PolyBomberException& e) {
 				std::cerr << "decrypt packet ne trouve pas le socket" << std::endl;
@@ -826,7 +826,7 @@ namespace PolyBomber
 	}
 
 	void NetworkManager::eraseSocket(sf::IpAddress& ip) {
-		// suprime le socket à cet adresse ip ; fonction appelé uniquement sur le serveur
+		// suprime le socket Ã  cet adresse ip ; fonction appelÃ© uniquement sur le serveur
 		try{
 			this->mutexClients.lock();
 			std::vector<sf::TcpSocket*>::iterator it = this->findSocketIterator(ip);
@@ -843,15 +843,15 @@ namespace PolyBomber
 	}
 
 	void NetworkManager::deletePlayer(sf::IpAddress& ip1){
-		if(isStarted()){ // on ne peut pas les supprimer, le jeu est lancé
+		if(isStarted()){ // on ne peut pas les supprimer, le jeu est lancÃ©
 			for(unsigned int i=0;i<players.size();i++){
 				DataPlayer& player = this->players[i];
 				if(player.getIp() == ip1)
 					player.setConnected(false);
 			}
-		} else { // il faut les supprimer pour laisser la place à d'autre
+		} else { // il faut les supprimer pour laisser la place Ã  d'autre
 			for(std::vector<DataPlayer>::iterator it = players.begin();it<players.end();it++){
-				while((it<players.end())&&(it->getIp() == ip1)){ // while car le vector décale après la supression et la boucle for augmente. DU coup il y a une occurrence qui échappe a la vérification
+				while((it<players.end())&&(it->getIp() == ip1)){ // while car le vector dÃ©cale aprÃ¨s la supression et la boucle for augmente. DU coup il y a une occurrence qui Ã©chappe a la vÃ©rification
 					players.erase(it); // suppression dans le vecteur
 				}
 			}
@@ -860,7 +860,7 @@ namespace PolyBomber
 				if(!find){
 					if(this->ip[i] == ip1)
 						find = true;
-				} else { // suppression dans les tableaux + décalage
+				} else { // suppression dans les tableaux + dÃ©calage
 					this->ip[i-1] = this->ip[i];
 					this->nbPlayerByIp[i-1]=this->nbPlayerByIp[i];
 				}
@@ -877,7 +877,7 @@ namespace PolyBomber
 		this->mutexClients.unlock();
 	}
 
-	/*surcharge des opérateurs de flux des sf::Packet*/
+	/*surcharge des opÃ©rateurs de flux des sf::Packet*/
 	sf::Packet& operator<<(sf::Packet& packet, SBoard& b){
 
 		/*Ajout des Boxes*/
