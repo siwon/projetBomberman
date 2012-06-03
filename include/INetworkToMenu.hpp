@@ -3,7 +3,7 @@
 
 /*!
  * \file INetworkToMenu.hpp
- * \brief Interface réseau - menu
+ * \brief Interface rÃ©seau - menu
  * \author Brice GUILLERMIC
  */
 
@@ -13,7 +13,7 @@ namespace PolyBomber
 {
 	/*!
 	 * \class INetworkToMenu
-	 * \brief Interface Interface réseau - menu
+	 * \brief Interface Interface rÃ©seau - menu
 	 */
 	class INetworkToMenu
 	{
@@ -31,8 +31,8 @@ namespace PolyBomber
 			virtual int getFreeSlots() = 0;
 			
 			/*!
-			 * \brief Réservation des slots pour un nombre de joueur donné
-			 * \param nb : Nombre de places réservées (0-4)
+			 * \brief RÃ©servation des slots pour un nombre de joueur donnÃ©
+			 * \param nb : Nombre de places rÃ©servÃ©es (0-4)
 			 */
 			virtual void setBookedSlots(unsigned int nb) = 0;
 			
@@ -43,20 +43,20 @@ namespace PolyBomber
 			virtual void setPlayerName(std::string []) = 0;
 			
 			/*!
-			 * \brief Teste si la partie est lancée
-			 * \return VRAI si startGame() à déjà été déclanché
+			 * \brief Teste si la partie est lancÃ©e
+			 * \return VRAI si startGame() Ã  dÃ©jÃ  Ã©tÃ© dÃ©clanchÃ©
 			 *	FAUX sinon
 			 */
 			virtual bool isStarted() = 0;
 			
 			/*!
-			 * \brief Signal du début de partie
+			 * \brief Signal du dÃ©but de partie
 			 */
 			virtual void startGame() =0;
 			
 			/*!
 			 * \brief Obtenir l'adresse IP du poste
-			 * \return Chaine de caractère correspondant à l'ip
+			 * \return Chaine de caractÃ¨re correspondant Ã  l'ip
 			 */
 			virtual std::string getIpAddress() =0;
 			
@@ -79,12 +79,12 @@ namespace PolyBomber
 			
 			/*!
 			 * \brief Obtenir le joueur qui a mis le jeu en pause
-			 * \return Numéro du joueur
+			 * \return NumÃ©ro du joueur
 			 */
 			virtual int isPaused() =0;
 			
 			/*!
-			 * \brief Reprendre la partie après une pause
+			 * \brief Reprendre la partie aprÃ¨s une pause
 			 */
 			virtual void resume() = 0;
 			

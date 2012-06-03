@@ -19,9 +19,9 @@ namespace PolyBomber
 	{
 		public:
 			/*!
-			 * \brief Obtenir les touches déclenchées
-			 * \return Matrice de booléens à VRAI si la touche est déclanché
-			 *	à FAUX si elle ne l'est pas
+			 * \brief Obtenir les touches dÃ©clenchÃ©es
+			 * \return Matrice de boolÃ©ens Ã  VRAI si la touche est dÃ©clanchÃ©
+			 *	Ã  FAUX si elle ne l'est pas
 			 */
 			virtual SKeyPressed getKeysPressed() = 0;
 			/*!

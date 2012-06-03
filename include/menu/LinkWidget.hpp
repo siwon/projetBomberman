@@ -17,7 +17,7 @@
 namespace PolyBomber
 {
 	/*!
-	 * \class TextWidget
+	 * \class LinkWidget
 	 * \brief Classe du widget Lien
 	 */
 	class LinkWidget : public TextWidget, public ClickableWidget
