@@ -158,6 +158,7 @@ namespace PolyBomber {
 	
 	void GameEngineManager::run() {
 		while (isRunnable()) {
+			this->mutexDisable.lock();
 			int time=horloge.getElapsedTime().asSeconds();
 			int time2=horloge.getElapsedTime().asMilliseconds();
 			SKeyPressed sKeyPressed = network->getKeysPressed();
@@ -239,6 +240,7 @@ namespace PolyBomber {
 				this->runnable=false;
 				this->mutexRunnable.unlock();
 			}
+			this->mutexDisable.unlock();
 		}
 	}
 	
@@ -246,10 +248,14 @@ namespace PolyBomber {
 		this->mutexRunnable.lock();
 		this->runnable=false;
 		this->mutexRunnable.unlock();
+		
+		this->mutexDisable.lock();
 		this->mutexBoard.lock();
 		board.resetConfig();
 		this->mutexBoard.unlock();
+		this->mutexDisable.unlock();
 		this->gameConfigIsSet=false;
+		
 	}
 	
 	//IGameEngineToGameInterface
