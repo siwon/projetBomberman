@@ -91,7 +91,7 @@ namespace PolyBomber
 			catch (PolyBomberException& e)
 			{
 				error.setVisible(true);
-				std::cout << e.what() << std::endl;
+				std::cerr << e.what() << std::endl;
 			}			
 		}
 	}

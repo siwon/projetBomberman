@@ -593,6 +593,8 @@ namespace PolyBomber
 		}
 	}
 
+	// Cette méthode sert au débugguage du module réseau
+	// Jamais appelée dans la version rendue
 	void NetworkManager::etatNetwork(){
 		std::cout << "sf::IpAddress ip[4] ";
 		for(int i=0;i<4;i++)
@@ -794,7 +796,6 @@ namespace PolyBomber
 				if (client->send(result) != sf::TcpSocket::Done){
 					std::cerr << "la réponse n°" << num << " n'à pas pu être renvoyée" << std::endl;
 				}
-				//std::cout << "fin envoi "<< num+1 << std::endl;
 			} catch(PolyBomberException& e) {
 				std::cerr << "decrypt packet ne trouve pas le socket" << std::endl;
 			}
