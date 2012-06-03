@@ -86,8 +86,10 @@ namespace PolyBomber
 					music->playMusic(PAUSEMUSIC);
 					EScreenSignal signal = menu->runPause(pause);
 					music->stopMusic(PAUSEMUSIC);
-					if (signal == EXITGAME || signal == EXITERROR)
+					if (signal == EXITGAME || signal == EXITERROR){
 						running = false;
+						result = EXITERROR;
+					}
 				}
 
 				sf::sleep(sf::milliseconds(50));

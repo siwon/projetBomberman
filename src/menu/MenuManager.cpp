@@ -102,7 +102,7 @@ namespace PolyBomber
 					screen = GAMEMENU;
 			}
 		}
-
+		
 		PolyBomberApp::getINetworkToMenu()->cancel();
 		return EXITGAME;
 	}
