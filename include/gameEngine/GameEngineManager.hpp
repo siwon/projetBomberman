@@ -20,6 +20,7 @@ namespace PolyBomber {
 	private:
 		sf::Mutex mutexBoard;
 		sf::Mutex mutexRunnable;
+		sf::Mutex mutexDisable;
 	protected:
 		INetworkToGameEngine* network; /*! Réseau assigné */
 		Board board; /*! Objet stockant le plateau de jeu */

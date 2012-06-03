@@ -47,15 +47,15 @@ namespace PolyBomber
 	}
 
 	void NetworkManager::initialize(){
-		for(int i=0;i<4;i++){
+		for(int i = 0;i < 4;i++){
 			this->ip[i] = sf::IpAddress::None;
 			this->nbPlayerByIp[i] = 0;
 		}
 		this->setPause(0);
-		this->started=false;
+		this->started = false;
 		this->setConnect(false);
-		this->server=false;
-		this->deconnect=false;
+		this->server = false;
+		this->deconnect = false;
 		for(int i=0;i<4;i++){
 			for(int j=0;j<7;j++){
 				this->keyPressed.keys[i][j] = false;
@@ -96,8 +96,8 @@ namespace PolyBomber
 			this->keyPressed = this->controller->getKeysPressed();
 
 			// chercher le nombre de joueur sur le réseau
-			unsigned int nbPlayerDone =0;
-			for(unsigned int i=0;i<this->players.size();i++){
+			unsigned int nbPlayerDone = 0;
+			for(unsigned int i = 0;i < this->players.size();i++){
 				if(this->players[i].getIp() == sf::IpAddress::getLocalAddress()) // l'adresse local est celle du serveur
 					nbPlayerDone++;
 			}
@@ -122,7 +122,7 @@ namespace PolyBomber
 							this->mutexPacket.unlock();
 							
 							//ajouter ses touches.
-							for(int j=0;j<this->nbPlayerByIp[i];j++){
+							for(int j = 0;j < this->nbPlayerByIp[i];j++){
 
 
 								for(int k=0;k<7;k++){
@@ -131,8 +131,8 @@ namespace PolyBomber
 								nbPlayerDone++;
 							}
 						} else {
-							for(int j=0;j<this->nbPlayerByIp[i];j++){
-								for(int k=0;k<7;k++){
+							for(int j = 0;j<this->nbPlayerByIp[i];j++){
+								for(int k = 0;k<7;k++){
 									this->keyPressed.keys[nbPlayerDone][k] = false;
 								}
 								nbPlayerDone++;
@@ -141,8 +141,8 @@ namespace PolyBomber
 					}
 					catch(PolyBomberException e) {
 						std::cerr << e.what() << std::endl;
-						for(int j=0;j<this->nbPlayerByIp[i];j++){
-							for(int k=0;k<7;k++){
+						for(int j = 0;j<this->nbPlayerByIp[i];j++){
+							for(int k = 0;k < 7;k++){
 								this->keyPressed.keys[nbPlayerDone][k] = false;
 							}
 							nbPlayerDone++;
@@ -151,7 +151,7 @@ namespace PolyBomber
 				}
 			}
 			//verification de la pause par un joueur
-			unsigned int i=0;
+			unsigned int i = 0;
 			while(i<this->gameConfig.nbPlayers && !this->paused){
 				if(this->keyPressed.keys[i][GAME_PAUSE]) {
 					this->setPause(i+1);
@@ -224,7 +224,7 @@ namespace PolyBomber
 			if(this->server){ // on prévient les clients
 				if(!this->gameConfig.isLocal){
 					this->mutexClients.lock();
-					for(unsigned int i=0;i<this->clients.size();i++){
+					for(unsigned int i = 0;i < this->clients.size();i++){
 						if(this->clients[i]->send(packet) != sf::TcpSocket::Done){
 							std::cerr << ("Le client "+this->clients[i]->getRemoteAddress().toString() +" n'a pas pu être contacté pour appeler sa méthode Cancel")<< std::endl;
 						}
@@ -242,7 +242,7 @@ namespace PolyBomber
 			this->setConnect(false);
 
 			// vider les vecteurs
-			for(unsigned int i=0;i<this->clients.size();i++){
+			for(unsigned int i = 0;i < this->clients.size();i++){
 				delete this->clients[i]; // destruction des clients créé dynamiquements
 			}
 			this->clients.clear();;
@@ -310,13 +310,13 @@ namespace PolyBomber
 		if(this->server){
 			if(ip != sf::IpAddress::getLocalAddress()){
 				int i =0;
-				while(i<4 && !(this->ip[i] == sf::IpAddress::None)){ // on cherche un emplacement libre dans le tableau d'ip
+				while(i < 4 && !(this->ip[i] == sf::IpAddress::None)){ // on cherche un emplacement libre dans le tableau d'ip
 					i++;
 				}
-				this->ip[i]=ip;
-				this->nbPlayerByIp[i]=nb;
+				this->ip[i] = ip;
+				this->nbPlayerByIp[i] = nb;
 			}
-			for(unsigned int i=0;i<nb;i++){
+			for(unsigned int i = 0;i < nb;i++){
 				DataPlayer aPlayer(i, ip);
 				this->players.push_back(aPlayer);
 			}
@@ -346,8 +346,8 @@ namespace PolyBomber
 
 	void NetworkManager::setName(std::string names[4], sf::IpAddress ip){
 		if(this->server){
-			int i=0;//indice sur le vecteur de joueur
-			int j=0;//indice sur le tableau de nom
+			int i = 0; //indice sur le vecteur de joueur
+			int j = 0; //indice sur le tableau de nom
 			while(i<4 && !(names[j] == "")){ // tant qu'il y a des noms à enregistrer
 				if(this->players[i].getIp() == ip){
 					this->mutexNames.lock();
@@ -365,7 +365,7 @@ namespace PolyBomber
 			sf::TcpSocket* client = this->clients[0];
 			sf::Packet packet; //paquet créé sur place car modification de createPacket pour passer les params
 			packet << 17 << sf::IpAddress::getLocalAddress().toString();
-			for(int i=0;i<4;i++){
+			for(int i = 0;i < 4;i++){
 				packet << names[i];
 			}
 			if(client->send(packet) != sf::TcpSocket::Done) {// pas besoin de réponse
@@ -381,14 +381,14 @@ namespace PolyBomber
 
 	void NetworkManager::getPlayersName(std::string names[4]){
 		if(this->server){
-			for(unsigned int i=0;i<4;i++) {
+			for(unsigned int i = 0;i < 4;i++) {
 				if(i<players.size()){
 					this->mutexNames.lock();
-					names[i]=this->players[i].getName();
+					names[i] = this->players[i].getName();
 					this->mutexNames.unlock();
 				}
 				else
-					names[i]="";
+					names[i] = "";
 			}
 		} else {
 			//envoyer un paquet pour demander les noms aux serveur	
@@ -543,7 +543,7 @@ namespace PolyBomber
 				 else
 				 {
 					 this->mutexClients.lock();
-					 for (unsigned int i=0;i<this->clients.size();i++)
+					 for (unsigned int i = 0;i < this->clients.size();i++)
 					 {
 						 sf::TcpSocket* client = this->clients[i];
 						 if (this->selector.isReady(*client))
@@ -597,28 +597,28 @@ namespace PolyBomber
 	// Jamais appelée dans la version rendue
 	void NetworkManager::etatNetwork(){
 		std::cout << "sf::IpAddress ip[4] ";
-		for(int i=0;i<4;i++)
+		for(int i = 0;i < 4;i++)
 			std::cout << ip[i] << "|";
 		std::cout << std::endl <<"nbPlayerByIp[4] ";
-		for(int i=0;i<4;i++)
+		for(int i = 0;i < 4;i++)
 			std::cout << nbPlayerByIp[i] << "|";
 		
-		std::cout << std::endl <<"Pause : " << paused << std::endl;
-		std::cout <<"Started ? : " << started << std::endl;
-		std::cout <<"connect ? : " << connect << std::endl;
-		std::cout <<"serveur ? : " << server << std::endl;
+		std::cout << std::endl << "Pause : " << paused << std::endl;
+		std::cout << "Started ? : " << started << std::endl;
+		std::cout << "connect ? : " << connect << std::endl;
+		std::cout << "serveur ? : " << server << std::endl;
 
 		std::cout << "taille Vecteur Players : " << players.size() << std::endl;
-		for(unsigned int i=0;i<players.size();i++)
+		for(unsigned int i = 0;i<players.size();i++)
 			std::cout << players[i].getIp() << " | " ;
 
 
 		std::cout << std::endl << "taille Vecteur clients : " << clients.size() << std::endl;
-		for(unsigned int i=0;i<clients.size();i++)
+		for(unsigned int i = 0;i < clients.size();i++)
 			std::cout << clients[i]->getRemoteAddress() << " | " ;
 		
 		std::cout << std::endl << "taille list packets : " << packets.size() << std::endl;
-		for(std::list<sf::Packet>::iterator it= packets.begin();it!=packets.end();it++)
+		for(std::list<sf::Packet>::iterator it = packets.begin();it != packets.end();it++)
 			std::cout << *it << " | " ;
 
 		std::cout << std::endl;
@@ -715,12 +715,14 @@ namespace PolyBomber
 
 	std::vector<sf::TcpSocket*>::iterator NetworkManager::findSocketIterator(sf::IpAddress& ip){
 		bool find = false;
-		sf::TcpSocket* client= NULL;
+		sf::IpAddress ipClient;
+		sf::TcpSocket* client = NULL;
 		std::vector<sf::TcpSocket*>::iterator it = clients.begin();
 		while( it != clients.end() && !find){
 			client = *it;
-			if(client->getRemoteAddress()== ip)
-				find=true;
+			ipClient = client->getRemoteAddress();
+			if(ipClient == ip)
+				find = true;
 			else
 				it++;
 		}
@@ -732,20 +734,20 @@ namespace PolyBomber
 	}
 
 	std::list<sf::Packet>::iterator NetworkManager::waitPacket(int num, sf::IpAddress& ipAddr){
-		bool find=false;
+		bool find = false;
 		int type;
 		std::string ip;
 		std::list<sf::Packet>::iterator it;
 		sf::Clock clock;
-		while(!find && clock.getElapsedTime().asMilliseconds() < 100){
+		while(!find && clock.getElapsedTime().asMilliseconds() < 250){
 			
 			this->mutexPacket.lock();
 			it = this->packets.begin();
 			while(it!=this->packets.end() && !find){
 				sf::Packet aPacket = *it; // duplique le paquet pour pouvoir le regarder
 				aPacket >> type >> ip;
-				if(type==(num+1) && ip==ipAddr.toString()){
-					find=true;
+				if(type == (num+1) && ip == ipAddr.toString()){
+					find = true;
 				} else {
 					it++;
 				}
@@ -774,7 +776,7 @@ namespace PolyBomber
 			}
 			break;
 		case 17 :
-			for(int i=0;i<4;i++){
+			for(int i = 0;i < 4;i++){
 				packet >> names[i];
 			}
 			setName(names, ip1); // methode utilisant des ressources critiques
@@ -806,34 +808,35 @@ namespace PolyBomber
 	bool NetworkManager::isConnected(){
 		bool result;
 		this->mutexConnect.lock();
-		result=this->connect;
+		result = this->connect;
 		this->mutexConnect.unlock();
 		return result;
 	}
 
 	void NetworkManager::setConnect(bool a) {
 		this->mutexConnect.lock();
-		this->connect=a;
+		this->connect = a;
 		this->mutexConnect.unlock();
 	}
 
 	void NetworkManager::setPause(int i){
 		this->mutexPause.lock();
-		this->paused=i;
+		this->paused = i;
 		this->mutexPause.unlock();
 	}
 
 	void NetworkManager::eraseSocket(sf::IpAddress& ip) {
 		// suprime le socket à cet adresse ip ; fonction appelé uniquement sur le serveur
 		try{
+			this->mutexClients.lock();
 			std::vector<sf::TcpSocket*>::iterator it = this->findSocketIterator(ip);
 			sf::TcpSocket* socket = *it;
 			this->selector.remove(*socket);
-			this->mutexClients.lock();
 			this->clients.erase(it);
 			this->mutexClients.unlock();
 			delete socket;
 		} catch(PolyBomberException e) {
+			this->mutexClients.unlock();
 			std::cerr << e.what() << std::endl;
 		}
 		this->deletePlayer(ip);
@@ -853,17 +856,17 @@ namespace PolyBomber
 				}
 			}
 			bool find = false;
-			for(int i=0;i<4;i++){
+			for(int i = 0;i < 4;i++){
 				if(!find){
-					if(this->ip[i]==ip1)
-						find=true;
+					if(this->ip[i] == ip1)
+						find = true;
 				} else { // suppression dans les tableaux + décalage
-					this->ip[i-1]=this->ip[i];
+					this->ip[i-1] = this->ip[i];
 					this->nbPlayerByIp[i-1]=this->nbPlayerByIp[i];
 				}
 			}
 			this->ip[3]=sf::IpAddress::None;
-			this->nbPlayerByIp[3]=0;
+			this->nbPlayerByIp[3] = 0;
 		}
 		
 	}
@@ -879,31 +882,31 @@ namespace PolyBomber
 
 		/*Ajout des Boxes*/
 		packet << (int)b.boxes.size();
-		for (unsigned int i=0;i<b.boxes.size();i++){
+		for (unsigned int i = 0;i < b.boxes.size();i++){
 			packet << b.boxes[i].x << b.boxes[i].y;
 		}
 
 		/*Ajout des Bonus*/
 		packet << (int)b.bonus.size();
-		for(unsigned int i=0;i<b.bonus.size();i++){
+		for(unsigned int i = 0;i < b.bonus.size();i++){
 			packet << b.bonus[i].coords.x << b.bonus[i].coords.y << b.bonus[i].type;
 		}
 
 		/*Ajout des explosifs*/
 		packet << (int)b.explosives.size();
-		for(unsigned int i=0;i<b.explosives.size();i++){
+		for(unsigned int i = 0;i < b.explosives.size();i++){
 			packet << b.explosives[i].coords.x << b.explosives[i].coords.y << b.explosives[i].type;
 		}
 
 		/*ajout des players*/
 		packet << (int)b.players.size();
-		for (unsigned int i=0;i<b.players.size();i++){
+		for (unsigned int i = 0;i < b.players.size();i++){
 			packet << b.players[i].coords.x << b.players[i].coords.y << b.players[i].orientation << b.players[i].number << b.players[i].state << b.players[i].step;
 		}
 
 		/*Ajout des flames*/
 		packet << (int)b.flames.size();
-		for(unsigned int i=0;i<b.flames.size();i++){			
+		for(unsigned int i = 0;i < b.flames.size();i++){			
 			packet << b.flames[i].coords.x << b.flames[i].coords.y << b.flames[i].orientation << b.flames[i].step << b.flames[i].location;
 		}
 
@@ -912,8 +915,8 @@ namespace PolyBomber
 
 	sf::Packet& operator<<(sf::Packet& packet, SKeyPressed& key){
 		bool val;
-		for(int i=0;i<4;i++){
-			for(int j=0;j<7;j++){
+		for(int i = 0;i<4;i++){
+			for(int j = 0;j<7;j++){
 				val = key.keys[i][j];
 				packet << val;
 			}
@@ -936,7 +939,7 @@ namespace PolyBomber
 		
 		/*Ajout des Bonus*/
 		packet >> j;
-		for(int i=0;i<j;i++){
+		for(int i = 0;i < j;i++){
 			SBonus bonus;
 			packet >> bonus.coords.x >> bonus.coords.y >> type;
 			bonus.type = (EGameBonus)type;
@@ -945,7 +948,7 @@ namespace PolyBomber
 
 		/*Ajout des explosifs}*/
 		packet >> j;
-		for(int i=0;i<j;i++){
+		for(int i = 0;i < j;i++){
 			SExplosive explo;
 			packet >> explo.coords.x >> explo.coords.y >> type;
 			explo.type = (EExplosiveType)type;
@@ -966,7 +969,7 @@ namespace PolyBomber
 		/*Ajout des flames*/
 		packet >> j;
 		int location;
-		for(int i=0;i<j;i++){
+		for(int i = 0;i < j;i++){
 			SFlame flame;
 			
 			packet >> flame.coords.x >> flame.coords.y >> type >> flame.step >> location ;
@@ -981,10 +984,10 @@ namespace PolyBomber
 
 	sf::Packet& operator>>(sf::Packet& packet, SKeyPressed& key){
 		bool val;
-		for(int i=0;i<4;i++){
-			for(int j=0;j<7;j++){
+		for(int i = 0;i < 4;i++){
+			for(int j = 0;j < 7;j++){
 				packet >> val;
-				key.keys[i][j]=val;
+				key.keys[i][j] = val;
 			}
 		}
 		return packet;

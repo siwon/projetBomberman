@@ -43,8 +43,8 @@ namespace PolyBomber
 			bool started;
 			bool connect;
 			std::vector<DataPlayer> players;
-			std::vector<sf::TcpSocket*> clients;//ME
-			std::list<sf::Packet> packets; // segment de mÃ©moire partagÃ©
+			std::vector<sf::TcpSocket*> clients;//segment de mémoire partagé
+			std::list<sf::Packet> packets; // segment de mémoire partagé
 			bool server;
 			bool deconnect;
 			sf::SocketSelector selector; // le selecteur pour le serveur
@@ -84,9 +84,15 @@ namespace PolyBomber
 			void initialize();
 			
 			/*!
+<<<<<<< HEAD
 			 * \brief envoie un paquet et attent un paquet de rÃ©ponse
 			 * \param entier : type du paquet qui est Ã  envoyer
 			 * \return un iterateur sur la liste de packets
+=======
+			 * \brief envoie un paquet et attent un paquet de réponse
+			 * \param entier : type du paquet qui est à envoyer
+			 * \return un iterateur sur un paquet qui est la réponse à la question
+>>>>>>> f5bbc5bc779ed35226a94bce61c8c7788880f50c
 			 */
 			std::list<sf::Packet>::iterator askServer(int);
 			
