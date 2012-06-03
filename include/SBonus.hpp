@@ -21,7 +21,7 @@ namespace PolyBomber {
 	 */
 	struct SBonus {
 		sf::Vector2<int> coords;	/*!< Coordonnées du bonus */
-		EGameBonus type;		/*!< Type de bonus */
+		EGameBonus type;			/*!< Type de bonus */
 	};
 }
 

@@ -14,8 +14,8 @@ namespace PolyBomber {
   */
   enum EFlameLocation {
     ORIGIN =0,	/*!< Origine de la flamme */
-    MIDDLE,	/*!< Milieu de la flamme */
-    END		/*!< Fin de la flamme */
+    MIDDLE,		/*!< Milieu de la flamme */
+    END			/*!< Fin de la flamme */
   };
 }
 

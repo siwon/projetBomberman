@@ -21,10 +21,10 @@ namespace PolyBomber {
 	 * 
 	 */
 	struct SFlame {
-		sf::Vector2<int> coords; /*!< Coordonnées de la déflagration */
-		EOrientation orientation; /*!< Orientation de la déflagration */
-		EFlameLocation location; /*!< Position de la déflagration */
-		unsigned int step; /*!< Compteur pour l'animation de la flamme - Non implémenté */
+		sf::Vector2<int> coords;	/*!< Coordonnées de la déflagration */
+		EOrientation orientation;	/*!< Orientation de la déflagration */
+		EFlameLocation location;	/*!< Position de la déflagration */
+		unsigned int step;			/*!< Compteur pour l'animation de la flamme - Non implémenté */
 	};
 }
 

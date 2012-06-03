@@ -24,8 +24,8 @@ namespace PolyBomber {
     sf::Vector2<int> coords;	/*! Coordonnées du joueur */
     EOrientation orientation;	/*! Orientation du joueur */
     unsigned int number;		/*! Numéro du joueur (1-4) */
-    EPlayerState state;		/*! Etat du joueur (vivant ou pas) */
-    unsigned int step;		/*! Compteur incrémentant les pas du joueur */
+    EPlayerState state;			/*! Etat du joueur (vivant ou pas) */
+    unsigned int step;			/*! Compteur incrémentant les pas du joueur */
   };
 }
 
