@@ -89,19 +89,9 @@ namespace PolyBomber
 				error.setVisible(true);
 			else
 			{			
-				//try
-				//{
-					this->network->setBookedSlots(nbPlayers.getCurrentItem() + 1);
-					this->menuConfig->nbLocalPlayers = nbPlayers.getCurrentItem() + 1;
-					*nextScreen = next.activate();
-				/*}
-				catch (PolyBomberException& e)
-				{
-					std::cerr << e.what() << std::endl;
-					// FIXME: Msg d'erreur
-					this->network->cancel();
-					*nextScreen = cancel.activate();
-				}*/
+				this->network->setBookedSlots(nbPlayers.getCurrentItem() + 1);
+				this->menuConfig->nbLocalPlayers = nbPlayers.getCurrentItem() + 1;
+				*nextScreen = next.activate();
 			}
 		}
 	}
@@ -119,18 +109,8 @@ namespace PolyBomber
 		{
 			this->menuConfig->nbLocalPlayers = this->menuConfig->gameConfig.nbPlayers;
 
-			//try
-			//{
-				this->network->setBookedSlots(this->menuConfig->nbLocalPlayers);
-				return next.activate();
-			/*}
-			catch (PolyBomberException& e)
-			{
-				// FIXME : Msg erreur
-				std::cerr << e.what() << std::endl;
-				this->network->cancel();
-				return cancel.activate();
-			}*/
+			this->network->setBookedSlots(this->menuConfig->nbLocalPlayers);
+			return next.activate();
 		}
 
 		if (previous == CREATEGAMEMENU)
@@ -141,47 +121,29 @@ namespace PolyBomber
 		return IMenuScreen::run(window, previous);
 	}
 
-	void SelectSlotsMenu::loopAction(EMenuScreen* nextScreen)
+	void SelectSlotsMenu::loopAction(EMenuScreen*)
 	{
-		//try
-		//{
-			std::cout << "debut : " << std::endl;
-			int nb = this->network->getFreeSlots();
-			int sel = nbPlayers.getCurrentItem();
+		int nb = this->network->getFreeSlots();
+		int sel = nbPlayers.getCurrentItem();
 
-			std::cout << "free slots : " << nb << std::endl;
+		nbPlayers.clear();
 
-			nbPlayers.clear();
-
-			error.setVisible(nb == 0);
-			nbPlayers.setVisible(nb > 0);
-			next.setVisible(nb > 0);
-
-			std::cout << "free slots 2: " << nb << std::endl;
+		error.setVisible(nb == 0);
+		nbPlayers.setVisible(nb > 0);
+		next.setVisible(nb > 0);
+		
+		if (nb > 0)
+			nbPlayers.push_back("1");
+		else
+			cancel.setSelected(true);
 			
-			if (nb > 0)
-				nbPlayers.push_back("1");
-			else
-				cancel.setSelected(true);
-				
-			if (nb > 1)	nbPlayers.push_back("2");
-			if (nb > 2)	nbPlayers.push_back("3");
-			if (nb > 3)	nbPlayers.push_back("4");
+		if (nb > 1)	nbPlayers.push_back("2");
+		if (nb > 2)	nbPlayers.push_back("3");
+		if (nb > 3)	nbPlayers.push_back("4");
 
-			std::cout << "free slots 3: " << nb << std::endl;
-
-			if (nb <= sel && nb > 0)
-				nbPlayers.setCurrentItem(nb - 1);
-			else
-				nbPlayers.setCurrentItem(sel);
-		/*}
-		catch (PolyBomberException& e)
-		{
-			std::cout << "catch" << std::endl;
-			std::cerr << e.what() << std::endl;
-			this->errorException = true;
-			this->network->cancel();
-			*nextScreen = cancel.activate();
-		}*/
+		if (nb <= sel && nb > 0)
+			nbPlayers.setCurrentItem(nb - 1);
+		else
+			nbPlayers.setCurrentItem(sel);
 	}
 }

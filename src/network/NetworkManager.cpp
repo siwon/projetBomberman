@@ -11,20 +11,20 @@
 #include <iostream>
 #include <vector>
 
-#include "../../include/network/NetworkManager.hpp"
-#include "../../include/SKeyPressed.hpp"
-#include "../../include/SBonus.hpp"
-#include "../../include/EGameBonus.hpp"
-#include "../../include/SExplosive.hpp"
-#include "../../include/EExplosiveType.hpp"
-#include "../../include/SPlayer.hpp"
-#include "../../include/EOrientation.hpp"
-#include "../../include/EPlayerState.hpp"
-#include "../../include/SFlame.hpp"
-#include "../../include/EGameKeys.hpp"
-#include "../../include/PolyBomberException.hpp"
+#include "network/NetworkManager.hpp"
+#include "SKeyPressed.hpp"
+#include "SBonus.hpp"
+#include "EGameBonus.hpp"
+#include "SExplosive.hpp"
+#include "EExplosiveType.hpp"
+#include "SPlayer.hpp"
+#include "EOrientation.hpp"
+#include "EPlayerState.hpp"
+#include "SFlame.hpp"
+#include "EGameKeys.hpp"
 
-#include "../../include/PolyBomberApp.hpp"
+#include "PolyBomberException.hpp"
+#include "PolyBomberApp.hpp"
 
 namespace PolyBomber
 {
@@ -50,7 +50,6 @@ namespace PolyBomber
 		for(int i=0;i<4;i++){
 			this->ip[i] = sf::IpAddress::None;
 			this->nbPlayerByIp[i] = 0;
-			this->scores[i] = 0;
 		}
 		this->setPause(0);
 		this->started=false;
@@ -217,9 +216,7 @@ namespace PolyBomber
 
 	void NetworkManager::cancel(){
 		if(this->server){
-			std::cout << "puddiDeb" << std::endl;
 			this->gameEngine->resetConfig(); // stop le thread run() s'il est commencé
-			std::cout << "puddiAfter" << std::endl;
 		}
 		if(this->isConnected()){
 			sf::Packet packet;
@@ -264,7 +261,6 @@ namespace PolyBomber
 		
 		this->players.clear();
 		this->initialize();
-		std::cout << "puddiFin" << std::endl;
 	}
 
 	void NetworkManager::joinGame(std::string ip){
@@ -684,11 +680,8 @@ namespace PolyBomber
 				b = this->isStarted();
 				packet << b;
 				break;
-			//case 13 :  demande du score
-			case 14 : // envoi du score
-				for(int i=0;i<4;i++)
-					packet << this->scores[i];
-				break;
+			//case 13 : inutilisé
+			//case 14 : inutilisé
 			//case 15 : demande des noms
 			case 16 : // envoi des noms
 				for(unsigned int i=0;i<4;i++) {

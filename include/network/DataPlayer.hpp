@@ -28,9 +28,9 @@ namespace PolyBomber
 		public:
 			/*!
 			 * \brief Constructeur
-			 * \param entier : identifient du joueur
-			 * \param adresse ip : adresse ip du joueur
-			 * \param chaine de caractère : nom du joueur, par defaut None
+			 * \param identifient du joueur
+			 * \param adresse ip du joueur
+			 * \param nom du joueur, par defaut None
 			 */
 			DataPlayer(int, sf::IpAddress, std::string pName ="None");
 
@@ -41,11 +41,13 @@ namespace PolyBomber
 			
 			/*!
 			 * \brief Constructeur par recopie
+			 * \param obj : Objet à copier
 			 */
 			DataPlayer(const DataPlayer &obj);
 			
 			/*!
 			 * \brief surcharge de l'opérateur d'affectation
+			 * \param obj : Objet à copier
 			 */
 			DataPlayer& operator=(const DataPlayer &obj);
 			
@@ -57,13 +59,13 @@ namespace PolyBomber
 			
 			/*!
 			 * \brief enregistre un nom pour le joueur
-			 * \param le nom du joueur
+			 * \param pName : le nom du joueur
 			 */
 			inline void setName(std::string pName) {this->name=pName;}
 			
 			/*!
 			 * \brief enregistre l'état du joueur
-			 * \param état du joueur
+			 * \param a : état du joueur
 			 */
 			inline void setConnected(bool a) {this->connected=a;}
 			

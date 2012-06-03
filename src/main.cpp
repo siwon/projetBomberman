@@ -16,7 +16,6 @@ int main()
 	{
 		PolyBomberApp* app = PolyBomberApp::getInstance();
 		signal = app->run();
-
 		PolyBomberApp::kill();
 	}
 	catch (std::exception& e)

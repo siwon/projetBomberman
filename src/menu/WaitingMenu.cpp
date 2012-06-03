@@ -135,6 +135,7 @@ namespace PolyBomber
 				EMenuKeys key = MENU_NONE;
 				while ((key = controller->getKeyPressed()) == MENU_NONE && window.isOpen())
 				{
+					// On raffraichit les noms
 					if (clock.getElapsedTime().asMilliseconds() > 250)
 					{
 						clock.restart();
@@ -142,6 +143,7 @@ namespace PolyBomber
 						window.clear();
 						window.display(this->widgets);
 
+						// On teste si la partie commence
 						if (this->network->isStarted())
 						{
 							nextScreen = start.activate();
