@@ -37,12 +37,11 @@ namespace PolyBomber
 			SGameConfig gameConfig;
 			sf::IpAddress ip[4];
 			int nbPlayerByIp[4];
-			int scores[4];
 			int paused;
 			bool started;
 			bool connect;
 			std::vector<DataPlayer> players;
-			std::vector<sf::TcpSocket*> clients;//ME
+			std::vector<sf::TcpSocket*> clients;//segment de mémoire partagé
 			std::list<sf::Packet> packets; // segment de mémoire partagé
 			bool server;
 			bool deconnect;
@@ -81,7 +80,7 @@ namespace PolyBomber
 			/*!
 			 * \brief envoie un paquet et attent un paquet de réponse
 			 * \param entier : type du paquet qui est à envoyer
-			 * \return un iterateur sur la liste de packets
+			 * \return un iterateur sur un paquet qui est la réponse à la question
 			 */
 			std::list<sf::Packet>::iterator askServer(int);
 			
