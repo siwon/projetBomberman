@@ -16,6 +16,7 @@
 
 
 // Headers
+#include "gameEngine/DefineAndFunction.hpp"
 #include "gameEngine/Mine.hpp"
 
 namespace PolyBomber {
