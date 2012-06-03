@@ -17,6 +17,7 @@
 
 
 // Headers
+#include "gameEngine/DefineAndFunction.hpp"
 #include "gameEngine/Explosive.hpp"
 #include "gameEngine/Board.hpp"
 
