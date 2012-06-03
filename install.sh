@@ -1,5 +1,3 @@
-#ne pas faire l'installation puis pusher !!!
-
 #!/bin/bash
 
 #Installation des librairies
