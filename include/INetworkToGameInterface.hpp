@@ -3,7 +3,7 @@
 
 /*!
  * \file INetworkToGameInterface.hpp
- * \brief Interface réseau - affichage
+ * \brief Interface rÃ©seau - affichage
  * \author Brice GUILLERMIC
  */
 
@@ -12,14 +12,14 @@ namespace PolyBomber
 {
 	/*!
 	 * \class INetworkToGameInterface
-	 * \brief Interface Interface réseau - affichage
+	 * \brief Interface Interface rÃ©seau - affichage
 	 */
 	class INetworkToGameInterface : public IGameEngineToGameInterface
 	{
 		public:
 			/*!
 			 * \brief Obtenir le joueur qui a mis le jeu en pause
-			 * \return Numéro du joueur
+			 * \return NumÃ©ro du joueur
 			 */
 			virtual int isPaused() =0;
 
