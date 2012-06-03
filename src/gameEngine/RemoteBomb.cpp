@@ -12,6 +12,7 @@
 // Bibliotheques SFML
 #include <SFML/System/Time.hpp>
 #include <SFML/System/Clock.hpp>
+#include <SFML/System/Vector2.hpp>
 
 // Bibliotheques externes
 

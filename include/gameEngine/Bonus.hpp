@@ -8,10 +8,7 @@
  */
 
 #include "EGameBonus.hpp"
-
 #include "Location.hpp"
-
-#include "DefineAndFunction.hpp"
 
 namespace PolyBomber {
 	/*!

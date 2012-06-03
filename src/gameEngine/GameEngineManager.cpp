@@ -239,23 +239,17 @@ namespace PolyBomber {
 				this->runnable=false;
 				this->mutexRunnable.unlock();
 			}
-			std::cout << "run simon :" << runnable << std::endl;
 		}
-		std::cout << "fin run" << std::endl;
 	}
 	
 	void GameEngineManager::resetConfig() {
-		std::cout << "puddi2" << std::endl;
 		this->mutexRunnable.lock();
 		this->runnable=false;
 		this->mutexRunnable.unlock();
 		this->mutexBoard.lock();
-		std::cout << "puddi3" << std::endl;
 		board.resetConfig();
-		std::cout << "puddi4" << std::endl;
 		this->mutexBoard.unlock();
 		this->gameConfigIsSet=false;
-		std::cout << "puddi5" << std::endl;
 	}
 	
 	//IGameEngineToGameInterface

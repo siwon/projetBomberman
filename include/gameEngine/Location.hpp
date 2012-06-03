@@ -6,7 +6,7 @@
  * \brief Classe Location
  * \author Simon Rousseau
  */
-#include <SFML/System/Vector2.hpp>
+
 namespace PolyBomber {
 	/*!
 	 * \class Location

@@ -10,7 +10,7 @@
 
 
 // Bibliotheques SFML
-
+#include <SFML/System/Vector2.hpp>
 
 // Bibliotheques externes
 
