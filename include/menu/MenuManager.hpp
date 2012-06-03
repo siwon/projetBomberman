@@ -38,7 +38,7 @@ namespace PolyBomber
 			/*!
 			 * \see IMenuToGameInterface::runPause
 			 */
-			EScreenSignal runPause(unsigned int player);
+			EScreenSignal runPause(unsigned int);
 
 		private:
 			/*!

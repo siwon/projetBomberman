@@ -10,13 +10,15 @@
 #include <vector>
 
 // Bibliotheques SFML
-//#include <SFML/System.hpp>
 #include <SFML/System/Vector2.hpp>
+#include <SFML/System/Time.hpp>
+#include <SFML/System/Clock.hpp>
 
 // Bibliotheques externes
 
 
 // Headers
+#include "gameEngine/DefineAndFunction.hpp"
 #include "gameEngine/Bomb.hpp"
 
 namespace PolyBomber {	

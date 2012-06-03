@@ -52,7 +52,6 @@ namespace PolyBomber
 			{
 				*nextScreen = resume.activate();
 				this->network->resume();
-				std::cout << "methode resume appelee" << std::endl;
 			}
 			
 			if (quit.getSelected())
@@ -60,7 +59,7 @@ namespace PolyBomber
 		}
 	}
 	
-	EMenuScreen PauseMenu::run(MainWindow& window, EMenuScreen previous)
+	EMenuScreen PauseMenu::run(MainWindow& window, EMenuScreen)
 	{
 		this->resume.setSelected(true);
 		this->quit.setSelected(false);
@@ -106,7 +105,7 @@ namespace PolyBomber
 			if (!window.isOpen())
 				nextScreen = EXIT;
 		}		
-		std::cout << "fin de pause 2" << std::endl;
+
 		return nextScreen;
 	}
 }

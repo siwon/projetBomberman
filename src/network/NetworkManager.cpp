@@ -11,20 +11,20 @@
 #include <iostream>
 #include <vector>
 
-#include "../../include/network/NetworkManager.hpp"
-#include "../../include/SKeyPressed.hpp"
-#include "../../include/SBonus.hpp"
-#include "../../include/EGameBonus.hpp"
-#include "../../include/SExplosive.hpp"
-#include "../../include/EExplosiveType.hpp"
-#include "../../include/SPlayer.hpp"
-#include "../../include/EOrientation.hpp"
-#include "../../include/EPlayerState.hpp"
-#include "../../include/SFlame.hpp"
-#include "../../include/EGameKeys.hpp"
-#include "../../include/PolyBomberException.hpp"
+#include "network/NetworkManager.hpp"
+#include "SKeyPressed.hpp"
+#include "SBonus.hpp"
+#include "EGameBonus.hpp"
+#include "SExplosive.hpp"
+#include "EExplosiveType.hpp"
+#include "SPlayer.hpp"
+#include "EOrientation.hpp"
+#include "EPlayerState.hpp"
+#include "SFlame.hpp"
+#include "EGameKeys.hpp"
 
-#include "../../include/PolyBomberApp.hpp"
+#include "PolyBomberException.hpp"
+#include "PolyBomberApp.hpp"
 
 namespace PolyBomber
 {
@@ -593,6 +593,8 @@ namespace PolyBomber
 		}
 	}
 
+	// Cette méthode sert au débugguage du module réseau
+	// Jamais appelée dans la version rendue
 	void NetworkManager::etatNetwork(){
 		std::cout << "sf::IpAddress ip[4] ";
 		for(int i = 0;i < 4;i++)
@@ -680,6 +682,8 @@ namespace PolyBomber
 				b = this->isStarted();
 				packet << b;
 				break;
+			//case 13 : inutilisé
+			//case 14 : inutilisé
 			//case 15 : demande des noms
 			case 16 : // envoi des noms
 				for(unsigned int i=0;i<4;i++) {

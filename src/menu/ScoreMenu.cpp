@@ -86,13 +86,5 @@ namespace PolyBomber
 			score << menuConfig->gameConfig.playersName[i] << " : " << menuConfig->scores[i] << " points";
 			this->names[i]->setString(score.str());
 		}
-
-
-		
-
-		for (int i=0; i<4; i++)
-		{
-			std::cout << "Joueur " << i << " : " << this->menuConfig->gameConfig.playersName[i] << std::endl;
-		}
 	}
 }

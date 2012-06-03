@@ -4,17 +4,11 @@
  * \author Alexandre BISIAUX
  */
 
-/* Includes */
-
 // Bibliothèques standards 
 #include <string>
 #include <fstream>
 #include <iostream>
 #include <sstream>
-
-// Bibliothèques SFML
-
-// Bibliothèques externes
 
 // Headers
 #include "configFile/ConfigFileManager.hpp"

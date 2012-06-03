@@ -76,7 +76,7 @@ namespace PolyBomber
 			/*!
 			 * \see IMenuScreen:loopAction
 			 */			
-			void loopAction(EMenuScreen* nextScreen);
+			void loopAction(EMenuScreen*);
 
 		private:
 			TextWidget title; /*!< Titre du menu */

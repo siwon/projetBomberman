@@ -7,19 +7,20 @@
  * \author Brice GUILLERMIC
  */
 
-#include <SFML/Network.hpp>
 #include <list>
 
-#include "../SBoard.hpp"
-#include "../INetworkToGameInterface.hpp"
-#include "../INetworkToGameEngine.hpp"
-#include "../INetworkToMenu.hpp"
-#include "../IControllerToNetwork.hpp"
-#include "../IGameEngineToNetwork.hpp"
-#include "../SGameConfig.hpp"
-#include "../network/DataPlayer.hpp"
-#include "../SKeyPressed.hpp"
-#include "../TSingleton.hpp"
+#include <SFML/Network.hpp>
+
+#include "SBoard.hpp"
+#include "INetworkToGameInterface.hpp"
+#include "INetworkToGameEngine.hpp"
+#include "INetworkToMenu.hpp"
+#include "IControllerToNetwork.hpp"
+#include "IGameEngineToNetwork.hpp"
+#include "SGameConfig.hpp"
+#include "network/DataPlayer.hpp"
+#include "SKeyPressed.hpp"
+#include "TSingleton.hpp"
 
 namespace PolyBomber
 {
@@ -33,6 +34,7 @@ namespace PolyBomber
 		public Singleton<NetworkManager>
 	{
 		friend class Singleton<NetworkManager>;
+		
 		private:
 			SGameConfig gameConfig;
 			sf::IpAddress ip[4];
@@ -47,13 +49,17 @@ namespace PolyBomber
 			bool deconnect;
 			sf::SocketSelector selector; // le selecteur pour le serveur
 			SKeyPressed keyPressed;
+
+			// Threads
 			sf::Thread* threadServer;
 			sf::Thread* threadClient;
 			sf::Thread* threadRun;
 
+			// Interfaces
 			IControllerToNetwork* controller;
 			IGameEngineToNetwork* gameEngine;
 
+			// Mutex
 			sf::Mutex mutexPacket;
 			sf::Mutex mutexClients;
 			sf::Mutex mutexSlots;
@@ -202,7 +208,7 @@ namespace PolyBomber
 			void setDeconnected(bool);
 
 			
-public:
+		public:
 			/*!
 			 * \see INetworkToGameEngine::isPaused
 			 */

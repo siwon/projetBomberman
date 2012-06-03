@@ -52,7 +52,7 @@ namespace PolyBomber
 			/*!
 			 * \see IMenuScreen::run
 			 */
-			EMenuScreen run(MainWindow& window, EMenuScreen previous);
+			EMenuScreen run(MainWindow& window, EMenuScreen);
 
 		private:
 			TextWidget title; /*!< Titre du menu */
