@@ -8,7 +8,6 @@
 /** Includes **/
 // Bibliotheques standards
 #include <vector>
-#include <iostream>
 
 // Bibliotheques SFML
 #include <SFML/System/Vector2.hpp>

@@ -7,6 +7,7 @@
 
 /** Includes **/
 // Bibliotheques standards
+#include <vector>
 
 
 // Bibliotheques SFML

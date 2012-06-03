@@ -7,7 +7,7 @@
 
 /** Includes **/
 // Bibliotheques standards
-
+#include <vector>
 
 // Bibliotheques SFML
 #include <SFML/System/Vector2.hpp>
