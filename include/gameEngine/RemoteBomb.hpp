@@ -16,9 +16,21 @@ namespace PolyBomber {
 	 */
 	class RemoteBomb : public Explosive {
 	public:
+		/*!
+		 * \brief Constructeur de la classe RemoteBomb
+		 * \param player : Player qui pose la bombe télécommandée
+		 */
 		RemoteBomb(const Player&);
+		
+		/*!
+		 * \brief Constructeur par recopie de la classe RemoteBomb
+		 * \param rb : Objet à copier
+		 */
 		RemoteBomb(const RemoteBomb&);
-		//RemoteBomb& operator=(RemoteBomb&);
+		
+		/*!
+		 * \brief Destructeur de la classe RemoteBomb
+		 */
 		~RemoteBomb();
 	};
 }
