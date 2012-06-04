@@ -37,7 +37,7 @@ namespace PolyBomber {
 		this->lastActionSecond=0;
 		
 		this->bombBonus=std::vector<Bonus>();
-		this->infection=1;
+		this->infection=0;
 		/*
 		 * 0 => rien
 		 * 1 => CONFUSION
