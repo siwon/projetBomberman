@@ -205,7 +205,7 @@ namespace PolyBomber {
 						}
 					}
 				} else {
-					if (y-1%5>2) {
+					if (((y-1)%5)>2) {
 						pl.move(x,y-1);
 						if (y-1%5!=2) {//si on est pas centré sur la case, alors la position est corrigée
 							pl.centrerPlayerSurAxeHorizontal();
