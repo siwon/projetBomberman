@@ -412,9 +412,9 @@ namespace PolyBomber
 			for(int i=0;i<4;i++){
 				thePacket >> names[i];
 			}
-			if( it2 != this->packets.end() ){
+			if( it != this->packets.end() ){
 				this->mutexPacket.lock();
-				this->packets.erase(it2);
+				this->packets.erase(it);
 				this->mutexPacket.unlock();
 			}
 			if(isDeconnected()){
