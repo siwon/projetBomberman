@@ -118,7 +118,8 @@ namespace PolyBomber
 							std::string s;
 							thePacket >> a >> s >> keys; // récupération des touches envoyées
 							this->mutexPacket.lock();
-							this->packets.erase(it);
+							if( it != this->packets.end() )
+								this->packets.erase(it);	
 							this->mutexPacket.unlock();
 							
 							//ajouter ses touches.
@@ -181,7 +182,11 @@ namespace PolyBomber
 			int num;
 			std::string ip;
 			thePacket >> num >> ip  >> result;
-			this->packets.erase(it2);
+			if( it2 != this->packets.end() ){
+				this->mutexPacket.lock();
+				this->packets.erase(it2);
+				this->mutexPacket.unlock();
+			}
 			if(isDeconnected()){
 				throw PolyBomberException("Le serveur vient de quitter");
 			}
@@ -292,7 +297,11 @@ namespace PolyBomber
 			int num;
 			std::string ip;
 			thePacket >> num >> ip  >> result;
-			this->packets.erase(it2);
+			if( it2 != this->packets.end() ){
+				this->mutexPacket.lock();
+				this->packets.erase(it2);
+				this->mutexPacket.unlock();
+			}
 			if(isDeconnected()){
 				throw PolyBomberException("Le serveur vient de quitter");
 			}
@@ -403,7 +412,11 @@ namespace PolyBomber
 			for(int i=0;i<4;i++){
 				thePacket >> names[i];
 			}
-			this->packets.erase(it);	
+			if( it2 != this->packets.end() ){
+				this->mutexPacket.lock();
+				this->packets.erase(it2);
+				this->mutexPacket.unlock();
+			}
 			if(isDeconnected()){
 				throw PolyBomberException("Le serveur vient de quitter");
 			}
@@ -425,7 +438,11 @@ namespace PolyBomber
 			std::string ip;
 			thePacket >> num >> ip  >> result;
 			this->started = result;
-			this->packets.erase(it2);
+			if( it2 != this->packets.end() ){
+				this->mutexPacket.lock();
+				this->packets.erase(it2);
+				this->mutexPacket.unlock();
+			}
 			if(isDeconnected()){
 				throw PolyBomberException("Le serveur vient de quitter");
 			}
@@ -476,7 +493,11 @@ namespace PolyBomber
 				std::string s;
 				thePacket >> i >> s;
 				thePacket >> aBoard;
-				this->packets.erase(it);
+				if( it != this->packets.end() ){
+					this->mutexPacket.lock();
+					this->packets.erase(it);
+					this->mutexPacket.unlock();
+				}
 			}
 			catch(PolyBomberException e) {
 				std::cerr << e.what() << std::endl;
@@ -500,7 +521,11 @@ namespace PolyBomber
 			int num;
 			std::string ip;
 			thePacket >> num >> ip  >> result;
-			this->packets.erase(it2);
+			if( it2 != this->packets.end() ){
+				this->mutexPacket.lock();
+				this->packets.erase(it2);
+				this->mutexPacket.unlock();
+			}
 			if(isDeconnected()){
 				throw PolyBomberException("Le serveur vient de quitter");
 			}
@@ -717,14 +742,18 @@ namespace PolyBomber
 		bool find = false;
 		sf::IpAddress ipClient;
 		sf::TcpSocket* client = NULL;
-		std::vector<sf::TcpSocket*>::iterator it = clients.begin();
-		while( it != clients.end() && !find){
-			client = *it;
-			ipClient = client->getRemoteAddress();
-			if(ipClient == ip)
-				find = true;
-			else
-				it++;
+		std::vector<sf::TcpSocket*>::iterator it;
+		sf::Clock clock;
+		while(!find && clock.getElapsedTime().asMilliseconds() < 250){
+			it = clients.begin();
+			while( it != clients.end() && !find){
+				client = *it;
+				ipClient = client->getRemoteAddress();
+				if(ipClient == ip)
+					find = true;
+				else
+					it++;
+			}
 		}
 		if(!find) {
 			this->mutexClients.unlock();
